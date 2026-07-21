@@ -1,0 +1,11 @@
+# Restricted local references: never commit or copy their contents into tracked files.
+local-reference/
+CB23011_FYP_REPORTv2.pdf
+
+# Local extraction/analysis artifacts.
+*.pdf.txt
+*.pdf.layout.txt
+
+# Local environment and secret-bearing configuration.
+.env
+.env.*
