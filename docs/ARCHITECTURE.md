@@ -44,7 +44,8 @@ tests/
 docs/                     specifications, decisions, evidence indexes
 ```
 
-This layout is a plan, not permission to scaffold it before an approved ExecPlan.
+This layout is approved for the empty Phase 0 scaffold. Domain behavior remains subject
+to the phase-specific choices in `IMPLEMENTATION_DECISIONS.md`.
 
 ## Logical layers and allowed dependencies
 
@@ -97,7 +98,7 @@ Rules:
 | BKT core | Observation posterior, learning transition, parameter constraints | Hint UI, database, educational claims |
 | Adaptive policy | Scaffold transition from approved evidence and policy version | Rendering implementation or mutable state |
 | Persistence adapter | Transactions, locking, constraints, idempotency, queries | Domain formulas |
-| Data pipeline | Source retrieval, provenance, normalization, curation merge, schema/checksum output | Runtime user data |
+| Data pipeline | Source retrieval, provenance, normalization, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output | Runtime user data or hardcoded lesson branching |
 
 ## Container view
 
@@ -129,6 +130,46 @@ The raycast adapter converts pointer/keyboard answer controls into normalized an
 
 Axes are fixed by `ASTRONOMY_SPEC.md`: `+Y` up, `-Z` north, `+X` east. Only one adapter converts domain east/north/up vectors to Three.js coordinates.
 
+## Data-driven celestial guidance
+
+Lesson structure is a versioned content graph, not a component-level sequence and not a
+Banat Na'sh-specific state machine. Three generic content concepts are validated by
+`catalogue-schema` and emitted by the data pipeline:
+
+| Concept | Required content |
+|---|---|
+| `SkyPattern` | Stable ID; names and cultural labels; member star catalogue IDs; line segments keyed by catalogue ID; cultural-review status and content version |
+| `GuidanceRelationship` | Stable ID; source pattern or star; target pattern, star, or direction; relationship type; instructional line/vector; explanation; applicable scenarios; verification status and version |
+| `LessonRoute` | Stable ID; ordered learning steps referencing guidance relationships; prerequisite skills; allowed alternative guidance paths; scaffold-configuration reference; route version/status |
+
+Pattern members and relationship geometry reference stable catalogue IDs; they never
+duplicate astronomical coordinates. Direction targets such as True North and Qibla are
+typed direction references, not fake stars or patterns. Exact names, helper patterns,
+memberships, segments, relationships, explanations, and geometry remain provisional
+until their applicable cultural/scientific/educational reviews are recorded.
+
+The model supports composition such as:
+
+- a reviewed helper `SkyPattern` guiding toward Banat Na'sh;
+- a reviewed helper `SkyPattern` guiding toward Dhat al-Kursi;
+- Banat Na'sh or Dhat al-Kursi guiding toward Al-Jady;
+- Al-Jady guiding toward the True North direction; and
+- True North supporting derivation of the scenario-specific Qibla direction.
+
+These are permitted graph shapes, not approved concrete cultural records. A lesson may
+start at any route step allowed by its prerequisites and scenario; no application
+component assumes that Banat Na'sh is always first.
+
+For each candidate `LessonRoute`, the server resolves the selected alternative into an
+ordered relationship chain and computes the complete required-star set from every
+referenced pattern, star endpoint, and instructional geometry. The scenario engine may
+issue the route only when every required star is available under the approved
+scenario's catalogue and availability/visibility policy, every reference resolves, and
+the applicable review/verification statuses permit learner use. Otherwise that route is
+ineligible; the engine may select another eligible approved route but may not silently
+drop a step or substitute a pattern. Synthetic technical-spike routes are isolated from
+learner-facing scenarios.
+
 ## Scenario authority and replay
 
 Each issued scored task has an immutable server-side `ScenarioSnapshot`. A browser
@@ -137,6 +178,8 @@ and idempotency key; it cannot replace authoritative fields. The snapshot record
 least:
 
 - learner/session ownership, task ID and one primary KC;
+- selected lesson-route ID/version, ordered step and relationship IDs/versions,
+  selected alternative path, required-star IDs, and content/review-status hash;
 - observer coordinates/datum/elevation, UTC instant, original display zone, and any
   deterministic seed;
 - catalogue/schema/hash, astronomy algorithm and Earth-orientation dataset/hash or
@@ -245,7 +288,7 @@ tests. DEV-002–005 govern improved types and attempt semantics.
 - Each item has a stable UUID idempotency key and the complete versioned evidence required by the API, but no credential, session cookie, answer key, or server secret.
 - Re-authentication pauses and resumes reconciliation. Server response replaces local prediction. A duplicate response returns the originally committed result.
 - Queue age/size, sign-out/shared-device clearing, backoff, compatibility window, and
-  terminal-error UX require SEC-001 and the Phase 3 ExecPlan. A stale revision is never
+  terminal-error UX require the applicable Phase 3/4 decisions. A stale revision is never
   silently applied; it is rejected and the learner receives a newly issued task.
 
 ## Compatibility and retention contract
@@ -257,7 +300,7 @@ tests. DEV-002–005 govern improved types and attempt semantics.
 | Catalogue/curation | Schema/version + content hashes | Exact hash must be available to score/replay | AST-001 licence and DEP-001 storage |
 | Astronomy/EOP/tolerance | Algorithm/policy/EOP hashes | Exact historical implementation or retained immutable result/fixture | AST-003/006 and DEP-001 |
 | BKT/scaffold | Model/policy versions + mastery revisions | No in-place edits; migration creates an audited chain | BKT-002/003 and SEC-001 |
-| Software/database | Commit/build manifest + migration version | Rollback only when data/contract compatible | Phase ExecPlan and DEP-001 |
+| Software/database | Commit/build manifest + migration version | Rollback only when data/contract compatible | Applicable phase plan and deployment decision |
 
 Recording a version is not sufficient by itself: the corresponding permitted artifact,
 configuration, build recipe, or immutable result must remain retrievable for the claimed
@@ -276,10 +319,10 @@ flowchart TB
   MYSQL --> BACKUP[Encrypted backups + restore drill]
 ```
 
-Use separate least-privilege application and migration identities, environment-validated configuration, secret management, health/readiness endpoints, and versioned deployment artifacts. Hosting, retention, monitoring, and recovery targets remain DEP-001.
+Use separate least-privilege application and migration identities, environment-validated configuration, secret management, health/readiness endpoints, and versioned deployment artifacts. Hosting, retention, monitoring, and recovery targets are selected only for deployment readiness.
 
 Opaque credentials and sessions use durable MySQL-backed adapters in the initial
-topology; application use cases depend only on identity/session ports. The Phase 1
+topology; application use cases depend only on identity/session ports. The early-phase
 fixture identity is a separate development adapter that is available only in a local,
 non-personal-data build. Production configuration fails closed if that adapter or its
 route is present, and an artifact inspection/E2E gate proves that no fixture principal can
@@ -307,4 +350,4 @@ Pin an Active or Maintenance LTS Node.js release in each implementation/release 
 | Full catalogue queried at runtime | Conflicts with small deterministic JSON and harms reproducibility/performance. |
 | Manual coordinate transcription | Untraceable and error-prone. |
 | Astropy inside production runtime | Breaks the proposed TypeScript boundary; use it independently for reference fixtures. |
-| Start with extensive auth/admin work | Does not first prove the core research contribution; DEV-001/010 require approval. |
+| Start with extensive auth/admin work | Does not first prove the core research contribution; the active phase order keeps this work in Phase 4. |

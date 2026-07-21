@@ -1,83 +1,74 @@
-# Architecture status
+# Implementation status
 
-**Documentation state:** INDEPENDENT REVIEW COMPLETE; CORRECTIONS APPLIED
+**Assessment date:** 2026-07-22
 
-**Implementation state:** NOT READY FOR APPLICATION SCAFFOLDING
+The repository remains documentation-only. The reviewed stack, package layout,
+dependency boundaries, server-authority model, and test approach are sufficient to
+create empty packages and tooling. Scientific, cultural, learning-policy, participant,
+privacy/security release, and deployment decisions are assessed at the gate they
+actually affect.
 
-**Assessment date:** 2026-07-20
+## Independent readiness gates
 
-Five requested read-only role reviews were completed and synthesized in
-`ARCHITECTURE_REVIEW.md`: software architecture/maintainability,
-astronomy/provenance, BKT/adaptive scaffolding, verification/performance/educational
-evaluation, and scope/report traceability. The restricted local report was inspected
-without copying it into tracked artifacts. Findings were accepted, rejected with
-evidence, deferred as optional, or retained as manual decisions.
+| Gate | Result | Basis |
+|---|---|---|
+| Repository scaffolding | YES | The TypeScript monorepo, apps/packages/tools layout, React/R3F/Three.js web stack, Node/Express API, MySQL boundary, dependency rules, and provisional build/test tooling are sufficient to create empty packages and configuration. No unresolved value changes folder or package creation. |
+| Validated celestial-guidance vertical slice | NO | The generic route/content model is settled, but the exact catalogue/subset, production astronomy pipeline/error budget, reviewed pattern/relationship content for one route, scenario, and scoring tolerances are unresolved. A replaceable astronomy/data spike may proceed first. |
+| Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
+| Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
-## Review outcome
+READY_FOR_SCAFFOLDING: YES
 
-The TypeScript modular-monolith direction, pure-domain boundaries, server authority,
-ENU/Three.js and spherical-Qibla mathematics, standard BKT update order, and
-provenance-first data design remain recommended. The review corrected the following
-material gaps:
+READY_FOR_VERTICAL_SLICE: NO
 
-- immutable authoritative scenario snapshots and shared API/browser catalogue hashes;
-- request-fingerprinted idempotency, pre-provisioned mastery rows, monotonic per-KC
-  revisions, stale-submission rejection, and one pending adaptive submission per KC;
-- explicit BKT observation/no-op semantics and server-issued versus untrusted cue data;
-- a complete astrometric-effect/error-budget decision envelope and no invented numeric
-  or pixel tolerance;
-- capability-scoped administration, durable sessions, fixture-identity exclusion,
-  structured logs, and a risk-based security profile;
-- evidence manifests, oracle-review independence, synthetic analysis dry-runs, and
-  separate software/study/thesis completion verdicts;
-- needed-by-phase decisions, capacity/cut-line governance, and report-authority anchors.
+READY_FOR_PARTICIPANT_STUDY: NO
 
-## Gates before Phase 1 scaffolding
+READY_FOR_DEPLOYMENT: NO
 
-1. Resolve every P1 item in `OPEN_QUESTIONS.md`, including AST-001/002/003/006/007,
-   BKT-001/002/004, SYS-001, PERF-001, and SCOPE-002.
-2. Approve or reject the P1-affecting entries in `REPORT_DEVIATIONS.md`, especially
-   DEV-001–010 as applicable.
-3. Approve ADRs 001–007 or record replacements; blocked ADRs stay blocked until their
-   named inputs are approved.
-4. Create and approve `.agent/execplans/phase-01-central-vertical-slice.md` under
-   `.agent/PLANS.md`, including the exact database profile, scenario contract, minimal
-   provenance pipeline, evidence manifest, schedule, and rollback.
+## Authorized next work
 
-Phase 0 decision work may proceed now. A local, non-participant Phase 1 may start only
-after those four gates. Personal/research data, production authentication, deployment,
-and participant work remain blocked until their later SEC/EDU/ACC/DEP gates.
+Phase 0 in `PHASES.md` may begin without astronomy values, Arabic cultural validation,
+BKT calibration, participant ethics, production security, deployment decisions,
+meeting schedules, reviewer-response dates, or personal weekly availability.
 
-## Quality-gate result after independent review
+Phase 1 may then run a technical astronomy/data spike using synthetic or clearly
+labelled candidate fixtures behind replaceable interfaces. It cannot promote candidate
+values into learner-facing content or scientific evidence.
 
-| Gate | Result |
-|---|---|
-| Objectives map to modules/tests and neutral report anchors | Pass after correction; see `TRACEABILITY.md` |
-| Module responsibilities/dependencies clear | Pass after application-port/browser-scorer correction |
-| Scenario authority and replay contract | Pass at architecture level; implementation blocked on inputs/SYS-001 |
-| Astronomy convention scientifically complete | Blocked on AST-001–007; decision envelope is now complete |
-| No invented catalogue/cultural mapping | Pass; source/content approval still blocks behavior |
-| BKT equations/examples consistent | Pass; production evidence/policy decisions remain blocked |
-| Atomic/retry model testable | Pass at architecture level; SYS-001 and deviations pending |
-| Learner-account security sufficient | Not yet; SEC-001–003 and P4 implementation/evidence pending |
-| Evaluation can support bounded claims | Planned; EDU-001–005 and recruitment remain blocking |
-| Bachelor-level feasibility | Unproven until SCOPE-002 records calendar/capacity/cut line |
-| MVP and optional work separated | Improved; persistent multi-opportunity offline work and delayed recall are not mandatory |
-| Independent review evidence | Pass; `ARCHITECTURE_REVIEW.md` contains disposition index |
+## Decisions that genuinely block the validated vertical slice
 
-## Repository audit state
+- **IMP-008 / AST-001:** exact catalogue source/version, permitted access/licence,
+  required fields, subset, and quality rules.
+- **IMP-009 / AST-003 and AST-006:** production coordinate/time pipeline,
+  implement-or-omit effects, supported range, failure policy, independent oracle, error
+  budget, and tolerances.
+- **IMP-011 / AST-002:** approved `SkyPattern` and `GuidanceRelationship` records for
+  one complete route to Al-Jady, including stable catalogue IDs, names/labels,
+  membership, segments, instructional geometry/explanation, and review/verification
+  status. The exact helper pattern and whether the first route uses Banat Na'sh or Dhat
+  al-Kursi remain provisional.
+- **IMP-012 / AST-007 and AST-006:** one sourced observer/time scenario, expected
+  result, answer representation, and justified learner/scientific tolerance.
 
-The repository remains documentation-only. Final static checks for Markdown links,
-identifier/deviation/manual-decision references, restricted artifacts, and consistency
-are recorded in `ARCHITECTURE_REVIEW.md`. Matching identifier sets are a syntactic
-check only; semantic authority and evidence coverage are governed by the report
-crosswalk and review dispositions.
+BKT parameters/cues do not block the Phase 2 minimal slice because adaptation begins in
+Phase 3. Persistence, authentication, participant, privacy/security release, and
+deployment decisions belong to Phases 4–6 and do not block Phases 0–2.
 
-## Core documents
+**IMP-018 is approved:** generic `SkyPattern`, `GuidanceRelationship`, and
+`LessonRoute` schemas plus scenario-availability filtering can be scaffolded without
+selecting any cultural record. This clarification does not change scaffolding readiness.
 
-- Product: `PRODUCT_SPEC.md`
-- Architecture and ADRs: `ARCHITECTURE.md`, `adr/`
-- Domains: `ASTRONOMY_SPEC.md`, `TUTORING_BKT_SPEC.md`, `DATA_STRATEGY.md`
-- Assurance: `TEST_STRATEGY.md`, `SECURITY_AND_PRIVACY.md`, `TRACEABILITY.md`
-- Delivery governance: `EXECUTION_PLAN.md`, `RISK_REGISTER.md`, `OPEN_QUESTIONS.md`, `REPORT_DEVIATIONS.md`
-- Independent review: `ARCHITECTURE_REVIEW.md`
+## Default implementation documents
+
+1. `../AGENTS.md`
+2. `IMPLEMENTATION_BRIEF.md`
+3. `ARCHITECTURE.md`
+4. `IMPLEMENTATION_DECISIONS.md`
+5. `PHASES.md`
+6. `TEST_PLAN.md`
+7. `STATUS.md`
+
+Technical domain specs and ADRs are loaded by phase. `governance/` is conditional
+context and retains the complete independent review, original single-gate verdict,
+report deviations, open decisions, research/release governance, risks, and
+traceability.

@@ -10,7 +10,7 @@ UFUQ makes scientific, software, performance, usability, adaptive-model, and lea
 
 ## Decision
 
-Adopt the layers and configured gates in `../TEST_STRATEGY.md`: pure-domain
+Adopt the layers and configured gates in `../governance/TEST_STRATEGY.md`: pure-domain
 units/properties; catalogue schemas; independently authored/reviewed pinned
 Astropy/USNO/domain fixtures and error budgets; BKT oracles/sensitivity; real-SYS-001
 MySQL API/transaction/concurrency tests; deterministic raycast and approved browser

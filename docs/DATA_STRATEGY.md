@@ -9,12 +9,40 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 | Class | Contents | Authority | Repository policy |
 |---|---|---|---|
 | 1. Numerical astronomical catalogue | Stable source ID; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits |
-| 2. Culturally curated Arabic mappings | Arabic Unicode form, transliteration(s), description, approved HIP/source members, pointer relationships, citations, reviewer/status | Ilm al-Falak/cultural expert AST-002 | Human-reviewed YAML/JSON; no coordinate duplication |
-| 3. Asterism line segments | Ordered edge pairs using stable catalogue IDs, style/semantic role, mapping version | AST-002 approved relationship source | Human-reviewed; referential-integrity checked |
-| 4. Educational metadata | KC, lesson/task templates, permitted cues, misconception/feedback codes, assistance class | Supervisor/learning expert BKT-004 | Versioned reviewed content, separate from scientific rows |
+| 2. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member catalogue IDs; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication; not limited to one named pattern |
+| 3. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
+| 4. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
 | 5. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–4 | Never hand-edit; generated header/manifest/checksum required |
 
-Operational learner data is governed by `SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
+Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
+
+## Data-driven guidance content
+
+`SkyPattern`, `GuidanceRelationship`, and `LessonRoute` are distinct records so the
+system can reuse reviewed patterns and edges in more than one lesson without embedding
+cultural claims in code.
+
+- A `SkyPattern` contains its stable ID, names and cultural labels, member star
+  catalogue IDs, line segments, and cultural-review status. Coordinates remain solely
+  in the numerical catalogue.
+- A `GuidanceRelationship` connects a source pattern or star to a target pattern, star,
+  or typed direction. It records its relationship type, instructional line/vector,
+  explanation, applicable scenarios, and verification status.
+- A `LessonRoute` orders learning steps, declares prerequisite skills, lists permitted
+  alternative paths, and references scaffold configuration. It composes relationships;
+  it does not duplicate their geometry or authority evidence.
+
+The schemas permit helper pattern → Banat Na'sh or Dhat al-Kursi → Al-Jady → True North
+→ Qibla routes, including either named pattern as the Al-Jady guide. This expresses a
+generic capability only. No helper constellation, mapping, segment, explanation, or
+relationship is approved by this structural clarification.
+
+For each scenario, the server resolves a selected route alternative and derives the
+union of required catalogue-star IDs from all referenced patterns, star endpoints, and
+instructional geometry. A route is eligible only when every required star is available
+under that approved scenario and all content/reference/review constraints pass. Missing
+stars make the whole route ineligible; the build/runtime must not silently remove a
+relationship or substitute unreviewed content.
 
 ## Source and provenance manifest
 
@@ -37,7 +65,7 @@ flowchart LR
   M[Approved source manifest] --> FETCH[Deterministic fetch/query]
   FETCH --> RAW[Immutable raw snapshot + checksum]
   RAW --> NORMAL[Parse units/nulls/flags; stable sort]
-  CURATE[Approved cultural, segment, education files] --> JOIN[Keyed join by stable source ID]
+  CURATE[Approved patterns, guidance, routes, education] --> JOIN[Keyed joins by stable IDs]
   NORMAL --> JOIN
   JOIN --> VALIDATE[Schema + scientific + review gates]
   VALIDATE --> JSON[Minimal runtime JSON]
@@ -68,13 +96,21 @@ Schemas reject unknown required semantics and at least verify:
 - explicit frame/epoch/catalogue version; no mixed frames or epochs in one unlabelled artifact;
 - approved handling of missing/flagged astrometry;
 - Unicode NFC for Arabic and transliteration text;
-- cultural records with citations, reviewer, review date, and `approved` status;
-- segment endpoints that resolve to selected catalogue IDs, no self/duplicate edges unless explicitly justified;
-- every task/KC/cue reference resolves and every runtime-required object is present;
+- `SkyPattern` records with unique stable IDs, citations, reviewer/date/status, member
+  IDs that resolve to selected catalogue rows, and segment endpoints that resolve to
+  members; no self/duplicate edge unless explicitly justified;
+- `GuidanceRelationship` source/target/geometry references resolve to typed
+  pattern/star/direction records and carry applicable-scenario plus verification status;
+- `LessonRoute` ordered steps, prerequisites, alternatives, scaffold configuration,
+  task/KC/cue references, and relationship versions all resolve;
+- scenario-route validation derives every required star and rejects a route when any is
+  unavailable under that scenario;
 - stable canonical ordering, schema version, generator version, input hashes, and output SHA-256;
 - one specified canonical byte representation covering numeric formatting, object-key/row ordering, UTF-8/NFC, newline policy, and excluded volatile metadata.
 
-The build fails if a cultural relationship is unapproved, a scientific row was edited after acquisition, a checksum differs, or a coordinate appears only in curation.
+The build fails if learner-facing pattern/relationship/route content lacks the required
+review status, a route/reference is unresolved, a scientific row was edited after
+acquisition, a checksum differs, or a coordinate appears only in curation.
 
 ## Generated-file policy
 
@@ -93,8 +129,12 @@ Maintain a licence record per input and per distributed output: rights holder, l
 ## Manual review gates
 
 1. **Scientific gate:** catalogue fields, flags, frame, epoch, proper motion, and sample rows reviewed against source metadata.
-2. **Cultural gate:** Arabic form, transliteration, membership, pointer relations, and segments approved under AST-002.
-3. **Educational gate:** KC/task/cue semantics approved under BKT-004.
+2. **Cultural gate:** every learner-facing `SkyPattern` name/label, membership, segment,
+   and culturally claimed `GuidanceRelationship` approved under AST-002 or its
+   applicable reviewed-content record.
+3. **Educational gate:** route order/alternatives, prerequisites, KC/task/cue semantics,
+   explanations, and scaffold references approved under BKT-004 and the applicable
+   learning review.
 4. **Licence gate:** raw and generated redistribution approved under AST-001.
 5. **Release gate:** deterministic rebuild, schemas, hashes, referential integrity, and visual spot-check pass.
 
@@ -105,7 +145,8 @@ The same reviewer should not silently approve every domain. Review records are v
 1. Open a data-update ExecPlan and new immutable version; record purpose and old hashes.
 2. Approve source/licence changes before retrieval.
 3. Fetch with the pinned tool/query; retain bytes and hashes according to licence.
-4. Produce a machine-readable diff: rows added/removed, changed fields, flags, cultural mappings, segments, and downstream fixtures.
+4. Produce a machine-readable diff: rows added/removed, changed fields, flags,
+   `SkyPattern`, `GuidanceRelationship`, `LessonRoute`, and downstream fixture changes.
 5. Re-run all schemas, astronomy reference tests, scene/raycast tests, screenshots, and performance benchmark.
 6. Obtain scientific/cultural/educational reapproval for affected records.
 7. Publish a new generated hash and scenario policy version. Retain old artifacts needed for audit subject to licence/retention rules.

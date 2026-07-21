@@ -1,6 +1,12 @@
 # UFUQ executable plans
 
-Every major implementation phase in `docs/EXECUTION_PLAN.md` must have a self-contained, living ExecPlan before coding begins. Store it as `.agent/execplans/phase-XX-short-name.md`. Also require an ExecPlan for cross-package architectural change, schema migration, scientific-policy change, security-sensitive change, or work expected to span multiple sessions.
+Use a self-contained living ExecPlan when a task changes cross-package architecture,
+introduces a schema migration, selects scientific policy, changes security-sensitive
+behavior, spans multiple sessions, or is explicitly requested. Store it as
+`.agent/execplans/phase-XX-short-name.md` and link it to the phase in `docs/PHASES.md`.
+The empty Phase 0 repository scaffold does not require a separate ExecPlan when its
+work remains within the approved layout and decisions in the default implementation
+documents.
 
 An ExecPlan must let a new contributor complete and verify the work using only the repository and the plan. Prefer observable outcomes over internal activity. Update the plan while work proceeds; do not treat it as a one-time proposal.
 
@@ -33,11 +39,11 @@ Relevant files, packages, domain terms, invariants, and current behavior. Define
 ## Dependencies and manual inputs
 Prerequisites, exact approved scientific/educational values, fixtures, tools, and blocking decisions.
 
-## Schedule, capacity, and scope guard
-Available developer time, external-approval lead times, milestone effort ranges,
-latest-decision dates, stop/go checks, protected minimum outcome, and explicit deferral
-triggers linked to SCOPE-002. A schedule slip never silently changes a report requirement
-or evidence claim.
+## Scope guard
+The protected outcome, excluded work, dependencies, stop/go checks, and explicit
+deferral triggers. Do not require personal weekly schedules, meeting frequency, reviewer
+availability, or expected response dates as repository context. A scope change never
+silently changes a report requirement or evidence claim.
 
 ## Milestones and implementation narrative
 Ordered, independently verifiable increments. For each: files, behavior, tests, and evidence.

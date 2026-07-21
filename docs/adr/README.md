@@ -3,8 +3,8 @@
 ADRs record durable decisions and their report relationship. “Independently reviewed;
 awaiting owner approval” means the review recommends the decision but the student and
 supervisor have not approved implementation. Manual-domain blockers and proposed
-deviations remain governed by `../OPEN_QUESTIONS.md` and
-`../REPORT_DEVIATIONS.md`.
+deviations remain governed by `../governance/OPEN_QUESTIONS.md` and
+`../governance/REPORT_DEVIATIONS.md`.
 
 | ADR | Decision | Classification | Status |
 |---|---|---|---|

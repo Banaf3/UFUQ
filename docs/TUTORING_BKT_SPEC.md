@@ -16,6 +16,14 @@ task isolates one skill.
 
 One scored task has one primary KC. A multi-step lesson is represented as several scored tasks so an outcome is not credited ambiguously to multiple KCs. EDU-002 must approve the task-to-KC mapping, prerequisite controls, incidental-cue risk, and alternate-form equivalence; a primary-KC label alone is not validity evidence.
 
+The ordered lesson is supplied by a versioned `LessonRoute`, whose steps reference
+generic `GuidanceRelationship` records between `SkyPattern`, star, and direction nodes.
+A route may use reviewed helper patterns, Banat Na'sh, or Dhat al-Kursi before Al-Jady,
+then continue to True North and Qibla. `bkt-core` and `adaptive-policy` consume the
+route's prerequisite/KC/scaffold references; they do not hardcode a Banat Na'sh-first
+sequence. Exact routes, helper patterns, relationships, and cue configurations remain
+subject to their content and BKT review gates.
+
 ## Model and parameters
 
 For each learner and KC, standard four-parameter BKT uses:
