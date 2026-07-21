@@ -1,0 +1,74 @@
+:root {
+  color: #e9f5f2;
+  background: #071513;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.health-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 20% 20%, rgb(20 120 105 / 25%), transparent 35%),
+    linear-gradient(145deg, #071513, #0b2420);
+}
+
+.health-card {
+  width: min(38rem, 100%);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid rgb(143 213 195 / 32%);
+  border-radius: 1.25rem;
+  background: rgb(8 31 27 / 82%);
+  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 32%);
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #80dac2;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3.75rem);
+  line-height: 1.02;
+}
+
+dl {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+dt {
+  color: #9ebdb5;
+  font-size: 0.8rem;
+}
+
+dd {
+  margin: 0.2rem 0 0;
+  color: #80dac2;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.health-card > p:last-child {
+  margin-bottom: 0;
+  color: #bad0ca;
+  line-height: 1.6;
+}

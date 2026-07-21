@@ -16,7 +16,8 @@ independent readiness gates:
 - deployment: **not ready**.
 
 See [Status](docs/STATUS.md) for the exact gate declarations and blockers. No application
-code, package manifest, or database migration exists yet.
+domain behavior or database migration exists yet. The Phase 0 scaffold now contains
+health-only web/API applications, empty package boundaries, pinned tooling, tests, and CI.
 
 ## Default implementation path
 
@@ -50,6 +51,14 @@ Lesson content is data-driven rather than fixed to Banat Na'sh. Versioned sky pa
 guidance relationships, and lesson routes can represent reviewed helper-pattern paths,
 Banat Na'sh or Dhat al-Kursi paths to Al-Jady, and the subsequent True North and Qibla
 steps. Exact helper patterns and cultural mappings remain provisional.
+
+## Scaffold validation
+
+Use Node.js 22.16.0 and npm 10.9.2, as pinned by `.nvmrc` and `package.json`. The main
+local validation commands are `npm run check`, `npm run data:verify`, `npm run test`,
+`npm run build`, and `npm run test:e2e`. See
+[Scaffold Dependencies](docs/DEPENDENCIES.md) for every production dependency and its
+purpose.
 
 ## Restricted report
 

@@ -1,0 +1,18 @@
+{
+  "name": "@ufuq/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/fiber": "9.6.1",
+    "@ufuq/contracts": "0.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "0.185.1"
+  }
+}

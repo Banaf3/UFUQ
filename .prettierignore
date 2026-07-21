@@ -1,0 +1,13 @@
+.agent/
+.agents/
+docs/
+local-reference/
+node_modules/
+dist/
+dist-types/
+coverage/
+playwright-report/
+test-results/
+AGENTS.md
+README.md
+package-lock.json

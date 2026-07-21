@@ -1,0 +1,49 @@
+{
+  "name": "ufuq",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": "22.16.0",
+    "npm": "10.9.2"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tools/*"
+  ],
+  "scripts": {
+    "boundaries": "node scripts/check-boundaries.mjs",
+    "build": "tsc -b --pretty false && npm run build -w @ufuq/web",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries",
+    "data:verify": "node scripts/verify-data-scaffold.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint apps packages tools tests --ext .ts,.tsx",
+    "test": "vitest run",
+    "test:e2e": "npm run build && node scripts/run-e2e.mjs",
+    "test:integration": "vitest run tests/integration --passWithNoTests",
+    "test:reference": "vitest run tests/reference --passWithNoTests",
+    "typecheck": "tsc -b --pretty false && tsc --noEmit -p tsconfig.tests.json --pretty false"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.61.1",
+    "@types/express": "5.0.6",
+    "@types/node": "22.16.5",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@types/supertest": "7.2.1",
+    "@vitejs/plugin-react": "6.0.3",
+    "eslint": "10.7.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.3",
+    "prettier": "3.9.6",
+    "supertest": "7.2.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vite": "8.1.5",
+    "vitest": "4.1.10"
+  }
+}

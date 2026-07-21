@@ -1,0 +1,14 @@
+{
+  "name": "@ufuq/catalogue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@ufuq/catalogue-pipeline": "0.0.0"
+  }
+}

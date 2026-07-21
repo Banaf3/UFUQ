@@ -1,0 +1,14 @@
+{
+  "name": "@ufuq/astronomy-reference",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@ufuq/astronomy-core": "0.0.0"
+  }
+}

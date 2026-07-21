@@ -9,3 +9,14 @@ CB23011_FYP_REPORTv2.pdf
 # Local environment and secret-bearing configuration.
 .env
 .env.*
+!.env.example
+
+# Node, TypeScript, test, and build artifacts.
+node_modules/
+dist/
+dist-types/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.vite/
