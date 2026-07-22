@@ -14,20 +14,31 @@ The Phase 0 scaffold should expose these stable intentions through package scrip
 |---|---|
 | `check` | formatting/lint, TypeScript, package boundaries, and browser-bundle exclusions |
 | `data:verify` | schema, provenance manifest, canonical serialization, referential integrity, and hashes |
-| `test` | deterministic pure unit/contract/property tests |
-| `test:reference` | independent astronomy and BKT reference comparisons |
-| `test:integration` | API plus real-MySQL transaction/authentication tests when those components exist |
+| `test` | unit/contract/property tests discovered only by `vitest.unit.config.ts` |
+| `test:reference` | independent astronomy and BKT comparisons discovered only by `vitest.reference.config.ts` |
+| `test:integration` | API plus real-MySQL tests discovered only by `vitest.integration.config.ts` |
 | `test:e2e` | focused browser journeys, interaction boundaries, and accessibility checks |
 
-Exact commands and tool versions are pinned by the scaffold. A suite may initially be
-an honest no-applicable-tests check, but it must not report domain behavior as covered
-before that behavior exists.
+Exact commands and tool versions are pinned by the scaffold. Unit tests and browser E2E
+are active in Phase 0 CI. Reference and integration configurations exist but are not run
+by default while their behavior is absent. Their scripts intentionally exit non-zero
+when no matching test exists; neither uses `passWithNoTests`.
+
+| Suite | Mandatory from | Activation rule |
+|---|---|---|
+| Unit | Phase 0 | Always; the health test proves discovery. |
+| Reference | Phase 1 | Add to CI with the first independent astronomy comparison; it remains mandatory thereafter. |
+| Integration | Phase 4 | Add to CI with the first API/persistence integration test; real MySQL is mandatory for transaction claims. |
+| E2E | Phase 0 | Always; the health smoke proves browser/server lifecycle. |
 
 ## Phase 0 tests
 
 - Clean dependency installation from the lockfile.
 - Workspace discovery and TypeScript project-reference build.
-- One trivial test in each configured runner proves discovery and non-zero failure exit.
+- The API health unit and browser health smoke prove active test discovery.
+- Static configuration inspection proves `tests/reference/**/*.test.ts` and
+  `tests/integration/**/*.test.ts` are the separate later-suite roots. Invoking either
+  empty suite must exit non-zero; do not add fake scientific or integration tests.
 - Forbidden imports: pure packages cannot import framework, browser, database, HTTP, or
   environment I/O modules.
 - Browser bundle cannot import server scorer/target/tolerance entry points.
@@ -40,8 +51,10 @@ before that behavior exists.
   without asserting that any synthetic helper pattern or mapping is culturally valid.
 - Acquisition inputs, transformation options, serialization, and hashes are recorded.
 - Coordinate types prevent frame/unit/epoch mixing at compile time where practical.
-- Candidate transformations are compared with an independently implemented/pinned
-  reference harness; differences are recorded, not hidden behind an invented tolerance.
+- Candidate transformations are compared with fixtures produced by the separately
+  pinned Python/Astropy oracle. The oracle does not import production astronomy;
+  comparison code in `tests/reference` imports `astronomy-core`. Differences are
+  recorded, not hidden behind an invented tolerance.
 - The spike can be removed or replaced without changing public contracts.
 
 ## Phase 2 tests

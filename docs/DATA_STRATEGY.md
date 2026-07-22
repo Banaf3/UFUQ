@@ -16,6 +16,24 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 
 Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
 
+## Physical ownership
+
+- `packages/catalogue-schema/src/catalogue/` owns numerical serialized-row schemas and
+  framework-free validators.
+- `packages/catalogue-schema/src/content/` owns serialized `SkyPattern`,
+  `GuidanceRelationship`, and `LessonRoute` shapes/validators; human-reviewed source
+  records themselves live under `data/curation/`.
+- `packages/catalogue-schema/src/artifact/` owns the generated artifact envelope,
+  manifest, version, and checksum schema.
+- `data/manifests/` tracks provenance, licence, query, selection, and expected hashes.
+- `data/raw/` contains immutable acquired bytes locally and is ignored by default.
+- `data/curation/patterns/`, `relationships/`, and `routes/` keep the three reviewed
+  content classes visibly separate.
+- `data/generated/` contains deterministic runtime output only when licence and release
+  policy permit tracking it.
+- `tools/catalogue/src/pipeline/` is an internal module of the single catalogue-tool
+  workspace; there is no separate pipeline package.
+
 ## Data-driven guidance content
 
 `SkyPattern`, `GuidanceRelationship`, and `LessonRoute` are distinct records so the
@@ -46,7 +64,8 @@ relationship or substitute unreviewed content.
 
 ## Source and provenance manifest
 
-Before retrieval, create a machine-readable source manifest containing:
+Before retrieval, create a machine-readable source manifest under `data/manifests/`
+containing:
 
 - catalogue name, publisher/archive, catalogue/table ID and release/version;
 - canonical metadata/download/query URL, exact selected columns, deterministic culturally-required/context-star subset rules, exclusions, duplicate/component resolution, filters, row-order rule, and units;
@@ -82,6 +101,9 @@ a hand-made Phase 1 fixture with a different provenance mechanism.
 ## Raw snapshot policy
 
 - Prefer retaining the exact permitted raw source or query result in an access-controlled reproducibility store with immutable checksum.
+- Local acquired bytes are written under default-ignored `data/raw/`; a normal Git add
+  cannot include them. Any future exception requires an explicit licence/provenance
+  decision and ignore-policy change.
 - Commit it only when the source licence explicitly permits repository redistribution and the repository audience is compatible.
 - If redistribution is unclear or prohibited, commit only manifest, query/acquisition script, expected metadata/checksum where allowed, and citation; an authorized reproducibility store retains the immutable bytes when policy permits. A public fresh checkout can then verify manifests/scripts but cannot honestly claim byte-for-byte regeneration without authorized access.
 - Never substitute an undocumented later response under the same version.
@@ -114,7 +136,7 @@ acquisition, a checksum differs, or a coordinate appears only in curation.
 
 ## Generated-file policy
 
-Generated JSON is a build artifact with a header or companion manifest containing input versions/hashes, schema version, generator version, deterministic build-time policy, and licence/citation notices. Volatile retrieval/audit timestamps live outside the canonical payload; two builds from identical approved inputs and tool versions must produce identical bytes. It is committed only after AST-001 licensing approval; otherwise it is generated in authorized build/deployment storage. Code review changes source/curation inputs or transformer logic, never generated rows alone.
+Generated JSON is a build artifact with a header or companion manifest containing input versions/hashes, schema version, generator version, deterministic build-time policy, and licence/citation notices. Volatile retrieval/audit timestamps live outside the canonical payload; two builds from identical approved inputs and tool versions must produce identical bytes. Canonical serialization itself, rather than Git configuration or platform defaults, must write UTF-8, LF, deterministic object-key and record ordering, Unicode normalization where required, and the approved finite numeric representation. It is committed only after AST-001 licensing approval; otherwise it is generated in authorized build/deployment storage. Code review changes source/curation inputs or transformer logic, never generated rows alone.
 
 AST-003 decides whether runtime rows carry catalogue-reference astrometry for runtime
 propagation, precomputed scenario-time directions, or both. The browser and API consume

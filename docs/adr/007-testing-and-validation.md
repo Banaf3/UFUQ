@@ -21,6 +21,14 @@ constants.
 
 Keep reference fixture generation structurally independent from runtime TypeScript astronomy. Every fixture and result records software/data/policy/tolerance version. Missing tolerance fails validation. Coverage is diagnostic; pure decision/formula modules target complete branches but reference agreement is the correctness oracle.
 
+Use separate fail-closed Vitest configurations for unit, reference, and integration
+tests. Phase 0 CI runs only the active unit and browser suites. The reference suite
+becomes mandatory in Phase 1 and the integration suite in Phase 4; invoking either
+empty suite exits non-zero, and no placeholder test stands in for scientific or MySQL
+evidence. The reference producer is a non-npm Python/Astropy tool with a neutral
+versioned JSON fixture envelope. It never imports production astronomy; comparison code
+under `tests/reference` imports `astronomy-core`.
+
 ## Consequences
 
 - Results are defensible and traceable to distinct claims.

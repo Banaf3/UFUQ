@@ -10,7 +10,13 @@ The report requires a browser 3D application, React/Three.js, a Node/Express or 
 
 ## Decision
 
-Use a TypeScript monorepo containing one React web application, one Express-compatible API modular monolith, and framework-free packages for astronomy, assessment, BKT, adaptive policy, contracts, and catalogue schema. Deploy one stateless API process behind same-origin HTTPS with private MySQL/InnoDB initially, subject to DEP-001/SYS-001.
+Use a TypeScript monorepo containing one React web application, one Express-compatible
+API modular monolith, and framework-free packages for astronomy, assessment, tutoring,
+contracts, and catalogue schema. BKT, observation semantics, and adaptive policy remain
+separate logical modules inside `tutoring-core`; catalogue, content, and artifact
+schemas remain separate logical modules inside `catalogue-schema`. Deploy one stateless
+API process behind same-origin HTTPS with private MySQL/InnoDB initially, subject to
+DEP-001/SYS-001.
 
 Dependencies point inward: API application use cases define outbound ports; HTTP,
 MySQL, session, and logging adapters implement them and are wired only by the

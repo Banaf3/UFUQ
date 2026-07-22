@@ -9,23 +9,30 @@
     "npm": "10.9.2"
   },
   "workspaces": [
-    "apps/*",
-    "packages/*",
-    "tools/*"
+    "apps/web",
+    "apps/api",
+    "packages/astronomy-core",
+    "packages/assessment-core",
+    "packages/tutoring-core",
+    "packages/contracts",
+    "packages/catalogue-schema",
+    "tools/catalogue"
   ],
   "scripts": {
     "boundaries": "node scripts/check-boundaries.mjs",
-    "build": "tsc -b --pretty false && npm run build -w @ufuq/web",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries",
+    "build": "tsc -b --pretty false && tsc --noEmit -p apps/web/tsconfig.json --pretty false && npm run build -w @ufuq/web",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries && npm run data:verify",
+    "cycles": "node scripts/check-boundaries.mjs",
     "data:verify": "node scripts/verify-data-scaffold.mjs",
+    "exports:check": "node scripts/check-exports.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint apps packages tools tests --ext .ts,.tsx",
-    "test": "vitest run",
+    "lint": "eslint apps packages tools/catalogue tests scripts eslint.config.mjs playwright.config.ts vitest.unit.config.ts vitest.reference.config.ts vitest.integration.config.ts --ext .ts,.tsx,.mjs",
+    "test": "vitest run --config vitest.unit.config.ts",
     "test:e2e": "npm run build && node scripts/run-e2e.mjs",
-    "test:integration": "vitest run tests/integration --passWithNoTests",
-    "test:reference": "vitest run tests/reference --passWithNoTests",
-    "typecheck": "tsc -b --pretty false && tsc --noEmit -p tsconfig.tests.json --pretty false"
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:reference": "vitest run --config vitest.reference.config.ts",
+    "typecheck": "tsc -b --pretty false && tsc --noEmit -p apps/web/tsconfig.json --pretty false && tsc --noEmit -p tsconfig.tests.json --pretty false"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

@@ -3,8 +3,11 @@
 docs/
 local-reference/
 node_modules/
-dist/
-dist-types/
+**/dist/
+**/dist-types/
+**/.vite/
+*.tsbuildinfo
+data/raw/
 coverage/
 playwright-report/
 test-results/

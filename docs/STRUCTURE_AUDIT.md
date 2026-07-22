@@ -1,5 +1,10 @@
 # UFUQ repository structure audit
 
+> Historical pre-migration record: the findings below motivated the accepted
+> consolidation on `chore/consolidate-ufuq-structure`. The original analysis and verdict
+> are preserved; current validation and the independent post-migration verdict are in
+> `STRUCTURE_MIGRATION.md`.
+
 **Audit date:** 2026-07-22  
 **Scope:** Folder, workspace, dependency, build, test, data, and tooling structure only.  
 **Method:** Independent read-only inspection followed by the creation of this report. No

@@ -3,13 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": "./dist/app.js",
+  "main": "./dist/app.js",
+  "types": "./dist/app.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/app.d.ts",
+      "default": "./dist/app.js"
+    }
+  },
   "scripts": {
     "build": "tsc -b --pretty false",
     "start": "node dist/server.js"
   },
   "dependencies": {
+    "@ufuq/assessment-core": "0.0.0",
+    "@ufuq/astronomy-core": "0.0.0",
+    "@ufuq/catalogue-schema": "0.0.0",
     "@ufuq/contracts": "0.0.0",
+    "@ufuq/tutoring-core": "0.0.0",
     "express": "5.2.1"
   }
 }

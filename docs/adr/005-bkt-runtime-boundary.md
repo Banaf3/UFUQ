@@ -11,8 +11,11 @@ The report uses standard binary BKT per cognitive skill and adaptive visual supp
 
 ## Decision
 
-Create a pure `bkt-core` implementing observation posterior followed by learning
-transition, and a separate pure `adaptive-policy` returning a versioned state/reason.
+Create a pure `tutoring-core` package with separate `bkt`, `observations`, and
+`adaptive-policy` modules. The BKT module implements observation posterior followed by
+learning transition; the policy module returns a versioned state/reason. Logical and
+test separation is retained without separate npm packages. `tutoring-core` consumes a
+typed observation and does not depend on `assessment-core`.
 Store separate mastery and a monotonic revision for KC-01–KC-05. Persist a typed
 `OBSERVATION`, `TRANSITION_ONLY`, or `NO_MODEL_UPDATE` decision;
 prior/posterior/next values where applicable; immutable parameter/policy versions; the
@@ -30,6 +33,8 @@ Use proposed `GUIDED`, `FADING`, and `INDEPENDENT` semantics (DEV-004). A manual
   threshold, version-migration, cue and independent-recall policies are approved.
 - Scenarios bind an expected mastery revision; stale delayed evidence is rejected and a
   current task is reissued.
+- Fewer physical packages reduce FYP maintenance overhead without merging BKT
+  arithmetic, observation eligibility, and scaffold-policy responsibilities.
 
 ## Alternatives rejected
 

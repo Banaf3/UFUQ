@@ -1,5 +1,10 @@
 # UFUQ scaffold audit
 
+> Historical record: this audit describes the original 13-workspace scaffold before
+> its approved structural consolidation. Its tracking blocker was resolved by the
+> scaffold checkpoint; current status and validation are recorded in `STATUS.md` and
+> `STRUCTURE_MIGRATION.md`. The original findings and verdict below are preserved.
+
 **Audit date:** 2026-07-22  
 **Scope:** Repository scaffold and tooling only; the astronomy/data technical spike was
 not started.

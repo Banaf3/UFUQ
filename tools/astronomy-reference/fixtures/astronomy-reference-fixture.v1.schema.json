@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ufuq:astronomy-reference-fixture:v1",
+  "title": "UFUQ astronomy reference fixture envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generator", "cases"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "dependencyVersions"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "dependencyVersions": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "inputArtifactHashes": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caseId", "input", "expected", "provenance"],
+        "properties": {
+          "caseId": { "type": "string", "minLength": 1 },
+          "input": { "type": "object" },
+          "expected": { "type": "object" },
+          "provenance": { "type": "object" }
+        }
+      }
+    }
+  }
+}

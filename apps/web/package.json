@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@react-three/fiber": "9.6.1",
+    "@ufuq/astronomy-core": "0.0.0",
+    "@ufuq/catalogue-schema": "0.0.0",
     "@ufuq/contracts": "0.0.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",

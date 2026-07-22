@@ -19,10 +19,11 @@ One scored task has one primary KC. A multi-step lesson is represented as severa
 The ordered lesson is supplied by a versioned `LessonRoute`, whose steps reference
 generic `GuidanceRelationship` records between `SkyPattern`, star, and direction nodes.
 A route may use reviewed helper patterns, Banat Na'sh, or Dhat al-Kursi before Al-Jady,
-then continue to True North and Qibla. `bkt-core` and `adaptive-policy` consume the
-route's prerequisite/KC/scaffold references; they do not hardcode a Banat Na'sh-first
-sequence. Exact routes, helper patterns, relationships, and cue configurations remain
-subject to their content and BKT review gates.
+then continue to True North and Qibla. The `tutoring-core` BKT, observations, and
+adaptive-policy modules consume the route's prerequisite/KC/scaffold references; they
+do not hardcode a Banat Na'sh-first sequence. Exact routes, helper patterns,
+relationships, and cue configurations remain subject to their content and BKT review
+gates.
 
 ## Model and parameters
 
@@ -173,7 +174,16 @@ The attempt/session purpose therefore distinguishes `PRE_TEST`, `LEARNING`,
 
 ## Runtime boundary and transaction
 
-`bkt-core` is a pure deterministic package. It knows nothing about React, Three.js, HTTP, SQL, hints, users, or storage. `adaptive-policy` is separately pure and can depend on BKT result types. The API supplies the locked prior, monotonic learner/KC `masteryRevision`, expected scenario revision, and approved immutable configuration, then persists the returned decision in the same transaction as the immutable assessment attempt. Replays return the original result and never call the model twice. A stale expected revision is rejected and reissued rather than applied after newer learning evidence.
+`tutoring-core` is a pure deterministic package. Its `bkt`, `observations`, and
+`adaptive-policy` modules know nothing about React, Three.js, HTTP, SQL, users, or
+storage. The logical modules keep separate public entry points and tests, while sharing
+one npm build boundary. The package does not depend on `assessment-core`; the API
+supplies typed authoritative correctness evidence, the locked prior, monotonic
+learner/KC `masteryRevision`, expected scenario revision, and approved immutable
+configuration, then persists the returned decision in the same transaction as the
+immutable assessment attempt. Replays return the original result and never call the
+model twice. A stale expected revision is rejected and reissued rather than applied
+after newer learning evidence.
 
 All five current-version mastery rows and initial scaffolds are provisioned atomically
 before assessed scenario issuance. BKT-002 decides how an existing learner moves to a

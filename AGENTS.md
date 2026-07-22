@@ -34,8 +34,19 @@ schedule. Use `.agent/PLANS.md` only when the current work meets its planning tr
 
 ## Dependency rules
 
-- `astronomy-core`, `bkt-core`, `assessment-core`, and `adaptive-policy` are pure TypeScript. They may not import React, Three.js, React Three Fiber, Express, MySQL clients, browser globals, or persistence code.
+- `astronomy-core`, `assessment-core`, and `tutoring-core` are pure TypeScript. The
+  logical BKT, observation-semantics, and adaptive-policy boundaries live under
+  `tutoring-core/src/`; they remain separate modules without separate npm workspaces.
+  Pure packages may not import React, Three.js, React Three Fiber, Express, MySQL
+  clients, browser globals, Node I/O, or persistence code.
+- `contracts` contains versioned serialized DTOs and may contain framework-free runtime
+  validators. `catalogue-schema` similarly owns framework-free catalogue, content, and
+  artifact schemas/validators. Neither package owns domain entities, database rows,
+  React props, or application services.
 - Adapters depend inward on pure domains; pure domains never depend on adapters or applications. `apps/web` and `apps/api` communicate through versioned contracts.
+- Runtime applications and packages never import `tools/`. `tools/catalogue` may depend
+  on `catalogue-schema`. The Python/Astropy reference tool is not an npm workspace and
+  must not depend on production astronomy code.
 - The API is authoritative for scenario validity, correctness, BKT transitions, and the next scaffold state. The client submits raw answer evidence, never authoritative correctness or mastery.
 - One accepted assessment submission, its attempt record, mastery update, and scaffold transition are one idempotent database transaction.
 - Celestial lesson flow is data-driven through versioned `SkyPattern`,
@@ -61,10 +72,12 @@ must not reuse invented cultural claims.
 
 Before the Phase 0 toolchain exists, use `git status --short`, `git diff --check`, and
 targeted `rg` checks. Once package scripts exist, use the applicable gates defined in
-`docs/TEST_PLAN.md`: `npm ci`, `npm run check`, `npm run data:verify`, `npm run test`,
-`npm run test:reference`, `npm run test:integration`, and `npm run test:e2e`. A suite
-may honestly report that no applicable behavior exists yet; it may not claim unbuilt
-behavior is covered. Do not weaken a gate to make a change pass.
+`docs/TEST_PLAN.md`. Phase 0 runs `npm ci`, `npm run check`, `npm run test`,
+`npm run build`, `npm run exports:check`, and `npm run test:e2e`.
+`test:reference` becomes mandatory in Phase 1 and `test:integration` in Phase 4;
+before activation they are omitted from CI and intentionally fail when invoked without
+tests. Do not use `passWithNoTests` for an expected active scientific or integration
+suite, and do not weaken a gate to make a change pass.
 
 ## Documentation and scope
 

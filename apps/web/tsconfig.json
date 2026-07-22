@@ -6,10 +6,15 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "types": ["vite/client"],
-    "rootDir": ".",
-    "outDir": "dist-types",
-    "emitDeclarationOnly": true
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "noEmit": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"],
-  "references": [{ "path": "../../packages/contracts" }]
+  "references": [
+    { "path": "../../packages/contracts" },
+    { "path": "../../packages/catalogue-schema" },
+    { "path": "../../packages/astronomy-core" }
+  ]
 }

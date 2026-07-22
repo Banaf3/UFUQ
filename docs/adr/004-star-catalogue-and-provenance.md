@@ -23,6 +23,15 @@ the scaffold-configuration reference. Validate schemas/review status and emit
 canonically serialized, versioned runtime JSON plus checksums consumed identically by
 browser and API.
 
+Keep those logical classes in one `catalogue-schema` npm workspace:
+`src/catalogue/` for numerical serialized rows, `src/content/` for guidance content,
+and `src/artifact/` for generated envelopes. Keep the pipeline as internal modules of
+the single `tools/catalogue` workspace. Store tracked provenance in `data/manifests/`,
+ignore `data/raw/` by default, separate reviewed patterns/relationships/routes under
+`data/curation/`, and reserve `data/generated/` for deterministic outputs permitted by
+licence. Canonical serialization explicitly writes UTF-8, LF, deterministic key/record
+ordering, and defined numeric formatting; it does not rely on Git or host defaults.
+
 The schema is not Banat Na'sh-specific. It permits reviewed helper patterns to lead to
 Banat Na'sh or Dhat al-Kursi, either pattern to lead to Al-Jady, and subsequent
 Al-Jady→True North→Qibla direction steps. The server may select a route only when all
@@ -44,6 +53,8 @@ is approved by this ADR. Generated rows are never edited manually.
 - A scenario/attempt can record one catalogue hash for replay.
 - The pipeline may need local/private raw data if redistribution is not permitted.
 - Manual expert and licence gates are real schedule dependencies.
+- Numerical and cultural schemas remain logically separate without the manifest,
+  reference, and build overhead of separate npm packages.
 
 ## Alternatives rejected
 

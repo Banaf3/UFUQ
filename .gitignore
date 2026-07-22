@@ -8,7 +8,15 @@ local-reference/
 
 # Generated dependencies and output
 node_modules/
-dist/
+**/dist/
+**/dist-types/
+**/.vite/
+*.tsbuildinfo
 coverage/
 playwright-report/
 test-results/
+
+# Catalogue inputs are restricted or redistribution-sensitive by default
+data/raw/*
+!data/raw/.gitignore
+!data/raw/README.md

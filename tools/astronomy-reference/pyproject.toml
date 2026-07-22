@@ -1,0 +1,9 @@
+[project]
+name = "ufuq-astronomy-reference"
+version = "0.0.0"
+description = "Independent UFUQ astronomy reference-fixture producer scaffold"
+dependencies = []
+
+[tool.ufuq]
+phase = "scaffold"
+scientific-implementation = false
