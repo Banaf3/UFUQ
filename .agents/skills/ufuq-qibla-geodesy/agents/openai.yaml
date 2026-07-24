@@ -1,0 +1,4 @@
+interface:
+  display_name: "UFUQ Qibla Geodesy"
+  short_description: "Validate UFUQ Qibla geodesy decisions and tests"
+  default_prompt: "Use $ufuq-qibla-geodesy to review this UFUQ Qibla geodesy task."

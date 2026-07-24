@@ -1,6 +1,6 @@
 # Implementation status
 
-**Assessment date:** 2026-07-22
+**Assessment date:** 2026-07-25
 
 The consolidated Phase 0 repository scaffold is validated. It contains health-only web
 and API applications, eight npm workspaces, pure empty/type-placeholder domain
@@ -26,6 +26,28 @@ READY_FOR_PARTICIPANT_STUDY: NO
 
 READY_FOR_DEPLOYMENT: NO
 
+## Phase 0 reference-study state
+
+The local source library has been studied for current-phase needs without starting the
+astronomy/data implementation spike. Tracked outputs now include a reading plan,
+twenty-one source-specific dossiers, five cross-source syntheses, a coverage report, and
+five project-scoped skills with mandatory-rule traceability.
+
+This work does not approve I/311, a production astronomy pipeline, a schema validator,
+a Kaaba coordinate/datum, a numerical tolerance, a cultural mapping, or a
+learner-facing route. The pinned Astropy/PyERFA/IERS-data environment and official
+Astropy documentation remain Phase 1 source gaps. Najdi/regional evidence, a stable
+edition for the studied Ibn Qutaybah claims, exact membership/route evidence, and human
+Arabic/cultural review remain required before learner-facing cultural claims.
+
+The official ESA 1997 Volume 1 guide now establishes the original catalogue's
+`mu_alpha_star` convention and J1991.25(TT) definition. The later I/311 `pmRA` mapping
+is classified `STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`; this clarification adds
+future spike cases but does not activate Phase 1.
+
+The detailed evidence boundaries are in `references/PDF_KNOWLEDGE_COVERAGE.md`.
+Phase 1 has not begun.
+
 ## Validated Phase 0 structure
 
 The eight npm workspaces are:
@@ -47,7 +69,10 @@ framework-free validators. `tools/catalogue` owns future pipeline modules intern
 versioned JSON fixture envelope and no npm or production-astronomy dependency.
 
 Tracked provenance and reviewed curation have separate directories. `data/raw/` is
-ignored by default, and no catalogue bytes or cultural records exist. Compiler state,
+ignored by default; locally acquired candidate bytes may exist there without becoming
+part of the scaffold or a selected production catalogue. The data guard permits only
+ignored/untracked raw content and rejects any tracked or unignored raw byte. No
+catalogue or cultural record is part of a tracked runtime artifact. Compiler state,
 declarations from the private web app, Vite output, and other build directories are
 ignored and untracked. Source/data text is normalized to LF by `.gitattributes`, while
 the future canonical data serializer must independently enforce UTF-8, LF,
@@ -64,7 +89,7 @@ deterministic key/record order, and defined numeric formatting.
 | `npm.cmd run test` | PASS; 1 unit file and 1 API health test. |
 | `npm.cmd run boundaries` | PASS; 8 workspaces, approved edges, no cycle/private import/runtime-to-tool edge, independent oracle. |
 | `npm.cmd run cycles` | PASS; the same graph check explicitly confirmed acyclicity. |
-| `npm.cmd run data:verify` | PASS; only manifest/curation/raw/generated scaffold placeholders exist. |
+| `npm.cmd run data:verify` | PASS at the scaffold checkpoint; the guard now distinguishes permitted ignored local raw candidates from prohibited tracked/unignored raw data. |
 | `npm.cmd run build` | PASS; API, five shared packages, catalogue tool, and Vite web build completed; Vite transformed 16 modules. |
 | `npm.cmd run exports:check` | PASS; 13 public export paths across 7 importable workspaces resolved. |
 | `npm.cmd run test:e2e` | PASS; 1 Chromium web/API health smoke test. |

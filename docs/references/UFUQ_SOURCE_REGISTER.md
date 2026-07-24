@@ -1,0 +1,139 @@
+# UFUQ source register
+
+## Purpose and status
+
+This register identifies what a source may support in UFUQ. It does not copy source
+text, approve unresolved project values, or make local reference files redistributable.
+Local PDFs are ignored and restricted to the project machine. Their acquisition
+provenance is recorded privately in `local-reference/REFERENCE_INVENTORY.local.md`.
+
+Source authority and project approval are separate. An authoritative publication can
+define a method or standard without selecting UFUQ's observer data, target coordinates,
+tolerances, cultural mapping, educational policy, or deployment policy.
+
+Priority values are `REQUIRED_NOW`, `SUPPORTING_NOW`, `REQUIRED_LATER`, `OPTIONAL`,
+`HISTORICAL_CONTEXT_ONLY`, and `NOT_REQUIRED`.
+
+## Scientific, data, and technical sources
+
+| Source ID | Citation and pointer | Class | Priority | Availability | Permitted UFUQ use and limit |
+|---|---|---|---|---|---|
+| SOFA-2023-10-11 | IAU SOFA Board, *Standards of Fundamental Astronomy*, Issue 2023-10-11; local `00READ.ME`, release/manual sections; [official release](https://www.iausofa.org/current-software) | AUTHORITATIVE_STANDARD | REQUIRED_NOW | Local restricted distribution and official web record | Highest-order implementation reference for supported IAU algorithms. The locally pinned release does not decide UFUQ's pipeline, supported range, or tolerance. |
+| IERS-TN36-2010 | Petit, G., and Luzum, B., eds. (2010), *IERS Conventions (2010)*, IERS Technical Note 36; title page and contents; [official baseline and update status](https://iers-conventions.obspm.fr/conventions_material.php) | AUTHORITATIVE_STANDARD | REQUIRED_NOW | Local restricted PDF; official web record | Official 2010 baseline for reference systems, time/Earth-orientation terminology, models, and procedures. Corrections and working versions are separate versioned inputs. |
+| IERS-UPDATES | IERS Conventions Centre, 2010 updates/working versions; [official material page](https://iers-conventions.obspm.fr/conventions_material.php) | CURRENT_TOOL_DOCUMENTATION | REQUIRED_NOW | Official web only; not yet pinned | Candidate correction stream. Must be pinned and recorded independently from TN36 before it changes any result. |
+| EXSUP-3E | Urban, S. E., and Seidelmann, P. K., eds. (2013), *Explanatory Supplement to the Astronomical Almanac*, 3rd ed.; [USNO overview](https://aa.usno.navy.mil/publications/exp_supp) | AUTHORITATIVE_BOOK | SUPPORTING_NOW | Local third-edition identity is visually verified, but the file is `TEXT_UNAVAILABLE`, `INCOMPLETE`, and `PROVENANCE_UNVERIFIED`; embedded third-party processing metadata is an additional provenance warning | Explanatory support for positional-astronomy methods. Do not redistribute or use the local file for chapter/page citations until completeness, searchable text, and provenance are resolved. |
+| FUND-ASTRO-6E | Karttunen, H., et al. (2017), *Fundamental Astronomy*, 6th ed., DOI `10.1007/978-3-662-53045-0`; [publisher record](https://link.springer.com/book/10.1007/978-3-662-53045-0) | AUTHORITATIVE_BOOK | SUPPORTING_NOW | Local restricted PDF; bibliographic identity verified, acquisition provenance unverified | Conceptual and explanatory support. It does not override SOFA, IERS, catalogue metadata, or independent reference results. |
+| ASTROPY-DOCS-PIN | Astropy Project, official coordinates, time, and IERS documentation for the selected oracle version | CURRENT_TOOL_DOCUMENTATION | REQUIRED_NOW | `MISSING_PIN` | Required for the independent oracle. Pin the exact version and relevant documentation pages before fixture generation. |
+| PYERFA-PIN | PyERFA official release/documentation matching the selected Astropy oracle | CURRENT_TOOL_DOCUMENTATION | REQUIRED_NOW | `MISSING_PIN` | Records the ERFA implementation below Astropy. It must not be inferred from a developer's global environment. |
+| ASTROPY-IERS-DATA-PIN | Astropy IERS data package/release plus selected table files and hashes | PRIMARY_DATASET | REQUIRED_NOW | `MISSING_PIN` | Required to reproduce time/Earth-orientation-dependent fixtures and offline behavior. |
+| HIP-I311-README | CDS/VizieR catalogue I/311, *Hipparcos, the New Reduction* `ReadMe`; byte descriptions and notes; [official catalogue record](https://cdsarc.cds.unistra.fr/viz-bin/cat/I/311) | PRIMARY_DATASET | REQUIRED_NOW | Local raw metadata file and official web record | Authority for evaluating the acquired I/311 candidate's file layout, units, nulls, solution types, epoch/frame metadata, row counts, and the 2008 correction notice. Registering it does not select I/311 over the still-unresolved catalogue candidates, approve a UFUQ subset, or permit redistribution. |
+| ESA-HIP-1997-V1 | European Space Agency (1997), *The Hipparcos and Tycho Catalogues*, Volume 1: *Introduction and Guide to the Data*, ESA SP-1200; §§1.2, 1.5, and 2.1 | PRIMARY_DATASET | REQUIRED_NOW | Local restricted searchable PDF; bibliographic identity verified from content, acquisition provenance unverified | Official guide for the original 1997 catalogue's astrometric model, epoch, units, and H-field semantics. It strongly supports interpreting Hipparcos terminology but does not by itself define the later CDS I/311 reduction or prove that I/311 `pmRA` has identical semantics. |
+| VAN-LEEUWEN-2007-VALIDATION | van Leeuwen, F. (2007), Hipparcos new-reduction validation article, *Astronomy & Astrophysics* 474, 653; DOI `10.1051/0004-6361:20078357`; article methods/results | FOUNDATIONAL_RESEARCH | REQUIRED_NOW | Local restricted PDF and official catalogue link | Supports evaluation of the new reduction's error characteristics. It does not replace the I/311 byte-level `ReadMe`. |
+| KARNEY-2013 | Karney, C. F. F. (2013), “Algorithms for Geodesics,” *Journal of Geodesy* 87, 43–55, DOI `10.1007/s00190-012-0578-z`; algorithm and error-analysis sections; [publisher record](https://link.springer.com/article/10.1007/s00190-012-0578-z) | FOUNDATIONAL_RESEARCH | REQUIRED_LATER | Published record verified independently; no local publisher PDF | Ellipsoidal direct/inverse geodesic algorithms and difficult-case analysis. It does not provide or approve UFUQ's Kaaba target coordinate. |
+| KARNEY-2012-ARXIV-V2 | Karney, C. F. F., *Algorithms for Geodesics*, arXiv `1109.4448v2` (revised 2012); [author's addenda](https://geographiclib.sourceforge.io/geod-addenda.html) | FOUNDATIONAL_RESEARCH | SUPPORTING_NOW | Local restricted searchable preprint; identity verified, acquisition provenance unverified | Local counterpart to the later 2013 article. Cite the local bytes as the preprint, not as the publisher PDF; use the peer-reviewed 2013 record for the final algorithm authority. |
+| JSON-SCHEMA-CORE-2020-12 | Wright, A., et al., *JSON Schema: A Media Type for Describing JSON Documents*, Draft 2020-12; core and security sections; [official specification](https://json-schema.org/draft/2020-12/json-schema-core) | AUTHORITATIVE_STANDARD | REQUIRED_NOW | Official web | Schema dialect/core authority for versioned manifests, catalogue/content records, and fixtures. |
+| JSON-SCHEMA-VALIDATION-2020-12 | Bhutton, B., et al., *JSON Schema Validation*, Draft 2020-12; validation vocabulary and security sections; [official specification](https://json-schema.org/draft/2020-12/json-schema-validation) | AUTHORITATIVE_STANDARD | REQUIRED_NOW | Official web | Validation-vocabulary authority. A chosen runtime library still requires a pinned dependency decision and conformance tests. |
+| ISO20022-JSON-2025 | ISO 20022 TSG/RMG (2025), *Generation of JSON Schema Draft 2020-12 for ISO 20022:2013*; title and contents; [official listing](https://www.iso20022.org/about-iso-20022/apis-and-iso-20022) | CURRENT_TOOL_DOCUMENTATION | NOT_REQUIRED | Local restricted PDF; corrected identity | An ISO 20022 transformation paper, not the JSON Schema Draft 2020-12 specification. It supplies no UFUQ requirement. |
+| FAIR-2016 | Wilkinson, M. D., et al. (2016), “The FAIR Guiding Principles for Scientific Data Management and Stewardship,” *Scientific Data* 3, 160018, DOI `10.1038/sdata.2016.18`; abstract and principles box; [publisher record](https://www.nature.com/articles/sdata201618) | FOUNDATIONAL_RESEARCH | SUPPORTING_NOW | Local restricted PDF and official web record | Guidance for findability, accessibility, interoperability, and reuse. UFUQ does not claim formal FAIR compliance. |
+| PROV-SEM-2013 | Cheney, J., ed. (2013), *Semantics of the PROV Data Model*, W3C Working Group Note; status and introduction; [W3C note](https://www.w3.org/TR/prov-sem/) | CURRENT_TOOL_DOCUMENTATION | OPTIONAL | Local restricted PDF and official web record | Optional background on formal PROV semantics. Basic PROV-DM concepts may inform terminology; UFUQ is not implementing PROV reasoning. |
+
+## Cultural and historical sources
+
+| Source ID | Citation and pointer | Class | Priority | Availability | Permitted UFUQ use and limit |
+|---|---|---|---|---|---|
+| IBN-QUTAYBA-ANWA | Ibn Qutaybah, *Kitāb al-Anwāʾ fī Mawāsim al-ʿArab*; local title/author signals; [ISMI work/edition record](https://ismi.mpiwg-berlin.mpg.de/text/116262) | PRIMARY_HISTORICAL_SOURCE | REQUIRED_LATER | Local text-bearing derivative; `EDITION_UNVERIFIED`, `INCOMPLETE`, and `PROVENANCE_UNVERIFIED` | Evidence for claims classified `OLD_ARABIAN` only when tied to exact Arabic and an approved edition. It does not make every item `NAJDI_TRADITION`; local page numbers are not edition-stable. |
+| KUNITZSCH-1961 | Kunitzsch, P. (1961), *Untersuchungen zur Sternnomenklatur der Araber*, Harrassowitz; bibliographic extent and contents; [German National Library partner record](https://www.deutsche-digitale-bibliothek.de/item/BGRHZDF6I4UHVHI6XBMND2OJZBY2FDVT) | SECONDARY_SCHOLARLY_SOURCE | REQUIRED_LATER | Local restricted OCR PDF; bibliographic identity verified, acquisition provenance unverified | Philological classification and conflict checking. It is not by itself evidence of specifically Najdi usage. Verify OCR-derived quotations against the page image. |
+| HAFEZ-2010 | Hafez, I. (2010), *ʿAbd al-Raḥmān al-Ṣūfī and His Book of the Fixed Stars: A Journey of Re-discovery*, PhD thesis, DOI `10.25903/6xsf-aa64`; repository record and thesis sections; [JCU record](https://researchonline.jcu.edu.au/28854/) | SECONDARY_SCHOLARLY_SOURCE | REQUIRED_LATER | Local restricted PDF; identity verified, acquisition provenance unverified | `GRECO_ARABIC_SCHOLARLY` historical crosswalk and al-Ṣūfī context. It is not a Najdi authority. |
+| KING-1993 | King, D. A. (1993), *Astronomy in the Service of Islam*, Variorum, ISBN 0-86078-357-X; contents and historical studies; [publisher record](https://www.routledge.com/Astronomy-in-the-Service-of-Islam/King/p/book/9780860783572) | SECONDARY_SCHOLARLY_SOURCE | HISTORICAL_CONTEXT_ONLY | Local restricted OCR PDF; identity verified, acquisition provenance unverified | Islamic-astronomy history and context. It is neither a production geodesic specification nor a specifically Najdi authority. |
+| KING-1999 | King, D. A. (1999), *World-Maps for Finding the Direction and Distance to Mecca*, Brill, ISBN 90-04-11367-3; front matter and historical analysis; [publisher front matter](https://brill.com/display/book/9789004450738/front-1.pdf) | SECONDARY_SCHOLARLY_SOURCE | HISTORICAL_CONTEXT_ONLY | Local restricted OCR PDF; identity verified, acquisition provenance unverified | Historical qibla/cartography context only. Do not extract a production algorithm or destination coordinate from a historical map. |
+
+## Engineering-quality sources
+
+| Source ID | Citation and pointer | Class | Priority | Availability | Permitted UFUQ use and limit |
+|---|---|---|---|---|---|
+| BASS-ET-AL-2022 | Bass, L., Clements, P., and Kazman, R. (2022), *Software Architecture in Practice*, 4th ed., ISBN 978-0-13-688609-9; quality-attribute and evaluation sections; [publisher record](https://www.pearson.com/en-ca/subject-catalog/p/software-architecture-in-practice/P200000000111/9780136886099) | AUTHORITATIVE_BOOK | SUPPORTING_NOW | Local restricted PDF; identity verified, acquisition provenance unverified | Review guardrail for demonstrated quality attributes and trade-offs. It does not justify redesign merely because another pattern exists. |
+| WILSON-ET-AL-2014 | Wilson, G., et al. (2014), “Best Practices for Scientific Computing,” *PLOS Biology* 12(1), e1001745, DOI `10.1371/journal.pbio.1001745`; recommendations and conclusion; [publisher article](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001745) | FOUNDATIONAL_RESEARCH | SUPPORTING_NOW | Local restricted PDF and official web record | Supports version control, automated checks, readable code, and reproducible commands. Apply proportionately to an FYP. |
+| WILSON-ET-AL-2017 | Wilson, G., et al. (2017), “Good Enough Practices in Scientific Computing,” *PLOS Computational Biology* 13(6), e1005510, DOI `10.1371/journal.pcbi.1005510`; workflow recommendations; [publisher article](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510) | FOUNDATIONAL_RESEARCH | SUPPORTING_NOW | Local restricted PDF and official web record | Supports low-overhead reproducibility and data/workflow hygiene suitable for one developer. |
+| KANEWALA-BIEMAN-2014 | Kanewala, U., and Bieman, J. M. (2014), “Testing Scientific Software: A Systematic Literature Review,” *Information and Software Technology* 56(10), 1219–1232, DOI `10.1016/j.infsof.2014.05.006`; abstract, results, and conclusion | FOUNDATIONAL_RESEARCH | SUPPORTING_NOW | Local file is the 2018 arXiv preprint, not the publisher PDF | Supports oracle-problem awareness and layered scientific testing. Cite the peer-reviewed 2014 article by DOI and the local version as arXiv:1804.01954. |
+
+## Project decisions
+
+These tracked documents state UFUQ decisions; they are not external authorities.
+
+| Source ID | Document and pointer | Class | Priority | Role |
+|---|---|---|---|---|
+| UFUQ-AGENTS | `AGENTS.md`, default reading path, dependency rules, never-invent rules | PROJECT_DECISION | REQUIRED_NOW | Repository operating constraints |
+| UFUQ-ARCH | `docs/ARCHITECTURE.md`, layout, dependency rules, data-driven guidance, scenario authority | PROJECT_DECISION | REQUIRED_NOW | Approved architecture |
+| UFUQ-ASTRO-SPEC | `docs/ASTRONOMY_SPEC.md`, conventions, unresolved decisions, validation specification | PROJECT_DECISION | REQUIRED_NOW | Astronomy contract and stop conditions |
+| UFUQ-DATA | `docs/DATA_STRATEGY.md`, data classes, provenance manifest, pipeline, schemas | PROJECT_DECISION | REQUIRED_NOW | Catalogue/content provenance contract |
+| UFUQ-IMPL-DEC | `docs/IMPLEMENTATION_DECISIONS.md`, active decisions | PROJECT_DECISION | REQUIRED_NOW | Code/test-affecting decision status |
+| UFUQ-PHASES | `docs/PHASES.md`, phase outcomes and gates | PROJECT_DECISION | REQUIRED_NOW | Work sequencing |
+| UFUQ-TEST | `docs/TEST_PLAN.md`, suite activation and evidence | PROJECT_DECISION | REQUIRED_NOW | Validation contract |
+| UFUQ-STATUS | `docs/STATUS.md`, current readiness gates | PROJECT_DECISION | REQUIRED_NOW | Current state, not scientific evidence |
+| UFUQ-STRUCTURE-MIGRATION | `docs/STRUCTURE_MIGRATION.md`, post-migration assertions | PROJECT_DECISION | SUPPORTING_NOW | Historical structure evidence |
+| UFUQ-BKT-SPEC | `docs/TUTORING_BKT_SPEC.md`, BKT/observation/policy decisions and blockers | PROJECT_DECISION | REQUIRED_LATER | Phase 3 contract; external sources remain missing |
+| UFUQ-ADR-003 | `docs/adr/003-astronomical-coordinate-conventions.md`, decision and validation | PROJECT_DECISION | REQUIRED_NOW | Coordinate-convention decision record |
+| UFUQ-ADR-004 | `docs/adr/004-star-catalogue-and-provenance.md`, decision and validation | PROJECT_DECISION | REQUIRED_NOW | Catalogue/provenance decision record |
+| UFUQ-ADR-007 | `docs/adr/007-testing-and-validation.md`, independent-reference decision | PROJECT_DECISION | REQUIRED_NOW | Layered-test decision record |
+
+## Mandatory interpretation controls
+
+1. PROV Semantics is optional and is not required for UFUQ's manifest design. Basic
+   PROV-DM concepts may inform terminology, but UFUQ is not implementing formal PROV
+   reasoning.
+2. David King's historical books must not be treated as production geodesic algorithm
+   specifications.
+3. Karney supplies geodesic algorithms but does not supply or approve UFUQ's Kaaba
+   target coordinates.
+4. *Fundamental Astronomy* is explanatory support, not the final authority over SOFA,
+   IERS, catalogue metadata, or independent reference results.
+5. IERS Technical Note 36 is the official 2010 baseline. Updated IERS web material and
+   corrections must be tracked separately and not silently merged.
+6. FAIR provides guidance. Do not claim formal FAIR compliance.
+7. Kunitzsch, Ibn Qutaybah, Hafez, and King do not by themselves establish specifically
+   Najdi usage.
+8. Hafez/al-Ṣūfī is a Greco-Arabic and historical crosswalk, not a Najdi authority.
+9. Ibn Qutaybah supports `OLD_ARABIAN` evidence but does not make every item
+   `NAJDI_TRADITION`.
+10. *Software Architecture in Practice* is a review guardrail. It must not cause
+    architecture redesign without a demonstrated quality-attribute or dependency
+    problem.
+
+## Study and synthesis index
+
+`READING_PLAN.md` defines the scoped study method, and
+`PDF_KNOWLEDGE_COVERAGE.md` records coverage and reliability. Claim-level notes are
+under `studies/`; cross-source authority and conflict resolution rules are under
+`syntheses/`.
+
+| Source IDs | Dossier |
+|---|---|
+| `SOFA-2023-10-11` | `studies/iau-sofa-2023-10-11.md` |
+| `IERS-TN36-2010` | `studies/iers-conventions-2010.md` |
+| `FUND-ASTRO-6E` | `studies/fundamental-astronomy-6e.md` |
+| `EXSUP-3E` | `studies/explanatory-supplement-3e.md` |
+| `HIP-I311-README` | `studies/hipparcos-i311-readme.md` |
+| `ESA-HIP-1997-V1` | `studies/hipparcos-esa-1997-field-semantics.study.md` |
+| `VAN-LEEUWEN-2007-VALIDATION` | `studies/hipparcos-i311-validation.md` |
+| `KARNEY-2012-ARXIV-V2` / `KARNEY-2013` | `studies/karney-geodesics.md` |
+| `IBN-QUTAYBA-ANWA` | `studies/ibn-qutayba-kitab-al-anwa.md` |
+| `KUNITZSCH-1961` | `studies/kunitzsch-1961-sternnomenklatur.md` |
+| `HAFEZ-2010` | `studies/hafez-2010-al-sufi.md` |
+| `KING-1993` | `studies/king-1993-astronomy-service-islam.md` |
+| `KING-1999` | `studies/king-1999-world-maps-qibla.md` |
+| `JSON-SCHEMA-CORE-2020-12` / `JSON-SCHEMA-VALIDATION-2020-12` | `studies/json-schema-2020-12.md` |
+| `ISO20022-JSON-2025` | `studies/iso20022-json-schema-generation-2025.md` |
+| `PROV-SEM-2013` | `studies/prov-semantics-2013.md` |
+| `FAIR-2016` | `studies/fair-principles-2016.md` |
+| `BASS-ET-AL-2022` | `studies/software-architecture-in-practice-4e.md` |
+| `WILSON-ET-AL-2014` | `studies/best-practices-scientific-computing-2014.md` |
+| `WILSON-ET-AL-2017` | `studies/good-enough-practices-2017.md` |
+| `KANEWALA-BIEMAN-2014` / `KANEWALA-BIEMAN-2018-PREPRINT` | `studies/testing-scientific-software.md` |
+
+The five synthesis files are:
+
+- `syntheses/engineering-quality-synthesis.md`;
+- `syntheses/astronomy-model-synthesis.md`;
+- `syntheses/catalogue-provenance-synthesis.md`;
+- `syntheses/qibla-geodesy-synthesis.md`; and
+- `syntheses/arabian-sky-evidence-synthesis.md`.

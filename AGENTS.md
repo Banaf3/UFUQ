@@ -87,6 +87,15 @@ traceability/registers only when a task triggers that context. Preserve MVP/opti
 separation. Do not substitute an iframe, Stellarium/external planetarium engine, native
 app, mobile-only app, or manually copied star coordinates.
 
+## Domain reference skills
+
+For engineering-quality, astronomy-validation, catalogue-provenance, Qibla-geodesy, or
+Najdi/Arabian-sky evidence work, identify the affected domain and read the corresponding
+`.agents/skills/<name>/SKILL.md`. Consult
+`docs/references/UFUQ_SOURCE_REGISTER.md`, and distinguish source-supported facts,
+project decisions, provisional choices, and unresolved questions. Load only the
+matching skill; combine skills only when the task genuinely crosses their boundaries.
+
 ## Definition of done
 
 A change is done when the applicable phase outcome and tests pass, implementation

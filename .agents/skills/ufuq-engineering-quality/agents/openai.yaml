@@ -1,0 +1,4 @@
+interface:
+  display_name: "UFUQ Engineering Quality"
+  short_description: "Audit UFUQ engineering evidence and boundaries"
+  default_prompt: "Use $ufuq-engineering-quality to review this UFUQ engineering change and its validation evidence."

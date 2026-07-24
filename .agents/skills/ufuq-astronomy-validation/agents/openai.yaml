@@ -1,0 +1,4 @@
+interface:
+  display_name: "UFUQ Astronomy Validation"
+  short_description: "Validate UFUQ astronomical computations and evidence"
+  default_prompt: "Use $ufuq-astronomy-validation to assess this UFUQ astronomy decision or result."

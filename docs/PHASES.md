@@ -8,6 +8,12 @@ not block earlier local implementation.
 
 **Goal:** create the empty monorepo, tooling, package boundaries, and test harness.
 
+The documentation-only source study and grounded-skill work is tracked in
+`.agent/execplans/phase-00-reference-pdf-study.md`; it prepares later evidence without
+activating Phase 1. The focused official ESA Hipparcos 1997 field-semantics integration
+is tracked in `.agent/execplans/phase-00-esa-hipparcos-source-integration.md`; it also
+does not activate Phase 1.
+
 **Implement:** exactly eight npm workspace/package manifests; a non-npm independent
 Python reference-tool scaffold; pinned Node/TypeScript/tool versions; the layout from
 `ARCHITECTURE.md`; shared TypeScript configuration; formatter/linter/type-checker;
