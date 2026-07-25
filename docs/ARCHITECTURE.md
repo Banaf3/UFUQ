@@ -113,7 +113,7 @@ Rules:
 | Tutoring core: BKT | Observation posterior, learning transition, parameter constraints | Hint UI, database, educational claims |
 | Tutoring core: observations/policy | Observation semantics and scaffold transition from approved evidence/policy version | Assessment scoring, rendering implementation, mutable persistence |
 | Persistence adapter | Transactions, locking, constraints, idempotency, queries | Domain formulas |
-| Catalogue tool | Source retrieval, provenance, normalization, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output | Runtime user data or hardcoded lesson branching |
+| Catalogue tool | CDS I/311 source retrieval for the Phase 1 local spike, provenance, normalization, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output | Alternate/dual-catalogue infrastructure, runtime user data, or hardcoded lesson branching |
 
 ## Container view
 
@@ -312,7 +312,7 @@ tests. DEV-002–005 govern improved types and attempt semantics.
 |---|---|---|---|
 | API request/response | Contract version + canonical request fingerprint | Exact replay for supported duplicate; explicit rejection outside support | Technical window in Phase 3 plan |
 | Scenario | Immutable scenario ID + generator/build version | No migration after issue; expire/reissue on incompatibility | Operational retention under SEC-001 |
-| Catalogue/curation | Schema/version + content hashes | Exact hash must be available to score/replay | AST-001 licence and DEP-001 storage |
+| Catalogue/curation | I/311 source identity + schema/version + content hashes | Exact hash must be available to score/replay | AST-001 fields/licence/tracking and DEP-001 storage |
 | Astronomy/EOP/tolerance | Algorithm/policy/EOP hashes | Exact historical implementation or retained immutable result/fixture | AST-003/006 and DEP-001 |
 | BKT/scaffold | Model/policy versions + mastery revisions | No in-place edits; migration creates an audited chain | BKT-002/003 and SEC-001 |
 | Software/database | Commit/build manifest + migration version | Rollback only when data/contract compatible | Applicable phase plan and deployment decision |

@@ -46,7 +46,11 @@ when no matching test exists; neither uses `passWithNoTests`.
 
 ## Phase 1 tests
 
-- Source-adapter and schema prototypes use synthetic or clearly labelled candidate data.
+- Catalogue tests target only CDS I/311 metadata and synthetic records until
+  source-derived local processing, field scope, and tracking are separately approved;
+  no alternate-catalogue contract or fixture is required.
+- Source-adapter and schema prototypes use synthetic data clearly labelled as
+  non-catalogue input until the applicable source-derived gates are met.
 - Generic schema tests cover `SkyPattern`, `GuidanceRelationship`, and `LessonRoute`
   without asserting that any synthetic helper pattern or mapping is culturally valid.
 - Acquisition inputs, transformation options, serialization, and hashes are recorded.

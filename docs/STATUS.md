@@ -14,7 +14,7 @@ behavior, dashboard, or deployment configuration.
 | Gate | Result | Basis |
 |---|---|---|
 | Repository scaffolding | YES | The consolidated eight-workspace TypeScript monorepo, non-npm oracle boundary, strict compiler/build setup, test discovery, dependency enforcement, lockfile, and CI are validated. |
-| Validated celestial-guidance vertical slice | NO | The exact catalogue/subset, production astronomy pipeline/error budget, reviewed pattern/relationship content for one route, scenario, and scoring tolerances remain unresolved. |
+| Validated celestial-guidance vertical slice | NO | I/311 is selected for the local Phase 1 spike, but its permitted processing/redistribution, retained fields/subset, production astronomy pipeline/error budget, reviewed pattern/relationship content for one route, scenario, and scoring tolerances remain unresolved. |
 | Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
 | Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
@@ -33,12 +33,14 @@ astronomy/data implementation spike. Tracked outputs now include a reading plan,
 twenty-one source-specific dossiers, five cross-source syntheses, a coverage report, and
 five project-scoped skills with mandatory-rule traceability.
 
-This work does not approve I/311, a production astronomy pipeline, a schema validator,
-a Kaaba coordinate/datum, a numerical tolerance, a cultural mapping, or a
-learner-facing route. The pinned Astropy/PyERFA/IERS-data environment and official
-Astropy documentation remain Phase 1 source gaps. Najdi/regional evidence, a stable
-edition for the studied Ibn Qutaybah claims, exact membership/route evidence, and human
-Arabic/cultural review remain required before learner-facing cultural claims.
+The source study by itself did not select a catalogue and does not approve a production
+astronomy pipeline, schema validator, Kaaba coordinate/datum, numerical tolerance,
+cultural mapping, or learner-facing route. The separate project decision below now
+selects I/311 only for the Phase 1 local technical spike. The pinned
+Astropy/PyERFA/IERS-data environment and official Astropy documentation remain Phase 1
+source gaps. Najdi/regional evidence, a stable edition for the studied Ibn Qutaybah
+claims, exact membership/route evidence, and human Arabic/cultural review remain
+required before learner-facing cultural claims.
 
 The official ESA 1997 Volume 1 guide now establishes the original catalogue's
 `mu_alpha_star` convention and J1991.25(TT) definition. The later I/311 `pmRA` mapping
@@ -53,18 +55,39 @@ The documentation-only source, policy, licensing, and performance audit is compl
 It is recorded in `spikes/PHASE1_ASTRONOMY_DATA_SPIKE.md`. No implementation stage has
 begun.
 
-I/311 is a candidate proposal, not an approved catalogue. Its local files are
-structurally consistent with the official ReadMe, but acquisition provenance is only
-partial and redistribution, tracked derived subsets, and deployment remain unresolved.
+CDS I/311, *Hipparcos, the New Reduction*, is approved as the sole catalogue source for
+the Phase 1 local technical spike. No alternate parser, fixture, benchmark, migration,
+or dual-catalogue support is planned. The selection does not approve redistribution,
+publication, deployment, final parser fields, solution/quality filtering, subset rules,
+`pmRA` semantics, scientific correctness, or numerical tolerance.
+
+I/311 local structure is verified, acquisition provenance is partial, derived-data
+redistribution remains unresolved, and `pmRA` remains
+`STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`.
 The documented 30 FPS and under-100-ms raycast targets were found, but their
 measurement protocol, primary device, browser/WebGL renderer, and representative
 product scale remain unapproved.
 
-The synthetic-oracle smoke test is not ready until its environment manager and package
-set are approved for lock testing. Source-derived work is not ready until catalogue,
-licensing/provenance, parser-field, solution/quality, subset, and tracking decisions
-are approved. No Python environment, catalogue parser, fixture, generated artifact,
-astronomy behavior, scene, renderer, or performance collector was created.
+The synthetic-oracle smoke test is not ready until a compatible exact package set is
+approved for another lock attempt. Source-derived work is not ready until local
+processing authority, licensing/provenance, parser-field, solution/quality, subset,
+and tracking decisions are approved. No Python environment, catalogue parser, fixture,
+generated artifact, astronomy behavior, scene, renderer, or performance collector was
+created.
+
+### Milestone 2A lock attempt
+
+The exact candidate lock attempt stopped at dependency resolution. Exact uv 0.11.32
+selected an isolated CPython 3.13.14 interpreter, but Astropy 7.2.2 declares
+`astropy-iers-data>=0.2026.6.22.1.23.34`, which conflicts with the approved exact
+`astropy-iers-data==0.2026.5.11.1.8.52` candidate. No version was substituted or
+omitted.
+
+No lockfile, project environment, oracle implementation, synthetic fixture, IERS-data
+evidence, or Python test was created. The attempted environment metadata was reverted,
+leaving the behavior-free oracle scaffold unchanged. Milestone 2A therefore failed,
+and a revised complete exact package set requires approval before another lock attempt.
+Catalogue work and Milestone 2B remain unauthorized and unstarted.
 
 ## Validated Phase 0 structure
 
@@ -129,8 +152,9 @@ measurement approvals.
 
 ## Decisions that block the validated vertical slice
 
-- **IMP-008 / AST-001:** exact catalogue source/version, permitted access/licence,
-  required fields, subset, and quality rules.
+- **IMP-008 / AST-001:** permitted I/311 local processing/access, redistribution and
+  tracking policy, required fields, subset, and solution/quality rules. The bounded
+  Phase 1 source selection itself is resolved.
 - **IMP-009 / AST-003 and AST-006:** production coordinate/time pipeline,
   implement-or-omit effects, supported range, failure policy, independent oracle,
   error budget, and tolerances.

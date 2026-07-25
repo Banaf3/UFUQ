@@ -39,16 +39,19 @@ shape.
 **Read additionally:** `ASTRONOMY_SPEC.md`, `DATA_STRATEGY.md`, ADR-003/004/007. Load
 formal science governance only when preparing approval evidence.
 
-**Implement:** replaceable catalogue-source adapter; source/manifest/schema prototypes,
-including generic `SkyPattern`, `GuidanceRelationship`, and `LessonRoute` schemas;
+**Implement:** a bounded CDS I/311 acquisition/normalization experiment inside the
+existing catalogue-tool boundary, with no alternate-catalogue abstraction;
+source/manifest/schema prototypes, including generic `SkyPattern`,
+`GuidanceRelationship`, and `LessonRoute` schemas;
 typed catalogue/propagated/horizontal/scene values; small synthetic or clearly labelled
 candidate fixtures; an independently pinned Python/Astropy fixture producer and
 comparison harness under `tests/reference`; deterministic serialization/checksum
 experiment. The reference suite becomes mandatory as soon as the first comparison is
 introduced.
 
-**Do not claim:** an approved catalogue, approved cultural content, production
-astrometry, final tolerance, or learner-facing correctness.
+**Do not claim:** approval beyond the bounded I/311 Phase 1 local-spike selection,
+redistribution or deployment rights, approved cultural content, production astrometry,
+final tolerance, or learner-facing correctness.
 
 **Exit:** the spike identifies a viable implementation path and produces reproducible
 comparison evidence; rejected spike code can be removed without changing application

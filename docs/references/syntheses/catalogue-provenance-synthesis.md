@@ -38,7 +38,7 @@ referential integrity, or deterministic byte comparison.
 | Topic | Controlling source | Supporting source | Limit |
 |---|---|---|---|
 | Original 1997 H-field model, epoch, and units | ESA SP-1200 Volume 1 §§1.2, 1.5, and 2.1 | I/311 cross-reference to I/239 | The definitions apply to the original catalogue and do not establish I/311 identity. |
-| I/311 files, fields, units, nulls, solution types, corrections | I/311 `ReadMe` | van Leeuwen 2007 | Selection/licence and the exact UFUQ subset remain decisions. |
+| I/311 files, fields, units, nulls, solution types, corrections | I/311 `ReadMe` | van Leeuwen 2007 | I/311 is selected for the Phase 1 local spike; licence, fields, filters, and the exact UFUQ subset remain decisions. |
 | Scientific quality/error context | van Leeuwen §§2-5 plus row metadata | I/311 weight/error fields | Aggregate findings do not become per-star tolerances. |
 | Schema dialect/keyword semantics | JSON Schema Core/Validation 2020-12 | Selected validator documentation/conformance tests | A declared dialect does not prove library support. |
 | Stable IDs, metadata, licences, reuse prompts | FAIR Box 2 | UFUQ manifests | FAIR is guidance; no compliance claim. |
@@ -105,8 +105,9 @@ referential integrity, or deterministic byte comparison.
 
 ## Unresolved gaps
 
-- I/311 is a candidate, not the approved catalogue; access/licence/redistribution and
-  the exact subset/quality policy remain open.
+- I/311 is the approved sole source for the Phase 1 local technical spike;
+  local-processing authority, acquisition provenance, access/licence/redistribution,
+  retained fields, and the exact subset/quality policy remain open.
 - ESA 1997 strongly supports `mu_alpha_star` and J1991.25(TT) for the original
   catalogue, but the I/311 proper-motion component and exact epoch instant still need
   I/311-specific confirmation before astronomy propagation.

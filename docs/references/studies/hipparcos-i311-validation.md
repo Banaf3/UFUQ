@@ -18,8 +18,8 @@
 
 # UFUQ relevance
 
-- Phases affected: Phase 1 evaluation of I/311 as a catalogue candidate; Phase 2
-  uncertainty/error-budget design only if I/311 is selected.
+- Phases affected: Phase 1 evaluation of the selected I/311 local-spike source; Phase 2
+  uncertainty/error-budget design only if the remaining source-derived gates are met.
 - Project decisions affected: AST-001 field/quality selection, AST-003
   space-motion/uncertainty treatment, AST-006 error budget, ADR-004, and ADR-007.
 - Sections studied:
@@ -141,7 +141,8 @@ mean every coordinate or propagated position is 2.16 times more accurate.
   tolerance per scenario. Do not reuse the paper's aggregate improvement factor or
   sub-mas discussion as an acceptance threshold.
 - `INFORMATIONAL_ONLY`: the paper supports preferring the new reduction for many
-  scientific uses, but catalogue selection and licensing remain separate decisions.
+  scientific uses, but the project's bounded source selection and its licensing policy
+  are separate decisions.
 
 # Testing implications
 
@@ -169,7 +170,8 @@ mean every coordinate or propagated position is 2.16 times more accurate.
   redistribution; the I/311 `ReadMe` and acquisition/licence record control those.
 - It does not supply current observation-time coordinates, apparent positions, horizon
   positions, or UFUQ tolerances.
-- It does not select I/311 over I/239 or another catalogue.
+- It does not select a catalogue for UFUQ; the separate project decision supplies that
+  choice for the bounded Phase 1 local spike.
 
 # Conflicts and ambiguities
 

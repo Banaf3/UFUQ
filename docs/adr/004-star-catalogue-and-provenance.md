@@ -1,6 +1,6 @@
 # ADR-004: Star catalogue, cultural curation, and provenance
 
-- **Status:** Blocked pending manual domain decisions
+- **Status:** Partially accepted; Phase 1 local source selected, remaining domain decisions blocked
 - **Classification:** CONFIRMED/CLARIFIED; source and mappings are MANUAL DOMAIN DECISIONS
 - **Date:** 2026-07-20
 - **Blockers:** AST-001, AST-002
@@ -38,10 +38,16 @@ Al-Jady→True North→Qibla direction steps. The server may select a route only
 stars required by its resolved patterns/relationships are available in the approved
 scenario.
 
-Hipparcos Main Catalogue/CDS I/239 is only a candidate. No source, row, helper pattern,
-Arabic spelling, transliteration, membership, guidance relationship, instructional
-geometry/explanation, segment, lesson route, licence interpretation, or redistribution
-is approved by this ADR. Generated rows are never edited manually.
+CDS I/311, *Hipparcos, the New Reduction*, is the sole catalogue source approved for
+the Phase 1 local technical spike. This does not approve a source row, retained field
+set, solution/quality filter, subset, helper pattern, Arabic spelling, transliteration,
+membership, guidance relationship, instructional geometry/explanation, segment,
+lesson route, licence interpretation, generated-artifact tracking, redistribution, or
+deployment. Generated rows are never edited manually.
+
+**Migration record (2026-07-26):** previous candidate: CDS I/239; current Phase 1
+source: CDS I/311. UFUQ obtained, studied, and prepared I/311 and does not require two
+Hipparcos pipelines.
 
 ## Consequences
 

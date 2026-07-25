@@ -78,5 +78,7 @@ assumptions. A rule without one of the permitted bases is not retained.
   unpinned and therefore were not studied as a versioned oracle source.
 - The current cultural source set cannot close Najdi, Arabic-human-review, exact
   membership, line-segment, or instructional-route approval.
-- The source study does not approve I/311, a runtime astronomy model, Qibla destination,
-  schema validator, numerical tolerance, or learner-facing content.
+- Source study alone does not approve a project catalogue choice, runtime astronomy
+  model, Qibla destination, schema validator, numerical tolerance, or learner-facing
+  content. The separate project decision selecting I/311 for the Phase 1 local spike
+  does not change those source-evidence limits.

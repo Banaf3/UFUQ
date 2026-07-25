@@ -93,9 +93,12 @@ Historical report/deviation/authority status remains in `governance/`.
 
 - **Decision:** Exact catalogue/table/version, licence/access route, subset, fields,
   quality rules, and canonical runtime artifact.
-- **Current choice:** No production source or subset is selected; Hipparcos I/239 is a
-  candidate for the technical spike only.
-- **Status:** unresolved
+- **Current choice:** CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the sole
+  catalogue source for the Phase 1 local technical spike. No alternate or dual-catalogue
+  support is planned. This does not approve production/deployment use, redistribution,
+  parser fields, solution/quality filters, a subset, or a generated artifact.
+- **Status:** provisional (source choice approved for the bounded Phase 1 local spike;
+  remaining access, field, subset, and artifact policy unresolved)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.
 - **Validation required:** Deterministic rebuild, provenance/licence manifest,

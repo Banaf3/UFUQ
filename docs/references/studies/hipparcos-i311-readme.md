@@ -16,14 +16,15 @@
   applicable. Both have directly searchable text; the local HTML reproduces the
   catalogue `ReadMe`.
 - Verification status: catalogue ID, title, author, file list, row counts, fixed-width
-  layouts, correction notice, and history were checked in both local forms. Catalogue
-  selection, acquisition manifest, raw-data checksum, licensing/redistribution, and
-  approved UFUQ subset remain unresolved.
+  layouts, correction notice, and history were checked in both local forms. I/311 is
+  selected by project decision for the Phase 1 local spike; acquisition manifest,
+  authoritative raw-data checksum evidence, licensing/redistribution, fields, filters,
+  and an approved UFUQ subset remain unresolved.
 
 # UFUQ relevance
 
-- Phases affected: Phase 1 catalogue candidate/provenance spike; Phase 2 only if I/311
-  is approved.
+- Phases affected: Phase 1 I/311 catalogue/provenance spike; Phase 2 only if the
+  remaining source-derived, scientific, and licensing gates are approved.
 - Project decisions affected: AST-001 catalogue selection/fields, AST-003 frame/epoch
   and motion policy, AST-004 photometric/visibility policy, ADR-004, and the data
   strategy.
@@ -127,11 +128,11 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 
 # Implementation implications
 
-- `SOURCE_REQUIRED`: an I/311 candidate manifest must pin catalogue ID, corrected-file
+- `SOURCE_REQUIRED`: an I/311 manifest must pin catalogue ID, corrected-file
   acquisition URL/date, raw hashes, exact files/columns, expected record lengths/counts,
   filters, row order, and source citation.
-- `PROJECT_DECISION_REQUIRED`: approve I/311 versus I/239 or another catalogue before
-  any production row is added.
+- `EXISTING_PROJECT_DECISION`: I/311 is the sole source for the Phase 1 local spike;
+  alternate and dual-catalogue support are outside scope.
 - `SOURCE_REQUIRED`: normalize every numeric field with explicit source unit, frame,
   epoch, null/quality semantics, and raw-field provenance.
 - `EXPERIMENT_REQUIRED`: resolve and validate the exact `pmRA` convention before
@@ -180,9 +181,9 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 
 # Conflicts and ambiguities
 
-- `ASTRONOMY_SPEC.md` and `DATA_STRATEGY.md` still describe I/239 as a working
-  candidate, while the locally acquired metadata is I/311. This study evaluates I/311
-  and does not resolve catalogue selection.
+- Project documents now select I/311 for the Phase 1 local spike. This resolves only
+  source choice; it does not resolve the source-specific semantic, field, quality,
+  subset, licence, or artifact-policy questions recorded in this dossier.
 - `iauAtco13`/`iauPmsafe` expect RA proper motion as coordinate-angle rate. The I/311
   `ReadMe` label alone does not prove whether conversion from a cosine-scaled component
   is required.
@@ -206,4 +207,4 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 | Hp is its own band | `hip2.dat`, bytes 130-149 | Do not relabel as Johnson V or unaided visibility | `SOURCE_REQUIRED` |
 | Solution-family encoding | `hip2.dat`, Note (1) | Parse and gate supplemental solution types | `SOURCE_REQUIRED` |
 | Covariance factorization | Global Note (G1) | Preserve correlations or document reviewed omission | `PROJECT_DECISION_REQUIRED` |
-| Catalogue selection/licence unresolved | `ASTRONOMY_SPEC.md` AST-001; `SOURCE_GAPS.md` DATA-SRC-001 | No production rows or redistribution yet | `PROJECT_DECISION_REQUIRED` |
+| I/311 source selected; licence/field/subset policy unresolved | `ASTRONOMY_SPEC.md` AST-001; `SOURCE_GAPS.md` DATA-SRC-001 | No production rows or redistribution yet | `EXISTING_PROJECT_DECISION` plus `PROJECT_DECISION_REQUIRED` |

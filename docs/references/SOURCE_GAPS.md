@@ -18,7 +18,7 @@ memory, an unpinned web page, or an unrelated local PDF.
 | AST-SRC-006 | Supported date range | Approved endpoints and out-of-range behavior with fixture partitions |
 | AST-SRC-007 | Leap-second/time-scale policy | Approved UTC/UT1/TT handling and data provenance |
 | AST-SRC-008 | Approved Kaaba target coordinate and datum if Qibla geodesy is included | Authority citation, coordinate/datum approval, and versioned decision record |
-| DATA-SRC-001 | If I/311 is evaluated, its approved acquisition URL, retrieval timestamp, checksum, fields, filters, row ordering, quality/null rules, and redistribution determination; catalogue selection itself remains unresolved under IMP-008 | Reviewed candidate acquisition manifest, licence record, and separate source-selection decision |
+| DATA-SRC-001 | For the selected Phase 1 source I/311: approved local-processing authority, acquisition URL/timestamp, authoritative checksum evidence, fields, solution/quality filters, row ordering, null rules, subset, tracking policy, and redistribution determination | Reviewed I/311 acquisition/provenance record and licence/field/subset decisions; create a tracked manifest only after the existing scaffold guard is intentionally activated |
 | DATA-SRC-002 | Official JSON Schema Draft 2020-12 Core/Validation version pins and runtime validator decision | Versioned schema references, dependency rationale if a validator is selected, and conformance tests |
 
 ## Required before Najdi cultural claims

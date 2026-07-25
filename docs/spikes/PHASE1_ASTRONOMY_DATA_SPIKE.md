@@ -6,15 +6,23 @@ fixture, scene-coordinate, rendering, or performance implementation.
 
 ## Outcome
 
-Milestone 1 is complete as an evidence audit. It does not approve a catalogue,
-licence interpretation, numerical model, tolerance, performance protocol, or
-primary device.
+Milestone 1 is complete as an evidence audit. Its I/311 proposal was subsequently
+approved by project decision for the bounded Phase 1 local technical spike. It does
+not approve a licence interpretation, source-derived tracking, parser policy,
+numerical model, tolerance, performance protocol, or primary device.
 
 ```text
-CATALOGUE_SELECTION_PROPOSAL: I311
-CATALOGUE_SELECTION_APPROVAL_REQUIRED: YES
+CATALOGUE_SELECTION: CDS_I311
+CATALOGUE_SELECTION_STATUS: APPROVED_FOR_PHASE1_LOCAL_TECHNICAL_SPIKE
+I239_ACTIVE_SUPPORT: NONE
+I239_PARSER_PLANNED: NO
+I239_FIXTURES_PLANNED: NO
+I239_BENCHMARKS_PLANNED: NO
+DUAL_CATALOGUE_SUPPORT_PLANNED: NO
 I311_LOCAL_STRUCTURE: VERIFIED
 I311_ACQUISITION_PROVENANCE: PARTIAL
+I311_DERIVED_DATA_REDISTRIBUTION: UNRESOLVED
+PMRA_SEMANTICS: STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED
 ORACLE_VERSION_CANDIDATES_RECORDED: YES
 ORACLE_COMPATIBILITY: UNTESTED
 FRAME_RATE_REQUIREMENT_FOUND: YES
@@ -77,49 +85,25 @@ cover formatting, linting, type checking, unit tests, package boundaries,
 cycles, data scaffolding, builds, public exports, and a Playwright health smoke
 test.
 
-No candidate manifest was created. The source is not approved, and the current
-data-scaffold guard intentionally rejects a non-scaffold manifest. Changing
-that implementation guard is outside this audit.
+No candidate manifest was created. Although I/311 is now selected for the bounded local
+spike, local-processing authority, field/filter scope, redistribution, and artifact
+tracking remain unresolved, and the current data-scaffold guard intentionally rejects
+a non-scaffold manifest. Changing that implementation guard is outside this audit.
 
-## 2. I/239 versus I/311
+## 2. Catalogue decision
 
-| Criterion | I/239 | I/311 | Evidence | Consequence |
-|---|---|---|---|---|
-| Catalogue identity and reduction | Original 1997 Hipparcos and Tycho catalogues, ESA SP-1200. | van Leeuwen's later new reduction of Hipparcos astrometry. | Official [I/239 ReadMe](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/I/239?format=html&tex=true), official [I/311 ReadMe](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/I/311?format=html&tex=true), and the tracked I/311/ESA studies. | They are distinct products; changing the identifier is not a clerical edit. |
-| Local file availability | No raw I/239 catalogue is present in the approved local candidate location. | The four documented I/311 data files and its ReadMe are present locally. | Read-only local inventory. | I/311 has lower immediate acquisition effort, but presence is not approval. |
-| Documentation studied | ESA Volume 1 field and astrometric-model sections have been studied. | The I/311 ReadMe, van Leeuwen validation material, and ESA comparison material have been studied. | Source dossiers and astronomy/catalogue syntheses. | Both have useful documentation; I/311-specific semantic gaps remain. |
-| Astrometric fields | The main catalogue includes the five standard astrometric parameters plus errors, correlations, quality, and photometry. | Four solution-family files expose astrometry, solution metadata, errors/weights, quality fields, and photometry with different layouts. | Official catalogue ReadMes. | The parser and validation policy would differ materially. |
-| Reference epoch | J1991.25 is explicitly tied to JD 2448349.0625 TT in the ESA guide. | The ReadMe labels coordinates with epoch `Ep=1991.25`; the exact time-scale interpretation is not explicit there. | ESA field-semantics dossier and I/311 ReadMe. | I/311 propagation must not silently inherit the full I/239 epoch statement. |
-| Proper-motion documentation | `mu_alpha*cos(delta)` is explicit for the right-ascension component. | `pmRA` is labelled in mas/yr, but the I/311 ReadMe does not explicitly state the cosine factor. | ESA guide versus I/311-specific ReadMe and pmRA study. | I/311 remains `STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`; normalized naming and a high-declination test are required. |
-| Acquisition provenance | No local raw-byte acquisition chain exists. | File structure and local hashes are known, but the download chain and authoritative expected hashes are incomplete. | Local inventory and this audit. | Neither candidate currently has complete acquisition evidence. |
-| Licensing or redistribution | ESA identifies the original 1997 catalogue under CC BY-NC 3.0 IGO with required ESA credit. | VizieR permits scientific use, but the I/311 ReadMe gives no clear catalogue-specific redistribution or deployment grant. | [ESA catalogue page](https://www.cosmos.esa.int/web/hipparcos/catalogues), [CC BY-NC 3.0 IGO](https://creativecommons.org/licenses/by-nc/3.0/igo/legalcode.en), [VizieR rules of use](https://cds.unistra.fr/vizier-org/licences_vizier.html), and I/311 ReadMe. | The ESA licence must not be transferred to I/311 by inference; I/311 redistribution remains unresolved. |
-| Parser impact | A large fixed-width main file plus numerous annexes and companion files. | Four fixed-width solution-family files require an explicit inclusion and merge policy. | Official ReadMes. | Catalogue selection determines parser scope and malformed-input cases. |
-| Reference-oracle impact | Explicit epoch and `mu_alpha_star` semantics reduce configuration ambiguity. | The oracle needs an approved mapping for I/311 epoch, solution family, and `pmRA`. | Astronomy synthesis and study dossiers. | Synthetic oracle work can remain independent; source-derived comparisons cannot. |
-| Migration or rework | Selecting it reverses current I/311 preparation and requires acquisition/study work. | Selecting it contradicts older candidate-I/239 project documents but reuses current local preparation. | Project decision documents and tracked studies. | I/311 is the lower-rework candidate, but approval and synchronization are mandatory. |
+CDS I/311, *Hipparcos, the New Reduction*, is the sole catalogue source for the
+Phase 1 local technical spike. The project will not plan an alternate parser,
+fixtures, benchmarks, migration code, or dual-catalogue abstraction. This is a
+bounded `EXISTING_PROJECT_DECISION` based on the intentionally acquired local files,
+completed source dossiers and field-semantics investigation, existing I/311-centred
+preparation, and avoidance of an unnecessary second Hipparcos pipeline.
 
-### Catalogue proposal
-
-```text
-CATALOGUE_SELECTION_PROPOSAL: I311
-CATALOGUE_SELECTION_APPROVAL_REQUIRED: YES
-```
-
-`I311` is a `CANDIDATE_PROPOSAL`, based on the available new-reduction files,
-current source study, and reduced rework. It is not approved. Approval is
-blocked by incomplete acquisition provenance, unresolved redistribution terms,
-and unapproved field, solution, quality, and subset policies.
-
-After approval, the selected identifier and policy must be synchronized in:
-
-- `docs/ASTRONOMY_SPEC.md`
-- `docs/DATA_STRATEGY.md`
-- `docs/IMPLEMENTATION_DECISIONS.md` (`IMP-008`)
-- `docs/governance/OPEN_QUESTIONS.md` (`AST-001`)
-- `docs/adr/004-star-catalogue-and-provenance.md`
-- `docs/references/PHASE_SOURCE_MATRIX.md`
-- `docs/references/SOURCE_GAPS.md`
-- `docs/STATUS.md`
-- this spike record
+The source choice does not establish redistribution or deployment rights,
+acquisition authenticity beyond the recorded partial provenance, final parser fields,
+solution/quality filters, a subset, `pmRA` semantics, scientific correctness, or a
+numerical tolerance. The original 1997 catalogue documentation remains supporting
+scientific context only and cannot define later-reduction fields by inference.
 
 ## 3. Local I/311 structural verification
 
@@ -184,13 +168,13 @@ material does not close those decisions.
 
 | ID | Decision | Current evidence | Status | Next evidence | Blocks |
 |---|---|---|---|---|---|
-| P1-D01 | Catalogue selection | I/239 is the older documented project candidate; I/311 is the prepared new-reduction candidate. | `CANDIDATE_PROPOSAL`: I/311; approval required | Catalogue and licensing approval | All source-derived work |
+| P1-D01 | Catalogue selection | I/311 preparation and source study support one bounded local-spike source; a second Hipparcos pipeline has no demonstrated need. | `EXISTING_PROJECT_DECISION`: CDS I/311 only for Phase 1 local technical spike | New approval only if scope changes | None; separate source-derived gates below still block row processing |
 | P1-D02 | Parser fields | Each ReadMe defines many fields, but UFUQ's retained set is unapproved. | `NEW_PROJECT_DECISION_REQUIRED` | Use-case-to-field review and schema proposal | Parser/schema |
 | P1-D03 | Solution-type policy | I/311 separates five-, seven-, nine-parameter, and variability-induced-mover solutions. | `NEW_PROJECT_DECISION_REQUIRED` | Scientific inclusion/exclusion rationale | Parser/subset |
 | P1-D04 | Quality filtering | Source quality and uncertainty fields exist; no UFUQ rule is approved. | `NEW_PROJECT_DECISION_REQUIRED` | Distribution audit and science rationale | Runtime subset |
 | P1-D05 | Subset selection | “Small catalogue subset” is approved only as spike scope; no predicate is approved. | `NEW_PROJECT_DECISION_REQUIRED` | Reproducible candidate comparison | Artifact/performance |
 | P1-D06 | I/311 `pmRA` interpretation | Original ESA semantics explicitly use `mu_alpha_star`; I/311 says only `pmRA`. | `EXPERIMENT_REQUIRED` | I/311-specific confirmation plus omitted/double-cosine and high-declination cases | Proper-motion propagation |
-| P1-D07 | Source epoch | I/311 says `Ep=1991.25`; original ESA gives J1991.25(TT) for I/239. | `EXPERIMENT_REQUIRED` | Confirm I/311 time-scale semantics and Astropy configuration | Propagation |
+| P1-D07 | Source epoch | I/311 says `Ep=1991.25`; the original ESA catalogue gives J1991.25(TT), which cannot be transferred silently. | `EXPERIMENT_REQUIRED` | Confirm I/311 time-scale semantics and Astropy configuration | Propagation |
 | P1-D08 | Production astronomy approach | Pure production boundary and independent oracle are approved; algorithm/library is not. | `NEW_PROJECT_DECISION_REQUIRED` and `EXPERIMENT_REQUIRED` | Candidate implementation comparison against independent fixtures | Astronomy implementation |
 | P1-D09 | UTC/TT/UT1 handling | UTC is the external input; transformation/time-scale policy remains open. | `EXISTING_PROJECT_DECISION` for input; `NEW_PROJECT_DECISION_REQUIRED` internally | Explicit scale-conversion and Earth-rotation policy | Apparent/horizontal output |
 | P1-D10 | Leap-second policy | No production policy is approved. | `NEW_PROJECT_DECISION_REQUIRED` | Official time-data source, stale-data behavior, and boundary tests | Supported time conversion |
@@ -328,14 +312,14 @@ unapproved and compatibility is untested.
 
 Source-derived work requires:
 
-- approved catalogue selection;
+- approved catalogue selection (`CDS_I311`) — met;
 - confirmed authority for local processing;
 - a source acquisition record with identity and approved hashes;
 - approved parser fields, solution families, quality rules, and subset;
 - approved raw-versus-derived tracking and redistribution policy; and
 - enforcement that no generated subset bypasses unresolved rights.
 
-Those conditions are not met.
+The source-selection condition is met; the remaining conditions are not.
 
 `STAGE2_READY_FOR_SOURCE_DERIVED_WORK: NO`
 
@@ -359,7 +343,7 @@ existing installation is valid.
 | Aggregate-only I/311 structure/checksum script | PASS: all four data-file counts and fixed widths agree with the ReadMe; no row was printed. |
 | Aggregate-only candidate-tier script | PASS: 3,329, 10,891, and 31,132 records for the documented predicates and pinned local hash; no row was printed. |
 | Read-only Windows CIM/registry/browser inventory | PASS: candidate device metadata recorded; no browser WebGL renderer was inferred. |
-| Official-source licensing/release check | PASS as an audit: I/239/I/311 identities, ESA's original-catalogue licence, VizieR scientific-use rule, and candidate release existence were checked. I/311 redistribution remains unresolved rather than being inferred. |
+| Official-source licensing/release check | PASS as an audit: original- and new-reduction identities, ESA's original-catalogue licence, VizieR scientific-use rule, and I/311 release existence were checked. I/311 redistribution remains unresolved rather than being inferred. |
 | Tracked restricted/raw/generated/secret scan | PASS: no tracked PDF, `local-reference` file, raw catalogue byte, generated catalogue artifact, secret environment file, build/compiler output, or high-confidence secret candidate. |
 | Ignore checks | PASS: representative local PDF, I/311 raw file, `*.tsbuildinfo`, and web `dist` output resolve to ignore rules. |
 | Python-environment check | PASS: no root/oracle `.venv` or `uv.lock` exists; the existing empty oracle scaffold was unchanged. |
@@ -371,14 +355,136 @@ artifact was created or tracked. Nothing is staged.
 
 ## 12. Audit risk summary
 
-- **Blocking:** catalogue approval, I/311 redistribution and source-derived
-  tracking authority, parser scope, time/EOP/refraction policies, and measured
-  numerical tolerance.
+- **Blocking:** I/311 local-processing authority, redistribution and source-derived
+  tracking policy, parser scope, time/EOP/refraction policies, and measured numerical
+  tolerance. Catalogue selection itself is resolved for the bounded local spike.
 - **Major:** acquisition provenance is only partial; I/311 `pmRA` and epoch
   semantics require explicit confirmation; performance thresholds lack an
   approved protocol.
-- **Minor:** a candidate manifest is deliberately deferred until the source is
-  approved and the scaffold guard is intentionally changed in its own stage.
+- **Minor:** a candidate manifest is deliberately deferred until I/311 local-processing
+  authority and manifest scope are approved and the scaffold guard is intentionally
+  changed in its own stage.
 - **Optional:** none added; this audit does not redesign the repository.
 
 Milestone 2 and all implementation work remain unstarted.
+
+## 13. Milestone 2A: pinned synthetic-only oracle smoke test
+
+**Attempt date:** 2026-07-26
+
+**Claim:** Determine whether the approved exact candidate set can form a locked,
+independent synthetic-only Astropy smoke environment.
+
+**Gate:** Environment compatibility only; no scientific-model, tolerance, catalogue, or
+production-implementation claim.
+
+### Evidence classification
+
+| Item | Classification | Evidence |
+|---|---|---|
+| Python 3.13.14 and uv 0.11.32 may be tested | `PROJECT_DECISION` limited to candidate lock testing | Milestone 2A authorization |
+| Exact Astropy, PyERFA, NumPy, and IERS-data pins | `PROJECT_DECISION` limited to candidate lock testing | Milestone 2A authorization |
+| uv 0.11.32 executed and selected CPython 3.13.14 | `SOURCE_SUPPORTED_FACT` | Exact command output below |
+| Astropy 7.2.2 requires a newer IERS-data release than the approved pin | `SOURCE_SUPPORTED_FACT` | uv resolver metadata for Astropy 7.2.2 |
+| A replacement version set | `UNRESOLVED_QUESTION` | Separate approval is required before another installation attempt |
+
+### Exact candidate set requested
+
+| Component | Requested exact candidate | Result |
+|---|---|---|
+| Python | 3.13.14 | Acquired in an isolated OS-temporary location and selected by the resolver |
+| uv | 0.11.32 | Executed successfully |
+| Astropy | 7.2.2 | Resolver inspected its dependency metadata; environment not resolved |
+| PyERFA | 2.0.1.5 | Requested; no environment resolution completed |
+| NumPy | 2.4.6 | Requested; no environment resolution completed |
+| astropy-iers-data | 0.2026.5.11.1.8.52 | Conflicts with Astropy 7.2.2's declared minimum |
+
+### Lock attempt and incompatibility
+
+The existing global Python 3.13.7 and uv 0.11.15 were not treated as the oracle
+environment. The installed uv was used only to acquire and execute exact uv 0.11.32 in
+an isolated temporary cache. Exact uv 0.11.32 then acquired CPython 3.13.14 outside the
+repository and attempted the project lock with `UV_PYTHON_PREFERENCE=only-managed`.
+
+```powershell
+$taskRoot = "C:\tmp\ufuq-oracle-m2a"
+$env:UV_CACHE_DIR = Join-Path $taskRoot "uv-bootstrap-cache"
+$env:UV_PYTHON_INSTALL_DIR = Join-Path $taskRoot "python"
+$env:UV_PYTHON_PREFERENCE = "only-managed"
+$bootstrapUv = (Get-Command uv).Source
+
+& $bootstrapUv tool run --from "uv==0.11.32" uv --version
+# uv 0.11.32 (3010295ae 2026-07-23 x86_64-pc-windows-msvc)
+
+& $bootstrapUv tool run --from "uv==0.11.32" uv python install 3.13.14
+# Installed Python 3.13.14
+
+& $bootstrapUv tool run --from "uv==0.11.32" uv lock --python 3.13.14
+# Using CPython 3.13.14
+# No solution found:
+# astropy==7.2.2 depends on astropy-iers-data>=0.2026.6.22.1.23.34
+# but the project requires astropy-iers-data==0.2026.5.11.1.8.52
+```
+
+The last command exited 1. Therefore:
+
+- no `uv.lock` was produced;
+- no project `.venv` was created;
+- no package set was installed or imported;
+- there are no exact resolved runtime package versions beyond the verified uv and
+  Python executables;
+- compatibility, IERS isolation, synthetic execution, deterministic output, and
+  independence could not be tested.
+
+The attempted `.python-version`, dependency pins, and Python-ignore changes were
+reverted so the repository does not retain an unsatisfiable environment declaration.
+The existing behavior-free oracle scaffold is unchanged.
+
+### Stop result
+
+The approved exact set cannot produce a valid environment. Per the milestone stop
+condition, no alternative version was installed and no oracle code, schema, synthetic
+input, output fixture, test, environment manifest, IERS file record, or lockfile was
+created.
+
+The smallest candidate correction for a future approval is one of:
+
+1. retain Astropy 7.2.2 and approve an exact `astropy-iers-data` release satisfying
+   `>=0.2026.6.22.1.23.34`; or
+2. retain `astropy-iers-data==0.2026.5.11.1.8.52` and separately identify an exact
+   Astropy release whose official dependency metadata accepts it.
+
+Neither alternative is selected here. The complete exact set must be approved before a
+new lock attempt.
+
+### Validation after the stop
+
+| Exact command/check | Result |
+|---|---|
+| `uv tool run --from "uv==0.11.32" uv lock --python 3.13.14` | FAIL as the milestone result: exit 1 with the exact IERS-data constraint conflict above. |
+| uv lock verification and locked synchronization | NOT RUN: no valid lock exists. |
+| Python `unittest`, synthetic generation, two-run byte comparison, prohibited-import test, and IERS/network-isolation test | NOT RUN: creating code or claiming these checks after an unsatisfied environment would violate the stop condition. |
+| `npm.cmd run check` | PASS: formatting, lint, TypeScript, boundaries, cycles, oracle boundary, and data scaffold. |
+| `npm.cmd run test` | PASS: one test in one unit file. |
+| `npm.cmd run cycles` | PASS: eight-workspace graph is acyclic and the behavior-free oracle boundary remains independent. |
+| `npm.cmd run exports:check` | PASS: 13 exports across seven importable workspaces. |
+| `npm.cmd run build` | PASS: TypeScript and Vite production builds completed. |
+| `npm.cmd run test:e2e` | PASS: one Chromium web/API health smoke test. |
+| `npm.cmd run test:reference` | Expected inactive-suite failure: exit 1 because no reference tests exist; no placeholder was added. |
+| Tracked restricted/raw/generated/environment/binary/secret scan | PASS: none is tracked or staged. |
+| Dependency and implementation diff scans | PASS: no npm manifest/lock, application, package, tool, test, script, renderer, scene, or catalogue source changed. |
+| `git diff --check` | PASS after removing Markdown-only trailing-space line breaks. |
+
+```text
+OFFLINE_REPRODUCTION: OFFLINE_REPRODUCTION_FAILED
+ORACLE_ENVIRONMENT_LOCKED: NO
+ORACLE_COMPATIBILITY_VERIFIED: NO
+ORACLE_INDEPENDENCE_VERIFIED: NO
+IERS_NETWORK_ISOLATED: NO
+SYNTHETIC_FIXTURES_DETERMINISTIC: NO
+SOURCE_DERIVED_DATA_USED: NO
+READY_FOR_CATALOGUE_MILESTONE: NO
+```
+
+Milestone 2A stopped at dependency resolution. Milestone 2B and all
+catalogue/source-derived work remain unstarted.

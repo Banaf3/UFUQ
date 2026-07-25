@@ -191,16 +191,16 @@ These are test requirements, not implemented tests:
 - May J1991.25(TT) from the 1997 guide be applied to the I/311 reduction, or must the
   new-reduction documentation state that separately?
 - Which I/311 solution families and covariance/quality fields are approved?
-- Which catalogue release, licence, subset, and generated-artifact policy will UFUQ
-  approve?
+- Which I/311 licence, local-processing, subset, field, and generated-artifact policy
+  will UFUQ approve for source-derived work?
 - What date range, radial-velocity policy, uncertainty treatment, and measured
   comparison tolerance will the spike support?
 
 ## Limitations
 
 - This source does not define the CDS I/311 fixed-width file or corrections.
-- It does not select I/239, I/311, Astropy, SOFA, a propagation implementation, or a
-  numerical tolerance for UFUQ.
+- It does not select a UFUQ catalogue, Astropy, SOFA, a propagation implementation, or
+  a numerical tolerance.
 - It supplies no approved UFUQ star subset or catalogue coordinate.
 - It does not establish that all original and new-reduction field semantics are
   identical.

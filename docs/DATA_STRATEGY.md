@@ -73,7 +73,12 @@ containing:
 - retrieval timestamp in UTC, retrieval tool/version, source citation, licence URL/text identifier, and redistribution determination;
 - raw byte SHA-256, normalized table SHA-256, expected row count, and approved reviewer/date.
 
-AST-001 is unresolved. Hipparcos Main Catalogue via ESA and CDS/VizieR I/239 is a candidate, not a selected fact. Do not add catalogue rows until the catalogue metadata and redistribution terms are manually approved.
+CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the approved sole source for the
+Phase 1 local technical spike. This bounded selection does not approve acquisition
+authenticity beyond the recorded partial provenance, redistribution, deployment,
+retained fields, solution/quality filters, subset rules, or generated-artifact
+tracking. Do not add catalogue rows until those applicable AST-001 decisions are
+approved and the existing data-scaffold guard is intentionally activated.
 
 ## Acquisition and transformation
 
@@ -146,7 +151,7 @@ the astronomy/EOP/build links needed for the qualified replay claim.
 
 ## Licensing and citation
 
-Maintain a licence record per input and per distributed output: rights holder, licence identifier/link, required attribution, transformation/redistribution conditions, non-commercial constraints, approval, and display/report citation text. ESA's Hipparcos catalogue page indicates an ESA licence/credit requirement, while archive metadata may not by itself resolve downstream redistribution; institutional review remains AST-001. A public URL is not permission to copy.
+Maintain a licence record per input and per distributed output: rights holder, licence identifier/link, required attribution, transformation/redistribution conditions, non-commercial constraints, approval, and display/report citation text. ESA's terms for the original catalogue must not be transferred to the later CDS I/311 reduction by inference; the I/311 archive record does not by itself resolve downstream redistribution. Institutional review remains AST-001. A public URL is not permission to copy.
 
 ## Manual review gates
 
