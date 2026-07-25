@@ -1,6 +1,6 @@
 # Implementation status
 
-**Assessment date:** 2026-07-25
+**Assessment date:** 2026-07-26
 
 The consolidated Phase 0 repository scaffold is validated. It contains health-only web
 and API applications, eight npm workspaces, pure empty/type-placeholder domain
@@ -46,7 +46,25 @@ is classified `STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`; this clarificati
 future spike cases but does not activate Phase 1.
 
 The detailed evidence boundaries are in `references/PDF_KNOWLEDGE_COVERAGE.md`.
-Phase 1 has not begun.
+
+## Phase 1 Milestone 1 decision audit
+
+The documentation-only source, policy, licensing, and performance audit is complete.
+It is recorded in `spikes/PHASE1_ASTRONOMY_DATA_SPIKE.md`. No implementation stage has
+begun.
+
+I/311 is a candidate proposal, not an approved catalogue. Its local files are
+structurally consistent with the official ReadMe, but acquisition provenance is only
+partial and redistribution, tracked derived subsets, and deployment remain unresolved.
+The documented 30 FPS and under-100-ms raycast targets were found, but their
+measurement protocol, primary device, browser/WebGL renderer, and representative
+product scale remain unapproved.
+
+The synthetic-oracle smoke test is not ready until its environment manager and package
+set are approved for lock testing. Source-derived work is not ready until catalogue,
+licensing/provenance, parser-field, solution/quality, subset, and tracking decisions
+are approved. No Python environment, catalogue parser, fixture, generated artifact,
+astronomy behavior, scene, renderer, or performance collector was created.
 
 ## Validated Phase 0 structure
 
@@ -104,10 +122,10 @@ mapping, commands, corrections, and independent post-migration verdict are in
 
 ## Authorized next work
 
-The repository scaffold is validated and ready for the Phase 1 astronomy/data
-technical spike. Phase 1 has not begun. It may introduce only replaceable,
-clearly-labelled candidate/synthetic technical inputs until the applicable decisions
-are approved.
+Phase 1 Milestone 1 is complete. Stage 2 must not begin until the applicable entry
+criteria in `spikes/PHASE1_ASTRONOMY_DATA_SPIKE.md` are met. Candidate or synthetic
+inputs do not bypass catalogue, provenance, licensing, scientific-policy, or
+measurement approvals.
 
 ## Decisions that block the validated vertical slice
 
