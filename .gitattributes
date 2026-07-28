@@ -1,3 +1,5 @@
+.gitattributes text eol=lf
+tools/astronomy-reference/uv.lock text eol=lf
 * text=auto
 
 *.cjs text eol=lf
