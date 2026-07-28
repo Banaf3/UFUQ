@@ -15,12 +15,12 @@ Detailed evidence is in
 | Workflow 8: partition boundary/scientific cases | SOFA routine contracts; IERS Eqs. (5.1), (5.14)-(5.15); ESA 1997 §1.5.4 Eq. (1.5.21) p. 94 for high-declination/cosine guards; `docs/ASTRONOMY_SPEC.md` Validation §5 | Source plus project decision |
 | Workflow 9: reject visual plausibility as evidence | Kanewala/Bieman §1, pp. 1-2; ADR-007 | Source plus project decision |
 | Stop: missing frame/epoch/time/observer/motion/refraction/IERS/range/tolerance | SOFA and IERS input contracts; `docs/ASTRONOMY_SPEC.md` safety rule | Source plus unresolved project decisions |
-| Stop: I/311 `pmRA` star-component versus coordinate-angle mapping is unconfirmed | `studies/hipparcos-esa-1997-field-semantics.study.md`; I/311 `hip2.dat` bytes 52-59 | Source-supported strong inference plus unresolved experiment |
+| Rule: I/311 `pmRA` is the starred-alpha component and maps directly to Astropy `pm_ra_cosdec` after unit conversion | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408; `studies/hipparcos-i311-readme.md` | I/311-specific source plus project field-name decision |
 | Stop: unpinned or non-independent oracle | Kanewala/Bieman pseudo-oracle limitations; ADR-007 | Source plus project decision |
 | Prohibition: do not invent scientific inputs, policies, or tolerances | `AGENTS.md`; `docs/ASTRONOMY_SPEC.md` safety rule | Project decision |
 | Prohibition: Polaris is not True North | `docs/ASTRONOMY_SPEC.md`, astrometric pipeline/KC-04 distinction | Project decision |
 | Prohibition: Three.js mapping is not an astronomy oracle | `docs/ASTRONOMY_SPEC.md`, Three.js mapping | Project decision |
 
-The ESA source closes the original-1997 meaning, not the I/311 mapping. I/311
-proper-motion-component and exact-epoch semantics remain explicit stop conditions and
-are classified `STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`.
+I/311 Appendix G closes the `pmRA` component mapping. The epoch time-scale
+interpretation, target-library interface, production motion/effect policy, and
+numerical tolerance remain explicit stop conditions.

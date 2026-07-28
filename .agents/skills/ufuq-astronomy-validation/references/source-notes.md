@@ -21,6 +21,9 @@ locations and limitations are in:
   prove—the later I/311 `pmRA` mapping.
 - `HIP-I311-README` — authority for I/311 epoch/frame/units/field and correction
   semantics. The data file is not self-describing.
+- `HIP-I311-APPENDIX-G` — I/311-specific authority for field symbols. Table G.3,
+  printed p. 407, defines `pmRA` as `mu_alpha_star`; use the explicitly cosine-weighted
+  normalized name and map directly to Astropy `pm_ra_cosdec` after unit conversion.
 - `VAN-LEEUWEN-2007-VALIDATION` — use the article's methods/results for new-reduction
   error characteristics, not for byte layout.
 - `ASTROPY-DOCS-PIN`, `PYERFA-PIN`, and `ASTROPY-IERS-DATA-PIN` — currently unresolved
@@ -29,9 +32,10 @@ locations and limitations are in:
   and cannot support page/chapter citations.
 - `FUND-ASTRO-6E` — explanatory support; it cannot override SOFA, IERS, catalogue
   metadata, or measured independent results.
-- For I/311 propagation, preserve raw `pmRA` and stop until its star-component versus
-  coordinate-angle semantics are confirmed. The current classification is
-  `STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`.
+- For I/311 propagation, preserve raw `pmRA` and the confirmed starred-alpha semantic.
+  Continue to stop when a target routine's proper-motion interface, source epoch time
+  scale, or motion/effect policy is unspecified; confirmation of Astropy
+  `pm_ra_cosdec` does not define every other library interface.
 - `UFUQ-ASTRO-SPEC`, `UFUQ-ADR-003`, and `UFUQ-ADR-007` — project conventions and
   validation requirements, not external scientific authorities.
 

@@ -93,17 +93,26 @@ Historical report/deviation/authority status remains in `governance/`.
 
 - **Decision:** Exact catalogue/table/version, licence/access route, subset, fields,
   quality rules, and canonical runtime artifact.
-- **Current choice:** CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the sole
-  catalogue source for the Phase 1 local technical spike. No alternate or dual-catalogue
-  support is planned. This does not approve production/deployment use, redistribution,
-  parser fields, solution/quality filters, a subset, or a generated artifact.
-- **Status:** provisional (source choice approved for the bounded Phase 1 local spike;
-  remaining access, field, subset, and artifact policy unresolved)
+- **Current choice:** Use only the corrected 2008-09-16 `hip2.dat` main table and
+  required solution supplements from CDS/VizieR I/311, *Hipparcos, the New Reduction*.
+  Phase 1 uses an explicit 19-HIP technical review allowlist, retains every main-table
+  field, preserves all solution/multiplicity/quality evidence, and fails on
+  missing/duplicate/invalid rows or supplements. I/311 `pmRA` is `mu_alpha_star` and
+  normalizes directly to `properMotionRaCosDecMilliarcsecondsPerYear`. Canonical
+  artifacts and provenance follow the v1 schemas and serialization policy in
+  `packages/catalogue-schema`. Raw or derived rows remain local and ignored while
+  redistribution is unresolved; the candidate allowlist is not cultural or lesson
+  approval.
+- **Status:** provisional (approved for local non-redistributing Phase 3 / Milestone 3A
+  parser implementation; acquisition provenance remains partial,
+  redistribution/deployment and row/cultural review remain blocked)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.
-- **Validation required:** Deterministic rebuild, provenance/licence manifest,
-  schema/range/quality checks, checksum equality, and scientific review before the
-  validated vertical slice.
+- **Validation required:** Pre-parse raw-hash verification; exact fixed-width and
+  supplemental joins; schema/range/solution/multiplicity/quality reporting; sorted
+  unique selection; byte-identical rebuild and checksum; provenance/licence manifest;
+  scientific row review; and separate falak/cultural review before any learner-facing
+  use.
 
 ## IMP-009 — Astronomy transformation pipeline
 

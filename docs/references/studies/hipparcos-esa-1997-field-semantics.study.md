@@ -146,6 +146,13 @@ available I/311-specific ReadMe and validation paper do not spell out the cosine
 convention. `CONFIRMED_FOR_I311` would require an I/311-specific authoritative field
 definition or a pinned independent experiment that is then reviewed and recorded.
 
+**Subsequent evidence note (2026-07-26):** Milestone 2B located that required
+I/311-specific definition in the official I/311 archive's Appendix G, Table G.3
+(printed p. 407), which labels the field `mu_alpha_star`. The historical classification
+above accurately records what this ESA-focused study could establish on its own; the
+current project classification is now `CONFIRMED_FOR_I311` and is traceable through
+`HIP-I311-APPENDIX-G`.
+
 ## UFUQ implementation implications
 
 - `SOURCE_REQUIRED`: preserve the raw I/311 `pmRA` value and its source-field identity;

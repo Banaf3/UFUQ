@@ -53,6 +53,17 @@ introduced.
 redistribution or deployment rights, approved cultural content, production astrometry,
 final tolerance, or learner-facing correctness.
 
+Milestone 2B fixes the local parser contract in
+`spikes/PHASE1_CATALOGUE_AUTHORITY_PROVENANCE.md`: corrected 2008-09-16 I/311 files,
+complete source-field preservation, confirmed starred-alpha `pmRA`, an exact 19-HIP
+technical review allowlist, fail-closed row/supplement policies, and versioned
+artifact/provenance schemas.
+
+The local catalogue parser belongs to Phase 3 / Milestone 3A and may operate only on
+ignored local inputs and outputs until deployment authority is approved.
+
+Milestone 2C is reserved for the Scientific Behaviour Contract.
+
 **Exit:** the spike identifies a viable implementation path and produces reproducible
 comparison evidence; rejected spike code can be removed without changing application
 contracts.

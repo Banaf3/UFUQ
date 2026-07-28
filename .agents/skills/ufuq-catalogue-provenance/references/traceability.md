@@ -14,7 +14,7 @@ Detailed evidence is in
 | Workflow 7: explicit UTF-8/LF/order/Unicode/numeric canonicalization and repeat build | JSON Core §§4.2.1-4.2.2 shows schema does not define bytes; `DATA_STRATEGY.md`; Wilson et al. 2014 pp. 2-3 | Project decision supported by source |
 | Workflow 8: record versions, hashes, counts, licence, omissions, and drift | FAIR F1-F3/R1.1-R1.2, Box 2 p. 4; I/311 correction notice; ADR-004 | Source plus project decision |
 | Stop: missing source/licence/hash/field semantics/frame/epoch/quality/canonicalization | I/311 metadata limits; FAIR R1.1-R1.2; `SOURCE_GAPS.md` DATA-SRC-001/002 | Source plus unresolved decision |
-| Stop: I/311 `pmRA` is normalized before star-component versus coordinate-angle semantics are confirmed | `studies/hipparcos-esa-1997-field-semantics.study.md`; I/311 `hip2.dat` bytes 52-59 | Source-supported strong inference plus unresolved experiment |
+| Rule: normalize I/311 `pmRA` only as the starred-alpha component and map directly to Astropy `pm_ra_cosdec` after unit conversion | I/311 Appendix G Table G.3, printed p. 407; `studies/hipparcos-i311-readme.md` | I/311-specific source plus project field-name decision |
 | Stop: source drift, unresolved curation ID, manually copied value | I/311 correction history; `DATA_STRATEGY.md` | Source plus project decision |
 | Prohibition: no manually copied coordinates or cultural data in numerical rows | Wilson et al. 2014 single-authority rule; `AGENTS.md`; `DATA_STRATEGY.md` | Source plus project decision |
 | Prohibition: no automatic redistribution, FAIR compliance, or formal PROV requirement | FAIR “Principles precede implementation” p. 5; PROV Abstract/Status pp. 1-2; licence gap | Source plus unresolved decision |

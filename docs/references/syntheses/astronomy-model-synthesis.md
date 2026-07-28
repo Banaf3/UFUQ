@@ -7,7 +7,8 @@ This synthesis compares the current-phase astronomy sources:
 1. exact routines and contracts in IAU SOFA issue `2023-10-11`;
 2. the official IERS Conventions (2010) TN36 baseline, with later updates kept separate;
 3. the official ESA 1997 guide for original-catalogue semantics;
-4. official Hipparcos I/311 metadata and van Leeuwen's validation study;
+4. official Hipparcos I/311 metadata, Appendix G field tables, and van Leeuwen's
+   validation study;
 5. *Fundamental Astronomy* as explanatory support; and
 6. the *Explanatory Supplement* only as an unresolved explanatory source because the
    local candidate is text-unavailable and completeness/provenance are unverified.
@@ -45,7 +46,7 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Reference systems and Earth orientation | IERS TN36 Chapters 2 and 5 | SOFA `iauC2t06a`, `iauPnm06a`, `iauEra00` | Keep ICRS/GCRS/CIRS/TIRS/ITRS and realizations distinct. |
 | UTC/TAI/TT/UT1 handling | SOFA time-routine contracts plus IERS TN36 §§5.5.3 and 10.1 | Explanatory textbook material | UTC is not silently substituted for UT1 or TT. |
 | Original 1997 catalogue field semantics | ESA SP-1200 Volume 1 §§1.2 and 2.1 | I/311 `ReadMe` only for explicit cross-reference to I/239 | Use ESA definitions for original H-fields only; do not transfer them silently to I/311. |
-| I/311 catalogue field semantics | I/311 `ReadMe`, byte descriptions and notes | ESA 1997 for terminology and van Leeuwen 2007 for quality context | Carry units, frame, epoch, solution type, quality, and uncertainty per field; stop any mapping the I/311 source does not define explicitly. |
+| I/311 catalogue field semantics | I/311 `ReadMe` plus Appendix G Tables G.2–G.7 | ESA 1997 for original-catalogue comparison and van Leeuwen 2007 for quality context | Carry units, frame, epoch, solution type, quality, uncertainty, and supplement semantics per field. |
 | Catalogue error behavior | I/311 row metadata plus van Leeuwen §§2-5 | None | Do not use one global Hipparcos accuracy constant. |
 | General explanation | *Fundamental Astronomy*, Chapter 2 | Verified official overview of the Explanatory Supplement | Explanatory formulae cannot set a current model or tolerance. |
 | Numerical expected results | Pinned independent oracle fixtures plus cross-checks | SOFA/IERS algorithms and catalogue metadata | No dossier result is itself a production acceptance tolerance. |
@@ -70,7 +71,7 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Azimuth origin | *Fundamental Astronomy* §2.4 uses clockwise from south; SOFA `iauHd2ae` and UFUQ use north zero/east positive | Project/SOFA convention controls; textbook equations require explicit conversion. |
 | Transform direction | IERS Eq. (5.1) presents ITRS to GCRS; SOFA `iauC2t06a` returns celestial to terrestrial | Test direction and inversion; do not copy matrix order by appearance. |
 | CIO and equinox procedures | IERS TN36 documents both | Choose one coherent route; never mix ERA/CIO and incompatible sidereal/equinox quantities. |
-| Hipparcos RA proper-motion component | ESA 1997 §1.2.5 p. 25 and §2.1 p. 110 define original H12 as `mu_alpha_star = mu_alpha cos(delta)`; I/311 labels `pmRA` in mas/yr without the cosine definition; van Leeuwen's validation article does not define the field | `STRONG_SUPPORT_BUT_SPIKE_CONFIRMATION_REQUIRED`; preserve raw I/311 `pmRA`, use an explicit normalized semantic name only after I/311-specific confirmation, and test omitted/double cosine at high declination. |
+| Hipparcos RA proper-motion component | I/311 Appendix G Table G.3, printed p. 407, labels the byte-52 value `mu_alpha_star`; Tables G.5–G.6, printed p. 408, use starred-alpha acceleration components | `CONFIRMED_FOR_I311`; normalize source `pmRA` to `properMotionRaCosDecMilliarcsecondsPerYear` and map it directly to Astropy `pm_ra_cosdec` after unit conversion. Keep omitted/double-cosine high-declination tests. |
 | I/311 epoch instant | ESA 1997 §1.2.6 Eq. (1.2.3) gives original `J1991.25(TT)` exactly; I/311 gives only `Ep=1991.25` | `PROJECT_DECISION_REQUIRED`; the original statement is strong support but is not silently transferred to the new reduction. |
 | Official baseline versus corrections | TN36 is the registered 2010 baseline; working corrections are separate | Pin and hash corrections separately; never edit the baseline in place. |
 | Explanatory Supplement usability | Correct title/edition signals but no reliable text layer and conflicting extent | `SOURCE_UNUSABLE` for detailed current claims. |
@@ -84,7 +85,7 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Use TT for the selected precession-nutation model and UT1 for ERA, with pinned leap-second and EOP provenance. | IERS Eqs. (5.2), (5.14)-(5.15); SOFA time/ERA routines | `SOURCE_SUPPORTED_FACT` |
 | Retain SOFA warning/error status, including dubious date and motion warnings. | `iauUtctai`, `iauAtco13`, `iauPmsafe` preambles | `SOURCE_SUPPORTED_FACT` |
 | Select one named catalogue-to-observed pipeline and record every included/omitted effect. | SOFA `iauApco13`/`iauAtco13`; IERS Chapter 5; AST-003 | `PROJECT_DECISION_REQUIRED` |
-| Preserve raw I/311 `pmRA`; confirm whether it is `mu_alpha_star` before using an explicitly named normalized field or propagation interface. | ESA 1997 §1.2.5 p. 25, §2.1 p. 110, and Table 2.1.1(a) p. 136; I/311 byte description | `EXPERIMENT_REQUIRED` / stop condition |
+| Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned independent oracle. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
 | Choose geometric/refraction and horizon/visibility behavior explicitly. | SOFA `iauRefco`/`iauAtioq`; AST-004 | `PROJECT_DECISION_REQUIRED` |
 | Derive acceptance thresholds from measured independent disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `EXPERIMENT_REQUIRED` |
@@ -92,8 +93,8 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 
 ## Required validation evidence
 
-- Exact catalogue release/file hashes and selected field/quality semantics, including
-  a reviewed I/311 `pmRA`/epoch mapping.
+- Exact catalogue release/file hashes and selected field/quality semantics. I/311
+  `pmRA` is resolved; the epoch time-scale mapping for propagation remains open.
 - A versioned manifest naming SOFA/IERS models, Astropy/PyERFA/IERS-data, leap-second
   and EOP data, network/offline state, observer datum/height, refraction, and supported
   range.
@@ -107,8 +108,7 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 
 ## Unresolved gaps
 
-The pinned Astropy/PyERFA/`astropy-iers-data` environment, official Astropy sections,
-offline/network EOP policy, refraction policy, supported range, leap-second policy,
-catalogue choice/licence/subset, I/311-specific proper-motion/epoch confirmation, and
-numerical tolerances remain open. The source study prepares these decisions; it does
-not close them.
+The pinned oracle environment exists, but the production algorithm, offline/network EOP
+policy, refraction policy, supported range, leap-second policy, epoch time-scale mapping,
+source-derived comparison cases, and numerical tolerances remain open. I/311 `pmRA`
+semantics are no longer an open item.

@@ -46,9 +46,16 @@ when no matching test exists; neither uses `passWithNoTests`.
 
 ## Phase 1 tests
 
-- Catalogue tests target only CDS I/311 metadata and synthetic records until
-  source-derived local processing, field scope, and tracking are separately approved;
-  no alternate-catalogue contract or fixture is required.
+- Catalogue contract tests target CDS I/311 metadata and wholly synthetic records. They
+  verify the exact field/unit mapping, explicit `pmRA` to `mu_alpha_star` name,
+  supplemental solution shapes, numerical/cultural separation, canonical artifact
+  rules, and provenance/licence/checksum requirements. No alternate-catalogue contract
+  or fixture is required.
+- Phase 3 / Milestone 3A tests must cover fixed widths, source-hash mismatch,
+  missing/duplicate/invalid rows, blank optional photometry, negative parallax,
+  solution/supplement joins, component/multiplicity reporting, sorted unique HIP
+  selection, and two-run byte/hash determinism. Source-derived outputs remain ignored
+  and may not enter Git or the reference suite while redistribution is unresolved.
 - Source-adapter and schema prototypes use synthetic data clearly labelled as
   non-catalogue input until the applicable source-derived gates are met.
 - Generic schema tests cover `SkyPattern`, `GuidanceRelationship`, and `LessonRoute`

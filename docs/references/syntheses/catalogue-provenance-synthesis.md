@@ -5,7 +5,7 @@
 This synthesis joins:
 
 - the ESA 1997 guide to original Hipparcos catalogue semantics;
-- the Hipparcos I/311 `ReadMe` and validation paper;
+- the Hipparcos I/311 `ReadMe`, Appendix G field tables, and validation paper;
 - JSON Schema Draft 2020-12 Core and Validation;
 - the FAIR principles;
 - basic concepts from PROV Semantics; and
@@ -38,7 +38,8 @@ referential integrity, or deterministic byte comparison.
 | Topic | Controlling source | Supporting source | Limit |
 |---|---|---|---|
 | Original 1997 H-field model, epoch, and units | ESA SP-1200 Volume 1 §§1.2, 1.5, and 2.1 | I/311 cross-reference to I/239 | The definitions apply to the original catalogue and do not establish I/311 identity. |
-| I/311 files, fields, units, nulls, solution types, corrections | I/311 `ReadMe` | van Leeuwen 2007 | I/311 is selected for the Phase 1 local spike; licence, fields, filters, and the exact UFUQ subset remain decisions. |
+| I/311 files, fields, units, solution types, corrections | I/311 `ReadMe` and Appendix G Tables G.2–G.7 | van Leeuwen 2007 | I/311 is selected for the local spike; individual rows still need quality review. |
+| I/311 scientific-use and attribution terms | Official VizieR rules plus I/311 ReadMe | ESA terms only for the original 1997 catalogue | Local scientific use is permitted with citation; I/311 raw/derived redistribution and deployment remain unresolved and fail closed. |
 | Scientific quality/error context | van Leeuwen §§2-5 plus row metadata | I/311 weight/error fields | Aggregate findings do not become per-star tolerances. |
 | Schema dialect/keyword semantics | JSON Schema Core/Validation 2020-12 | Selected validator documentation/conformance tests | A declared dialect does not prove library support. |
 | Stable IDs, metadata, licences, reuse prompts | FAIR Box 2 | UFUQ manifests | FAIR is guidance; no compliance claim. |
@@ -67,7 +68,7 @@ referential integrity, or deterministic byte comparison.
 | Schema identity URI versus network retrieval | Schemas can be preloaded and resolved offline; URI presence does not authorize network access. |
 | Source provenance versus scientific correctness | A perfectly traced row can still be scientifically unsuitable, and a plausible row can still lack provenance. |
 | Numerical catalogue versus cultural curation | Catalogue rows contain no cultural labels, memberships, line segments, or lesson routes. Curation links by stable ID. |
-| Original field terminology versus new-reduction mapping | ESA's `mu_alpha_star` definition is supporting evidence for I/311 `pmRA`, not an I/311-specific guarantee. Preserve the raw field and record the mapping decision. |
+| Original field terminology versus new-reduction mapping | I/311 Appendix G now defines its own `mu_alpha_star` field. ESA 1997 remains original-catalogue context, not the basis of the I/311 mapping. |
 | Provenance vocabulary versus formal reasoning | UFUQ may record entity/activity/agent-like relationships without claiming PROV conformance. |
 | FAIR guidance versus FAIR compliance | The principles improve review questions but provide no UFUQ certification method. |
 
@@ -78,7 +79,7 @@ referential integrity, or deterministic byte comparison.
 | Pin source/table/release, corrected file variant, retrieval method/time, licence status, selected fields/filters/order, expected counts, and raw SHA-256 before parsing. | I/311 `Notice`, `File Summary`; `DATA_STRATEGY.md` | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Verify raw bytes before transformation and keep them immutable/ignored unless redistribution is separately approved. | Wilson 2017 p. 2; ADR-004 | `PROJECT_DECISION` |
 | Parse from byte-level metadata, including mixed units, solution types, quality fields, and covariance semantics. | I/311 byte descriptions, Notes, Global Note G1 | `SOURCE_SUPPORTED_FACT` |
-| Preserve I/311 `pmRA` exactly and do not apply/remove `cos(delta)` until its normalized semantic mapping is confirmed; if confirmed as the star component, expose that in the field name. | ESA 1997 §1.2.5 p. 25 and §2.1 p. 110; I/311 `pmRA` byte description | `EXPERIMENT_REQUIRED` plus `PROJECT_DECISION_REQUIRED` |
+| Preserve I/311 `pmRA` as `properMotionRaCosDecMilliarcsecondsPerYear`; map directly to Astropy `pm_ra_cosdec` after unit conversion and prohibit a second cosine operation. | I/311 Appendix G Table G.3, printed p. 407 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Preserve cultural curation outside numerical catalogue rows and join only through validated stable identifiers. | `DATA_STRATEGY.md`; Wilson 2014 single-authority principle | `PROJECT_DECISION` |
 | Declare Draft 2020-12 explicitly, assign stable `$id`, and pin required vocabularies and offline reference behavior. | Core §§8-9 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION_REQUIRED` |
 | Use schema meta-validation, negative fixtures, and validator conformance checks; unknown/misspelled keywords must not silently weaken an approved schema. | Core §§4.3.1, 6.5; Validation §§5-6 | `SOURCE_SUPPORTED_FACT` |
@@ -105,12 +106,13 @@ referential integrity, or deterministic byte comparison.
 
 ## Unresolved gaps
 
-- I/311 is the approved sole source for the Phase 1 local technical spike;
-  local-processing authority, acquisition provenance, access/licence/redistribution,
-  retained fields, and the exact subset/quality policy remain open.
-- ESA 1997 strongly supports `mu_alpha_star` and J1991.25(TT) for the original
-  catalogue, but the I/311 proper-motion component and exact epoch instant still need
-  I/311-specific confirmation before astronomy propagation.
+- I/311 is the approved sole source for the Phase 1 local technical spike. Local
+  scientific processing is constrained to ignored storage; acquisition provenance is
+  partial and raw/derived redistribution remains unresolved.
+- The parser field, missing/duplicate/multiplicity, candidate-selection, schema, and
+  fail-closed quality-review policies are recorded in the Milestone 2B audit.
+- I/311 `pmRA` is confirmed as `mu_alpha_star`; the exact epoch time-scale mapping still
+  needs astronomy approval before propagation.
 - No runtime JSON Schema validator has been selected or proven conformant.
 - Generated-artifact tracking remains subject to source licence and provenance
   decisions.

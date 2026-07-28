@@ -4,12 +4,18 @@ This tool is an independent Python process and is not an npm workspace. It must 
 import, invoke, translate, or share implementation code with `astronomy-core` or any
 other production package.
 
-Phase 1 will select and pin a supported Python version, Astropy, and any required
-reference-data dependencies in an approved environment lock. They are deliberately not
-selected or installed during this structural migration. Generated fixtures must record
-the exact Python, Astropy, dependency, input-data, and generator versions used.
+Phase 1 Milestone 2A uses exact CPython 3.14.6 and uv 0.11.32. `pyproject.toml`
+expresses supported compatibility ranges; `uv.lock` records exact releases and artifact
+hashes. Astropy and `astropy-iers-data` are direct dependencies because the oracle
+imports both. NumPy and PyERFA remain transitive because UFUQ does not import them
+directly; their exact locked versions are still recorded in
+`environment-manifest.json`.
 
-The tool may read approved independent inputs and emit only the versioned JSON fixture
-envelope defined by `fixtures/astronomy-reference-fixture.v1.schema.json`. Comparison
-code belongs in `tests/reference`; production code must never import this tool or its
-fixtures as runtime data.
+This milestone accepts only the versioned synthetic input contract and emits only the
+versioned synthetic output envelope. It blocks network connections, disables Astropy
+automatic downloads, uses an isolated temporary cache, and explicitly loads packaged
+IERS/leap-second files. It must not read catalogue paths or identifiers.
+
+Comparison code belongs in `tests/reference`; production code must never import this
+tool or its fixtures as runtime data. These smoke values establish no production
+algorithm, date range, tolerance, or catalogue semantics.

@@ -74,11 +74,18 @@ containing:
 - raw byte SHA-256, normalized table SHA-256, expected row count, and approved reviewer/date.
 
 CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the approved sole source for the
-Phase 1 local technical spike. This bounded selection does not approve acquisition
-authenticity beyond the recorded partial provenance, redistribution, deployment,
-retained fields, solution/quality filters, subset rules, or generated-artifact
-tracking. Do not add catalogue rows until those applicable AST-001 decisions are
-approved and the existing data-scaffold guard is intentionally activated.
+Phase 1 local technical spike. Use the corrected author-replacement files recorded on
+2008-09-16, with `hip2.dat` as the main table and an exact matching supplement when a
+selected `Sn` family requires it. The Phase 1 field, missing/duplicate, solution,
+multiplicity, candidate-selection, schema, sorting, and checksum policies are fixed in
+`spikes/PHASE1_CATALOGUE_AUTHORITY_PROVENANCE.md`. Acquisition provenance remains
+partial and raw/derived redistribution is unresolved, so source-derived output stays
+ignored and local. Do not add catalogue rows to Git or deployment storage; the existing
+data-scaffold guard is intentionally unchanged.
+
+I/311 `pmRA` is source-defined in Appendix G Table G.3 as `mu_alpha_star`; normalize it
+as `properMotionRaCosDecMilliarcsecondsPerYear` and do not apply or remove another
+`cos(delta)` factor when supplying Astropy `pm_ra_cosdec`.
 
 ## Acquisition and transformation
 
@@ -119,6 +126,8 @@ a hand-made Phase 1 fixture with a different provenance mechanism.
 Schemas reject unknown required semantics and at least verify:
 
 - unique, non-empty stable source IDs;
+- exactly one main row for every selected HIP and no unrequested row in the selected
+  artifact; a required 3/7/9-parameter or VIM supplement resolves exactly once;
 - finite required astrometric/photometric/uncertainty values and their documented ranges/units; every omitted uncertainty/covariance or space-motion field has an approved error-bound rationale;
 - explicit frame/epoch/catalogue version; no mixed frames or epochs in one unlabelled artifact;
 - approved handling of missing/flagged astrometry;
@@ -141,7 +150,17 @@ acquisition, a checksum differs, or a coordinate appears only in curation.
 
 ## Generated-file policy
 
-Generated JSON is a build artifact with a header or companion manifest containing input versions/hashes, schema version, generator version, deterministic build-time policy, and licence/citation notices. Volatile retrieval/audit timestamps live outside the canonical payload; two builds from identical approved inputs and tool versions must produce identical bytes. Canonical serialization itself, rather than Git configuration or platform defaults, must write UTF-8, LF, deterministic object-key and record ordering, Unicode normalization where required, and the approved finite numeric representation. It is committed only after AST-001 licensing approval; otherwise it is generated in authorized build/deployment storage. Code review changes source/curation inputs or transformer logic, never generated rows alone.
+Generated JSON is a build artifact with a companion manifest containing input
+versions/hashes, schema version, generator version/Git commit, selection evidence,
+licence/citation notices, artifact byte length/count, and artifact SHA-256. The v1
+canonical form is UTF-8 without BOM, NFC, lexicographic object-key order, numeric HIP
+record order, schema-defined order for other arrays, finite shortest-round-trip JSON
+numbers with negative zero normalized to zero, and one trailing LF. Volatile
+retrieval/review timestamps and machine paths stay outside the canonical payload. Two
+builds from identical approved inputs and tool versions must produce identical bytes.
+It is committed only after explicit redistribution approval; otherwise it remains in
+ignored local or authorized access-controlled storage. Code review changes
+source/curation inputs or transformer logic, never generated rows alone.
 
 AST-003 decides whether runtime rows carry catalogue-reference astrometry for runtime
 propagation, precomputed scenario-time directions, or both. The browser and API consume
@@ -151,7 +170,17 @@ the astronomy/EOP/build links needed for the qualified replay claim.
 
 ## Licensing and citation
 
-Maintain a licence record per input and per distributed output: rights holder, licence identifier/link, required attribution, transformation/redistribution conditions, non-commercial constraints, approval, and display/report citation text. ESA's terms for the original catalogue must not be transferred to the later CDS I/311 reduction by inference; the I/311 archive record does not by itself resolve downstream redistribution. Institutional review remains AST-001. A public URL is not permission to copy.
+Maintain a licence record per input and per distributed output: rights holder, licence
+identifier/link, required attribution, transformation/redistribution conditions,
+non-commercial constraints, approval, and display/report citation text. VizieR's
+official rules permit scientific-context use and require the original
+authors/publication/publisher to be cited; they request VizieR acknowledgement. The
+I/311 ReadMe does not grant raw or derived redistribution. ESA's CC licence and credit
+terms for the original 1997 catalogue must not be transferred to the later I/311
+reduction by inference. Until CDS/data-origin clarification is recorded, classify
+I/311 as `LOCAL_USE_ONLY` and every source-derived Git/deployment output as
+`REDISTRIBUTION_UNRESOLVED` with `BLOCK_TRACKING_AND_DEPLOYMENT`. A public URL is not
+permission to copy.
 
 ## Manual review gates
 

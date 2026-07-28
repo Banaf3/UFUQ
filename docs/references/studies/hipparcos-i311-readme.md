@@ -1,6 +1,7 @@
 # Bibliographic identity
 
-- Canonical source ID: `HIP-I311-README`.
+- Canonical source IDs: `HIP-I311-README` and companion
+  `HIP-I311-APPENDIX-G`.
 - Title: *I/311 Hipparcos, the New Reduction* catalogue `ReadMe`.
 - Dataset author: Floor van Leeuwen; catalogue documentation maintained/distributed by
   CDS/VizieR.
@@ -11,15 +12,17 @@
 - Identifier: catalogue `I/311`; associated bibcode `2007A&A...474..653V`; validation
   DOI `10.1051/0004-6361:20078357`.
 - Local files: `data/raw/hipparcos-i311/ReadMe` and
-  `local-reference/catalogues/hipparcos-i311/documentation/cds-readme.html`.
+  `local-reference/catalogues/hipparcos-i311/documentation/cds-readme.html`;
+  the Appendix G evidence was checked at the official I/311 archive URL.
 - Page count and accessibility: plain-text/HTML metadata, so PDF page count is not
   applicable. Both have directly searchable text; the local HTML reproduces the
   catalogue `ReadMe`.
 - Verification status: catalogue ID, title, author, file list, row counts, fixed-width
   layouts, correction notice, and history were checked in both local forms. I/311 is
-  selected by project decision for the Phase 1 local spike; acquisition manifest,
-  authoritative raw-data checksum evidence, licensing/redistribution, fields, filters,
-  and an approved UFUQ subset remain unresolved.
+  selected by project decision for the Phase 1 local spike. Milestone 2B fixes the
+  parser fields and an exact technical candidate allowlist; acquisition provenance,
+  authoritative upstream checksum evidence, redistribution, selected-row scientific
+  approval, and cultural/lesson approval remain unresolved.
 
 # UFUQ relevance
 
@@ -34,6 +37,8 @@
     `hipvim.dat`;
   - solution-type Notes (1)-(2), VIM Note (1), and Global Note (G1);
   - acknowledgement and references.
+  - official I/311 Appendix G, Tables G.2–G.7, printed pp. 406–408, for field
+    symbols and supplementary-solution structure.
 - Intentionally not studied: catalogue row values and any manually selected star
   coordinates. No parsing or astronomy implementation spike was begun.
 - Scope reason: the `ReadMe` is the authority for fixed-width layout, field units,
@@ -79,10 +84,11 @@ at epoch 1991.25. Parallax is mas; proper motions and their errors are mas/year.
 errors for RA/Dec are mas even though the coordinates themselves are radians. This
 mixed-unit source layout requires named normalization, not an unlabeled numeric tuple.
 
-The `ReadMe` does not state the time scale associated with the Julian epoch label
-`Ep=1991.25`, and it does not state the RA proper-motion cosine convention with enough
-precision to satisfy the `iauPmsafe` interface. Those are blocking metadata questions,
-not values to infer.
+The `ReadMe` does not state the time scale associated with `Ep=1991.25`. Appendix G
+Table G.3, printed p. 407, does define the RA proper-motion symbol as
+`mu_alpha_star`, resolving the source component semantics. A target-library interface
+still has to state whether it expects this starred component or the coordinate-angle
+rate.
 
 ## Solution quality and covariance
 
@@ -116,8 +122,8 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 
 - `RArad`/`DErad`: radians, ICRS, epoch 1991.25.
 - `Plx`: milliarcseconds.
-- `pmRA`/`pmDE`: milliarcseconds per year; exact RA cosine convention unresolved in
-  this local metadata.
+- `pmRA`/`pmDE`: milliarcseconds per year; Appendix G Table G.3 defines `pmRA` as
+  `mu_alpha_star`.
 - Formal RA/Dec errors: milliarcseconds, despite coordinate columns being radians.
 - `Hpmag`: Hipparcos magnitude; `B-V` and `V-I` are separate colour indices.
 - `UW` is a factor of inverse covariance, not a row of independent standard deviations.
@@ -135,8 +141,10 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
   alternate and dual-catalogue support are outside scope.
 - `SOURCE_REQUIRED`: normalize every numeric field with explicit source unit, frame,
   epoch, null/quality semantics, and raw-field provenance.
-- `EXPERIMENT_REQUIRED`: resolve and validate the exact `pmRA` convention before
-  mapping it to SOFA/Astropy. Never apply or omit `cos(dec)` from memory.
+- `SOURCE_REQUIRED`: normalize I/311 `pmRA` as
+  `properMotionRaCosDecMilliarcsecondsPerYear` and map it directly to Astropy
+  `pm_ra_cosdec` after unit conversion. A coordinate-angle interface must use an
+  explicitly reviewed conversion rather than reusing that mapping blindly.
 - `PROJECT_DECISION_REQUIRED`: select handling for 5-, 7-, 9-parameter, stochastic,
   VIM, double/multiple, photocentre, and secondary-component solutions.
 - `PROJECT_DECISION_REQUIRED`: decide which uncertainty/covariance and quality fields
@@ -173,8 +181,8 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 - It does not approve a culturally required subset, magnitude threshold, context-star
   policy, or redistribution.
 - The local raw catalogue data files were not studied or parsed.
-- The epoch's time-scale semantics and `pmRA` cosine convention are not explicit enough
-  here for transformation code.
+- The epoch's time-scale semantics remain insufficient for production propagation.
+  The `pmRA` component is resolved by the companion official Appendix G source.
 - Formal errors characterize the catalogue solution; they do not validate a future
   propagated horizontal position or set a test tolerance.
 - The correction notice makes a catalogue ID/year insufficient as a byte-version pin.
@@ -184,9 +192,10 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 - Project documents now select I/311 for the Phase 1 local spike. This resolves only
   source choice; it does not resolve the source-specific semantic, field, quality,
   subset, licence, or artifact-policy questions recorded in this dossier.
-- `iauAtco13`/`iauPmsafe` expect RA proper motion as coordinate-angle rate. The I/311
-  `ReadMe` label alone does not prove whether conversion from a cosine-scaled component
-  is required.
+- Astropy `pm_ra_cosdec` accepts the confirmed I/311 starred-alpha component directly
+  after unit conversion. Any SOFA or other coordinate-angle-rate interface needs its
+  own explicit conversion and singularity handling; this dossier does not approve that
+  production mapping.
 - `Ep=1991.25` is a Julian-epoch label but the local `ReadMe` does not provide the
   exact time-scale instant required by a propagation routine.
 - Scalar formal errors coexist with a full weight-matrix factor. Treating them as
@@ -202,9 +211,9 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 | File names, lengths, counts | `File Summary` | Verify complete fixed-width inputs before parsing | `SOURCE_REQUIRED` |
 | Stable row key | `hip2.dat`, bytes 1-6, `HIP` | Join by HIP; never by cultural name | `SOURCE_REQUIRED` |
 | Frame/epoch and coordinate units | `hip2.dat`, bytes 16-42 | Carry ICRS, 1991.25, and radians explicitly | `SOURCE_REQUIRED` |
-| Proper-motion units but ambiguous component semantics | `hip2.dat`, bytes 52-68 | Resolve SOFA/Astropy mapping before propagation | `EXPERIMENT_REQUIRED` |
+| Proper-motion component semantics | I/311 Appendix G Table G.3, printed p. 407; `hip2.dat`, bytes 52-68 | Normalize `pmRA` as `mu_alpha_star`; direct Astropy `pm_ra_cosdec` mapping after unit conversion | `SOURCE_REQUIRED` |
 | Formal errors and quality fields | `hip2.dat`, bytes 70-128 | Approve retention/selection policy | `PROJECT_DECISION_REQUIRED` |
 | Hp is its own band | `hip2.dat`, bytes 130-149 | Do not relabel as Johnson V or unaided visibility | `SOURCE_REQUIRED` |
 | Solution-family encoding | `hip2.dat`, Note (1) | Parse and gate supplemental solution types | `SOURCE_REQUIRED` |
 | Covariance factorization | Global Note (G1) | Preserve correlations or document reviewed omission | `PROJECT_DECISION_REQUIRED` |
-| I/311 source selected; licence/field/subset policy unresolved | `ASTRONOMY_SPEC.md` AST-001; `SOURCE_GAPS.md` DATA-SRC-001 | No production rows or redistribution yet | `EXISTING_PROJECT_DECISION` plus `PROJECT_DECISION_REQUIRED` |
+| I/311 local parser policy defined; redistribution unresolved | Milestone 2B audit; `ASTRONOMY_SPEC.md`; `SOURCE_GAPS.md` DATA-SRC-001 | Local ignored parsing may proceed; no source-derived tracking/deployment | `EXISTING_PROJECT_DECISION` plus unresolved licence/human review |

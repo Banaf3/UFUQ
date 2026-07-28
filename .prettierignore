@@ -3,6 +3,7 @@
 docs/
 local-reference/
 node_modules/
+**/.venv/
 **/dist/
 **/dist-types/
 **/.vite/
@@ -14,3 +15,5 @@ test-results/
 AGENTS.md
 README.md
 package-lock.json
+tools/astronomy-reference/environment-manifest.json
+tools/astronomy-reference/fixtures/synthetic-output.v1.json

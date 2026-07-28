@@ -11,6 +11,10 @@ approved by project decision for the bounded Phase 1 local technical spike. It d
 not approve a licence interpretation, source-derived tracking, parser policy,
 numerical model, tolerance, performance protocol, or primary device.
 
+The status block below is the Milestone 1 snapshot. Milestone 2B subsequently resolved
+the local parser/schema policies and I/311 `pmRA` semantics; current catalogue status
+is in `PHASE1_CATALOGUE_AUTHORITY_PROVENANCE.md`.
+
 ```text
 CATALOGUE_SELECTION: CDS_I311
 CATALOGUE_SELECTION_STATUS: APPROVED_FOR_PHASE1_LOCAL_TECHNICAL_SPIKE
@@ -169,11 +173,11 @@ material does not close those decisions.
 | ID | Decision | Current evidence | Status | Next evidence | Blocks |
 |---|---|---|---|---|---|
 | P1-D01 | Catalogue selection | I/311 preparation and source study support one bounded local-spike source; a second Hipparcos pipeline has no demonstrated need. | `EXISTING_PROJECT_DECISION`: CDS I/311 only for Phase 1 local technical spike | New approval only if scope changes | None; separate source-derived gates below still block row processing |
-| P1-D02 | Parser fields | Each ReadMe defines many fields, but UFUQ's retained set is unapproved. | `NEW_PROJECT_DECISION_REQUIRED` | Use-case-to-field review and schema proposal | Parser/schema |
-| P1-D03 | Solution-type policy | I/311 separates five-, seven-, nine-parameter, and variability-induced-mover solutions. | `NEW_PROJECT_DECISION_REQUIRED` | Scientific inclusion/exclusion rationale | Parser/subset |
-| P1-D04 | Quality filtering | Source quality and uncertainty fields exist; no UFUQ rule is approved. | `NEW_PROJECT_DECISION_REQUIRED` | Distribution audit and science rationale | Runtime subset |
-| P1-D05 | Subset selection | “Small catalogue subset” is approved only as spike scope; no predicate is approved. | `NEW_PROJECT_DECISION_REQUIRED` | Reproducible candidate comparison | Artifact/performance |
-| P1-D06 | I/311 `pmRA` interpretation | Original ESA semantics explicitly use `mu_alpha_star`; I/311 says only `pmRA`. | `EXPERIMENT_REQUIRED` | I/311-specific confirmation plus omitted/double-cosine and high-declination cases | Proper-motion propagation |
+| P1-D02 | Parser fields | Each ReadMe defines many fields, but UFUQ's retained set was unapproved at Milestone 1. | Historical `NEW_PROJECT_DECISION_REQUIRED`; resolved by Milestone 2B | See the Milestone 2B field contract | None for the local parser |
+| P1-D03 | Solution-type policy | I/311 separates five-, seven-, nine-parameter, and variability-induced-mover solutions. | Historical `NEW_PROJECT_DECISION_REQUIRED`; fail-closed supplement/review policy defined by Milestone 2B | Inspect selected rows and obtain astronomy review | Scientific row approval |
+| P1-D04 | Quality filtering | Source quality and uncertainty fields exist; no UFUQ rule was approved at Milestone 1. | Historical `NEW_PROJECT_DECISION_REQUIRED`; Milestone 2B preserves all evidence and prohibits silent filtering | Row-level science review | Learner-facing subset |
+| P1-D05 | Subset selection | “Small catalogue subset” was approved only as spike scope at Milestone 1. | Historical `NEW_PROJECT_DECISION_REQUIRED`; exact 19-HIP technical candidate defined by Milestone 2B | Falak/cultural and scientific review | Final lesson allowlist |
+| P1-D06 | I/311 `pmRA` interpretation | Milestone 1 had only original-catalogue support. I/311 Appendix G was subsequently located. | Historical `EXPERIMENT_REQUIRED`; `CONFIRMED_FOR_I311` by Milestone 2B | Keep omitted/double-cosine and high-declination astronomy tests | No longer blocks parser naming; propagation validation remains |
 | P1-D07 | Source epoch | I/311 says `Ep=1991.25`; the original ESA catalogue gives J1991.25(TT), which cannot be transferred silently. | `EXPERIMENT_REQUIRED` | Confirm I/311 time-scale semantics and Astropy configuration | Propagation |
 | P1-D08 | Production astronomy approach | Pure production boundary and independent oracle are approved; algorithm/library is not. | `NEW_PROJECT_DECISION_REQUIRED` and `EXPERIMENT_REQUIRED` | Candidate implementation comparison against independent fixtures | Astronomy implementation |
 | P1-D09 | UTC/TT/UT1 handling | UTC is the external input; transformation/time-scale policy remains open. | `EXISTING_PROJECT_DECISION` for input; `NEW_PROJECT_DECISION_REQUIRED` internally | Explicit scale-conversion and Earth-rotation policy | Apparent/horizontal output |
@@ -303,10 +307,10 @@ permission only after:
 - the oracle remains independent from all production UFUQ packages; and
 - inputs and expected output contain no catalogue-derived value.
 
-The independence boundary exists, but the environment and package set remain
-unapproved and compatibility is untested.
+The independence boundary exists. Section 14 records the subsequently approved modern
+candidate evaluation and completed synthetic-only smoke milestone.
 
-`STAGE2_READY_FOR_SYNTHETIC_ORACLE_SMOKE_TEST: NO`
+`STAGE2_READY_FOR_SYNTHETIC_ORACLE_SMOKE_TEST: YES`
 
 ### Source-derived work readiness
 
@@ -355,10 +359,10 @@ artifact was created or tracked. Nothing is staged.
 
 ## 12. Audit risk summary
 
-- **Blocking:** I/311 local-processing authority, redistribution and source-derived
+- **Blocking at Milestone 1:** I/311 local-processing authority, redistribution and source-derived
   tracking policy, parser scope, time/EOP/refraction policies, and measured numerical
   tolerance. Catalogue selection itself is resolved for the bounded local spike.
-- **Major:** acquisition provenance is only partial; I/311 `pmRA` and epoch
+- **Major at Milestone 1:** acquisition provenance is only partial; I/311 `pmRA` and epoch
   semantics require explicit confirmation; performance thresholds lack an
   approved protocol.
 - **Minor:** a candidate manifest is deliberately deferred until I/311 local-processing
@@ -368,7 +372,7 @@ artifact was created or tracked. Nothing is staged.
 
 Milestone 2 and all implementation work remain unstarted.
 
-## 13. Milestone 2A: pinned synthetic-only oracle smoke test
+## 13. Historical Milestone 2A lock attempt
 
 **Attempt date:** 2026-07-26
 
@@ -488,3 +492,167 @@ READY_FOR_CATALOGUE_MILESTONE: NO
 
 Milestone 2A stopped at dependency resolution. Milestone 2B and all
 catalogue/source-derived work remain unstarted.
+
+## 14. Milestone 2A retry: modern locked synthetic-only oracle
+
+**Retry date:** 2026-07-26
+
+**Claim:** Verify one current, stable, mutually compatible Python/Astropy environment
+and a reproducible synthetic-only oracle path. This is environment and independence
+evidence. It does not validate a UFUQ production astronomy implementation, a source
+catalogue, a numerical tolerance, or a final date-range/refraction policy.
+
+### Why the candidate policy changed
+
+The historical set in section 13 was unsatisfiable because Astropy 7.2.2 required
+`astropy-iers-data>=0.2026.6.22.1.23.34`, while that experiment explicitly pinned
+`0.2026.5.11.1.8.52`. Selecting only the oldest acceptable IERS-data release was
+rejected for this retry: Earth-orientation and leap-second resources are
+scientifically significant inputs, so UFUQ selected the current compatible stable
+release and records its exact files and hashes. No package was downgraded to preserve
+the failed set.
+
+Official release metadata checked on 2026-07-26 gave:
+
+| Component | Current stable evidence | Python/Windows evidence | Dependency role and selected constraint |
+|---|---|---|---|
+| Python | 3.14.6 from [python.org](https://www.python.org/downloads/release/python-3146/) | Current stable 3.14 line; Windows x86-64 installer published | Exact interpreter `3.14.6`; `requires-python = ">=3.14,<3.15"` |
+| uv | 0.11.32 from [PyPI](https://pypi.org/project/uv/0.11.32/) and [Astral locked-mode documentation](https://docs.astral.sh/uv/concepts/projects/sync/#checking-the-lockfile) | `win_amd64` wheel published | External environment manager; exact 0.11.32 used |
+| Astropy | 8.0.1 from [PyPI](https://pypi.org/project/astropy/8.0.1/) | Requires Python `>=3.11`; CPython stable-ABI Windows x86-64 wheel published | Direct import; `>=8.0.1,<9` |
+| `astropy-iers-data` | 0.2026.7.20.15.31.18 from [PyPI](https://pypi.org/project/astropy-iers-data/0.2026.7.20.15.31.18/) | Requires Python `>=3.10`; universal wheel published | Direct science-data dependency; `>=0.2026.7.20.15.31.18,<0.2027` |
+| NumPy | 2.5.1 from [PyPI](https://pypi.org/project/numpy/2.5.1/) | Requires Python `>=3.12`; CPython 3.14 Windows x86-64 wheel published | Transitive because UFUQ does not import `numpy` |
+| PyERFA | 2.0.1.5 from [PyPI](https://pypi.org/project/pyerfa/2.0.1.5/) | Requires Python `>=3.9`; stable-ABI Windows x86-64 wheel published | Transitive because UFUQ does not import `erfa` |
+
+Only Astropy and `astropy-iers-data` are direct project dependencies. Packaging,
+PyYAML, NumPy, and PyERFA remain transitive and are still exact in the lock and
+environment evidence. The selected direct ranges express supported compatibility;
+`uv.lock` supplies exact releases and artifact hashes.
+
+### Resolution, platform, and lock evidence
+
+Exact uv 0.11.32 resolved one modern candidate set under exact CPython 3.14.6:
+
+| Runtime package | Exact locked version | Kind |
+|---|---|---|
+| Astropy | 8.0.1 | Direct |
+| `astropy-iers-data` | 0.2026.7.20.15.31.18 | Direct |
+| NumPy | 2.5.1 | Transitive |
+| packaging | 26.2 | Transitive |
+| PyERFA | 2.0.1.5 | Transitive |
+| PyYAML | 6.0.3 | Transitive |
+
+The tested interpreter was CPython 3.14.6, MSC v.1944, 64-bit AMD64, on Windows 11
+build 10.0.26200. `uv lock --check` succeeded and exact `uv sync --locked` installed
+the six runtime packages. One sync invocation exceeded the command-observation timeout
+while still running; it subsequently completed with the exact lock. This was a runner
+timeout, not a resolver or compatibility failure.
+
+### IERS and network evidence
+
+The generator directly identifies the packaged inputs actually opened:
+
+| Role | Package resource | SHA-256 | Observed packaged coverage |
+|---|---|---|---|
+| Earth orientation | `astropy_iers_data/data/finals2000A.all` | `d4bb5af084caf3e82621bc75aad902dc7ad9e38e785a97d3fcac0a23d89644fb` | MJD 41684-61610 (1973-01-02 to 2027-07-24); predictive data begins MJD 61238 (2026-07-17) |
+| Leap seconds | `astropy_iers_data/data/Leap_Second.dat` | `6cb6f5d4b819f2e568e25db4b0b26d89dedf031fdffb18bc94d40f4e94e268d7` | Effective entries 1972-01-01 through 2017-01-01; last TAI-UTC 37 s; packaged expiry text says 28 June 2027 |
+
+During each transform, Astropy automatic IERS download and general Astropy internet
+access are disabled, degraded IERS accuracy is an error, a fresh temporary Astropy
+cache is used, and standard-library socket/URL connection entry points fail closed.
+The locked executions also used uv offline mode. No warning or degraded-accuracy result
+was emitted for the two selected instants. These observations do not approve UFUQ's
+final supported date range or long-term IERS refresh policy.
+
+### Synthetic fixture and independence evidence
+
+The input contains only three records labelled `SYNTHETIC_TEST_INPUT`:
+
+1. an ordinary finite synthetic ICRS direction and observer;
+2. a different synthetic declination, hemisphere, observer, and time; and
+3. an invalid latitude that returns `INVALID_OBSERVER_LATITUDE`.
+
+The two valid records use explicit ICRS degrees, a `J2000.0` metadata label with no
+space-motion application, UTC instants, WGS84 geodetic observers, east-positive
+longitude, ellipsoidal height, and zero pressure. Output is geometric topocentric
+Astropy `AltAz`, in degrees, with north-zero azimuth increasing eastward. These are
+Astropy smoke conventions, not a new production API or tolerance decision.
+
+Canonical output is UTF-8, lexicographically key-sorted compact JSON with one LF,
+CPython 3.14 shortest round-trip float text, and no current timestamp, duration,
+username, absolute path, or locale-dependent field. Two separate locked offline
+processes produced byte-identical output with SHA-256
+`d1183fd6ff3d74603ff6b4c70809ef4d954fdb55a6ac8a3b62f2ee78f341da69`.
+
+The Python source imports no UFUQ production package, reads no production expected
+result, executes no Node code, and contains no permitted path to `data/raw`,
+`node_modules`, or production `dist`. A focused AST/path test enforces these
+prohibitions. The input/output checks reject catalogue identifiers and volatile
+metadata. No source-derived data was read or emitted.
+
+### Reproduction and maintenance
+
+Initial acquisition required network access. Subsequent fixture generation and tests
+ran with package-network access disabled. A fresh temporary virtual environment was
+also reconstructed successfully using the exact lock, managed CPython 3.14.6, and
+already populated local package caches. An empty-cache, no-network rebuild and a
+committed wheelhouse were not tested.
+
+`OFFLINE_REPRODUCTION: CACHE_DEPENDENT_OFFLINE_EXECUTION`
+
+Ordinary builds and tests use `--locked --no-sync` and must not rewrite the lock.
+Updates occur only at a Phase 1 milestone boundary or for a relevant security or
+scientific fix, on a dedicated branch. The update must deliberately refresh the lock,
+record old/new versions, rerun unit tests, regenerate and compare synthetic fixtures,
+investigate every unexpected numerical/warning change, repeat offline and IERS
+isolation checks, and receive review before acceptance. No update bot is introduced.
+
+### Retry result and unresolved scope
+
+Seven Python unittests passed: lock/environment metadata, valid transformation,
+structured invalid input, deterministic bytes/hash, network/IERS fail-closed policy,
+prohibited imports/paths, catalogue/volatile-data exclusion, and output-path
+independence.
+
+| Exact command/check | Result |
+|---|---|
+| exact uv 0.11.32 `lock --check --offline` | PASS; 7 project/runtime records resolved from the unchanged lock |
+| exact uv 0.11.32 `sync --offline --locked --managed-python --python 3.14.6` | PASS; 6 locked runtime packages checked |
+| locked offline `python -m unittest discover -s tests -v` | PASS; 7 tests |
+| two separate locked offline `python run.py fixture` executions | PASS; byte equality true and both SHA-256 values equal `d1183fd6ff3d74603ff6b4c70809ef4d954fdb55a6ac8a3b62f2ee78f341da69` |
+| fresh temporary `uv sync --offline --locked` using populated caches | PASS; exact CPython 3.14.6 and 6 runtime packages reconstructed |
+| `npm.cmd run check` | PASS; format, lint, typecheck, boundaries, cycles, oracle independence, and data scaffold |
+| `npm.cmd run test` | PASS; 1 TypeScript unit test |
+| `npm.cmd run cycles` | PASS; 8 workspaces, acyclic, no private import, oracle independent |
+| `npm.cmd run exports:check` | PASS; 13 public exports across 7 importable workspaces |
+| `npm.cmd run build` | PASS; TypeScript and Vite production builds |
+| `npm.cmd run test:e2e` | PASS; 1 Chromium web/API health smoke test |
+| `npm.cmd run test:reference` | Expected fail-closed inactive-suite result; no production/reference comparison test exists and no placeholder was added |
+| tracked PDF/raw/generated/secret/environment/binary and implementation-diff scans | PASS; only allowed raw/generated READMEs are tracked; no prohibited or staged item and no npm/production-source diff |
+| `git diff --check` | PASS |
+
+At completion of Milestone 2A, still unresolved were source-derived processing
+authority and redistribution, catalogue fields/subset/quality, I/311 `pmRA`
+confirmation, production astronomy
+design, UTC/TT/UT1 and leap-second behavior, final offline-IERS/date-range policy,
+refraction, observer-height handling, fixture tracking for source-derived cases, and a
+measured numerical tolerance. This retry does not alter the approved I/311 selection
+or authorize the catalogue milestone.
+
+```text
+CURRENT_STABLE_STACK_EVALUATED: YES
+PYTHON_STABLE_LINE: 3.14.6
+ASTROPY_STABLE_LINE: 8.0.1
+ORACLE_ENVIRONMENT_LOCKED: YES
+ORACLE_COMPATIBILITY_VERIFIED: YES
+ORACLE_INDEPENDENCE_VERIFIED: YES
+IERS_NETWORK_ISOLATED: YES
+SYNTHETIC_FIXTURES_DETERMINISTIC: YES
+DEPENDENCY_UPDATE_POLICY_DEFINED: YES
+SOURCE_DERIVED_DATA_USED: NO
+READY_FOR_CATALOGUE_MILESTONE: NO
+```
+
+At completion of Milestone 2A, Milestone 2B and every catalogue/source-derived,
+production-astronomy, scene, rendering, and performance milestone remained unstarted.
+Milestone 2B is now recorded separately; this historical result is not its current
+gate.
