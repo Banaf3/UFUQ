@@ -74,10 +74,12 @@ Before the Phase 0 toolchain exists, use `git status --short`, `git diff --check
 targeted `rg` checks. Once package scripts exist, use the applicable gates defined in
 `docs/TEST_PLAN.md`. Phase 0 runs `npm ci`, `npm run check`, `npm run test`,
 `npm run build`, `npm run exports:check`, and `npm run test:e2e`.
-`test:reference` becomes mandatory in Phase 1 and `test:integration` in Phase 4;
-before activation they are omitted from CI and intentionally fail when invoked without
-tests. Do not use `passWithNoTests` for an expected active scientific or integration
-suite, and do not weaken a gate to make a change pass.
+`test:reference` becomes mandatory when Phase 1 introduces the first
+production/reference comparison, and `test:integration` becomes mandatory when Phase 4
+introduces the first API/persistence integration test. Before activation they are
+omitted from CI and intentionally fail when invoked without tests. Do not use
+`passWithNoTests` for an expected active scientific or integration suite, and do not
+weaken a gate to make a change pass.
 
 ## Documentation and scope
 

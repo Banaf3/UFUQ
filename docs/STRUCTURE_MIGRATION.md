@@ -59,7 +59,9 @@ paths.
    Astropy, and reference data before producing any case.
 6. Unit tests are the only active Vitest suite in Phase 0. Reference and integration
    configurations target their required root directories and fail if invoked empty.
-   Reference becomes mandatory in Phase 1; integration becomes mandatory in Phase 4.
+   Reference becomes mandatory when Phase 1 introduces the first production/reference
+   comparison; integration becomes mandatory when Phase 4 introduces the first
+   API/persistence integration test.
 7. The package checker enforces both declared and source-level edges, rejects cycles,
    private workspace paths, Node/framework/persistence imports from pure packages,
    runtime-to-tool imports, web imports of authoritative domains, and production

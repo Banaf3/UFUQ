@@ -23,11 +23,13 @@ Keep reference fixture generation structurally independent from runtime TypeScri
 
 Use separate fail-closed Vitest configurations for unit, reference, and integration
 tests. Phase 0 CI runs only the active unit and browser suites. The reference suite
-becomes mandatory in Phase 1 and the integration suite in Phase 4; invoking either
-empty suite exits non-zero, and no placeholder test stands in for scientific or MySQL
-evidence. The reference producer is a non-npm Python/Astropy tool with a neutral
-versioned JSON fixture envelope. It never imports production astronomy; comparison code
-under `tests/reference` imports `astronomy-core`.
+becomes mandatory when Phase 1 introduces the first production/reference comparison,
+and the integration suite becomes mandatory when Phase 4 introduces the first
+API/persistence integration test. Before activation, invoking either empty suite exits
+non-zero, and no placeholder test stands in for scientific or MySQL evidence. The
+reference producer is a non-npm Python/Astropy tool with a neutral versioned JSON
+fixture envelope. It never imports production astronomy; comparison code under
+`tests/reference` imports `astronomy-core`.
 
 ## Consequences
 

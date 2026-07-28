@@ -216,4 +216,4 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 | Hp is its own band | `hip2.dat`, bytes 130-149 | Do not relabel as Johnson V or unaided visibility | `SOURCE_REQUIRED` |
 | Solution-family encoding | `hip2.dat`, Note (1) | Parse and gate supplemental solution types | `SOURCE_REQUIRED` |
 | Covariance factorization | Global Note (G1) | Preserve correlations or document reviewed omission | `PROJECT_DECISION_REQUIRED` |
-| I/311 local parser policy defined; redistribution unresolved | Milestone 2B audit; `ASTRONOMY_SPEC.md`; `SOURCE_GAPS.md` DATA-SRC-001 | Local ignored parsing may proceed; no source-derived tracking/deployment | `EXISTING_PROJECT_DECISION` plus unresolved licence/human review |
+| I/311 local parser policy defined; redistribution unresolved | Milestone 2B audit; `ASTRONOMY_SPEC.md`; `SOURCE_GAPS.md` DATA-SRC-001 | Milestone 2D must record the source/deployment-authority outcome before local ignored parsing begins in Phase 1 Milestone 2E; no source-derived tracking/deployment | `EXISTING_PROJECT_DECISION` plus unresolved licence/human review |

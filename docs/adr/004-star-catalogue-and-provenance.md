@@ -1,6 +1,6 @@
 # ADR-004: Star catalogue, cultural curation, and provenance
 
-- **Status:** Accepted for local Phase 3 / Milestone 3A parser implementation; release and cultural gates remain blocked
+- **Status:** Parser contract accepted for Phase 1 / Milestone 2E after Milestone 2D source/deployment-authority resolution; release and cultural gates remain blocked
 - **Classification:** CONFIRMED/CLARIFIED; source and mappings are MANUAL DOMAIN DECISIONS
 - **Date:** 2026-07-20
 - **Blockers:** AST-001, AST-002

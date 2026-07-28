@@ -103,9 +103,10 @@ Historical report/deviation/authority status remains in `governance/`.
   `packages/catalogue-schema`. Raw or derived rows remain local and ignored while
   redistribution is unresolved; the candidate allowlist is not cultural or lesson
   approval.
-- **Status:** provisional (approved for local non-redistributing Phase 3 / Milestone 3A
-  parser implementation; acquisition provenance remains partial,
-  redistribution/deployment and row/cultural review remain blocked)
+- **Status:** provisional (contract approved for local non-redistributing Phase 1 /
+  Milestone 2E parser implementation after Milestone 2D resolves source/deployment
+  authority; acquisition provenance remains partial, redistribution/deployment and
+  row/cultural review remain blocked)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.
 - **Validation required:** Pre-parse raw-hash verification; exact fixed-width and

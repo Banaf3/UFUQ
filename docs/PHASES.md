@@ -46,8 +46,8 @@ source/manifest/schema prototypes, including generic `SkyPattern`,
 typed catalogue/propagated/horizontal/scene values; small synthetic or clearly labelled
 candidate fixtures; an independently pinned Python/Astropy fixture producer and
 comparison harness under `tests/reference`; deterministic serialization/checksum
-experiment. The reference suite becomes mandatory as soon as the first comparison is
-introduced.
+experiment. The reference suite becomes mandatory when the first production/reference
+comparison is introduced.
 
 **Do not claim:** approval beyond the bounded I/311 Phase 1 local-spike selection,
 redistribution or deployment rights, approved cultural content, production astrometry,
@@ -59,10 +59,18 @@ complete source-field preservation, confirmed starred-alpha `pmRA`, an exact 19-
 technical review allowlist, fail-closed row/supplement policies, and versioned
 artifact/provenance schemas.
 
-The local catalogue parser belongs to Phase 3 / Milestone 3A and may operate only on
-ignored local inputs and outputs until deployment authority is approved.
-
 Milestone 2C is reserved for the Scientific Behaviour Contract.
+
+Milestone 2D records the catalogue source/deployment-authority outcome required before
+source-derived processing. It must explicitly resolve local processing authority and
+the permitted handling of generated data; unresolved redistribution authority does not
+become permission to track or deploy I/311-derived rows.
+
+Milestone 2E implements the local read-only catalogue parser, runtime validation, and
+deterministic generation after Milestones 2C and 2D. Inputs and outputs remain ignored
+and local unless separate redistribution/deployment authority explicitly permits
+otherwise. Source-derived fixtures, cultural membership, and learner-facing content
+remain outside this milestone until their scientific or human-review gates are met.
 
 **Exit:** the spike identifies a viable implementation path and produces reproducible
 comparison evidence; rejected spike code can be removed without changing application

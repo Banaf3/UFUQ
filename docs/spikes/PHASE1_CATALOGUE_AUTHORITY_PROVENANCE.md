@@ -6,22 +6,24 @@ tracked, or deployed.
 
 ## Gate
 
-The catalogue boundary is ready for a local, non-redistributing parser implementation
-in **Phase 3 / Milestone 3A**, provided that it fails closed on the rules in this
-record. It is not ready for a tracked/generated catalogue artifact, deployment,
+Milestone 2B completes the local, non-redistributing parser contract. Implementation is
+deferred to **Phase 1 / Milestone 2E** after Milestone 2C defines the Scientific
+Behaviour Contract and Milestone 2D records the required source/deployment-authority
+outcome. It is not ready for a tracked/generated catalogue artifact, deployment,
 source-derived astronomy fixture, or learner-facing cultural content.
 
 | Gate | Result | Reason |
 |---|---|---|
-| Local parsing against the ignored, hash-identified source | **READY** | Source/table/release, fields, units, row policies, candidate selection, schemas, and provenance requirements are explicit. |
+| Local parsing against the ignored, hash-identified source | **BLOCKED UNTIL MILESTONE 2D** | Source/table/release, fields, units, row policies, candidate selection, schemas, and provenance requirements are explicit, but the required source/deployment-authority outcome is not recorded. |
 | Track or redistribute raw I/311 bytes | **BLOCKED** | No catalogue-specific redistribution grant was found. |
 | Track or deploy an I/311-derived subset | **BLOCKED** | Derived-subset and deployment permission remain `REDISTRIBUTION_UNRESOLVED`. |
 | Treat the proposed HIP list as historical or lesson approval | **BLOCKED** | Every cultural membership, display form, relationship, edge, and teaching role still needs human review. |
 | Source-derived astronomy/reference comparison | **BLOCKED** | Production propagation, the epoch time-scale interpretation, and numerical tolerances belong to later astronomy milestones. |
 
 ```text
-MILESTONE_2B_GATE: PASS_FOR_LOCAL_NONREDISTRIBUTING_PIPELINE
-READY_FOR_PHASE3_MILESTONE_3A_LOCAL_PARSER: YES
+MILESTONE_2B_GATE: PASS_FOR_LOCAL_NONREDISTRIBUTING_PIPELINE_CONTRACT
+READY_FOR_MILESTONE_2D_SOURCE_AUTHORITY_RESOLUTION: YES
+READY_FOR_PHASE1_MILESTONE_2E_LOCAL_PARSER: NO
 READY_TO_TRACK_OR_DEPLOY_SOURCE_DERIVED_ROWS: NO
 CULTURAL_MEMBERSHIP_APPROVED: NO
 ```
@@ -83,7 +85,7 @@ milestone.
 
 ## 3. Parser field and unit contract
 
-The parser contract defined by Milestone 2B requires the Phase 3 / Milestone 3A parser
+The parser contract defined by Milestone 2B requires the Phase 1 / Milestone 2E parser
 to read all fields in the main I/311 row so that it does not hide solution, quality,
 multiplicity, uncertainty, covariance, or photometric evidence.
 `packages/catalogue-schema/src/catalogue/` records the exact byte ranges and normalized
@@ -242,7 +244,7 @@ learner-facing explanation is approved by this list.
 - a numerical catalogue artifact; and
 - its provenance manifest.
 
-No runtime validator dependency is selected in this milestone. Phase 3 / Milestone 3A
+No runtime validator dependency is selected in this milestone. Phase 1 / Milestone 2E
 must either implement a small documented validator at the trust boundary or propose a
 dependency with conformance evidence; schema declarations alone are not validation.
 
@@ -282,10 +284,10 @@ belong in non-canonical audit metadata.
 | Approve any line drawing, guidance relationship, and instructional role independently from name/membership evidence | Falak/cultural reviewer plus supervisor/education reviewer | Pattern geometry and lesson route |
 | Approve the I/311 epoch time-scale mapping and production propagation/effect policy | Astronomy reviewer | Source-derived astronomy and reference comparison |
 
-## 10. Phase 3 / Milestone 3A entry contract
+## 10. Phase 1 / Milestone 2E entry contract
 
-Phase 3 / Milestone 3A should implement only a **local, read-only, allowlist-first
-I/311 parser and validator**:
+After Milestones 2C and 2D, Phase 1 / Milestone 2E should implement only a **local,
+read-only, allowlist-first I/311 parser and validator**:
 
 1. verify the ignored source file identities before reading;
 2. parse exact fixed-width fields and required supplements;
@@ -300,6 +302,6 @@ I/311 parser and validator**:
 10. add only synthetic parser contract tests to Git unless source-derived test data is
     separately authorized.
 
-Phase 3 / Milestone 3A must not propagate coordinates, create Astropy reference
+Phase 1 / Milestone 2E must not propagate coordinates, create Astropy reference
 expectations, render stars, approve cultural content, invent pattern edges, or make a
 source-derived artifact trackable.

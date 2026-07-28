@@ -81,13 +81,14 @@ allowlist, numerical/cultural separation, canonical schemas, deterministic
 serialization, manifest, and checksum requirements are recorded in
 `spikes/PHASE1_CATALOGUE_AUTHORITY_PROVENANCE.md`.
 
-This authorizes Phase 3 / Milestone 3A to implement a local, read-only, fail-closed
-parser against ignored hash-identified bytes. It does not authorize source-derived Git
-artifacts or deployment: VizieR supports scientific-context use with attribution, but
-I/311 raw/derived redistribution remains unresolved. The HIP list is a retrieval and
-review candidate only; all Arabic forms, memberships, pattern edges, relationships,
-teaching roles, and row-level scientific suitability still require the recorded human
-reviews.
+This completes the parser contract but does not authorize source-derived processing.
+Phase 1 Milestone 2E may implement the local, read-only, fail-closed parser against
+ignored hash-identified bytes only after Milestone 2D records the required
+source/deployment-authority outcome. It does not authorize source-derived Git artifacts
+or deployment: VizieR supports scientific-context use with attribution, but I/311
+raw/derived redistribution remains unresolved. The HIP list is a retrieval and review
+candidate only; all Arabic forms, memberships, pattern edges, relationships, teaching
+roles, and row-level scientific suitability still require the recorded human reviews.
 
 ### Milestone 2A modern synthetic-only retry
 
@@ -114,7 +115,8 @@ air-gapped rebuild.
 The oracle imports no UFUQ production package, executes no Node astronomy code, and
 contains no catalogue value or identifier. It establishes no production algorithm,
 scientific tolerance, final IERS date policy, refraction policy, or source-derived
-authority. Catalogue work and Milestone 2B remain unauthorized and unstarted.
+authority. Milestone 2B is complete; source-derived parsing, propagation, and
+production/reference comparison remain unauthorized and unstarted.
 
 Milestone validation: exact uv lock check and locked offline sync passed; 7 Python
 unittests passed; two isolated generations were byte-identical; a fresh temporary
@@ -184,8 +186,9 @@ mapping, commands, corrections, and independent post-migration verdict are in
 Phase 1 Milestones 1, 2A, and 2B are complete. The next roadmap milestone is
 Milestone 2C: Scientific Behaviour Contract.
 
-The local I/311 parser is deferred to Phase 3 / Milestone 3A and remains subject to
-catalogue deployment authority.
+Milestone 2D then records the catalogue source/deployment-authority outcome. The local
+I/311 parser, runtime validation, and deterministic generation follow in Phase 1
+Milestone 2E and remain subject to that authority outcome.
 
 ## Decisions that block the validated vertical slice
 

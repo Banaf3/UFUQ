@@ -27,7 +27,7 @@ when no matching test exists; neither uses `passWithNoTests`.
 | Suite | Mandatory from | Activation rule |
 |---|---|---|
 | Unit | Phase 0 | Always; the health test proves discovery. |
-| Reference | Phase 1 | Add to CI with the first independent astronomy comparison; it remains mandatory thereafter. |
+| Reference | First production/reference comparison | Add to CI when that comparison is introduced in Phase 1; it remains mandatory thereafter. |
 | Integration | Phase 4 | Add to CI with the first API/persistence integration test; real MySQL is mandatory for transaction claims. |
 | E2E | Phase 0 | Always; the health smoke proves browser/server lifecycle. |
 
@@ -51,7 +51,7 @@ when no matching test exists; neither uses `passWithNoTests`.
   supplemental solution shapes, numerical/cultural separation, canonical artifact
   rules, and provenance/licence/checksum requirements. No alternate-catalogue contract
   or fixture is required.
-- Phase 3 / Milestone 3A tests must cover fixed widths, source-hash mismatch,
+- Phase 1 / Milestone 2E tests must cover fixed widths, source-hash mismatch,
   missing/duplicate/invalid rows, blank optional photometry, negative parallax,
   solution/supplement joins, component/multiplicity reporting, sorted unique HIP
   selection, and two-run byte/hash determinism. Source-derived outputs remain ignored

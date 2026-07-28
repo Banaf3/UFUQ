@@ -124,7 +124,8 @@ npm run boundaries
 npm run test:reference
 ```
 
-`test:reference` becomes mandatory in Phase 1 only after real scientific tests exist;
-before activation, its empty invocation must fail. Run the pinned oracle command from
-its committed environment instructions once those instructions exist. Use targeted
-import scans to prove `tools/astronomy-reference` does not import production packages.
+`test:reference` becomes mandatory when Phase 1 introduces the first
+production/reference comparison; before activation, its empty invocation must fail.
+Run the pinned oracle command from its committed environment instructions once those
+instructions exist. Use targeted import scans to prove
+`tools/astronomy-reference` does not import production packages.
