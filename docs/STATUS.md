@@ -98,10 +98,27 @@ Julian representation while source-derived propagation remains unavailable. Name
 astronomy review and a synthetic candidate-interpretation sensitivity experiment are
 still required; experiment output cannot become source authority.
 
-Milestone 2C remains **OPEN**. No reviewer approval selects the I/311 epoch time scale,
-production algorithm/effect matrix, supported range, datum/height policy, EOP and
-leap-second policy, refraction/visibility behaviour, exact warning/error mapping,
-error aggregation, or tolerance. No production/reference comparison exists, and the
+Milestone 2C.2 defines a proposed componentized SOFA `2023-10-11` CIO-family route:
+source-to-declared-target-epoch space motion, observer-aware CIRS, an explicit
+Earth-orientation context, geometric horizontal output, optional refraction, and
+separate visibility and scene states. J2000.0 is only the candidate epoch input for the
+selected `iauAtciq`/`iauAtco13` path, not a frame conversion. Its effect matrix records
+candidate semantic inclusion of frame bias, IAU 2006 precession with IAU 2000A
+nutation, annual aberration, solar deflection, ERA-based Earth rotation, and diurnal
+aberration. The `iauApco13` convenience branch supplies model CIP/CIO and accepts
+`UT1-UTC` and polar motion `xp`,`yp`, but it cannot apply observed celestial-pole
+offsets `dX`,`dY`; those corrections require a reviewed lower-level route. Proper
+motion, parallax/RV, polar motion, celestial-pole offsets, and refraction retain blocked
+or conditional gates. Astropy and PyERFA remain the independent reference path, while
+composed ERFA `atco13` is only a same-family consistency check. Eight route/effect
+experiments are specified but not run.
+
+Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
+but no reviewer approval selects the I/311 epoch/derivative time scale, actual
+TypeScript production implementation, supported range,
+datum/height policy, EOP/leap-second/celestial-pole-offset policy, parallax/RV policy,
+refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
+tolerance. No 2C.2 experiment or production/reference comparison exists, and the
 reference suite remains intentionally inactive and fail-closed.
 
 ### Milestone 2B catalogue authority and provenance
@@ -229,9 +246,10 @@ Milestone 2E and remain subject to that authority outcome.
   acquisition provenance beyond `PARTIAL`, and scientific review of each selected
   row's solution, multiplicity, uncertainty, fit, variability, and supplement evidence.
   The local-only parser contract and candidate scope are resolved.
-- **IMP-009 / AST-003 and AST-006:** production coordinate/time pipeline,
-  implement-or-omit effects, supported range, failure policy, independent oracle,
-  error budget, and tolerances.
+- **IMP-009 / AST-003 and AST-006:** approval or revision of the proposed production
+  coordinate/time route and effect matrix; actual TypeScript implementation/library;
+  supported range, failure/data policy, independent comparison, error budget, and
+  tolerances.
 - **IMP-011 / AST-002:** reviewed `SkyPattern` and `GuidanceRelationship` records for
   one complete route to Al-Jady, including stable IDs, labels, membership, segments,
   instructional geometry/explanation, and review/verification status.

@@ -66,11 +66,17 @@ Milestone 2C.1 resolves the I/311 epoch representation as Julian from official E
 Gaia DR1's direct `J1991.25` use, but finds no I/311-applicable time scale. It therefore
 keeps source-derived propagation unavailable and specifies a synthetic sensitivity
 experiment plus human-review gate. Astropy `8.0.1` reference-design documentation is
-pinned; the PyERFA stable-doc/runtime patch mismatch remains recorded. The production
-pipeline/effect matrix, observer and EOP policy, refraction/visibility behaviour,
-supported range, error budget, and tolerances still require the recorded evidence,
-experiments, and approvals. The contract grants no implementation authority while
-those blockers remain.
+pinned; the PyERFA stable-doc/runtime patch mismatch remains recorded. Milestone 2C.2
+proposes a componentized SOFA `2023-10-11` CIO-family semantic route, a fully classified
+candidate-included/conditional/blocked effect matrix, a separate Astropy/PyERFA
+reference path, and eight experiment families. `Included` describes the proposed
+semantic model only, not approved executable behaviour. CDS Catalogue Standard 2.0
+resolves the 365.25-day
+proper-motion `yr`, but the proposal does not approve the future TypeScript
+implementation or close the epoch/derivative-scale, observer,
+EOP/celestial-pole-offset, refraction/visibility, supported-range, error-budget, or
+tolerance blockers. The contract grants no implementation authority while those
+blockers remain.
 
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and

@@ -7,9 +7,9 @@
 - Runtime under review: Astropy `8.0.1`, PyERFA `2.0.1.5`, ERFA `2.0.1`, and
   SOFA `20231011`, as locked by `tools/astronomy-reference/uv.lock` and reported by
   the workspace-local oracle environment.
-- Scope: time representation and scale, space-motion propagation, Earth-orientation
-  data status, and preservation of ERFA warnings/errors for a future independent
-  reference implementation.
+- Scope: time representation and scale, space-motion propagation, GCRS/CIRS/ITRS/AltAz
+  frame roles, Earth-orientation data status, and preservation of ERFA warnings/errors
+  for a future independent reference implementation.
 - Out of scope: selecting the production astronomy algorithm, approving the I/311
   epoch time scale, choosing production EOP data, or setting a tolerance.
 
@@ -27,6 +27,7 @@ move to a later release.
 | [`TimeDecimalYear`](https://docs.astropy.org/en/stable/api/astropy.time.TimeDecimalYear.html) | Defines calendar decimal year using the actual 365- or 366-day year; it is not `jyear`. |
 | [`SkyCoord`](https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html) and [Accounting for Space Motion](https://docs.astropy.org/en/stable/coordinates/apply_space_motion.html) | Defines `obstime`, `pm_ra_cosdec`, and `apply_space_motion`; the propagation uses the coordinate's initial `obstime` and assumes linear space motion. The guide states that absent radial velocity is treated as zero. |
 | [Transforming between systems](https://docs.astropy.org/en/stable/coordinates/transforming.html) | Defines the `transform_to` route used to move an explicitly constructed coordinate into the selected output frame; it does not itself select UFUQ's route. |
+| [Astronomical coordinate systems](https://docs.astropy.org/en/stable/coordinates/index.html), [`GCRS`](https://docs.astropy.org/en/stable/api/astropy.coordinates.GCRS.html), [`CIRS`](https://docs.astropy.org/en/stable/api/astropy.coordinates.CIRS.html), and [`ITRS`](https://docs.astropy.org/en/stable/api/astropy.coordinates.ITRS.html) | Defines the reference library's frame graph and observer/time attributes. GCRS includes aberration relative to ICRS; CIRS and ITRS are explicit graph states. These pages support reference-state inspection but do not define UFUQ production stage ownership. |
 | [`EarthLocation`](https://docs.astropy.org/en/stable/api/astropy.coordinates.EarthLocation.html) | Defines named geodetic longitude, latitude, and height input, east-positive longitude, and reference-ellipsoid handling required by an observer-bound reference case. |
 | [`AltAz`](https://docs.astropy.org/en/stable/api/astropy.coordinates.AltAz.html) | Defines observation time/location, north-zero/east-positive azimuth, altitude, and the pressure/refraction switch for a proposed horizontal reference output. Its WGS 84 and refraction semantics remain candidate-library behaviour until UFUQ policy is approved. |
 | [IERS data access](https://docs.astropy.org/en/stable/utils/iers.html), [`IERS`](https://docs.astropy.org/en/stable/api/astropy.utils.iers.IERS.html), and [`IERSWarning`](https://docs.astropy.org/en/stable/api/astropy.utils.iers.IERSWarning.html) | Defines packaged/automatic IERS data behaviour, predictive and range status, download controls, and warning/error surfaces that the reference protocol must capture. |
@@ -40,6 +41,7 @@ define what the I/311 author meant by the catalogue's `Ep=1991.25` label.
 |---|---|---|
 | [PyPI release `2.0.1.5`](https://pypi.org/project/pyerfa/2.0.1.5/) | Exact runtime release; source distribution SHA-256 `17d6b24fe4846c65d5e7d8c362dcb08199dc63b30a236aedd73875cc83e1f6c0`, matching `uv.lock` | Pins the installed wrapper release and official distribution bytes. |
 | [PyERFA stable API index](https://pyerfa.readthedocs.io/en/stable/api.html) | Official stable docs displayed `2.0.1.4` on 2026-08-03 | Defines `ErfaWarning` for positive ERFA status and `ErfaError` for negative status, but does not exactly match the locked patch release. |
+| ERFA astrometry wrappers indexed by the stable API: `atco13`, `apco13`, `atciq`, `atioq`, `pnm06a`, `era00`, `sp00`, `pom00`, `c2t06a`, and `refco` | Official wrapper pages belong to the displayed `2.0.1.4` build; exact installed `2.0.1.5` docstrings were inspected locally | Exposes direct reference probes for the proposed stage/effect inventory. The governing algorithm authority remains pinned SOFA `2023-10-11`, and these probes do not select production code. |
 | [`pmsafe` stable API](https://pyerfa.readthedocs.io/en/stable/api/erfa.pmsafe.html) | Linked from the `2.0.1.4` stable API | Requires start/end epochs as two-part TDB Julian Dates, proper-motion rates per TDB Julian year, and documents warnings for overridden distance, excessive velocity, and non-convergence. |
 | [`ErfaWarning`](https://pyerfa.readthedocs.io/en/stable/api/erfa.ErfaWarning.html) and [`ErfaError`](https://pyerfa.readthedocs.io/en/stable/api/erfa.ErfaError.html) | Linked from the `2.0.1.4` stable API | Names the wrapper warning/error categories that a reference runner must retain. |
 
@@ -69,6 +71,33 @@ combination is still required before calling the PyERFA documentation pin comple
 `HUMAN_REVIEW_REQUIRED`: the astronomy reviewer must accept the exact Astropy/PyERFA
 reference route and warning mapping after the I/311 epoch scale and space-motion input
 policy are resolved.
+
+## Milestone 2C.2 independent-reference route
+
+`PROJECT_DECISION`: the proposed independent route is deliberately not the production
+route:
+
+1. construct ICRS `SkyCoord` with explicit source `obstime`, `pm_ra_cosdec`, `pm_dec`,
+   distance/parallax, and radial velocity only after each input policy is approved;
+2. use `apply_space_motion` only with explicit start/end times and capture warnings;
+3. inspect an explicit topocentric `CIRS` state at the observation instant/location;
+4. transform to `AltAz` with pressure explicitly zero for the geometric reference;
+5. run a separately labelled nonzero-pressure `AltAz` case only when the refraction
+   policy supplies pressure, temperature, humidity, wavelength, and a valid range; and
+6. use direct PyERFA calls for structured warning/status capture and controlled effect
+   ablations where the Astropy graph does not expose a policy switch.
+
+Astropy `transform_to` chooses a library graph path and obtains Earth-orientation data
+through Astropy's IERS machinery. The runner must pin/record that graph-visible frame
+sequence, IERS table/hash/status, auto-download/cache state, observer WGS 84 semantics,
+ephemeris, refraction inputs, and all warnings. A high-level result cannot be used to
+infer which production stage owns topocentric parallax or diurnal aberration.
+
+`AUTHORITY_OR_EVIDENCE_MISSING`: the I/311 epoch/derivative scale, radial-velocity input
+policy, production EOP/range policy, and approved refraction scope still prevent
+source-derived reference truth. CDS Catalogue Standard 2.0 separately resolves the
+numeric `yr` duration as 365.25 days. The official PyERFA stable/runtime patch mismatch
+also remains.
 
 ## Required sensitivity experiment
 

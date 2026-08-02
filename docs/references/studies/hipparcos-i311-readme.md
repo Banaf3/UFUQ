@@ -1,7 +1,7 @@
 # Bibliographic identity
 
 - Canonical source IDs: `HIP-I311-README`, companion `HIP-I311-APPENDIX-G`, and
-  supporting official downstream record `ESA-GAIA-DR1-I311-EPOCH`.
+  supporting `ESA-GAIA-DR1-I311-EPOCH` and `CDS-CATALOGUE-STANDARD-2.0` records.
 - Title: *I/311 Hipparcos, the New Reduction* catalogue `ReadMe`.
 - Dataset author: Floor van Leeuwen; catalogue documentation maintained/distributed by
   CDS/VizieR.
@@ -16,6 +16,9 @@
   the Appendix G evidence was checked at the official I/311 archive URL.
 - Official downstream record: ESA Gaia DR1 processing documentation, Section 4.2.1,
   [Properties of the input data](https://gea.esac.esa.int/archive/documentation/GDR1/Data_processing/chap_cu3tyc/sec_cu3tyc_property.html),
+  retrieved 2026-08-03.
+- Official unit standard: CDS, *Standards for Astronomical Catalogues*, Version 2.0,
+  Section 3.2.2 [basic unit symbols](https://vizier.cds.unistra.fr/vizier/doc/catstd-3.2.htx),
   retrieved 2026-08-03.
 - Page count and accessibility: plain-text/HTML metadata, so PDF page count is not
   applicable. Both have directly searchable text; the local HTML reproduces the
@@ -90,6 +93,11 @@ are mas/year. Formal errors for RA/Dec are mas even though the coordinates thems
 are radians. This mixed-unit source layout requires named normalization, not an
 unlabelled numeric tuple.
 
+The official CDS catalogue standard defines the VizieR unit token `yr` (also `a`) as
+exactly 365.25 days. This supports converting I/311 `mas/yr` numerically to radians per
+Julian year for SOFA. It does not state the time scale with respect to which the I/311
+proper-motion derivative or epoch is defined.
+
 ESA's official Gaia DR1 processing documentation says that its Hipparcos inputs were
 the new reduction retrieved as CDS/VizieR I/311 and calls the parameters' epoch
 `J1991.25`. This is direct official support for treating the representation as a
@@ -146,7 +154,7 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 - `RArad`/`DErad`: radians, ICRS, epoch 1991.25.
 - `Plx`: milliarcseconds.
 - `pmRA`/`pmDE`: milliarcseconds per year; Appendix G Table G.3 defines `pmRA` as
-  `mu_alpha_star`.
+  `mu_alpha_star`; the CDS unit standard defines `yr` as 365.25 days.
 - Formal RA/Dec errors: milliarcseconds, despite coordinate columns being radians.
 - `Hpmag`: Hipparcos magnitude; `B-V` and `V-I` are separate colour indices.
 - `UW` is a factor of inverse covariance, not a row of independent standard deviations.
@@ -170,6 +178,9 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
   `properMotionRaCosDecMilliarcsecondsPerYear` and map it directly to Astropy
   `pm_ra_cosdec` after unit conversion. A coordinate-angle interface must use an
   explicitly reviewed conversion rather than reusing that mapping blindly.
+- `SOURCE_REQUIRED`: use the CDS-defined 365.25-day `yr` for the numeric rate-unit
+  conversion. Do not infer the unresolved epoch/derivative time scale from that unit
+  duration.
 - `PROJECT_DECISION_REQUIRED`: select handling for 5-, 7-, 9-parameter, stochastic,
   VIM, double/multiple, photocentre, and secondary-component solutions.
 - `PROJECT_DECISION_REQUIRED`: decide which uncertainty/covariance and quality fields
@@ -245,6 +256,7 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 | Epoch representation | ESA Gaia DR1 processing documentation, Section 4.2.1 | Treat `J1991.25` as the source-supported representation; do not substitute `byear` or `decimalyear` | `SOURCE_SUPPORTED_FACT` |
 | Epoch time scale | I/311 `ReadMe`; ESA Gaia DR1 Section 4.2.1; contrast original ESA 1997 Section 1.2.6 | Preserve the label and block source-derived propagation pending exact authority or review | `AUTHORITY_OR_EVIDENCE_MISSING`; `HUMAN_REVIEW_REQUIRED` |
 | Proper-motion component semantics | I/311 Appendix G Table G.3, printed p. 407; `hip2.dat`, bytes 52-68 | Normalize `pmRA` as `mu_alpha_star`; direct Astropy `pm_ra_cosdec` mapping after unit conversion | `SOURCE_REQUIRED` |
+| Proper-motion rate unit | I/311 `mas/yr`; CDS Catalogue Standard 2.0 Section 3.2.2 | Convert using `yr = 365.25 d`; retain the epoch/derivative scale as a separate unresolved semantic | `SOURCE_SUPPORTED_FACT` |
 | Formal errors and quality fields | `hip2.dat`, bytes 70-128 | Approve retention/selection policy | `PROJECT_DECISION_REQUIRED` |
 | Hp is its own band | `hip2.dat`, bytes 130-149 | Do not relabel as Johnson V or unaided visibility | `SOURCE_REQUIRED` |
 | Solution-family encoding | `hip2.dat`, Note (1) | Parse and gate supplemental solution types | `SOURCE_REQUIRED` |

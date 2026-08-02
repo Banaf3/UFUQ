@@ -12,8 +12,8 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Catalogue identifier | Preserve numeric I/311 `HIP` as the only numerical-row key. The exact 19-ID list in the Milestone 2B audit is a technical review candidate, not approved historical membership. Cultural names and modern crosswalk claims live outside numerical rows. | CLARIFIED; row and cultural review required |
 | Reference frame | Carry I/311's declared ICRS frame explicitly and verify the production mapping against source metadata and independent evidence. | SOURCE-DEFINED INPUT; production AST-003 decision unresolved |
 | Catalogue reference epoch | Carry I/311's literal `Ep=1991.25` label separately from frame/equinox and observation time. ESA Gaia DR1 directly identifies I/311 and calls its parameter epoch `J1991.25`, so the representation is Julian. Neither record states the I/311 time scale; do not transfer the original catalogue's `J1991.25(TT)` or let an Astropy default decide it. Source-derived propagation remains unavailable pending exact authority or named astronomy-review approval. | Julian representation `SOURCE_SUPPORTED_FACT`; time scale `AUTHORITY_OR_EVIDENCE_MISSING` / `HUMAN_REVIEW_REQUIRED`; sensitivity `EXPERIMENT_REQUIRED` |
-| Space motion | I/311 Appendix G Table G.3 defines source `pmRA` as `mu_alpha_star = (d alpha / dt) cos(delta)` in mas/yr. Normalize it as `properMotionRaCosDecMilliarcsecondsPerYear` and map directly to Astropy `pm_ra_cosdec` after unit conversion; do not apply a second cosine. Preserve parallax, `pmDE`, uncertainties, weights, solution family, and required supplemental acceleration/VIM evidence. The production implement-or-omit model and quantified bound remain open. | `pmRA` SOURCE-DEFINED/CONFIRMED_FOR_I311; propagation MANUAL DOMAIN DECISION AST-003 |
-| Apparent-place effects | Name the treatment of annual/diurnal aberration, light deflection, precession/nutation, and topocentric parallax. Use one coherent mean/apparent pipeline and never mix catalogue-reference coordinates with incompatible sidereal-time semantics. | MANUAL DOMAIN DECISION AST-003 |
+| Space motion | I/311 Appendix G Table G.3 defines source `pmRA` as `mu_alpha_star = (d alpha / dt) cos(delta)` in mas/yr. Normalize it as `properMotionRaCosDecMilliarcsecondsPerYear` and map directly to Astropy `pm_ra_cosdec` after unit conversion; do not apply a second cosine. CDS Catalogue Standard 2.0 defines `yr` as exactly 365.25 days. The proposed SOFA `iauPmsafe` adapter requires pole-guarded conversion to coordinate rate `dRA/dt`. Preserve parallax, `pmDE`, uncertainties, weights, solution family, and required supplemental acceleration/VIM evidence. Source epoch/derivative scale, parallax/distance, radial velocity, polar guard, warnings, range, and omission bounds remain open. | Component/rate unit `SOURCE_SUPPORTED_FACT`; propagation `AUTHORITY_OR_EVIDENCE_MISSING` / `HUMAN_REVIEW_REQUIRED` / `EXPERIMENT_REQUIRED` under AST-003 |
+| Apparent-place effects | Milestone 2C.2 proposes a componentized SOFA `2023-10-11` CIO-family semantic route: preliminary source-to-declared-target-epoch propagation, `iauApco13`/`iauAtciq` observer-aware CIRS, an explicit Earth-orientation context, and `iauAtioq` geometric/optional refracted outputs. J2000.0 is the candidate target epoch required by the selected SOFA celestial interface; it is not a frame conversion. Candidate semantic inclusions are frame bias, IAU 2006 precession with IAU 2000A nutation, annual aberration, solar deflection, ERA-based Earth rotation, and diurnal aberration. Motion, parallax/RV, EOP/polar motion/celestial-pole offsets, refraction, implementation mapping, ranges, omission bounds, and tolerances retain their recorded blockers. | PROPOSED ROUTE/EFFECT MATRIX; HUMAN REVIEW AND EXPERIMENTS REQUIRED UNDER AST-003/004/006/007 |
 | Time input | Parse ISO 8601 with explicit offset or an approved IANA zone, resolve to a UTC instant, and retain original zone for display/audit. | CLARIFIED |
 | Earth time/orientation | UTC is the external timestamp; use approved UT1/TT/leap-second/IERS and polar-motion handling internally. Pin the EOP dataset/hash and extrapolation/approximation status. UTC≈UT1 is not silently assumed. | MANUAL DOMAIN DECISION AST-003 |
 | Observer Earth model | Record geodetic datum/ellipsoid, geodetic coordinate order/sign, elevation datum, and whether elevation/horizon dip affect the selected model. | MANUAL DOMAIN DECISION AST-003/004/007 |
@@ -29,7 +29,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Kaaba coordinate | No coordinate is approved here; record authority, datum, order/sign, precision, version/date, uncertainty, and the convention-compatible Malaysian/domain validation method. | MANUAL DOMAIN DECISION AST-005 |
 | Angular comparison | Use robust unit-vector separation; use wrapped circular difference for headings. | CLARIFIED |
 | Numerical tolerances | Define an error budget and per-operation implementation, reference-disagreement, and learner-task tolerances, including near singularities. No fallback default. | MANUAL DOMAIN DECISION AST-006 |
-| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Astropy `8.0.1` reference-design pages and the PyERFA `2.0.1.5` release/hash are pinned; official PyERFA stable API documentation remains at `2.0.1.4`, so version-matched review/acceptance is open. The tool is not a source-derived scientific oracle. | Documentation partially pinned; PyERFA patch-doc acceptance, science protocol, and comparisons unresolved |
+| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns explicit Astropy `SkyCoord`/space-motion and `CIRS`/`AltAz` transforms to the independent reference path only; direct PyERFA probes expose warnings and effect ablations. The production candidate is a separately implemented SOFA-based semantic route, and composed ERFA `atco13` is only a same-family consistency check. Official PyERFA stable documentation remains one patch behind the runtime. | Reference/production boundary proposed; PyERFA patch-doc acceptance, fixtures, comparisons, and reviewer approval unresolved |
 
 ## Canonical value objects
 
@@ -39,11 +39,22 @@ conceptual types prevent accidental double propagation or frame mixing:
 - `UtcInstant` plus the original IANA zone/offset used for display;
 - `ObserverLocation{geodeticLatitudeDeg, longitudeEastDeg, elevationM, datum,
   elevationDatum}`;
-- `CatalogueAstrometry{raDeg,decDeg,frame,referenceEpoch,properMotion,...}`;
-- `PropagatedIcrsCoordinate{raDeg,decDeg,observationInstant,spaceMotionPolicy}`;
-- a named mean/apparent-of-date coordinate carrying its equinox/frame and algorithm;
-- `HorizontalCoordinate{azimuthNorthEastDeg,geometricAltitudeDeg,observationInstant,
-  eopVersion,refractionPolicy}`;
+- `CatalogueIcrsState{raDeg,decDeg,sourceEpochLabel,epochRepresentation,
+  epochScaleStatus,properMotionRaCosDec,...}`;
+- `PropagatedIcrsAstrometry{raDeg,decDeg,targetEpochLabel,targetInstant,
+  targetTimeScale,spaceMotionPolicy,warnings,...}`; the type records a successful
+  declared target epoch/instant and does not itself promise J2000.0 or a frame
+  transformation;
+- `ObserverAwareCirsDirection{raDeg,decDeg,observationInstant,observerPolicy,
+  celestialModel,...}`;
+- `EarthOrientationContext{utc,tt,ut1,era,xp,yp,celestialPoleOffsetPolicy,
+  eopVersion,eopHash,dataStatus,...}`;
+- `GeometricHorizontalDirection{azimuthNorthEastDeg,geometricAltitudeDeg,
+  enuDirection,observationInstant,observerPolicy,eopPolicy,singularityStatus,...}`;
+- `RefractedHorizontalDirection{azimuthNorthEastDeg,refractedAltitudeDeg,
+  sourceGeometricDirection,refractionPolicy,modelInputs,validityStatus,...}`;
+- separate `VisibilityState` and `SceneDirection` records that retain their upstream
+  state/policy identifiers;
 - `EnuUnitVector{east,north,up}` and `BearingNorthEastDeg`.
 
 Reject non-finite values and out-of-range latitude. AST-003/007 must choose exact
@@ -86,19 +97,44 @@ The report's check `h=30°`, `A=45°`, `r=100` gives approximately `(61.24, 50.0
 
 ## Astrometric pipeline
 
-The approved AST-003 decision must turn the following conceptual chain into one named algorithm and version:
+Milestone 2C.2 proposes the following typed route for AST-003 review. It is a semantic
+candidate aligned to the pinned SOFA issue, not approval of a production library or
+implementation:
 
 ```mermaid
 flowchart LR
-  CAT[Catalogue astrometry, reference epoch, uncertainty] --> SPACE[Approved space-motion propagation]
-  SPACE --> EQ[Approved mean/apparent/topocentric pipeline]
-  UTC[UTC input + approved UT1/TT data] --> ST[Approved sidereal time]
-  EQ --> HOR[Hour angle and horizontal ENU]
-  ST --> HOR
-  OBS[Lat, east-positive lon, elevation] --> HOR
-  HOR --> POLICY[Refraction/horizon/visibility policy]
-  POLICY --> SCENE[Three.js adapter]
+  CAT[CatalogueIcrsState<br/>J1991.25 scale unresolved] -->|blocked pending epoch/motion policy| PROP[PropagatedIcrsAstrometry<br/>declared target epoch]
+  PROP --> CIRS[ObserverAwareCirsDirection<br/>SOFA Apco13 + Atciq model-only candidate]
+  TIME[UTC + approved TT/UT1/leap data] --> EOP[EarthOrientationContext<br/>ERA + xp/yp; dX/dY policy blocked]
+  OBS[Approved geodetic observer] --> EOP
+  EOP --> CIRS
+  CIRS --> GEO[GeometricHorizontalDirection<br/>Atioq candidate, refraction zero]
+  EOP --> GEO
+  GEO --> REF[Optional RefractedHorizontalDirection]
+  GEO --> VIS[Separate VisibilityState]
+  REF --> VIS
+  GEO --> SCENE[Separate SceneDirection]
+  REF --> SCENE
 ```
+
+The production candidate uses SOFA `iauPmsafe` semantics for a preliminary
+target-epoch propagation boundary. For the selected `iauAtciq`/`iauAtco13` candidate,
+that target is J2000.0; this is an epoch input requirement, not an ICRS frame
+transformation. Routine availability does not resolve the I/311 epoch or derivative
+time scale, missing radial velocity, warnings, or acceptance tolerances, so no
+source-derived `PropagatedIcrsAstrometry` is executable yet.
+
+The `iauApco13`/`iauAtciq` convenience branch supplies the built-in model CIP/CIO from
+IAU 2006 precession with IAU 2000A nutation and accepts `UT1-UTC` plus polar motion
+`xp`,`yp`; it does not accept or apply observed celestial-pole offsets `dX`,`dY`.
+Those observed corrections remain blocked and require a reviewed lower-level
+`iauApco`-family or equivalent decomposed context if selected. Candidate `iauAtioq`
+then owns the observed-place rotation and diurnal aberration; refraction coefficients
+are explicitly zero for the geometric result, with an approved `iauRefco` policy
+evaluated separately. AST-003 must approve the actual pure-TypeScript
+algorithm/library and demonstrate that topocentric parallax and diurnal aberration are
+each applied once. Astropy remains the independent reference path and is not the
+production selection.
 
 If required Earth-orientation data is missing or outside its valid range, the system must fail explicitly or enter a separately labelled, bounded approximation mode approved under AST-003. Runtime scenarios persist the EOP dataset/hash, extrapolation status, and approximation mode. Do not quietly change algorithms between browser, server, fixture generation, and evaluation.
 

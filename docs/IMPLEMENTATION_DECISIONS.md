@@ -126,18 +126,33 @@ Historical report/deviation/authority status remains in `governance/`.
   `J1991.25` usage as source support for the Julian representation. It does not find an
   I/311 time scale. Preserve the label/representation and make source-derived
   propagation unavailable until exact authority or named astronomy-review approval
-  supplies the scale. Astropy `8.0.1` reference-design documentation and the PyERFA
-  `2.0.1.5` release/hash are pinned; the official PyERFA stable API is one patch behind
-  and still needs version-matched review or explicit acceptance. The production
-  algorithm/effect matrix, observer/EOP/refraction policies, supported range, error
-  aggregation, and tolerances remain unresolved.
+  supplies the scale. Milestone 2C.2 proposes a componentized SOFA `2023-10-11`
+  CIO-family semantic route: preliminary `iauPmsafe` propagation to a declared target
+  epoch, with J2000.0 as the candidate epoch input required by the selected
+  `iauAtciq`/`iauAtco13` path rather than a frame conversion; `iauApco13` plus
+  `iauAtciq` to observer-aware CIRS; an explicit
+  Earth-orientation context; and separate `iauAtioq` geometric and optional
+  `iauRefco`-based refracted evaluations. Its candidate matrix includes frame bias,
+  IAU 2006 precession with IAU 2000A nutation, annual aberration, solar deflection,
+  ERA-based Earth rotation, and diurnal aberration. `iauApco13` supplies the built-in
+  model CIP/CIO and accepts `UT1-UTC` and polar motion `xp`,`yp`; it does not apply
+  observed celestial-pole offsets `dX`,`dY`. Motion, parallax/RV, polar motion,
+  observed celestial-pole offsets, and refraction retain explicit blocked/conditional
+  states. Routine availability resolves none of the epoch/derivative-scale, radial-
+  velocity, or acceptance-tolerance blockers.
+  Astropy `8.0.1` remains the independent reference path, not the production
+  selection; composed ERFA `atco13` is only a same-family consistency check. The
+  actual pure-TypeScript implementation/library, epoch/derivative-scale interpretation,
+  observer/EOP/refraction policies, supported range, effect bounds, error aggregation,
+  and tolerances remain unresolved.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
-- **Validation required:** Close the evidence/decision blockers listed in
-  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`; then run independent pinned
-  source-derived oracle cases, an effect/error budget, and operation-specific approved
-  tolerances before scientific acceptance.
+- **Validation required:** Review the proposed route/effect matrix, close the
+  evidence/decision blockers listed in
+  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`, and run its eight 2C.2 experiment
+  families. Then run independent pinned source-derived oracle cases, an effect/error
+  budget, and operation-specific approved tolerances before scientific acceptance.
 
 ## IMP-010 — Scene coordinate adapter
 

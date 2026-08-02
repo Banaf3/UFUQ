@@ -24,6 +24,21 @@ source-derived propagation as unavailable pending exact authority or named astro
 review. The specified synthetic interpretation experiment can measure sensitivity but
 cannot decide source meaning.
 
+Milestone 2C.2 proposes, without approving, a componentized SOFA `2023-10-11`
+CIO-family production semantic route: `iauPmsafe` to a declared target epoch, with
+J2000.0 as the candidate epoch input required by `iauAtciq`/`iauAtco13` rather than a
+frame conversion; `iauApco13` plus `iauAtciq` to an observer-aware CIRS state; a
+separately typed Earth-orientation context; and `iauAtioq` geometric output with
+optional `iauRefco`-based refraction kept as another state. `iauApco13` supplies the
+built-in model CIP/CIO from IAU 2006 precession with IAU 2000A nutation and accepts
+`UT1-UTC` plus polar motion `xp`,`yp`; it does not apply observed celestial-pole
+offsets `dX`,`dY`. A reviewed lower-level context is required if those corrections are
+selected. The proposed semantic-inclusion matrix and eight required experiment
+families are recorded in the contract. Astropy/PyERFA is the independent reference
+route, not the production selection, and composed `atco13` is only same-family
+consistency evidence. Routine availability does not close the epoch/derivative-scale,
+radial-velocity, or tolerance blockers.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -35,13 +50,15 @@ Fixed now:
 - angular answers use robust vector separation or wrapped circular distance;
 - every policy and tolerance is versioned and server scoring is authoritative.
 
-Before implementation, approve one coherent catalogue-reference-to-observation pipeline
-and runtime algorithm/library, including the exact I/311 epoch time scale. AST-003 must explicitly implement or omit with a
+Before implementation, AST-003 must approve, revise, or reject the proposed route and
+select the actual pure-TypeScript algorithm/library, including the exact I/311 epoch
+and proper-motion derivative time scale. The CDS-defined 365.25-day `yr` duration is
+resolved. AST-003 must explicitly implement or omit with a
 quantified bound proper motion, parallax, radial velocity/perspective acceleration,
 aberration, light deflection, precession/nutation, topocentric effects, polar motion,
-EOP/time handling, datum/elevation and supported range. Also approve
-refraction/horizon/visibility, Kaaba/observer coordinate semantics, error budget and
-tolerances as detailed in `../ASTRONOMY_SPEC.md`.
+celestial-pole offsets, EOP/time handling, datum/elevation and supported range. Also
+approve refraction/horizon/visibility, Kaaba/observer coordinate semantics, error
+budget and tolerances as detailed in `../ASTRONOMY_SPEC.md`.
 
 ## Consequences
 
