@@ -16,6 +16,14 @@ The Phase 1 Milestone 2C evidence audit in
 source-supported or already fixed project conventions. It does not change this ADR's
 blocked status or approve the remaining AST-003/004/006/007 choices.
 
+Milestone 2C.1 adds one source-supported clarification: ESA Gaia DR1 directly
+identifies the I/311 new reduction and calls its parameter epoch `J1991.25`, resolving
+the representation as Julian. I/311-applicable time-scale authority is still missing.
+The project therefore preserves the source label/representation but treats
+source-derived propagation as unavailable pending exact authority or named astronomy
+review. The specified synthetic interpretation experiment can measure sensitivity but
+cannot decide source meaning.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -28,7 +36,7 @@ Fixed now:
 - every policy and tolerance is versioned and server scoring is authoritative.
 
 Before implementation, approve one coherent catalogue-reference-to-observation pipeline
-and runtime algorithm/library. AST-003 must explicitly implement or omit with a
+and runtime algorithm/library, including the exact I/311 epoch time scale. AST-003 must explicitly implement or omit with a
 quantified bound proper motion, parallax, radial velocity/perspective acceleration,
 aberration, light deflection, precession/nutation, topocentric effects, polar motion,
 EOP/time handling, datum/elevation and supported range. Also approve

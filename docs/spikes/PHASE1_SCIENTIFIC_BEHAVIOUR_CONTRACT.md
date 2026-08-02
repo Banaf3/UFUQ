@@ -59,19 +59,33 @@ The classifications used below are:
   role, or convention;
 - `PROJECT_DECISION`: an existing tracked UFUQ decision fixes behaviour within project
   scope;
+- `EXPERIMENT_REQUIRED`: a named sensitivity or comparison experiment is required but
+  cannot supply source authority;
+- `HUMAN_REVIEW_REQUIRED`: a named domain reviewer must approve or reject the bounded
+  interpretation;
+- `AUTHORITY_OR_EVIDENCE_MISSING`: the inspected authority does not define the value or
+  semantics needed for the affected behaviour;
 - `PROVISIONAL_CHOICE`: a bounded spike choice that cannot be promoted to production;
 - `UNRESOLVED_QUESTION`: missing evidence, experiment, approval, or policy blocks only
   the affected behaviour.
+
+Milestone 2C.1 conclusions use only the first five classifications requested for that
+audit: `SOURCE_SUPPORTED_FACT`, `PROJECT_DECISION`, `EXPERIMENT_REQUIRED`,
+`HUMAN_REVIEW_REQUIRED`, and `AUTHORITY_OR_EVIDENCE_MISSING`.
 
 Primary evidence for this audit is:
 
 - IAU SOFA issue `2023-10-11`, exact studied routine contracts;
 - IERS Conventions (2010) TN36 `v1.0.0`, with later corrections kept separate;
 - CDS/VizieR I/311 `ReadMe` and official Appendix G Tables G.2-G.7;
+- ESA Gaia DR1 processing documentation Section 4.2.1 for its direct I/311-specific
+  `J1991.25` use;
 - ESA SP-1200 Volume 1 for original-catalogue semantic support only;
 - van Leeuwen's 2007 validation article for error-characteristic context only;
 - `docs/ASTRONOMY_SPEC.md`, ADR-003, ADR-007, and the repository astronomy
   validation skill; and
+- the official Astropy/PyERFA documentation pins in
+  `docs/references/studies/astropy-pyerfa-reference-docs.md`; and
 - the locked synthetic-only Astropy smoke oracle, within its explicitly limited claim.
 
 The local *Explanatory Supplement* candidate supplies no claim-level evidence because
@@ -119,19 +133,73 @@ would conflate frame, epoch, equinox/origin, and time scale.
 
 `SOURCE_SUPPORTED_FACT`:
 
-- I/311 labels the catalogue astrometry with `Ep=1991.25`.
+- the exact I/311 field wording is `Right Ascension in ICRS, Ep=1991.25` and
+  `Declination in ICRS, Ep=1991.25`;
+- the I/311 `ReadMe` itself does not prefix the epoch with `J` or `B`, call it a
+  decimal year, or name a time scale; and
+- ESA Gaia DR1 Section 4.2.1 directly identifies its Hipparcos input as the new
+  reduction retrieved from CDS/VizieR I/311 and calls the parameter epoch
+  `J1991.25`. The source-supported representation is therefore Julian, not
+  Besselian or calendar decimal year.
 
-`UNRESOLVED_QUESTION`:
+`AUTHORITY_OR_EVIDENCE_MISSING`:
 
-- the inspected I/311-specific evidence does not state the time scale needed to turn
-  that label into an exact propagation instant;
+- neither I/311 nor the ESA Gaia DR1 page states the time scale needed to turn that
+  Julian representation into an exact propagation instant;
 - ESA SP-1200 defines the original 1997 catalogue epoch as `J1991.25(TT)`, but that
-  statement must not be transferred silently to the later I/311 reduction; and
-- no production propagation may call the I/311 epoch `J1991.25(TT)` until an
-  I/311-applicable authority or reviewed decision supports it.
+  statement and Astropy's generic `jyear` definition are supporting candidates, not
+  proof of I/311 intent; and
+- no cited authoritative standard inspected here explicitly binds a generic TT-based
+  Julian-epoch convention to I/311. The time scale is therefore genuinely unspecified
+  at the I/311-applicable authority layer, not safely inferable merely from a library
+  default.
 
-Until resolved, the parser contract may preserve the literal source epoch label, but
-source-derived propagation from that epoch is blocked.
+`PROJECT_DECISION`: preserve the literal `Ep=1991.25` label and the evidence-backed
+Julian representation separately. Source-derived propagation from that epoch returns
+an explicit unavailable/unresolved outcome until an I/311-applicable authority or
+reviewed project interpretation supplies the time scale. No production or reference
+output may silently call the I/311 epoch `J1991.25(TT)`.
+
+`HUMAN_REVIEW_REQUIRED`: if no more specific authority is obtained, an astronomy
+reviewer must decide whether the original-catalogue `J1991.25(TT)` lineage plus the
+generic Julian-epoch convention is sufficient for a bounded UFUQ interpretation. The
+review must name the rejected alternatives, implementation consequence, validation
+consequence, and limitation; it does not become a source-supported fact.
+
+### 4.3 Consequences of the missing time scale
+
+`SOURCE_SUPPORTED_FACT`:
+
+- Astropy represents time format and time scale separately; its `jyear`, `byear`, and
+  `decimalyear` formats are not interchangeable;
+- Astropy `apply_space_motion` uses the coordinate's initial `obstime`; and
+- PyERFA `pmsafe` requires start and end epochs as two-part TDB Julian Dates and
+  interprets proper-motion rates per TDB Julian year.
+
+`PROJECT_DECISION`: the reference implementation must convert a known source-scale
+instant to the routine's required scale. It must not relabel an unlabeled Julian Date
+as TDB. With the I/311 scale unresolved, the elapsed propagation time is conditional
+on an unapproved assumption, so exact propagated coordinates, deterministic reference
+fixtures, and warning/status evidence cannot be claimed as I/311-derived truth. A
+possibly small numerical difference is still a semantic and reproducibility defect;
+no `negligible` conclusion is permitted without the approved range and experiment.
+
+### 4.4 Sensitivity experiment, not source authority
+
+`EXPERIMENT_REQUIRED`: use only synthetic astrometry and the locked oracle to compare:
+
+1. explicit `jyear`/TT as the lineage-based candidate;
+2. the same Julian epoch number labelled TDB and UTC, each converted to TDB before
+   propagation;
+3. `decimalyear`/TT as the distinct calendar-year interpretation; and
+4. `byear`/TT as a rejection/guard case, not a source-supported candidate.
+
+Use zero-motion and high synthetic proper-motion cases with explicit parallax/radial-
+velocity variants. Record the start instants in TT and TDB, elapsed TDB durations to
+identical targets, unit-vector angular separation, component residuals, every warning
+or error, the environment/data manifest, and a deterministic output hash. Experiment
+output can bound sensitivity for review but cannot determine what I/311 meant, approve
+TT, or set a tolerance.
 
 ## 5. Proper motion
 
@@ -236,8 +304,11 @@ an error.
 
 This is `PROVISIONAL_CHOICE` evidence for environment reproducibility only. It does not
 approve those files, coverage dates, predictive rows, or failure rules for production.
-The source register also still lacks the exact official Astropy/PyERFA documentation
-pins used to justify a source-derived science protocol.
+Milestone 2C.1 pins the official Astropy `8.0.1` time, coordinate/space-motion, and
+IERS pages required for reference design, plus the official PyERFA `2.0.1.5` release
+and source hash. The official PyERFA `stable` API displayed `2.0.1.4`, so a
+version-matched documentation/tagged-source review or explicit reviewer acceptance
+remains `AUTHORITY_OR_EVIDENCE_MISSING` before a source-derived science protocol.
 
 ### 8.2 Production stop condition
 
@@ -465,13 +536,13 @@ No case may be accepted on an average that hides an individual failure.
 |---|---|---|---|
 | `2C-001` | Keep catalogue, propagated, celestial-intermediate, geometric horizontal, refracted, visibility, and scene states distinct. | `PROJECT_DECISION`: Astronomy Specification, ADR-003, architecture/data strategy. | `RESOLVED_CONTRACT`. |
 | `2C-002` | Treat selected I/311 `RArad`/`DErad` as ICRS catalogue inputs in radians. | `SOURCE_SUPPORTED_FACT`: I/311 `ReadMe`, `hip2.dat` byte description. | `RESOLVED_INPUT_SEMANTICS`. |
-| `2C-003` | Interpret `Ep=1991.25` as an exact propagation instant/time scale. | I/311 supplies only the label; ESA's `J1991.25(TT)` applies directly to the original catalogue. | `BLOCKED_EVIDENCE_AND_APPROVAL`; preserve the label only. |
+| `2C-003` | Interpret `Ep=1991.25` as a representation and exact propagation instant/time scale. | `SOURCE_SUPPORTED_FACT`: I/311 gives the literal label and ESA Gaia DR1 directly calls the I/311 epoch `J1991.25`. `AUTHORITY_OR_EVIDENCE_MISSING`: neither gives the I/311 time scale. | Julian representation resolved; exact instant remains blocked. Preserve the label/representation and return propagation unavailable pending authority or `HUMAN_REVIEW_REQUIRED`. |
 | `2C-004` | Interpret I/311 `pmRA` as `mu_alpha_star` and normalize explicitly. | `SOURCE_SUPPORTED_FACT`: I/311 Appendix G Table G.3; project field-name decision. | `RESOLVED_INPUT_SEMANTICS`; production motion model remains open. |
 | `2C-005` | Keep UTC, TAI, TT, and UT1 distinct with TT for precession-nutation and UT1 for Earth rotation. | `SOURCE_SUPPORTED_FACT`: SOFA routine contracts; IERS TN36 Chapters 5 and 10. | `RESOLVED_TIME_ROLES`; operational data/failure policy remains open. |
 | `2C-006` | Use north-positive latitude, east-positive longitude, north-zero/eastward azimuth, signed altitude, and vector comparison at zenith/nadir. | `PROJECT_DECISION`: Astronomy Specification and ADR-003; SOFA supports the horizon convention. | `RESOLVED_CONVENTIONS`; exact serialization/status code remains open. |
 | `2C-007` | Select datum/ellipsoid, height semantics/range, longitude representative, and approved observer locations. | Sources require explicit inputs but do not select UFUQ values. | `BLOCKED_PROJECT_DECISION` under AST-003/AST-007. |
 | `2C-008` | Select the production algorithm/library, coherent CIO/equinox route, and implement-or-omit effect matrix. | SOFA/IERS define candidate algorithms and roles, not the UFUQ selection. | `BLOCKED_PROJECT_DECISION_AND_EXPERIMENT` under AST-003. |
-| `2C-009` | Select production leap-second/EOP files, coverage, predictive/offline/update policy, and approximation/failure modes. | Smoke files/hashes are pinned only for a bounded synthetic oracle. | `BLOCKED_PROJECT_DECISION`; official tool-documentation pins also remain incomplete. |
+| `2C-009` | Select production leap-second/EOP files, coverage, predictive/offline/update policy, and approximation/failure modes. | Smoke files/hashes are pinned only for a bounded synthetic oracle. Astropy `8.0.1` reference-design docs are pinned; PyERFA's official stable-doc/runtime patch mismatch is recorded. | `BLOCKED_PROJECT_DECISION`; the PyERFA documentation acceptance and all production data/policy choices remain open. |
 | `2C-010` | Keep geometric and refracted direction separate; select the Phase 2 refraction model/policy. | Separation is a `PROJECT_DECISION`; SOFA shows required meteorological inputs and limitations. | Separation resolved; policy `BLOCKED_PROJECT_DECISION` under AST-004. |
 | `2C-011` | Keep direction, horizon, visibility, and rendering separate; select actual visibility/horizon behaviour. | Separation is a `PROJECT_DECISION`; no source/owner has selected the policy. | Separation resolved; policy `BLOCKED_PROJECT_DECISION` under AST-004. |
 | `2C-012` | Preserve structured scientific outcomes and upstream warnings; fix stable API mapping. | SOFA status contracts plus ADR-003/007. | Requirement resolved; exact mapping `BLOCKED_PROJECT_DECISION`. |
@@ -479,14 +550,29 @@ No case may be accepted on an average that hides an individual failure.
 | `2C-014` | Establish an independent, pinned scientific oracle and comparison matrix. | Locked synthetic-only oracle proves environment/independence smoke; it supplies no production comparison. | `PARTIAL`; source-derived fixtures and comparison remain unstarted. |
 | `2C-015` | Select supported date/location/altitude range and endpoint failures. | Sources expose model/data limits but do not select UFUQ scope. | `BLOCKED_PROJECT_DECISION` under AST-003/AST-007. |
 
+### 17.1 Milestone 2C.1 authority audit
+
+| ID | Conclusion | Classification | Result |
+|---|---|---|---|
+| `2C.1-001` | The exact I/311 field wording supplies ICRS plus `Ep=1991.25` but no representation name or scale. | `SOURCE_SUPPORTED_FACT` | Catalogue-owned wording pinned. |
+| `2C.1-002` | ESA Gaia DR1 directly identifies I/311 and calls its parameter epoch `J1991.25`. | `SOURCE_SUPPORTED_FACT` | Julian representation resolved; Besselian and calendar decimal year are not supported interpretations. |
+| `2C.1-003` | No inspected I/311-applicable authority states TT/TDB/UTC or an exact two-part Julian Date. | `AUTHORITY_OR_EVIDENCE_MISSING` | Exact propagation instant remains blocked. |
+| `2C.1-004` | Preserve the literal label and Julian representation, but make source-derived propagation unavailable while the scale is unresolved. | `PROJECT_DECISION` | Prevents a library default or silent TT transfer from becoming science authority. |
+| `2C.1-005` | Approve or reject a bounded TT interpretation if no stronger source is found. | `HUMAN_REVIEW_REQUIRED` | Astronomy reviewer decision remains open under AST-003. |
+| `2C.1-006` | Compare explicit candidate interpretations with synthetic motion cases and structured warnings. | `EXPERIMENT_REQUIRED` | Experiment specified; output cannot decide source meaning or tolerance. |
+| `2C.1-007` | Astropy `8.0.1` reference-design pages and the official PyERFA `2.0.1.5` release/source hash are pinned. | `SOURCE_SUPPORTED_FACT` | Astropy documentation gap closed for 2C.1; exact PyERFA distribution is reproducible. |
+| `2C.1-008` | Official PyERFA stable API documentation displays `2.0.1.4`, one patch behind the locked `2.0.1.5`. | `AUTHORITY_OR_EVIDENCE_MISSING` | Version-matched documentation/tagged-source review or explicit reviewer acceptance remains open. |
+
 ## 18. Decisions still blocking implementation
 
 ### 18.1 Evidence gaps
 
-- I/311-applicable evidence or approved interpretation for the exact `Ep=1991.25`
-  propagation time scale;
-- pinned official Astropy coordinate/time/IERS documentation for the selected science
-  protocol, plus the matching PyERFA documentation record;
+- I/311-applicable evidence or named reviewer approval for the exact `J1991.25`
+  propagation time scale; the Julian representation is resolved, but the time scale is
+  not;
+- version-matched PyERFA documentation/tagged-source review or explicit acceptance of
+  the official stable-doc/runtime patch mismatch; Astropy `8.0.1` reference-design
+  documentation is pinned;
 - a selected and hashed production EOP/leap-second dataset and supported coverage;
 - source-derived independent cases after catalogue-processing authority permits them;
 - measured effect/omission sensitivity and production/reference disagreement; and
@@ -524,4 +610,5 @@ Milestone 2C is complete only when:
   document.
 
 **Current outcome:** the contract is evidence-audited but not approved for production.
-Milestone 2C remains **OPEN**.
+Milestone 2C.1 precisely bounds the epoch authority and documentation gaps but does not
+close the time-scale blocker. Milestone 2C remains **OPEN**.

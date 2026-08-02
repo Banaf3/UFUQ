@@ -62,10 +62,15 @@ artifact/provenance schemas.
 Milestone 2C is the Scientific Behaviour Contract. Its 2026-08-03 evidence audit
 resolves source-defined I/311 input semantics, fixed UFUQ coordinate conventions,
 typed scientific-state separation, and reference-test requirements. It remains open:
-the I/311 epoch time scale, production pipeline/effect matrix, observer and EOP policy,
-refraction/visibility behaviour, supported range, error budget, and tolerances still
-require the recorded evidence, experiments, and approvals. The contract grants no
-implementation authority while those blockers remain.
+Milestone 2C.1 resolves the I/311 epoch representation as Julian from official ESA
+Gaia DR1's direct `J1991.25` use, but finds no I/311-applicable time scale. It therefore
+keeps source-derived propagation unavailable and specifies a synthetic sensitivity
+experiment plus human-review gate. Astropy `8.0.1` reference-design documentation is
+pinned; the PyERFA stable-doc/runtime patch mismatch remains recorded. The production
+pipeline/effect matrix, observer and EOP policy, refraction/visibility behaviour,
+supported range, error budget, and tolerances still require the recorded evidence,
+experiments, and approvals. The contract grants no implementation authority while
+those blockers remain.
 
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and

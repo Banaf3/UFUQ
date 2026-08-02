@@ -47,8 +47,10 @@ required before learner-facing cultural claims.
 The official I/311 archive Appendix G now confirms that I/311 `pmRA` is
 `mu_alpha_star`; the normalized parser field maps directly to Astropy `pm_ra_cosdec`
 after unit conversion. The high-declination omitted/double-cosine astronomy tests
-remain required. I/311 states `Ep=1991.25`, but its metadata inspected here does not
-separately define the epoch time scale for production propagation.
+remain required. I/311 states `Ep=1991.25`; official ESA Gaia DR1 documentation
+directly identifies I/311 and calls the parameter epoch `J1991.25`, resolving the
+representation as Julian. Neither record defines the I/311 time scale for production
+propagation.
 
 The detailed evidence boundaries are in `references/PDF_KNOWLEDGE_COVERAGE.md`.
 
@@ -82,12 +84,19 @@ skill traceability; the Astronomy Specification and ADRs; and the actual locked 
 artifacts.
 
 The audit resolves the contract-level status of I/311 ICRS input semantics, the literal
-`Ep=1991.25` source label, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles, UFUQ sign and
+`Ep=1991.25` source label, Julian representation, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles, UFUQ sign and
 horizontal conventions, coordinate-state separation, structured-outcome requirement,
 comparison metrics, and the independent-reference protocol. It also corrects the
-source-gap records: the Python/Astropy/PyERFA/IERS environment is pinned for the
-synthetic smoke claim, but the official tool-documentation pins and production science
-protocol remain incomplete.
+source-gap records: Astropy `8.0.1` reference-design pages and the official PyERFA
+`2.0.1.5` release/hash are pinned. The PyERFA stable API is one patch behind, and the
+production science protocol remains incomplete.
+
+Milestone 2C.1 precisely bounds the remaining epoch gap. `SOURCE_SUPPORTED_FACT` covers
+the I/311 wording and ESA's I/311-specific `J1991.25`; `AUTHORITY_OR_EVIDENCE_MISSING`
+covers the unstated time scale. The bounded `PROJECT_DECISION` preserves the label and
+Julian representation while source-derived propagation remains unavailable. Named
+astronomy review and a synthetic candidate-interpretation sensitivity experiment are
+still required; experiment output cannot become source authority.
 
 Milestone 2C remains **OPEN**. No reviewer approval selects the I/311 epoch time scale,
 production algorithm/effect matrix, supported range, datum/height policy, EOP and

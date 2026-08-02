@@ -122,10 +122,15 @@ Historical report/deviation/authority status remains in `governance/`.
 - **Current choice:** The Milestone 2C evidence audit confirms the typed state
   boundaries, I/311 ICRS input/frame label, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles,
   fixed sign/horizontal conventions, structured-outcome requirement, and independent
-  comparison protocol. The locked Astropy tool proves only a synthetic environment and
-  independence smoke claim. The I/311 epoch time scale, production algorithm and
-  implement-or-omit effect matrix, observer/EOP/refraction policies, supported range,
-  error aggregation, and tolerances remain unresolved.
+  comparison protocol. Milestone 2C.1 records ESA Gaia DR1's direct I/311-specific
+  `J1991.25` usage as source support for the Julian representation. It does not find an
+  I/311 time scale. Preserve the label/representation and make source-derived
+  propagation unavailable until exact authority or named astronomy-review approval
+  supplies the scale. Astropy `8.0.1` reference-design documentation and the PyERFA
+  `2.0.1.5` release/hash are pinned; the official PyERFA stable API is one patch behind
+  and still needs version-matched review or explicit acceptance. The production
+  algorithm/effect matrix, observer/EOP/refraction policies, supported range, error
+  aggregation, and tolerances remain unresolved.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.

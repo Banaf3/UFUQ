@@ -72,7 +72,7 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Transform direction | IERS Eq. (5.1) presents ITRS to GCRS; SOFA `iauC2t06a` returns celestial to terrestrial | Test direction and inversion; do not copy matrix order by appearance. |
 | CIO and equinox procedures | IERS TN36 documents both | Choose one coherent route; never mix ERA/CIO and incompatible sidereal/equinox quantities. |
 | Hipparcos RA proper-motion component | I/311 Appendix G Table G.3, printed p. 407, labels the byte-52 value `mu_alpha_star`; Tables G.5–G.6, printed p. 408, use starred-alpha acceleration components | `CONFIRMED_FOR_I311`; normalize source `pmRA` to `properMotionRaCosDecMilliarcsecondsPerYear` and map it directly to Astropy `pm_ra_cosdec` after unit conversion. Keep omitted/double-cosine high-declination tests. |
-| I/311 epoch instant | ESA 1997 §1.2.6 Eq. (1.2.3) gives original `J1991.25(TT)` exactly; I/311 gives only `Ep=1991.25` | `PROJECT_DECISION_REQUIRED`; the original statement is strong support but is not silently transferred to the new reduction. |
+| I/311 epoch representation and instant | I/311 gives only `Ep=1991.25`; ESA Gaia DR1 Section 4.2.1 directly identifies the I/311 new reduction and calls its parameter epoch `J1991.25`; ESA 1997 Section 1.2.6 gives the original catalogue `J1991.25(TT)` exactly | Julian representation is `SOURCE_SUPPORTED_FACT`. I/311-applicable time scale/exact instant is `AUTHORITY_OR_EVIDENCE_MISSING`; preserve the label and block source-derived propagation pending authority or `HUMAN_REVIEW_REQUIRED`. |
 | Official baseline versus corrections | TN36 is the registered 2010 baseline; working corrections are separate | Pin and hash corrections separately; never edit the baseline in place. |
 | Explanatory Supplement usability | Correct title/edition signals but no reliable text layer and conflicting extent | `SOURCE_UNUSABLE` for detailed current claims. |
 
@@ -87,6 +87,7 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Select one named catalogue-to-observed pipeline and record every included/omitted effect. | SOFA `iauApco13`/`iauAtco13`; IERS Chapter 5; AST-003 | `PROJECT_DECISION_REQUIRED` |
 | Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned independent oracle. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
+| Compare explicit Julian-TT/TDB/UTC, calendar-decimal-year, and Besselian guard interpretations with synthetic space-motion inputs; record time and direction deltas without inferring source meaning. | I/311/ESA epoch evidence conflict; Astropy `8.0.1` time docs; PyERFA `pmsafe` TDB contract | `EXPERIMENT_REQUIRED` |
 | Choose geometric/refraction and horizon/visibility behavior explicitly. | SOFA `iauRefco`/`iauAtioq`; AST-004 | `PROJECT_DECISION_REQUIRED` |
 | Derive acceptance thresholds from measured independent disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `EXPERIMENT_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
@@ -94,7 +95,8 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 ## Required validation evidence
 
 - Exact catalogue release/file hashes and selected field/quality semantics. I/311
-  `pmRA` is resolved; the epoch time-scale mapping for propagation remains open.
+  `pmRA` and the Julian epoch representation are resolved; the epoch time-scale
+  mapping for propagation remains open.
 - A versioned manifest naming SOFA/IERS models, Astropy/PyERFA/IERS-data, leap-second
   and EOP data, network/offline state, observer datum/height, refraction, and supported
   range.

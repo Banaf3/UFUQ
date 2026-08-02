@@ -1,7 +1,7 @@
 # Bibliographic identity
 
-- Canonical source IDs: `HIP-I311-README` and companion
-  `HIP-I311-APPENDIX-G`.
+- Canonical source IDs: `HIP-I311-README`, companion `HIP-I311-APPENDIX-G`, and
+  supporting official downstream record `ESA-GAIA-DR1-I311-EPOCH`.
 - Title: *I/311 Hipparcos, the New Reduction* catalogue `ReadMe`.
 - Dataset author: Floor van Leeuwen; catalogue documentation maintained/distributed by
   CDS/VizieR.
@@ -14,6 +14,9 @@
 - Local files: `data/raw/hipparcos-i311/ReadMe` and
   `local-reference/catalogues/hipparcos-i311/documentation/cds-readme.html`;
   the Appendix G evidence was checked at the official I/311 archive URL.
+- Official downstream record: ESA Gaia DR1 processing documentation, Section 4.2.1,
+  [Properties of the input data](https://gea.esac.esa.int/archive/documentation/GDR1/Data_processing/chap_cu3tyc/sec_cu3tyc_property.html),
+  retrieved 2026-08-03.
 - Page count and accessibility: plain-text/HTML metadata, so PDF page count is not
   applicable. Both have directly searchable text; the local HTML reproduces the
   catalogue `ReadMe`.
@@ -79,16 +82,36 @@ A parser must respect the solution type before interpreting supplemental paramet
 
 ## Astrometric row
 
-In `hip2.dat`, bytes 16-28 and 30-42 hold `RArad` and `DErad` in radians, labelled ICRS
-at epoch 1991.25. Parallax is mas; proper motions and their errors are mas/year. Formal
-errors for RA/Dec are mas even though the coordinates themselves are radians. This
-mixed-unit source layout requires named normalization, not an unlabeled numeric tuple.
+In `hip2.dat`, bytes 16-28 and 30-42 hold `RArad` and `DErad` in radians. The exact
+field descriptions are `Right Ascension in ICRS, Ep=1991.25` and `Declination in
+ICRS, Ep=1991.25`. The `ReadMe` does not prefix the epoch with `J` or `B`, call it a
+decimal year, or name a time scale. Parallax is mas; proper motions and their errors
+are mas/year. Formal errors for RA/Dec are mas even though the coordinates themselves
+are radians. This mixed-unit source layout requires named normalization, not an
+unlabelled numeric tuple.
 
-The `ReadMe` does not state the time scale associated with `Ep=1991.25`. Appendix G
-Table G.3, printed p. 407, does define the RA proper-motion symbol as
+ESA's official Gaia DR1 processing documentation says that its Hipparcos inputs were
+the new reduction retrieved as CDS/VizieR I/311 and calls the parameters' epoch
+`J1991.25`. This is direct official support for treating the representation as a
+Julian epoch rather than a Besselian epoch or calendar decimal year. That page does
+not state a time scale. The original ESA 1997 catalogue's `J1991.25(TT)` is relevant
+lineage evidence, but it still must not be transferred silently to I/311.
+
+Appendix G Table G.3, printed p. 407, defines the RA proper-motion symbol as
 `mu_alpha_star`, resolving the source component semantics. A target-library interface
 still has to state whether it expects this starred component or the coordinate-angle
 rate.
+
+### Milestone 2C.1 epoch conclusions
+
+| Conclusion | Classification |
+|---|---|
+| The I/311 `ReadMe` field wording is limited to ICRS plus `Ep=1991.25`; it supplies no `J`/`B` prefix, representation name, or time scale. | `SOURCE_SUPPORTED_FACT` |
+| ESA Gaia DR1 directly identifies its Hipparcos input as CDS I/311 and calls the parameter epoch `J1991.25`; the supported representation is therefore Julian, not Besselian or calendar decimal year. | `SOURCE_SUPPORTED_FACT` |
+| No I/311-applicable source inspected here states `TT`, `TDB`, `UTC`, or an exact two-part Julian Date, and no cited standard explicitly binds a generic TT-based Julian-epoch convention to I/311. The time scale is genuinely unspecified at the applicable authority layer; Astropy `jyear` semantics and original-catalogue `J1991.25(TT)` remain supporting candidates only. | `AUTHORITY_OR_EVIDENCE_MISSING` |
+| Preserve both the literal source label and the evidence-backed Julian representation, but return an unavailable/unresolved outcome for source-derived propagation until the time-scale policy is approved. | `PROJECT_DECISION` |
+| An astronomy reviewer must approve any adoption of TT from catalogue lineage and generic Julian-epoch convention if no more specific source is obtained. | `HUMAN_REVIEW_REQUIRED` |
+| A synthetic sensitivity comparison must quantify candidate-interpretation effects without using its result to decide source meaning or a tolerance. | `EXPERIMENT_REQUIRED` |
 
 ## Solution quality and covariance
 
@@ -129,8 +152,10 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 - `UW` is a factor of inverse covariance, not a row of independent standard deviations.
 - HIP is the join key across the four files.
 - File byte positions are fixed-width and one-based in the documentation.
-- Epoch, frame, and observation time are separate concepts. `Ep=1991.25` does not
-  define a runtime observation instant.
+- Epoch representation, time scale, frame, and observation time are separate
+  concepts. Official ESA downstream use supports the Julian representation
+  `J1991.25`; the I/311 authority record still does not define an exact runtime
+  propagation instant because its time scale is unstated.
 
 # Implementation implications
 
@@ -171,6 +196,9 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
   order, deterministic serialization, and generated-artifact checksum.
 - Astronomy-reference tests: epoch identity at 1991.25 and motion propagation only
   after `pmRA` semantics and time-scale policy are approved.
+- Epoch-sensitivity tests: compare explicitly labelled synthetic Julian-TT,
+  Julian-TDB, Julian-UTC, calendar-decimal-year, and Besselian guard interpretations;
+  record time and angular deltas without treating the result as catalogue authority.
 - Stop conditions: absent approved acquisition/licence record, hash mismatch,
   unresolved motion convention, unsupported solution type, or ambiguous null/quality
   field blocks the affected artifact.
@@ -181,8 +209,10 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 - It does not approve a culturally required subset, magnitude threshold, context-star
   policy, or redistribution.
 - The local raw catalogue data files were not studied or parsed.
-- The epoch's time-scale semantics remain insufficient for production propagation.
-  The `pmRA` component is resolved by the companion official Appendix G source.
+- The epoch's Julian representation is supported by the official ESA Gaia DR1 use of
+  I/311, but its I/311-applicable time-scale semantics remain insufficient for
+  production propagation. The `pmRA` component is resolved by the companion official
+  Appendix G source.
 - Formal errors characterize the catalogue solution; they do not validate a future
   propagated horizontal position or set a test tolerance.
 - The correction notice makes a catalogue ID/year insufficient as a byte-version pin.
@@ -196,8 +226,9 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
   after unit conversion. Any SOFA or other coordinate-angle-rate interface needs its
   own explicit conversion and singularity handling; this dossier does not approve that
   production mapping.
-- `Ep=1991.25` is a Julian-epoch label but the local `ReadMe` does not provide the
-  exact time-scale instant required by a propagation routine.
+- The I/311 `ReadMe` itself gives only `Ep=1991.25`; ESA Gaia DR1 directly identifies
+  I/311 and calls the epoch `J1991.25`. Neither I/311 metadata nor that downstream ESA
+  page supplies the exact time scale required by a propagation routine.
 - Scalar formal errors coexist with a full weight-matrix factor. Treating them as
   independent would discard documented correlations.
 - The 2008 correction notice creates at least two historical byte variants. Only a
@@ -211,6 +242,8 @@ and hash the actual bytes; “I/311” alone is not a complete version pin.
 | File names, lengths, counts | `File Summary` | Verify complete fixed-width inputs before parsing | `SOURCE_REQUIRED` |
 | Stable row key | `hip2.dat`, bytes 1-6, `HIP` | Join by HIP; never by cultural name | `SOURCE_REQUIRED` |
 | Frame/epoch and coordinate units | `hip2.dat`, bytes 16-42 | Carry ICRS, 1991.25, and radians explicitly | `SOURCE_REQUIRED` |
+| Epoch representation | ESA Gaia DR1 processing documentation, Section 4.2.1 | Treat `J1991.25` as the source-supported representation; do not substitute `byear` or `decimalyear` | `SOURCE_SUPPORTED_FACT` |
+| Epoch time scale | I/311 `ReadMe`; ESA Gaia DR1 Section 4.2.1; contrast original ESA 1997 Section 1.2.6 | Preserve the label and block source-derived propagation pending exact authority or review | `AUTHORITY_OR_EVIDENCE_MISSING`; `HUMAN_REVIEW_REQUIRED` |
 | Proper-motion component semantics | I/311 Appendix G Table G.3, printed p. 407; `hip2.dat`, bytes 52-68 | Normalize `pmRA` as `mu_alpha_star`; direct Astropy `pm_ra_cosdec` mapping after unit conversion | `SOURCE_REQUIRED` |
 | Formal errors and quality fields | `hip2.dat`, bytes 70-128 | Approve retention/selection policy | `PROJECT_DECISION_REQUIRED` |
 | Hp is its own band | `hip2.dat`, bytes 130-149 | Do not relabel as Johnson V or unaided visibility | `SOURCE_REQUIRED` |
