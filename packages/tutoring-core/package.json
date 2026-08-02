@@ -9,14 +9,21 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./bkt": {
+      "types": "./dist/bkt/index.d.ts",
+      "default": "./dist/bkt/index.js"
+    },
+    "./adaptive-policy": {
+      "types": "./dist/adaptive-policy/index.d.ts",
+      "default": "./dist/adaptive-policy/index.js"
+    },
+    "./observations": {
+      "types": "./dist/observations/index.d.ts",
+      "default": "./dist/observations/index.js"
     }
   },
   "scripts": {
     "build": "tsc -b --pretty false"
-  },
-  "dependencies": {
-    "@ufuq/adaptive-policy": "0.0.0",
-    "@ufuq/assessment-core": "0.0.0",
-    "@ufuq/bkt-core": "0.0.0"
   }
 }

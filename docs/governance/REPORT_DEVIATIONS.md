@@ -25,12 +25,15 @@ change affects that domain.
 | DEV-013 | Keep correct time/location geometry and the resulting seasonal sky in MVP, but treat physical light-pollution, weather, sky-brightness, extinction, and season-specific environmental realism as optional unless separately approved. | Prevents an unvalidated atmosphere/weather subsystem. If rejected, add its data, model, performance, and validation burden. | §3.2 Sprint 2 and §3.3.3 FR-1/FR-2; FR-01/02; AST-004; SCOPE-001 | Astronomy/education expert | Pending; SCOPE-001 |
 | DEV-014 | Replace the unrestricted free-text system-log payload with structured, allowlisted, size-bounded, redacted event fields; retain protected diagnostic detail only where an approved purpose requires it. | Prevents credentials, answers, personal data, or internals entering routine logs. If rejected, the report data-dictionary field requires compensating redaction/access controls. | §3.6 table 3-12; FR-13; NFR-04; ADR-006 | Security/privacy reviewer | Pending |
 
-Selecting a non-Hipparcos catalogue is not automatically a deviation: the report names
-catalogue candidates rather than fixing one. AST-001 still requires approval. Proper
-motion, epoch handling, and other astrometric effects are scientifically motivated
-clarifications, not silently attributed report requirements; AST-003 must implement each
-or approve its omission with a quantified bound. Removing independent astronomical
-validation would change the report evaluation baseline and requires a new deviation.
+The Phase 1 project decision selects CDS I/311 for the bounded local technical spike.
+That choice is not silently attributed to the report and does not approve
+redistribution, parser policy, or production use. A later source change would require a
+new project decision but is not automatically a report deviation because the report
+names catalogue candidates rather than fixing one. Proper motion, epoch handling, and
+other astrometric effects are scientifically motivated clarifications; AST-003 must
+implement each or approve its omission with a quantified bound. Removing independent
+astronomical validation would change the report evaluation baseline and requires a new
+deviation.
 
 The report's administrator analytics use case is read-only. No deviation is needed to
 forbid ordinary administrator mutation of attempts or mastery; DEV-012 concerns a

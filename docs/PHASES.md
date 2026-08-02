@@ -8,17 +8,27 @@ not block earlier local implementation.
 
 **Goal:** create the empty monorepo, tooling, package boundaries, and test harness.
 
-**Implement:** workspace/package manifests; pinned Node/TypeScript/tool versions;
-`apps/`, `packages/`, and `tools/` layout from `ARCHITECTURE.md`; shared TypeScript
-configuration; formatter/linter/type-checker; unit/reference/integration/E2E test
-partitions; dependency rules; minimal CI scripts; empty typed public entry points.
+The documentation-only source study and grounded-skill work is tracked in
+`.agent/execplans/phase-00-reference-pdf-study.md`; it prepares later evidence without
+activating Phase 1. The focused official ESA Hipparcos 1997 field-semantics integration
+is tracked in `.agent/execplans/phase-00-esa-hipparcos-source-integration.md`; it also
+does not activate Phase 1.
+
+**Implement:** exactly eight npm workspace/package manifests; a non-npm independent
+Python reference-tool scaffold; pinned Node/TypeScript/tool versions; the layout from
+`ARCHITECTURE.md`; shared TypeScript configuration; formatter/linter/type-checker;
+separate unit/reference/integration/E2E test discovery; dependency rules; minimal CI
+scripts; empty typed public entry points. BKT, observations, and adaptive policy remain
+logical modules inside `tutoring-core`; catalogue/content/artifact schemas remain
+logical modules inside `catalogue-schema`.
 
 **Do not implement:** catalogue data, astronomy formulas, cultural mappings, scoring,
 BKT policy, persistence, accounts, participant instrumentation, or deployment.
 
-**Exit:** clean install and scripts work; every workspace compiles; a sample unit test
-and browser smoke test prove discovery; forbidden imports fail; no placeholder is
-presented as domain truth.
+**Exit:** clean install and scripts work; every applicable workspace compiles; the unit
+and browser smoke tests prove active discovery; inactive reference/integration suites
+are omitted from Phase 0 CI and fail closed when invoked empty; forbidden imports fail;
+no placeholder is presented as domain truth.
 
 ## Phase 1: astronomy and data technical spike
 
@@ -29,14 +39,38 @@ shape.
 **Read additionally:** `ASTRONOMY_SPEC.md`, `DATA_STRATEGY.md`, ADR-003/004/007. Load
 formal science governance only when preparing approval evidence.
 
-**Implement:** replaceable catalogue-source adapter; source/manifest/schema prototypes,
-including generic `SkyPattern`, `GuidanceRelationship`, and `LessonRoute` schemas;
+**Implement:** a bounded CDS I/311 acquisition/normalization experiment inside the
+existing catalogue-tool boundary, with no alternate-catalogue abstraction;
+source/manifest/schema prototypes, including generic `SkyPattern`,
+`GuidanceRelationship`, and `LessonRoute` schemas;
 typed catalogue/propagated/horizontal/scene values; small synthetic or clearly labelled
-candidate fixtures; comparison harness against an independent reference; deterministic
-serialization/checksum experiment.
+candidate fixtures; an independently pinned Python/Astropy fixture producer and
+comparison harness under `tests/reference`; deterministic serialization/checksum
+experiment. The reference suite becomes mandatory when the first production/reference
+comparison is introduced.
 
-**Do not claim:** an approved catalogue, approved cultural content, production
-astrometry, final tolerance, or learner-facing correctness.
+**Do not claim:** approval beyond the bounded I/311 Phase 1 local-spike selection,
+redistribution or deployment rights, approved cultural content, production astrometry,
+final tolerance, or learner-facing correctness.
+
+Milestone 2B fixes the local parser contract in
+`spikes/PHASE1_CATALOGUE_AUTHORITY_PROVENANCE.md`: corrected 2008-09-16 I/311 files,
+complete source-field preservation, confirmed starred-alpha `pmRA`, an exact 19-HIP
+technical review allowlist, fail-closed row/supplement policies, and versioned
+artifact/provenance schemas.
+
+Milestone 2C is reserved for the Scientific Behaviour Contract.
+
+Milestone 2D records the catalogue source/deployment-authority outcome required before
+source-derived processing. It must explicitly resolve local processing authority and
+the permitted handling of generated data; unresolved redistribution authority does not
+become permission to track or deploy I/311-derived rows.
+
+Milestone 2E implements the local read-only catalogue parser, runtime validation, and
+deterministic generation after Milestones 2C and 2D. Inputs and outputs remain ignored
+and local unless separate redistribution/deployment authority explicitly permits
+otherwise. Source-derived fixtures, cultural membership, and learner-facing content
+remain outside this milestone until their scientific or human-review gates are met.
 
 **Exit:** the spike identifies a viable implementation path and produces reproducible
 comparison evidence; rejected spike code can be removed without changing application
@@ -80,9 +114,10 @@ scaffold cues, task-to-KC mapping, and evaluation-session isolation needed by th
 implemented tasks. Participant recruitment or ethics is not required for synthetic and
 local functional testing.
 
-**Implement:** five-KC model interfaces; pure BKT; adaptive policy; typed no-update and
-transition-only decisions; issued cue snapshots; assessment types; deterministic model
-and policy traces.
+**Implement:** five-KC model interfaces; pure BKT in `tutoring-core/src/bkt`; observation
+semantics in `tutoring-core/src/observations`; adaptive policy in
+`tutoring-core/src/adaptive-policy`; typed no-update and transition-only decisions;
+issued cue snapshots; assessment types; deterministic model and policy traces.
 
 **Exit:** independent BKT sequences, scoring boundaries, policy transitions, assistance
 semantics, sensitivity evidence, and local E2E journeys pass without participant data.
@@ -99,6 +134,9 @@ personal-data, privileged-access, or release policy.
 sessions; ownership/capability authorization; learner progress; minimal read-only
 aggregate administration. A development fixture identity is removed from production
 composition.
+
+The integration suite becomes mandatory with the first API/persistence integration
+test and must use the frozen real-MySQL profile for transaction claims.
 
 **Exit:** real-MySQL fault/concurrency tests pass; matching retries return one result;
 mismatches/stale submissions fail safely; authorization and session tests pass; no

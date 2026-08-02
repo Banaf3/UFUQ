@@ -1,2 +1,4 @@
-/** Pure tutoring façade boundary. It contains no BKT or scaffold behavior in Phase 0. */
-export {};
+/** Pure tutoring domain; behavior is introduced only in Phase 3. */
+export * from './adaptive-policy/index.js';
+export * from './bkt/index.js';
+export * from './observations/index.js';

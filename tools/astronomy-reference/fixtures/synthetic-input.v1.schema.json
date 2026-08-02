@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ufuq:synthetic-astronomy-input:v1",
+  "title": "UFUQ synthetic-only astronomy oracle input v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "fixtureClassification", "cases"],
+  "properties": {
+    "schemaVersion": {
+      "const": "ufuq.synthetic-astronomy-input.v1"
+    },
+    "fixtureClassification": {
+      "const": "SYNTHETIC_ONLY"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "caseId",
+          "caseType",
+          "classification",
+          "expectedOutcome",
+          "icrs",
+          "referenceEpoch",
+          "observationUtc",
+          "observer",
+          "pressureHpa"
+        ],
+        "properties": {
+          "caseId": {
+            "type": "string",
+            "pattern": "^synthetic-[a-z0-9-]+$"
+          },
+          "caseType": {
+            "enum": ["VALID_DIRECTION", "INVALID_INPUT"]
+          },
+          "classification": {
+            "const": "SYNTHETIC_TEST_INPUT"
+          },
+          "expectedOutcome": {
+            "enum": ["VALID", "STRUCTURED_ERROR"]
+          },
+          "icrs": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["raDegrees", "decDegrees"],
+            "properties": {
+              "raDegrees": {
+                "type": "number"
+              },
+              "decDegrees": {
+                "type": "number"
+              }
+            }
+          },
+          "referenceEpoch": {
+            "const": "J2000.0"
+          },
+          "observationUtc": {
+            "type": "string"
+          },
+          "observer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "datum",
+              "latitudeDegrees",
+              "longitudeDegreesEast",
+              "ellipsoidalHeightMeters"
+            ],
+            "properties": {
+              "datum": {
+                "const": "WGS84"
+              },
+              "latitudeDegrees": {
+                "type": "number"
+              },
+              "longitudeDegreesEast": {
+                "type": "number"
+              },
+              "ellipsoidalHeightMeters": {
+                "type": "number"
+              }
+            }
+          },
+          "pressureHpa": {
+            "const": 0
+          }
+        }
+      }
+    }
+  }
+}

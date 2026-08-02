@@ -3,16 +3,10 @@
   "references": [
     { "path": "packages/astronomy-core" },
     { "path": "packages/assessment-core" },
-    { "path": "packages/bkt-core" },
-    { "path": "packages/adaptive-policy" },
-    { "path": "packages/contracts" },
-    { "path": "packages/star-data" },
-    { "path": "packages/catalogue-schema" },
     { "path": "packages/tutoring-core" },
-    { "path": "tools/astronomy-reference" },
-    { "path": "tools/catalogue-pipeline" },
+    { "path": "packages/contracts" },
+    { "path": "packages/catalogue-schema" },
     { "path": "tools/catalogue" },
-    { "path": "apps/api" },
-    { "path": "apps/web" }
+    { "path": "apps/api" }
   ]
 }

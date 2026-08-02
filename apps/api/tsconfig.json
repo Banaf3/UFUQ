@@ -7,5 +7,11 @@
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.test.ts"],
-  "references": [{ "path": "../../packages/contracts" }]
+  "references": [
+    { "path": "../../packages/contracts" },
+    { "path": "../../packages/catalogue-schema" },
+    { "path": "../../packages/astronomy-core" },
+    { "path": "../../packages/assessment-core" },
+    { "path": "../../packages/tutoring-core" }
+  ]
 }

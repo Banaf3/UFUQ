@@ -1,0 +1,4 @@
+interface:
+  display_name: "UFUQ Najdi Arabian Sky"
+  short_description: "Classify and review UFUQ Arabian sky claims"
+  default_prompt: "Use $ufuq-najdi-arabian-sky to classify evidence for this UFUQ Arabian sky claim."

@@ -16,6 +16,24 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 
 Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
 
+## Physical ownership
+
+- `packages/catalogue-schema/src/catalogue/` owns numerical serialized-row schemas and
+  framework-free validators.
+- `packages/catalogue-schema/src/content/` owns serialized `SkyPattern`,
+  `GuidanceRelationship`, and `LessonRoute` shapes/validators; human-reviewed source
+  records themselves live under `data/curation/`.
+- `packages/catalogue-schema/src/artifact/` owns the generated artifact envelope,
+  manifest, version, and checksum schema.
+- `data/manifests/` tracks provenance, licence, query, selection, and expected hashes.
+- `data/raw/` contains immutable acquired bytes locally and is ignored by default.
+- `data/curation/patterns/`, `relationships/`, and `routes/` keep the three reviewed
+  content classes visibly separate.
+- `data/generated/` contains deterministic runtime output only when licence and release
+  policy permit tracking it.
+- `tools/catalogue/src/pipeline/` is an internal module of the single catalogue-tool
+  workspace; there is no separate pipeline package.
+
 ## Data-driven guidance content
 
 `SkyPattern`, `GuidanceRelationship`, and `LessonRoute` are distinct records so the
@@ -46,7 +64,8 @@ relationship or substitute unreviewed content.
 
 ## Source and provenance manifest
 
-Before retrieval, create a machine-readable source manifest containing:
+Before retrieval, create a machine-readable source manifest under `data/manifests/`
+containing:
 
 - catalogue name, publisher/archive, catalogue/table ID and release/version;
 - canonical metadata/download/query URL, exact selected columns, deterministic culturally-required/context-star subset rules, exclusions, duplicate/component resolution, filters, row-order rule, and units;
@@ -54,7 +73,19 @@ Before retrieval, create a machine-readable source manifest containing:
 - retrieval timestamp in UTC, retrieval tool/version, source citation, licence URL/text identifier, and redistribution determination;
 - raw byte SHA-256, normalized table SHA-256, expected row count, and approved reviewer/date.
 
-AST-001 is unresolved. Hipparcos Main Catalogue via ESA and CDS/VizieR I/239 is a candidate, not a selected fact. Do not add catalogue rows until the catalogue metadata and redistribution terms are manually approved.
+CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the approved sole source for the
+Phase 1 local technical spike. Use the corrected author-replacement files recorded on
+2008-09-16, with `hip2.dat` as the main table and an exact matching supplement when a
+selected `Sn` family requires it. The Phase 1 field, missing/duplicate, solution,
+multiplicity, candidate-selection, schema, sorting, and checksum policies are fixed in
+`spikes/PHASE1_CATALOGUE_AUTHORITY_PROVENANCE.md`. Acquisition provenance remains
+partial and raw/derived redistribution is unresolved, so source-derived output stays
+ignored and local. Do not add catalogue rows to Git or deployment storage; the existing
+data-scaffold guard is intentionally unchanged.
+
+I/311 `pmRA` is source-defined in Appendix G Table G.3 as `mu_alpha_star`; normalize it
+as `properMotionRaCosDecMilliarcsecondsPerYear` and do not apply or remove another
+`cos(delta)` factor when supplying Astropy `pm_ra_cosdec`.
 
 ## Acquisition and transformation
 
@@ -82,6 +113,9 @@ a hand-made Phase 1 fixture with a different provenance mechanism.
 ## Raw snapshot policy
 
 - Prefer retaining the exact permitted raw source or query result in an access-controlled reproducibility store with immutable checksum.
+- Local acquired bytes are written under default-ignored `data/raw/`; a normal Git add
+  cannot include them. Any future exception requires an explicit licence/provenance
+  decision and ignore-policy change.
 - Commit it only when the source licence explicitly permits repository redistribution and the repository audience is compatible.
 - If redistribution is unclear or prohibited, commit only manifest, query/acquisition script, expected metadata/checksum where allowed, and citation; an authorized reproducibility store retains the immutable bytes when policy permits. A public fresh checkout can then verify manifests/scripts but cannot honestly claim byte-for-byte regeneration without authorized access.
 - Never substitute an undocumented later response under the same version.
@@ -92,6 +126,8 @@ a hand-made Phase 1 fixture with a different provenance mechanism.
 Schemas reject unknown required semantics and at least verify:
 
 - unique, non-empty stable source IDs;
+- exactly one main row for every selected HIP and no unrequested row in the selected
+  artifact; a required 3/7/9-parameter or VIM supplement resolves exactly once;
 - finite required astrometric/photometric/uncertainty values and their documented ranges/units; every omitted uncertainty/covariance or space-motion field has an approved error-bound rationale;
 - explicit frame/epoch/catalogue version; no mixed frames or epochs in one unlabelled artifact;
 - approved handling of missing/flagged astrometry;
@@ -114,7 +150,17 @@ acquisition, a checksum differs, or a coordinate appears only in curation.
 
 ## Generated-file policy
 
-Generated JSON is a build artifact with a header or companion manifest containing input versions/hashes, schema version, generator version, deterministic build-time policy, and licence/citation notices. Volatile retrieval/audit timestamps live outside the canonical payload; two builds from identical approved inputs and tool versions must produce identical bytes. It is committed only after AST-001 licensing approval; otherwise it is generated in authorized build/deployment storage. Code review changes source/curation inputs or transformer logic, never generated rows alone.
+Generated JSON is a build artifact with a companion manifest containing input
+versions/hashes, schema version, generator version/Git commit, selection evidence,
+licence/citation notices, artifact byte length/count, and artifact SHA-256. The v1
+canonical form is UTF-8 without BOM, NFC, lexicographic object-key order, numeric HIP
+record order, schema-defined order for other arrays, finite shortest-round-trip JSON
+numbers with negative zero normalized to zero, and one trailing LF. Volatile
+retrieval/review timestamps and machine paths stay outside the canonical payload. Two
+builds from identical approved inputs and tool versions must produce identical bytes.
+It is committed only after explicit redistribution approval; otherwise it remains in
+ignored local or authorized access-controlled storage. Code review changes
+source/curation inputs or transformer logic, never generated rows alone.
 
 AST-003 decides whether runtime rows carry catalogue-reference astrometry for runtime
 propagation, precomputed scenario-time directions, or both. The browser and API consume
@@ -124,7 +170,17 @@ the astronomy/EOP/build links needed for the qualified replay claim.
 
 ## Licensing and citation
 
-Maintain a licence record per input and per distributed output: rights holder, licence identifier/link, required attribution, transformation/redistribution conditions, non-commercial constraints, approval, and display/report citation text. ESA's Hipparcos catalogue page indicates an ESA licence/credit requirement, while archive metadata may not by itself resolve downstream redistribution; institutional review remains AST-001. A public URL is not permission to copy.
+Maintain a licence record per input and per distributed output: rights holder, licence
+identifier/link, required attribution, transformation/redistribution conditions,
+non-commercial constraints, approval, and display/report citation text. VizieR's
+official rules permit scientific-context use and require the original
+authors/publication/publisher to be cited; they request VizieR acknowledgement. The
+I/311 ReadMe does not grant raw or derived redistribution. ESA's CC licence and credit
+terms for the original 1997 catalogue must not be transferred to the later I/311
+reduction by inference. Until CDS/data-origin clarification is recorded, classify
+I/311 as `LOCAL_USE_ONLY` and every source-derived Git/deployment output as
+`REDISTRIBUTION_UNRESOLVED` with `BLOCK_TRACKING_AND_DEPLOYMENT`. A public URL is not
+permission to copy.
 
 ## Manual review gates
 

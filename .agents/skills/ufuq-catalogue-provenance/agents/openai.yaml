@@ -1,0 +1,4 @@
+interface:
+  display_name: "UFUQ Catalogue Provenance"
+  short_description: "Review UFUQ catalogue pipelines and provenance"
+  default_prompt: "Use $ufuq-catalogue-provenance to review this UFUQ catalogue or artifact workflow."

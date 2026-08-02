@@ -32,8 +32,9 @@ Historical report/deviation/authority status remains in `governance/`.
 ## IMP-003 — Dependency direction
 
 - **Decision:** Separation of domain, application, and adapter code.
-- **Current choice:** `astronomy-core`, `assessment-core`, `bkt-core`, and
-  `adaptive-policy` are pure; application use cases own ports; adapters depend inward.
+- **Current choice:** `astronomy-core`, `assessment-core`, and `tutoring-core` are pure;
+  BKT, observation semantics, and adaptive policy are logically separate modules inside
+  `tutoring-core`; application use cases own ports; adapters depend inward.
 - **Status:** approved
 - **What code it affects:** Package public APIs, project references, lint/import rules,
   composition roots.
@@ -65,8 +66,10 @@ Historical report/deviation/authority status remains in `governance/`.
 ## IMP-006 — Automated test tooling
 
 - **Decision:** Test runners used by the implementation workflow.
-- **Current choice:** Vitest for unit/contract tests and Playwright for browser tests;
-  real MySQL integration tests are a separate suite when persistence appears.
+- **Current choice:** Separate fail-closed Vitest configurations for unit, reference,
+  and integration tests, plus Playwright for browser tests. Inactive later-phase suites
+  are omitted from Phase 0 CI rather than reported as passing; real MySQL tests activate
+  the integration suite when persistence appears.
 - **Status:** provisional
 - **What code it affects:** Test configuration, package scripts, fixtures, CI jobs.
 - **Validation required:** Phase 0 self-tests prove test discovery, deterministic seed
@@ -76,13 +79,13 @@ Historical report/deviation/authority status remains in `governance/`.
 ## IMP-007 — Repository package layout
 
 - **Decision:** Initial folders and package names.
-- **Current choice:** Use the layout in `ARCHITECTURE.md`: `apps/web`, `apps/api`,
-  `packages/astronomy-core`, `packages/assessment-core`, `packages/bkt-core`,
-  `packages/adaptive-policy`, `packages/contracts`, `packages/catalogue-schema`, and
-  `tools/catalogue`.
+- **Current choice:** Use exactly eight npm workspaces: `apps/web`, `apps/api`,
+  `packages/astronomy-core`, `packages/assessment-core`, `packages/tutoring-core`,
+  `packages/contracts`, `packages/catalogue-schema`, and `tools/catalogue`. Keep
+  `tools/astronomy-reference` as a separate non-npm Python/Astropy fixture producer.
 - **Status:** approved
-- **What code it affects:** Folder creation, workspace globs, dependency graph, public
-  entry points.
+- **What code it affects:** Folder creation, explicit workspace list, dependency graph,
+  public entry points, independent reference environment.
 - **Validation required:** No unresolved scientific, cultural, BKT, participant,
   security, or deployment value changes these folder/package boundaries.
 
@@ -90,14 +93,27 @@ Historical report/deviation/authority status remains in `governance/`.
 
 - **Decision:** Exact catalogue/table/version, licence/access route, subset, fields,
   quality rules, and canonical runtime artifact.
-- **Current choice:** No production source or subset is selected; Hipparcos I/239 is a
-  candidate for the technical spike only.
-- **Status:** unresolved
+- **Current choice:** Use only the corrected 2008-09-16 `hip2.dat` main table and
+  required solution supplements from CDS/VizieR I/311, *Hipparcos, the New Reduction*.
+  Phase 1 uses an explicit 19-HIP technical review allowlist, retains every main-table
+  field, preserves all solution/multiplicity/quality evidence, and fails on
+  missing/duplicate/invalid rows or supplements. I/311 `pmRA` is `mu_alpha_star` and
+  normalizes directly to `properMotionRaCosDecMilliarcsecondsPerYear`. Canonical
+  artifacts and provenance follow the v1 schemas and serialization policy in
+  `packages/catalogue-schema`. Raw or derived rows remain local and ignored while
+  redistribution is unresolved; the candidate allowlist is not cultural or lesson
+  approval.
+- **Status:** provisional (contract approved for local non-redistributing Phase 1 /
+  Milestone 2E parser implementation after Milestone 2D resolves source/deployment
+  authority; acquisition provenance remains partial, redistribution/deployment and
+  row/cultural review remain blocked)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.
-- **Validation required:** Deterministic rebuild, provenance/licence manifest,
-  schema/range/quality checks, checksum equality, and scientific review before the
-  validated vertical slice.
+- **Validation required:** Pre-parse raw-hash verification; exact fixed-width and
+  supplemental joins; schema/range/solution/multiplicity/quality reporting; sorted
+  unique selection; byte-identical rebuild and checksum; provenance/licence manifest;
+  scientific row review; and separate falak/cultural review before any learner-facing
+  use.
 
 ## IMP-009 — Astronomy transformation pipeline
 
@@ -176,7 +192,8 @@ Historical report/deviation/authority status remains in `governance/`.
 
 - **Decision:** Shape and update order of the learner model.
 - **Current choice:** One standard binary BKT state per KC, observation posterior first
-  and learning transition second, implemented in pure `bkt-core`.
+  and learning transition second, implemented in the pure `tutoring-core/src/bkt`
+  module.
 - **Status:** approved
 - **What code it affects:** BKT value types, pure update function, replay records,
   parameter interface.
@@ -190,8 +207,8 @@ Historical report/deviation/authority status remains in `governance/`.
 - **Current choice:** Interfaces and typed decision states may be scaffolded; production
   values and cue semantics are unresolved.
 - **Status:** unresolved
-- **What code it affects:** BKT configuration, adaptive-policy, lesson cues, mastery
-  display, model-policy tests.
+- **What code it affects:** BKT configuration, the `tutoring-core/src/adaptive-policy`
+  module, lesson cues, mastery display, and model-policy tests.
 - **Validation required:** Approved worked sequences, sensitivity results, complete
   observation decision table, and cue/state transition fixtures before Phase 3
   acceptance.
@@ -232,3 +249,19 @@ Historical report/deviation/authority status remains in `governance/`.
 - **Validation required:** Approved policy plus threat-model, session, authorization,
   IDOR, recovery, rate-limit, and production fixture-exclusion tests before account or
   deployment readiness.
+
+## IMP-019 — Runtime validation ownership
+
+- **Decision:** Where untrusted serialized data and HTTP payloads are validated.
+- **Current choice:** `catalogue-schema` may provide framework-free runtime schemas and
+  validators from its `catalogue`, `content`, and `artifact` modules. `contracts` may
+  provide framework-free validators beside versioned DTOs. Domain entities, database
+  rows, React props, application services, and human curation source records remain in
+  their owning layers. No validation library is selected until Phase 1 introduces a
+  real validator and can justify its size, API, maintenance, and cross-runtime support.
+- **Status:** approved
+- **What code it affects:** Trust-boundary parsing, catalogue/content artifact loading,
+  API request/response validation, package dependencies, and schema tests.
+- **Validation required:** Invalid/unknown input tests, web/API agreement on serialized
+  DTOs, framework-free package checks, and one documented dependency decision before a
+  validator library is added.

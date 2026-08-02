@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "ufuq.synthetic-astronomy-input.v1",
+  "fixtureClassification": "SYNTHETIC_ONLY",
+  "cases": [
+    {
+      "caseId": "synthetic-direction-ordinary",
+      "caseType": "VALID_DIRECTION",
+      "classification": "SYNTHETIC_TEST_INPUT",
+      "expectedOutcome": "VALID",
+      "icrs": {
+        "raDegrees": 37.25,
+        "decDegrees": 18.5
+      },
+      "referenceEpoch": "J2000.0",
+      "observationUtc": "2026-06-01T04:15:00Z",
+      "observer": {
+        "datum": "WGS84",
+        "latitudeDegrees": 4.5,
+        "longitudeDegreesEast": 102.25,
+        "ellipsoidalHeightMeters": 85
+      },
+      "pressureHpa": 0
+    },
+    {
+      "caseId": "synthetic-direction-southern",
+      "caseType": "VALID_DIRECTION",
+      "classification": "SYNTHETIC_TEST_INPUT",
+      "expectedOutcome": "VALID",
+      "icrs": {
+        "raDegrees": 271.125,
+        "decDegrees": -47.75
+      },
+      "referenceEpoch": "J2000.0",
+      "observationUtc": "2026-07-01T19:40:00Z",
+      "observer": {
+        "datum": "WGS84",
+        "latitudeDegrees": -23.25,
+        "longitudeDegreesEast": 131.75,
+        "ellipsoidalHeightMeters": 410
+      },
+      "pressureHpa": 0
+    },
+    {
+      "caseId": "synthetic-invalid-latitude",
+      "caseType": "INVALID_INPUT",
+      "classification": "SYNTHETIC_TEST_INPUT",
+      "expectedOutcome": "STRUCTURED_ERROR",
+      "icrs": {
+        "raDegrees": 120,
+        "decDegrees": 5
+      },
+      "referenceEpoch": "J2000.0",
+      "observationUtc": "2026-06-15T00:00:00Z",
+      "observer": {
+        "datum": "WGS84",
+        "latitudeDegrees": 95,
+        "longitudeDegreesEast": 12,
+        "ellipsoidalHeightMeters": 0
+      },
+      "pressureHpa": 0
+    }
+  ]
+}

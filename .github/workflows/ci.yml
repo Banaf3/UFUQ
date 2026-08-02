@@ -24,9 +24,8 @@ jobs:
       - run: npm run boundaries
       - run: npm run data:verify
       - run: npm run test
-      - run: npm run test:reference
-      - run: npm run test:integration
       - run: npm run build
+      - run: npm run exports:check
       - run: npx --no-install playwright install --with-deps chromium
       - run: npm run test:e2e
       - name: Upload Playwright failure artifacts

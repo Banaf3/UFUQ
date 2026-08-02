@@ -34,7 +34,11 @@ disposition of DEV-001–014 as needed by P1; reviewed ADRs; minimal
 catalogue/licence/source manifest and canonicalization design; scenario/evidence/error-
 budget fixture schemas; SYS-001 and SCOPE-002 records; Phase 1 ExecPlan.
 
-**Tasks:** hold supervisor/domain reviews; verify Hipparcos candidate metadata/licence or select another approved catalogue; approve cultural mappings; freeze time/frame/Qibla policies and tolerance IDs; approve BKT evidence/parameters; define study and privacy gates; select baseline device/browsers; threat-model review.
+**Tasks:** hold supervisor/domain reviews; complete CDS I/311 local-processing,
+licensing, retained-field, solution/quality, subset, and tracking decisions without
+adding an alternate catalogue; approve cultural mappings; freeze time/frame/Qibla
+policies and tolerance IDs; approve BKT evidence/parameters; define study and privacy
+gates; select baseline device/browsers; threat-model review.
 
 **Tests/reviews:** every required astronomy field has a value or explicit non-applicability; worked BKT examples independently recalculated; traceability/ADR/deviation consistency review; restricted-file/licence review.
 

@@ -28,24 +28,33 @@ apps/
 packages/
   astronomy-core/         coordinate/time/Qibla pure functions
   assessment-core/        task answer types and pure scoring
-  bkt-core/               pure BKT update and constraints
-  adaptive-policy/        pure scaffold state machine
-  contracts/              versioned API DTOs and validation schemas
-  catalogue-schema/       source/curation/runtime schemas
+  tutoring-core/          pure bkt/, observations/, adaptive-policy/ modules
+  contracts/              versioned serialized API DTOs and pure validators
+  catalogue-schema/       catalogue/, content/, artifact/ schemas and validators
 data/
-  sources/                manifests and permitted immutable snapshots
-  curation/               reviewed cultural/educational records
+  manifests/              tracked provenance/licence/query records
+  raw/                    immutable acquired bytes, ignored by default
+  curation/
+    patterns/             reviewed SkyPattern sources
+    relationships/        reviewed GuidanceRelationship sources
+    routes/               reviewed LessonRoute sources
   generated/              deterministic deployable JSON, if licence permits
-tools/catalogue/           acquisition, transform, verify commands
+tools/
+  catalogue/              npm workspace; internal acquisition/transform/verify modules
+  astronomy-reference/    non-npm independent Python/Astropy fixture producer
 tests/
   reference/              independent astronomy fixtures/generator metadata
+  integration/            API and real-MySQL tests when persistence exists
   e2e/                    browser journeys and visual baselines
   performance/            frozen scene and benchmark definitions
 docs/                     specifications, decisions, evidence indexes
 ```
 
-This layout is approved for the empty Phase 0 scaffold. Domain behavior remains subject
-to the phase-specific choices in `IMPLEMENTATION_DECISIONS.md`.
+The eight npm workspaces are `apps/web`, `apps/api`, the five packages shown above, and
+`tools/catalogue`. `tools/astronomy-reference` is deliberately outside the npm and
+production dependency graphs. This consolidated layout is approved for the empty Phase
+0 scaffold; domain behavior remains subject to the phase-specific choices in
+`IMPLEMENTATION_DECISIONS.md`.
 
 ## Logical layers and allowed dependencies
 
@@ -57,8 +66,7 @@ flowchart TB
   CONTRACTS[contracts and catalogue schemas]
   ASSESS[assessment-core]
   ASTRO[astronomy-core]
-  BKT[bkt-core]
-  POLICY[adaptive-policy]
+  TUTOR[tutoring-core: bkt, observations, adaptive policy]
   INFRA[API outbound adapters: MySQL, session, logging]
 
   WEB --> CONTRACTS
@@ -68,22 +76,29 @@ flowchart TB
   USE --> CONTRACTS
   USE --> ASTRO
   USE --> ASSESS
-  USE --> BKT
-  USE --> POLICY
+  USE --> TUTOR
   INFRA --> USE
   ASSESS --> ASTRO
-  POLICY --> BKT
 ```
 
 Rules:
 
 1. Pure packages may depend only on other explicitly allowed pure packages and standard TypeScript/ECMAScript facilities.
 2. No pure package imports React, Three.js, R3F, Express, a SQL client, Node-only I/O, DOM/browser globals, or application code.
-3. `assessment-core` may consume astronomy value objects/functions; `adaptive-policy` may consume BKT result types. The reverse directions are forbidden.
+3. `assessment-core` may consume astronomy value objects/functions.
+   `tutoring-core` consumes typed correctness observations supplied by the API and has
+   no dependency on `assessment-core`; its BKT and adaptive-policy modules remain
+   logically separate. The reverse directions are forbidden.
 4. Applications compose packages through public entry points. Applications do not import each other's internals. API use cases define outbound ports; MySQL, session, logging, and framework adapters implement those ports and depend inward. The composition root is the only place that constructs concrete adapters.
 5. Contracts carry units, coordinate frame, time, and version fields explicitly. No unlabelled numeric tuple crosses a boundary.
 6. The browser may calculate positions for presentation, but server recalculation is authoritative for scoring.
 7. The browser does not import authoritative scorer, target-resolution, or tolerance-resolution entry points from `assessment-core`. Raw answer DTOs live in `contracts`; bundle/import tests enforce this boundary.
+8. `contracts` and `catalogue-schema` may execute framework-free validation at trust
+   boundaries. They do not own domain entities, database rows, React props, cultural
+   source records, or application services.
+9. Runtime applications/packages never import tools. `tools/catalogue` may import only
+   `catalogue-schema`; the independent Python oracle never imports production astronomy
+   and communicates only through versioned JSON fixtures consumed by reference tests.
 
 ## Responsibilities
 
@@ -95,10 +110,10 @@ Rules:
 | API use cases/ports | Authz, scenario issuance, submission orchestration, server scoring, transaction and session ports | UI, rendering, or concrete database/framework code |
 | Astronomy core | Explicit time/frame transformations, horizontal/vector conversion, Qibla/angle functions | Catalogue I/O, Three objects, API/database |
 | Assessment core | Typed answer validation and scoring against versioned target/tolerance | UI effects, SQL, BKT persistence |
-| BKT core | Observation posterior, learning transition, parameter constraints | Hint UI, database, educational claims |
-| Adaptive policy | Scaffold transition from approved evidence and policy version | Rendering implementation or mutable state |
+| Tutoring core: BKT | Observation posterior, learning transition, parameter constraints | Hint UI, database, educational claims |
+| Tutoring core: observations/policy | Observation semantics and scaffold transition from approved evidence/policy version | Assessment scoring, rendering implementation, mutable persistence |
 | Persistence adapter | Transactions, locking, constraints, idempotency, queries | Domain formulas |
-| Data pipeline | Source retrieval, provenance, normalization, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output | Runtime user data or hardcoded lesson branching |
+| Catalogue tool | CDS I/311 source retrieval for the Phase 1 local spike, provenance, normalization, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output | Alternate/dual-catalogue infrastructure, runtime user data, or hardcoded lesson branching |
 
 ## Container view
 
@@ -230,9 +245,9 @@ still validate that each task actually measures its claimed KC.
 For every accepted response, the use case produces a typed model decision:
 `OBSERVATION`, `TRANSITION_ONLY`, or `NO_MODEL_UPDATE`, with an approved reason and
 session purpose. On an eligible observation it loads the skill-specific prior and
-parameter/policy version, calls `bkt-core` for posterior and transition, then calls
-`adaptive-policy`. A no-update decision persists an explicit no-op rather than inventing
-an observation. The transaction stores the server-issued cue snapshot used for
+parameter/policy version, calls `tutoring-core/bkt` for posterior and transition, then
+calls `tutoring-core/adaptive-policy`. A no-update decision persists an explicit no-op
+rather than inventing an observation. The transaction stores the server-issued cue snapshot used for
 eligibility; optional client render telemetry is untrusted and can never promote an
 attempt to independent. Independent-recall status is separate from numeric mastery.
 Details and manual policy gates are in `TUTORING_BKT_SPEC.md`.
@@ -297,7 +312,7 @@ tests. DEV-002–005 govern improved types and attempt semantics.
 |---|---|---|---|
 | API request/response | Contract version + canonical request fingerprint | Exact replay for supported duplicate; explicit rejection outside support | Technical window in Phase 3 plan |
 | Scenario | Immutable scenario ID + generator/build version | No migration after issue; expire/reissue on incompatibility | Operational retention under SEC-001 |
-| Catalogue/curation | Schema/version + content hashes | Exact hash must be available to score/replay | AST-001 licence and DEP-001 storage |
+| Catalogue/curation | I/311 source identity + schema/version + content hashes | Exact hash must be available to score/replay | AST-001 fields/licence/tracking and DEP-001 storage |
 | Astronomy/EOP/tolerance | Algorithm/policy/EOP hashes | Exact historical implementation or retained immutable result/fixture | AST-003/006 and DEP-001 |
 | BKT/scaffold | Model/policy versions + mastery revisions | No in-place edits; migration creates an audited chain | BKT-002/003 and SEC-001 |
 | Software/database | Commit/build manifest + migration version | Rollback only when data/contract compatible | Applicable phase plan and deployment decision |

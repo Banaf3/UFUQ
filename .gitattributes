@@ -1,0 +1,37 @@
+.gitattributes text eol=lf
+tools/astronomy-reference/uv.lock text eol=lf
+* text=auto
+
+*.cjs text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.md text eol=lf
+*.mjs text eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.csv text eol=lf
+*.ndjson text eol=lf
+
+*.db binary
+*.fits binary
+*.gif binary
+*.gz binary
+*.jpeg binary
+*.jpg binary
+*.npy binary
+*.npz binary
+*.parquet binary
+*.pdf binary
+*.png binary
+*.sqlite binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.zip binary

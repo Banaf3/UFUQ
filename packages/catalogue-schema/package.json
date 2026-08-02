@@ -9,12 +9,21 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./catalogue": {
+      "types": "./dist/catalogue/index.d.ts",
+      "default": "./dist/catalogue/index.js"
+    },
+    "./content": {
+      "types": "./dist/content/index.d.ts",
+      "default": "./dist/content/index.js"
+    },
+    "./artifact": {
+      "types": "./dist/artifact/index.d.ts",
+      "default": "./dist/artifact/index.js"
     }
   },
   "scripts": {
     "build": "tsc -b --pretty false"
-  },
-  "dependencies": {
-    "@ufuq/star-data": "0.0.0"
   }
 }

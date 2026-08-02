@@ -37,8 +37,14 @@ not default coding context. Load it only for the governance-triggered work liste
 ## Implementation baseline
 
 - TypeScript monorepo with a React/React Three Fiber/Three.js web app, a Node/Express
-  API, MySQL/InnoDB persistence, pure domain packages, versioned contracts, and a
-  reproducible catalogue tool.
+  API, MySQL/InnoDB persistence, pure astronomy, assessment, and tutoring packages,
+  versioned contracts, a catalogue schema package, and a reproducible catalogue tool.
+- BKT arithmetic, observation semantics, and adaptive policy are logically separate
+  modules inside `tutoring-core`, not separate npm workspaces. Catalogue rows,
+  educational/cultural content, and generated-artifact contracts are similarly separate
+  modules inside `catalogue-schema`.
+- An independent Python/Astropy reference tool produces neutral versioned fixtures for
+  `tests/reference`; it is outside the npm and production dependency graphs.
 - The API owns scenario validity, correctness, accepted BKT transitions, mastery
   revisions, and the next scaffold state. The browser sends raw evidence.
 - Domain packages remain independent of React, Three.js, HTTP, persistence, browser
@@ -58,15 +64,17 @@ not default coding context. Load it only for the governance-triggered work liste
 
 ## What can start now
 
-Phase 0 repository scaffolding can start immediately. It creates folders, workspace and
-TypeScript configuration, lint/type/test runners, package-boundary checks, empty public
+The consolidated Phase 0 repository scaffold is complete. It has eight explicit npm
+workspaces, strict TypeScript and build configuration, separate fail-closed unit,
+reference, and integration test configurations, package-boundary checks, empty public
 entry points, and CI-ready scripts. It does not implement domain behavior or select
 scientific/cultural values.
 
 After the scaffold passes, Phase 1 may run a replaceable astronomy/data technical spike.
-It may compare libraries, schemas, catalogue acquisition methods, coordinate types, and
-reference-test mechanics without claiming that a candidate is approved production
-truth.
+Its catalogue work is bounded to CDS I/311; it does not create an alternate-catalogue
+or dual-source abstraction. It may compare astronomy libraries, schemas, I/311
+acquisition methods, coordinate types, and reference-test mechanics without treating
+the local-spike source choice as production, redistribution, or scientific approval.
 
 ## Hard boundaries
 

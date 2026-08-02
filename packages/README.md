@@ -2,11 +2,13 @@
 
 - `astronomy-core`: pure astronomy boundary; empty until Phase 1.
 - `assessment-core`: pure scoring boundary; empty until validated science/task inputs exist.
-- `bkt-core`: pure learner-model boundary; no formulas or parameters yet.
-- `adaptive-policy`: pure scaffold-policy boundary; no cues or transitions yet.
-- `tutoring-core`: pure façade over assessment/BKT/policy boundaries; no behavior yet.
-- `contracts`: shared application types only.
-- `star-data`: type-only placeholders for generic patterns, guidance relationships, and routes.
-- `catalogue-schema`: type-only schema boundary over `star-data`; runtime validation begins later.
+- `tutoring-core`: pure logical `bkt`, `observations`, and `adaptive-policy` modules;
+  no learner-model behavior exists yet and it does not depend on assessment scoring.
+- `contracts`: versioned serialized DTOs and future framework-free validators only.
+- `catalogue-schema`: logical `catalogue`, `content`, and `artifact` modules. The
+  content module retains generic pattern/guidance/route type placeholders; no runtime
+  validator or concrete content exists yet.
 
-Applications may depend on these packages. They never depend on either application.
+Applications depend only on the approved public package exports. Pure packages never
+depend on applications, adapters, frameworks, persistence, browser APIs, Node I/O, or
+tools.

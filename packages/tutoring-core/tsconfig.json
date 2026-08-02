@@ -4,10 +4,5 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts"],
-  "references": [
-    { "path": "../assessment-core" },
-    { "path": "../bkt-core" },
-    { "path": "../adaptive-policy" }
-  ]
+  "include": ["src/**/*.ts"]
 }

@@ -1,7 +1,9 @@
 # Tool boundaries
 
-- `astronomy-reference` is reserved for independent reference-fixture tooling.
-- `catalogue-pipeline` is reserved for deterministic source/curation transformation.
-- `catalogue` retains the approved architecture's tool entry boundary.
+- `catalogue` is the only npm tool workspace. Acquisition, transformation,
+  validation, canonical serialization, and checksum behavior will be internal modules
+  introduced during Phase 1; none exists yet.
+- `astronomy-reference` is a separate non-npm Python/Astropy fixture-producer scaffold.
+  It has no production-package dependency or scientific behavior.
 
-All three are empty in Phase 0.
+Runtime applications and packages never import tools.

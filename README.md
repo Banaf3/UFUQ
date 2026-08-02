@@ -16,8 +16,8 @@ independent readiness gates:
 - deployment: **not ready**.
 
 See [Status](docs/STATUS.md) for the exact gate declarations and blockers. No application
-domain behavior or database migration exists yet. The Phase 0 scaffold now contains
-health-only web/API applications, empty package boundaries, pinned tooling, tests, and CI.
+domain behavior or database migration exists yet. The Phase 0 scaffold uses exactly
+eight npm workspaces plus an independent non-npm Python reference-tool scaffold.
 
 ## Default implementation path
 
@@ -39,9 +39,14 @@ traceability material is conditional context in `docs/governance/`.
 
 The implementation baseline is a TypeScript modular monorepo: a React/React Three Fiber
 browser application, a Node/Express API, MySQL/InnoDB persistence, pure framework-free
-astronomy/assessment/BKT/adaptive-policy packages, versioned contracts, and a
-reproducible small-catalogue pipeline. The server owns scenario validity, scoring,
-mastery transitions, and scaffold decisions. The browser submits raw evidence.
+astronomy, assessment, and tutoring packages, versioned contracts, one catalogue schema
+package, and one reproducible catalogue tool. BKT, observation semantics, and adaptive
+policy remain logical modules inside `tutoring-core`. The server owns scenario validity,
+scoring, mastery transitions, and scaffold decisions. The browser submits raw evidence.
+
+The independent astronomy oracle is a separate future Python/Astropy process. It emits
+versioned JSON fixtures for `tests/reference`; it is outside the npm and production
+dependency graphs and cannot import `astronomy-core`.
 
 Phase 0 creates only the repository layout and tooling. Phase 1 is a replaceable
 astronomy/data technical spike. Scientific or cultural values are not guessed merely to
@@ -55,8 +60,9 @@ steps. Exact helper patterns and cultural mappings remain provisional.
 ## Scaffold validation
 
 Use Node.js 22.16.0 and npm 10.9.2, as pinned by `.nvmrc` and `package.json`. The main
-local validation commands are `npm run check`, `npm run data:verify`, `npm run test`,
-`npm run build`, and `npm run test:e2e`. See
+local Phase 0 validation commands are `npm run check`, `npm run test`, `npm run build`,
+`npm run exports:check`, and `npm run test:e2e`. Reference tests become mandatory in
+Phase 1 and integration tests in Phase 4. See
 [Scaffold Dependencies](docs/DEPENDENCIES.md) for every production dependency and its
 purpose.
 
