@@ -119,14 +119,20 @@ Historical report/deviation/authority status remains in `governance/`.
 
 - **Decision:** Exact reference-frame/time/Earth-orientation/observer transformation
   algorithm, supported range, effects, failure modes, and error budget.
-- **Current choice:** Typed transformation boundaries and fixed axis/sign conventions
-  are approved; the production algorithm and implement-or-omit effect matrix are
-  unresolved.
+- **Current choice:** The Milestone 2C evidence audit confirms the typed state
+  boundaries, I/311 ICRS input/frame label, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles,
+  fixed sign/horizontal conventions, structured-outcome requirement, and independent
+  comparison protocol. The locked Astropy tool proves only a synthetic environment and
+  independence smoke claim. The I/311 epoch time scale, production algorithm and
+  implement-or-omit effect matrix, observer/EOP/refraction policies, supported range,
+  error aggregation, and tolerances remain unresolved.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
-- **Validation required:** Independent pinned oracle cases, an effect/error budget, and
-  operation-specific approved tolerances before scientific acceptance.
+- **Validation required:** Close the evidence/decision blockers listed in
+  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`; then run independent pinned
+  source-derived oracle cases, an effect/error budget, and operation-specific approved
+  tolerances before scientific acceptance.
 
 ## IMP-010 — Scene coordinate adapter
 

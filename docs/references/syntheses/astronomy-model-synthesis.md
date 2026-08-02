@@ -108,7 +108,9 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 
 ## Unresolved gaps
 
-The pinned oracle environment exists, but the production algorithm, offline/network EOP
-policy, refraction policy, supported range, leap-second policy, epoch time-scale mapping,
+The pinned synthetic-only oracle environment exists, including exact Astropy, PyERFA,
+IERS-data, and packaged IERS file hashes. The exact official Astropy/PyERFA
+documentation pins, production algorithm, production offline/network EOP policy,
+refraction policy, supported range, leap-second policy, epoch time-scale mapping,
 source-derived comparison cases, and numerical tolerances remain open. I/311 `pmRA`
 semantics are no longer an open item.

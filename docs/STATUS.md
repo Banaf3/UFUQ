@@ -1,6 +1,6 @@
 # Implementation status
 
-**Assessment date:** 2026-07-26
+**Assessment date:** 2026-08-03
 
 The consolidated Phase 0 repository scaffold is validated. It contains health-only web
 and API applications, eight npm workspaces, pure empty/type-placeholder production
@@ -72,6 +72,28 @@ product scale remain unapproved.
 The synthetic-oracle smoke milestone is complete using only explicit synthetic inputs.
 No catalogue parser, source-derived fixture, generated catalogue artifact, production
 astronomy behavior, scene, renderer, or performance collector was created.
+
+### Milestone 2C scientific behaviour evidence audit
+
+The Scientific Behaviour Contract in
+`spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` was audited against the tracked SOFA,
+IERS, I/311, ESA Hipparcos, and validation-study dossiers; the astronomy synthesis and
+skill traceability; the Astronomy Specification and ADRs; and the actual locked oracle
+artifacts.
+
+The audit resolves the contract-level status of I/311 ICRS input semantics, the literal
+`Ep=1991.25` source label, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles, UFUQ sign and
+horizontal conventions, coordinate-state separation, structured-outcome requirement,
+comparison metrics, and the independent-reference protocol. It also corrects the
+source-gap records: the Python/Astropy/PyERFA/IERS environment is pinned for the
+synthetic smoke claim, but the official tool-documentation pins and production science
+protocol remain incomplete.
+
+Milestone 2C remains **OPEN**. No reviewer approval selects the I/311 epoch time scale,
+production algorithm/effect matrix, supported range, datum/height policy, EOP and
+leap-second policy, refraction/visibility behaviour, exact warning/error mapping,
+error aggregation, or tolerance. No production/reference comparison exists, and the
+reference suite remains intentionally inactive and fail-closed.
 
 ### Milestone 2B catalogue authority and provenance
 
@@ -183,8 +205,10 @@ mapping, commands, corrections, and independent post-migration verdict are in
 
 ## Authorized next work
 
-Phase 1 Milestones 1, 2A, and 2B are complete. The next roadmap milestone is
-Milestone 2C: Scientific Behaviour Contract.
+Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
+contract but remains open. The next authorized work is to obtain and record only the
+evidence, experiments, reviewer decisions, and approvals listed by that contract; it
+does not authorize production astronomy implementation.
 
 Milestone 2D then records the catalogue source/deployment-authority outcome. The local
 I/311 parser, runtime validation, and deterministic generation follow in Phase 1

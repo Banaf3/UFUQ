@@ -8,18 +8,18 @@ memory, an unpinned web page, or an unrelated local PDF.
 
 ## Required before or during the astronomy/data spike
 
-| Gap ID | Required source or decision evidence | Closure evidence |
-|---|---|---|
-| AST-SRC-001 | Pinned Astropy oracle environment | Lock/environment manifest with Python, Astropy, PyERFA, and platform versions |
-| AST-SRC-002 | Official Astropy coordinate and IERS documentation | Versioned documentation URLs and the exact sections used |
-| AST-SRC-003 | PyERFA and `astropy-iers-data` versions | Pinned versions, hashes where applicable, and compatibility record |
-| AST-SRC-004 | Offline/network IERS-data policy | Approved auto-download, cache, expiry, fallback, and failure behavior |
-| AST-SRC-005 | Atmospheric-refraction assumptions | Approved model/inputs, exclusion policy, and error analysis |
-| AST-SRC-006 | Supported date range | Approved endpoints and out-of-range behavior with fixture partitions |
-| AST-SRC-007 | Leap-second/time-scale policy | Approved UTC/UT1/TT handling and data provenance |
-| AST-SRC-008 | Approved Kaaba target coordinate and datum if Qibla geodesy is included | Authority citation, coordinate/datum approval, and versioned decision record |
-| DATA-SRC-001 | For selected source I/311: original acquisition URL/timestamp or other transport-authenticity evidence, explicit raw/derived redistribution permission, and row-level review of the proposed allowlist's actual solution/multiplicity/quality evidence | Licence clarification plus reviewed acquisition/provenance and row-review records. The field, null/duplicate, candidate-scope, sorting, schema, checksum, local-use, and fail-closed tracking policies are defined in Milestone 2B; create a tracked manifest only when the scaffold guard is intentionally activated. |
-| DATA-SRC-002 | Official JSON Schema Draft 2020-12 Core/Validation version pins and runtime validator decision | Versioned schema references, dependency rationale if a validator is selected, and conformance tests |
+| Gap ID | Required source or decision evidence | Current status | Closure evidence |
+|---|---|---|---|
+| AST-SRC-001 | Pinned Astropy oracle environment | `CLOSED_FOR_SYNTHETIC_SMOKE_ONLY`: CPython, uv, Astropy, PyERFA, transitive packages, platform, lock hash, and IERS resources are tracked. Source-derived scientific use remains outside the smoke claim. | `tools/astronomy-reference/uv.lock`, `environment-manifest.json`, dependency contract, and locked reproduction evidence |
+| AST-SRC-002 | Official Astropy coordinate and IERS documentation | `OPEN`: runtime Astropy is locked, but the exact official documentation URLs/sections for the selected science protocol are not. | Versioned documentation URLs and the exact sections used |
+| AST-SRC-003 | PyERFA and `astropy-iers-data` versions | `PARTIAL`: PyERFA `2.0.1.5`, `astropy-iers-data` `0.2026.7.20.15.31.18`, and packaged file hashes are pinned for the smoke oracle; the official PyERFA documentation record and production data selection are not. | Pinned versions, hashes where applicable, compatibility record, and selected documentation record |
+| AST-SRC-004 | Offline/network IERS-data policy | `OPEN_FOR_PRODUCTION`: the smoke oracle is fail-closed/offline, but that bounded choice does not approve production data, expiry, prediction, update, or out-of-range behaviour. | Approved auto-download, cache, expiry, fallback, and failure behavior |
+| AST-SRC-005 | Atmospheric-refraction assumptions | `OPEN` | Approved model/inputs, exclusion policy, and error analysis |
+| AST-SRC-006 | Supported date range | `OPEN` | Approved endpoints and out-of-range behavior with fixture partitions |
+| AST-SRC-007 | Leap-second/time-scale policy | `OPEN`: source-defined UTC/TAI/TT/UT1 roles are recorded, but production leap-second data and operational policy are not. | Approved UTC/UT1/TT handling and data provenance |
+| AST-SRC-008 | Approved Kaaba target coordinate and datum if Qibla geodesy is included | `OPEN`; outside Milestone 2C astronomy scope | Authority citation, coordinate/datum approval, and versioned decision record |
+| DATA-SRC-001 | For selected source I/311: original acquisition URL/timestamp or other transport-authenticity evidence, explicit raw/derived redistribution permission, and row-level review of the proposed allowlist's actual solution/multiplicity/quality evidence | `OPEN`; Milestone 2B closes only the local parser contract | Licence clarification plus reviewed acquisition/provenance and row-review records. The field, null/duplicate, candidate-scope, sorting, schema, checksum, local-use, and fail-closed tracking policies are defined in Milestone 2B; create a tracked manifest only when the scaffold guard is intentionally activated. |
+| DATA-SRC-002 | Official JSON Schema Draft 2020-12 Core/Validation version pins and runtime validator decision | `OPEN` | Versioned schema references, dependency rationale if a validator is selected, and conformance tests |
 
 ## Required before Najdi cultural claims
 

@@ -59,7 +59,13 @@ complete source-field preservation, confirmed starred-alpha `pmRA`, an exact 19-
 technical review allowlist, fail-closed row/supplement policies, and versioned
 artifact/provenance schemas.
 
-Milestone 2C is reserved for the Scientific Behaviour Contract.
+Milestone 2C is the Scientific Behaviour Contract. Its 2026-08-03 evidence audit
+resolves source-defined I/311 input semantics, fixed UFUQ coordinate conventions,
+typed scientific-state separation, and reference-test requirements. It remains open:
+the I/311 epoch time scale, production pipeline/effect matrix, observer and EOP policy,
+refraction/visibility behaviour, supported range, error budget, and tolerances still
+require the recorded evidence, experiments, and approvals. The contract grants no
+implementation authority while those blockers remain.
 
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and

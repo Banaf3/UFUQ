@@ -11,6 +11,11 @@ Sky positions can look plausible while being wrong if catalogue epoch/frame, pro
 
 ## Decision
 
+The Phase 1 Milestone 2C evidence audit in
+`../spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` confirms which items below are
+source-supported or already fixed project conventions. It does not change this ADR's
+blocked status or approve the remaining AST-003/004/006/007 choices.
+
 Fixed now:
 
 - latitude north and longitude east are positive;

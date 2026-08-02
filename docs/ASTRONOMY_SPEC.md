@@ -29,7 +29,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Kaaba coordinate | No coordinate is approved here; record authority, datum, order/sign, precision, version/date, uncertainty, and the convention-compatible Malaysian/domain validation method. | MANUAL DOMAIN DECISION AST-005 |
 | Angular comparison | Use robust unit-vector separation; use wrapped circular difference for headings. | CLARIFIED |
 | Numerical tolerances | Define an error budget and per-operation implementation, reference-disagreement, and learner-task tolerances, including near singularities. No fallback default. | MANUAL DOMAIN DECISION AST-006 |
-| Independent implementation | Fixed fixtures generated outside runtime using pinned Astropy plus USNO/domain cross-checks. | CONFIRMED/CLARIFIED |
+| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. It is not a source-derived scientific oracle. Future fixed scientific fixtures are generated outside runtime using the approved pinned Astropy protocol plus applicable independent cross-checks. | SMOKE BOUNDARY CONFIRMED/CLARIFIED; science protocol and comparisons unresolved |
 
 ## Canonical value objects
 
@@ -51,6 +51,11 @@ canonical representatives at longitude/angle wrap boundaries so serialization an
 equality do not disagree.
 
 Internal computation uses radians and double-precision JavaScript numbers. Serialization uses named degree fields; never serialize an unlabelled `[a,b]` coordinate pair.
+
+The evidence classification and unresolved production decisions are audited in
+`spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`. That Milestone 2C contract fixes no
+new numerical value and remains open until AST-003/004/006/007 supply the approvals and
+experiments identified there.
 
 ## Horizontal transformation
 
