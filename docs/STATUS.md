@@ -113,13 +113,31 @@ or conditional gates. Astropy and PyERFA remain the independent reference path, 
 composed ERFA `atco13` is only a same-family consistency check. Eight route/effect
 experiments are specified but not run.
 
+Milestone 2C.3 records `SOURCE_SUPPORTED_FACT` from the distinct official Bulletin A
+rapid-estimate/prediction, Bulletin B final/preliminary, Bulletin C announcement, and
+`finals2000A` field-flag roles for `xp`,`yp`,`UT1-UTC`,`dX`,`dY`; Bulletin C is not a
+selected machine-readable production leap artifact. RFC 3339 supplies the broader
+timestamp/leap syntax. Its `PROJECT_DECISION` proposal uses a Z-only restricted UTC
+boundary, explicit
+geodetic/ellipsoidal observer provenance and uncertainty, immutable hash-addressed
+offline EOP/leap bundles, separate reviewed atomic updates and old-bundle replay,
+separate per-field source quality, availability, provenance, coverage, and scientific
+approval with any unavailable or unapproved required field blocking, supported-domain
+intersection, and explicit endpoint outcomes with deterministic semantic precedence.
+IERS-estimate, predicted, preliminary, stale,
+zero-filled, nearest-value, extrapolated, and
+degraded execution remain unapproved. Six offline/status/degradation/time/observer/
+domain experiments are specified but not run.
+
 Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
 but no reviewer approval selects the I/311 epoch/derivative time scale, actual
-TypeScript production implementation, supported range,
-datum/height policy, EOP/leap-second/celestial-pole-offset policy, parallax/RV policy,
+TypeScript production implementation, supported date/location/height range or endpoint
+inclusion, datum/height/longitude/polar policy, production EOP/leap artifacts/hashes,
+field precedence/interpolation, stale/update cadence, prediction/preliminary or
+celestial-pole-offset policy, parallax/RV policy,
 refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
-tolerance. No 2C.2 experiment or production/reference comparison exists, and the
-reference suite remains intentionally inactive and fail-closed.
+tolerance. No 2C.2 or 2C.3 experiment or production/reference comparison exists, and
+the reference suite remains intentionally inactive and fail-closed.
 
 ### Milestone 2B catalogue authority and provenance
 
@@ -248,8 +266,10 @@ Milestone 2E and remain subject to that authority outcome.
   The local-only parser contract and candidate scope are resolved.
 - **IMP-009 / AST-003 and AST-006:** approval or revision of the proposed production
   coordinate/time route and effect matrix; actual TypeScript implementation/library;
-  supported range, failure/data policy, independent comparison, error budget, and
-  tolerances.
+  production EOP/leap products/hashes and field-quality/availability/approval plus
+  update policy; observer/time contract
+  values; supported date/location/height endpoints; degraded/warning outcomes;
+  independent comparison, error budget, and tolerances.
 - **IMP-011 / AST-002:** reviewed `SkyPattern` and `GuidanceRelationship` records for
   one complete route to Al-Jady, including stable IDs, labels, membership, segments,
   instructional geometry/explanation, and review/verification status.

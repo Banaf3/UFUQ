@@ -144,14 +144,27 @@ Historical report/deviation/authority status remains in `governance/`.
   selection; composed ERFA `atco13` is only a same-family consistency check. The
   actual pure-TypeScript implementation/library, epoch/derivative-scale interpretation,
   observer/EOP/refraction policies, supported range, effect bounds, error aggregation,
-  and tolerances remain unresolved.
+  and tolerances remain unresolved. Milestone 2C.3 proposes as a project decision a
+  Z-only restricted subset of RFC 3339 at the UTC
+  astronomy input; explicit geodetic/ellipsoidal observer provenance and uncertainty;
+  immutable hash-addressed offline EOP/leap bundles; separately reviewed atomic
+  updates with old-bundle replay; separate source-quality, artifact/field-availability,
+  and scientific-approval states for every required EOP field; a
+  supported-domain intersection rule; and explicit non-result/result outcome families.
+  It forbids request-time download/cache fallback, zero/nearest EOP substitution, stale
+  leap data, and every unapproved field quality or degraded execution. No production
+  artifact/hash, stale rule, update cadence, UTC precision/zone policy, observer datum/
+  range, date endpoint, prediction horizon, degraded bound, or warning serialization
+  is approved. Deterministic semantic failure precedence is proposed, while stable wire
+  codes remain under review.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:** Review the proposed route/effect matrix, close the
   evidence/decision blockers listed in
-  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`, and run its eight 2C.2 experiment
-  families. Then run independent pinned source-derived oracle cases, an effect/error
+  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`, its eight 2C.2 experiment families,
+  and its six 2C.3 offline/status/time/observer/domain experiment families. Then run
+  independent pinned source-derived oracle cases, an effect/error
   budget, and operation-specific approved tolerances before scientific acceptance.
 
 ## IMP-010 — Scene coordinate adapter

@@ -78,6 +78,17 @@ EOP/celestial-pole-offset, refraction/visibility, supported-range, error-budget,
 tolerance blockers. The contract grants no implementation authority while those
 blockers remain.
 
+Milestone 2C.3 pins the distinct official IERS Bulletin A/B/C roles and `finals2000A`
+field-flag semantics and proposes the supported-domain boundary: a UFUQ-selected Z-only
+RFC 3339 UTC subset, explicit
+geodetic/ellipsoidal observer provenance, immutable hash-addressed offline EOP/leap
+bundles, separately reviewed atomic updates with deterministic replay, independent
+per-field source-quality/availability/approval state, fail-closed structured outcomes
+with deterministic semantic precedence, and six additional
+reference experiments. It selects no production product/hash, date/location/height
+range, stale/update threshold, field-quality approval, degraded mode, or
+tolerance. Milestone 2C remains open and source-derived execution remains blocked.
+
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and
 the permitted handling of generated data; unresolved redistribution authority does not

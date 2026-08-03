@@ -39,6 +39,19 @@ route, not the production selection, and composed `atco13` is only same-family
 consistency evidence. Routine availability does not close the epoch/derivative-scale,
 radial-velocity, or tolerance blockers.
 
+Milestone 2C.3 proposes as a `PROJECT_DECISION`, without selecting production data or
+ranges, a Z-only restricted subset of RFC 3339 at the UTC astronomy boundary; an
+explicit geodetic observer with datum/ellipsoid,
+ellipsoidal height, provenance, uncertainty, and normalization; request-time offline
+execution from immutable hash-addressed EOP/leap bundles; separate reviewed atomic
+updates with prior bundles retained; and independent source quality, artifact/field
+availability, provenance, coverage, and scientific approval for every required EOP
+field.
+The supported domain is the intersection of every approved catalogue, model,
+ephemeris, leap, EOP, observer, scenario, and tolerance domain. Missing, stale,
+out-of-range, or unapproved-quality data return structured non-results. One EOP field
+cannot promote another. No degraded result is approved.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -56,14 +69,19 @@ and proper-motion derivative time scale. The CDS-defined 365.25-day `yr` duratio
 resolved. AST-003 must explicitly implement or omit with a
 quantified bound proper motion, parallax, radial velocity/perspective acceleration,
 aberration, light deflection, precession/nutation, topocentric effects, polar motion,
-celestial-pole offsets, EOP/time handling, datum/elevation and supported range. Also
+celestial-pole offsets, EOP/time handling, datum/elevation and supported range. It must
+also select the exact production data artifacts/hashes, field precedence/interpolation,
+stale and expiry rules, update cadence, preliminary/prediction disposition, UTC
+precision/zone adapter, observer normalization/ranges, endpoint semantics, and warning
+mapping. Also
 approve refraction/horizon/visibility, Kaaba/observer coordinate semantics, error
 budget and tolerances as detailed in `../ASTRONOMY_SPEC.md`.
 
 ## Consequences
 
 - Browser, server, fixtures, and thesis results can use identical named semantics.
-- Missing IERS/policy/tolerance data causes explicit failure or an approved labelled approximation—not silent fallback.
+- Missing IERS/policy/tolerance data causes an explicit non-result. A labelled degraded
+  approximation is unavailable until separately quantified and approved.
 - Near zenith, azimuth cannot be used as the scoring oracle; direction vectors are required.
 - Polaris remains a star cue distinct from terrestrial True North.
 
@@ -76,4 +94,9 @@ budget and tolerances as detailed in `../ASTRONOMY_SPEC.md`.
 
 ## Validation
 
-Independent pinned Astropy/USNO/domain fixtures across frame/time/wrap/horizon/singularity partitions, with every case inside AST-006. Internal Three mapping fixtures cannot serve as independent astronomy proof.
+Independent pinned Astropy/PyERFA/domain fixtures across frame/time/EOP/leap/observer/
+wrap/horizon/singularity and exact-endpoint partitions, reconstructed offline with
+artifact hashes, independent per-field source-quality/availability/approval records,
+warnings, deterministic multi-fault precedence, and structured outcomes. Every numeric
+comparison must be inside AST-006. Internal Three mapping fixtures cannot serve as
+independent astronomy proof.

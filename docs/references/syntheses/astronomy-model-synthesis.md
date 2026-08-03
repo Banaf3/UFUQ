@@ -11,9 +11,12 @@ This synthesis compares the current-phase astronomy sources:
 3. the official ESA 1997 guide for original-catalogue semantics;
 4. official Hipparcos I/311 metadata, Appendix G field tables, and van Leeuwen's
    validation study;
-5. CDS *Standards for Astronomical Catalogues* Version 2.0 for the VizieR `yr` unit;
-6. *Fundamental Astronomy* as explanatory support; and
-7. the *Explanatory Supplement* only as an unresolved explanatory source because the
+5. official IERS Bulletin A/B/C product metadata and `finals2000A` format/status
+   documentation;
+6. RFC 3339 and the IANA tzdb release archive for timestamp/leap transport semantics;
+7. CDS *Standards for Astronomical Catalogues* Version 2.0 for the VizieR `yr` unit;
+8. *Fundamental Astronomy* as explanatory support; and
+9. the *Explanatory Supplement* only as an unresolved explanatory source because the
    local candidate is text-unavailable and completeness/provenance are unverified.
 
 Project documents choose UFUQ behavior. None of these sources chooses the production
@@ -92,12 +95,55 @@ refraction and visibility policy.
 ablation/interactions, epoch/motion, EOP/range, observer/parallax/RV, deflection, and
 refraction boundary experiments must precede approval.
 
+## Milestone 2C.3 operating-domain proposal
+
+`PROJECT_DECISION`: the proposed astronomy request boundary is fail-closed and
+deterministic:
+
+- the observer is a typed geodetic record with north-positive latitude, east-positive
+  longitude, explicit normalization, datum/ellipsoid, ellipsoidal height, provenance,
+  uncertainty, and validation status;
+- the astronomy time uses a UFUQ-selected Z-only restricted subset of RFC 3339.
+  Offset/IANA-zone wall time is resolved upstream with original input and zone-data
+  provenance retained;
+- UTC-to-TAI/TT/UT1 conversion and leap validation consume an immutable approved data
+  bundle; request-time networking, cache discovery, in-place refresh, nearest-value
+  substitution, and zero EOP defaults are prohibited;
+- source quality, artifact/field availability, provenance, coverage, and scientific
+  approval are separate dimensions for every required EOP field; one field cannot
+  promote another, and any unavailable or unapproved required field blocks; and
+- supported execution is the intersection of every approved catalogue, model,
+  ephemeris, leap, EOP-field, observer, scenario, and tolerance domain.
+
+`SOURCE_SUPPORTED_FACT`: IERS Bulletin A supplies rapid and predictive EOP and the
+official `finals2000A` format distinguishes IERS/prediction status for polar motion,
+`UT1-UTC`, and `dX`,`dY`. Bulletin B distinguishes final and preliminary values.
+Bulletin C announces leap-second decisions but is not itself the selected production
+machine-readable leap artifact. RFC 3339 defines the broader timestamp and conditional
+leap-second syntax; UFUQ's Z-only subset is a project proposal. SOFA/Astropy define
+geodetic/east-positive/ellipsoidal observer roles for the candidate routes.
+
+`AUTHORITY_OR_EVIDENCE_MISSING`: no production EOP or leap artifact/hash, field
+precedence/interpolation, stale rule, date endpoint, prediction horizon, height or
+location range, precision, or tolerance exists.
+
+`HUMAN_REVIEW_REQUIRED`: approve the production product bundle and update cadence;
+per-field source-quality/availability/approval policy; WGS 84, longitude representative,
+height/location/polar semantics; UTC precision/zone adapter; endpoints; and warning/
+outcome serialization.
+
+`EXPERIMENT_REQUIRED`: six 2C.3 experiment families cover offline reconstruction,
+field-state partitions, degradation sensitivity, leap/time boundaries, observer
+partitions, and future domain endpoints. No degraded result is currently approved.
+
 ## Authority by topic
 
 | Topic | Highest authority | Supporting source | UFUQ consequence |
 |---|---|---|---|
 | Executable IAU routine contract | Exact SOFA routine preamble/source for the pinned issue | IERS TN36 model chapters | Record version, routine, units, statuses, and transform direction. |
 | Reference systems and Earth orientation | IERS TN36 Chapters 2 and 5 | SOFA `iauC2t06a`, `iauPnm06a`, `iauEra00` | Keep ICRS/GCRS/CIRS/TIRS/ITRS and realizations distinct. |
+| Operational EOP fields/state | IERS Bulletin A/B metadata and official `finals2000A` format | Astropy `8.0.1` IERS reference-library docs | For every field, preserve source quality, provenance, coverage, availability, scientific approval, errors, and hashes as separate dimensions; do not substitute zero/nearest rows or promote fields. |
+| Leap announcement and wire syntax | IERS Bulletin C; RFC 3339 | IANA release artifacts and Astropy `LeapSeconds` reference behaviour | Separate event authority, machine artifact, input syntax, and project validity/update policy. |
 | UTC/TAI/TT/UT1 handling | SOFA time-routine contracts plus IERS TN36 §§5.5.3 and 10.1 | Explanatory textbook material | UTC is not silently substituted for UT1 or TT. |
 | Original 1997 catalogue field semantics | ESA SP-1200 Volume 1 §§1.2 and 2.1 | I/311 `ReadMe` only for explicit cross-reference to I/239 | Use ESA definitions for original H-fields only; do not transfer them silently to I/311. |
 | I/311 catalogue field semantics | I/311 `ReadMe` plus Appendix G Tables G.2–G.7 | ESA 1997 for original-catalogue comparison and van Leeuwen 2007 for quality context | Carry units, frame, epoch, solution type, quality, uncertainty, and supplement semantics per field. |
@@ -146,6 +192,8 @@ refraction boundary experiments must precede approval.
 | Choose geometric/refraction and horizon/visibility behavior explicitly. | SOFA `iauRefco`/`iauAtioq`; AST-004 | `PROJECT_DECISION_REQUIRED` |
 | Derive acceptance thresholds from measured independent disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `EXPERIMENT_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
+| Run scientific requests offline from an immutable hash-addressed EOP/leap bundle; update separately and retain old bundles for replay. | IERS product/status evidence; Astropy fallback surfaces; reproducibility contract | `PROJECT_DECISION`; product selection, cadence, and activation approval remain `HUMAN_REVIEW_REQUIRED` |
+| Reject missing/stale/out-of-range data and any field quality without explicit scientific approval; reserve degraded output until a named mode, quantitative bound, warning contract, and reviewer approval exist. | IERS field flags/product roles; Astropy warning/degraded surfaces; AST-003/006 | `PROJECT_DECISION`; degradation sensitivity is `EXPERIMENT_REQUIRED` |
 
 ## Required validation evidence
 
@@ -169,9 +217,13 @@ refraction boundary experiments must precede approval.
 The pinned synthetic-only oracle environment exists, including exact Astropy, PyERFA,
 IERS-data, and packaged IERS file hashes. Astropy reference-design documentation and the
 PyERFA release/hash are pinned; PyERFA's official stable docs remain one patch behind.
-Milestone 2C.2 now supplies a proposed production semantic route and effect matrix, but
-the actual implementation/library and approvals remain open, together with production
-offline/network EOP/correction policy, refraction policy, supported range, leap-second
-policy, epoch/derivative scale, radial velocity, source-derived comparison cases,
-omission bounds, error budget, and numerical tolerances. The I/311 `pmRA` component and
+Milestone 2C.2 supplies a proposed production semantic route and effect matrix.
+Milestone 2C.3 supplies proposed observer/time boundaries, immutable offline data and
+update semantics, orthogonal field-state handling, domain composition, deterministic
+outcome precedence, structured outcomes, and
+reference evidence. The actual implementation/library and approvals remain open,
+together with production EOP/leap artifacts and hashes, stale/update and prediction/
+preliminary policy, refraction, date/location/height endpoints, epoch/derivative scale,
+radial velocity, source-derived comparison cases, omission bounds, error budget, and
+numerical tolerances. No degraded mode is approved. The I/311 `pmRA` component and
 numeric 365.25-day rate-unit semantics are no longer open items.

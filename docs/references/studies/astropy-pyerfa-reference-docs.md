@@ -31,9 +31,39 @@ move to a later release.
 | [`EarthLocation`](https://docs.astropy.org/en/stable/api/astropy.coordinates.EarthLocation.html) | Defines named geodetic longitude, latitude, and height input, east-positive longitude, and reference-ellipsoid handling required by an observer-bound reference case. |
 | [`AltAz`](https://docs.astropy.org/en/stable/api/astropy.coordinates.AltAz.html) | Defines observation time/location, north-zero/east-positive azimuth, altitude, and the pressure/refraction switch for a proposed horizontal reference output. Its WGS 84 and refraction semantics remain candidate-library behaviour until UFUQ policy is approved. |
 | [IERS data access](https://docs.astropy.org/en/stable/utils/iers.html), [`IERS`](https://docs.astropy.org/en/stable/api/astropy.utils.iers.IERS.html), and [`IERSWarning`](https://docs.astropy.org/en/stable/api/astropy.utils.iers.IERSWarning.html) | Defines packaged/automatic IERS data behaviour, predictive and range status, download controls, and warning/error surfaces that the reference protocol must capture. |
+| [`LeapSeconds`](https://docs.astropy.org/en/stable/api/astropy.utils.iers.LeapSeconds.html) | Defines readers for IERS `Leap_Second.dat`, IETF/NTP `leap-seconds.list`, and ERFA tables; table expiration, expired-table warnings, network suppression, and ERFA-table update surfaces. |
 
 `SOURCE_SUPPORTED_FACT`: these pages define Astropy's library semantics. They do not
 define what the I/311 author meant by the catalogue's `Ep=1991.25` label.
+
+## Milestone 2C.3 observer/time/data consequences
+
+`SOURCE_SUPPORTED_FACT`:
+
+- `EarthLocation.from_geodetic` uses east-positive longitude and height above a named
+  reference ellipsoid and defaults to WGS 84. The default is library behaviour, not a
+  UFUQ production decision.
+- Astropy's IERS-A path contains historical and predictive data, may automatically
+  download/refresh it, and may return nearest available values or allow degraded
+  accuracy under permissive configuration. The independent runner must therefore set
+  its own data table and fail-closed configuration explicitly.
+- `LeapSeconds` can select among local, network, and ERFA sources; exposes expiration;
+  and can warn while returning the newest expired table. That is a warning surface to
+  test, not permission for stale UFUQ execution.
+- `Time` keeps representation and scale distinct and uses two-part Julian Dates. Its
+  output precision control does not set UFUQ's accepted input precision or scientific
+  tolerance.
+
+`PROJECT_DECISION`: a future scientific reference runner must install exact EOP and
+leap tables from the fixture manifest, disable automatic download and cache discovery,
+capture every field's separate source quality, availability, provenance, coverage,
+scientific approval, and every warning/error, and prove offline reconstruction. It may
+not inherit Astropy's nearest-value, permissive degraded-accuracy, stale-table,
+prediction, WGS 84 default, or automatic leap-table selection as production policy.
+
+`AUTHORITY_OR_EVIDENCE_MISSING`: no production EOP/leap artifact, supported range,
+stale rule, prediction/preliminary policy, observer range, or precision is selected.
+The existing `astropy-iers-data` files/hashes remain synthetic-smoke evidence only.
 
 ## Official PyERFA documentation and version boundary
 
@@ -42,6 +72,7 @@ define what the I/311 author meant by the catalogue's `Ep=1991.25` label.
 | [PyPI release `2.0.1.5`](https://pypi.org/project/pyerfa/2.0.1.5/) | Exact runtime release; source distribution SHA-256 `17d6b24fe4846c65d5e7d8c362dcb08199dc63b30a236aedd73875cc83e1f6c0`, matching `uv.lock` | Pins the installed wrapper release and official distribution bytes. |
 | [PyERFA stable API index](https://pyerfa.readthedocs.io/en/stable/api.html) | Official stable docs displayed `2.0.1.4` on 2026-08-03 | Defines `ErfaWarning` for positive ERFA status and `ErfaError` for negative status, but does not exactly match the locked patch release. |
 | ERFA astrometry wrappers indexed by the stable API: `atco13`, `apco13`, `atciq`, `atioq`, `pnm06a`, `era00`, `sp00`, `pom00`, `c2t06a`, and `refco` | Official wrapper pages belong to the displayed `2.0.1.4` build; exact installed `2.0.1.5` docstrings were inspected locally | Exposes direct reference probes for the proposed stage/effect inventory. The governing algorithm authority remains pinned SOFA `2023-10-11`, and these probes do not select production code. |
+| ERFA time/observer wrappers indexed by the stable API: `dtf2d`, `utctai`, `taitt`, `utcut1`, `eform`, and `gd2gc` | Official wrapper pages belong to the displayed `2.0.1.4` build; governing contracts remain pinned SOFA `2023-10-11` | Exposes direct leap/calendar warning, UTC/TAI/TT/UT1 conversion, ellipsoid, and geodetic-to-geocentric probes for 2C.3 boundary fixtures. It does not provide EOP or leap authority and cannot select UFUQ input/range policy. |
 | [`pmsafe` stable API](https://pyerfa.readthedocs.io/en/stable/api/erfa.pmsafe.html) | Linked from the `2.0.1.4` stable API | Requires start/end epochs as two-part TDB Julian Dates, proper-motion rates per TDB Julian year, and documents warnings for overridden distance, excessive velocity, and non-convergence. |
 | [`ErfaWarning`](https://pyerfa.readthedocs.io/en/stable/api/erfa.ErfaWarning.html) and [`ErfaError`](https://pyerfa.readthedocs.io/en/stable/api/erfa.ErfaError.html) | Linked from the `2.0.1.4` stable API | Names the wrapper warning/error categories that a reference runner must retain. |
 
@@ -89,9 +120,10 @@ route:
 
 Astropy `transform_to` chooses a library graph path and obtains Earth-orientation data
 through Astropy's IERS machinery. The runner must pin/record that graph-visible frame
-sequence, IERS table/hash/status, auto-download/cache state, observer WGS 84 semantics,
-ephemeris, refraction inputs, and all warnings. A high-level result cannot be used to
-infer which production stage owns topocentric parallax or diurnal aberration.
+sequence, IERS table/hash, each EOP field's source quality and availability,
+auto-download/cache state, observer WGS 84 semantics, ephemeris, refraction inputs, and
+all warnings. A high-level result cannot be used to infer scientific approval or which
+production stage owns topocentric parallax or diurnal aberration.
 
 `AUTHORITY_OR_EVIDENCE_MISSING`: the I/311 epoch/derivative scale, radial-velocity input
 policy, production EOP/range policy, and approved refraction scope still prevent
