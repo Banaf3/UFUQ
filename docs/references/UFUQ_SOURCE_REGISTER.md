@@ -76,6 +76,7 @@ These tracked documents state UFUQ decisions; they are not external authorities.
 | UFUQ-AGENTS | `AGENTS.md`, default reading path, dependency rules, never-invent rules | PROJECT_DECISION | REQUIRED_NOW | Repository operating constraints |
 | UFUQ-ARCH | `docs/ARCHITECTURE.md`, layout, dependency rules, data-driven guidance, scenario authority | PROJECT_DECISION | REQUIRED_NOW | Approved architecture |
 | UFUQ-ASTRO-SPEC | `docs/ASTRONOMY_SPEC.md`, conventions, unresolved decisions, validation specification | PROJECT_DECISION | REQUIRED_NOW | Astronomy contract and stop conditions |
+| UFUQ-ASTRO-EXPERIMENT-PROTOCOL | `docs/spikes/PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md` and `tools/astronomy-reference/experiments/`, Milestone 2C.5A classifications and schemas | PROJECT_DECISION | REQUIRED_NOW | Freezes experiment IDs, permitted/prohibited claims, current executability, lineage, deterministic evidence, acceptance limits, and reviewer gates. It is not a source authority, experiment result, production approval, error budget, or tolerance. |
 | UFUQ-DATA | `docs/DATA_STRATEGY.md`, data classes, provenance manifest, pipeline, schemas | PROJECT_DECISION | REQUIRED_NOW | Catalogue/content provenance contract |
 | UFUQ-IMPL-DEC | `docs/IMPLEMENTATION_DECISIONS.md`, active decisions | PROJECT_DECISION | REQUIRED_NOW | Code/test-affecting decision status |
 | UFUQ-PHASES | `docs/PHASES.md`, phase outcomes and gates | PROJECT_DECISION | REQUIRED_NOW | Work sequencing |

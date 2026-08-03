@@ -76,6 +76,20 @@ when no matching test exists; neither uses `passWithNoTests`.
   branches without making currently reserved branches reachable. Its seven experiment
   families remain evidence work until an approved production/reference comparison
   activates `test:reference`.
+- Milestone 2C.5A freezes 24 experiment records in a human protocol and machine
+  registry with separate fixture/result schemas. A runnable synthetic record must use
+  explicit synthetic inputs, locked offline dependencies, declared ERFA/SOFA lineage,
+  at least two deterministic repetitions, complete hashes, and either exact supported
+  invariants or `MEASURED_NO_ACCEPTANCE`. The first 2C.5B batch may add experiment
+  bodies only to the non-production Python reference tool. It must not create I/311-
+  derived fixtures, production astronomy, numerical acceptance, or a placeholder
+  reference test. Synthetic tool experiments alone do not activate `test:reference`;
+  the first production/reference comparison does. The 2C.5A protocol-shape suite
+  checks the exact human/machine ID and classification inventory, zero-count intent,
+  Batch 01 membership and bounded partitions, synthetic-only fixture/result scope,
+  schema/version/closed-object contracts, execution outcomes and manifest fields,
+  canonicalization rules, local schema references, and the absence of direct `erfa`
+  imports or experiment instances.
 - The spike can be removed or replaced without changing public contracts.
 
 ## Phase 2 tests

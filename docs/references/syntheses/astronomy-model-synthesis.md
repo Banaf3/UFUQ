@@ -179,6 +179,35 @@ sensitivity, near-horizon numerics, geometric/apparent horizon, below-horizon be
 default-atmosphere consequences, and visibility separation with deterministic
 provenance.
 
+## Milestone 2C.5A experiment-protocol proposal
+
+`PROJECT_DECISION`: freeze 24 stable experiment records before execution. Each record
+separates current executability from what its result may establish and explicitly
+records input class, model/library/routines/version, frames/times/units/conventions,
+EOP/leap/meteorology/observer/ephemeris needs, partitions, comparison lineage, metrics,
+repetitions, hashes, output schema, acceptance basis, reviewer gate, and follow-up
+decision. The machine registry classifies 17 records as runnable with synthetic inputs
+only, five as project-decision blocked, one as required-data blocked, and one as
+deferred until production exists.
+
+`SOURCE_SUPPORTED_FACT`: the pinned documentation establishes the exact library and
+routine behaviour available for experiments. It does not change source or production
+authority. Astropy high-level coordinates use ERFA, and PyERFA directly exposes ERFA;
+their applicable results therefore share the ERFA/SOFA model lineage even though both
+remain code-independent from future UFUQ TypeScript production code.
+
+`EXPERIMENT_REQUIRED`: the proposed five-group 2C.5B batch covers epoch-label guards,
+same-family route/convention consistency, motion/cosine/status guards, deterministic
+replay, and optional-state/no-default/visibility separation. No body or result is added
+by 2C.5A.
+
+`HUMAN_REVIEW_REQUIRED`: AST-003/004/006/007 review is required before a result changes
+production policy. Until AST-006 supplies a separate error-budget ledger and threshold,
+numerical results remain `MEASURED_NO_ACCEPTANCE`; only exact supported invariants may
+pass or fail. Synthetic execution cannot establish I/311 meaning, production approval,
+supported domains, degraded modes, omission bounds, refraction/visibility policy, or a
+tolerance.
+
 ## Authority by topic
 
 | Topic | Highest authority | Supporting source | UFUQ consequence |
@@ -235,6 +264,7 @@ provenance.
 | Use geometric-only first-slice output, no default atmosphere, separate optional refraction states, six typed horizon meanings, and nine independent visibility components. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004 | `PROJECT_DECISION`; model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required |
 | Derive acceptance thresholds from measured independent disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `EXPERIMENT_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
+| Register every scientific experiment before execution, disclose shared algorithm lineage, and keep synthetic executability separate from authority/approval. | ADR-007; testing-scientific-software dossier; 2C.5A protocol | `PROJECT_DECISION`; numerical acceptance remains `HUMAN_REVIEW_REQUIRED` under AST-006 |
 | Run scientific requests offline from an immutable hash-addressed EOP/leap bundle; update separately and retain old bundles for replay. | IERS product/status evidence; Astropy fallback surfaces; reproducibility contract | `PROJECT_DECISION`; product selection, cadence, and activation approval remain `HUMAN_REVIEW_REQUIRED` |
 | Reject missing/stale/out-of-range data and any field quality without explicit scientific approval; reserve degraded output until a named mode, quantitative bound, warning contract, and reviewer approval exist. | IERS field flags/product roles; Astropy warning/degraded surfaces; AST-003/006 | `PROJECT_DECISION`; degradation sensitivity is `EXPERIMENT_REQUIRED` |
 
@@ -266,8 +296,11 @@ update semantics, orthogonal field-state handling, domain composition, determini
 outcome precedence, structured outcomes, and reference evidence. Milestone 2C.4
 supplies a geometric-only/no-default proposal, explicit atmosphere/refraction state,
 separate horizon and visibility components, optional-stage precedence, and reference
-experiment requirements. The actual implementation/library and approvals remain open,
-together with production EOP/leap artifacts and hashes, stale/update and prediction/
+experiment requirements. Milestone 2C.5A supplies a human/machine experiment registry,
+fixture/result schemas, execution/claim separation, shared-lineage disclosure, and a
+proposed synthetic batch, but no experiment result. The actual implementation/library
+and approvals remain open, together with production EOP/leap artifacts and hashes,
+stale/update and prediction/
 preliminary policy, refraction, date/location/height endpoints, epoch/derivative scale,
 radial velocity, source-derived comparison cases, omission bounds, error budget, and
 numerical tolerances. No degraded mode is approved. The I/311 `pmRA` component and

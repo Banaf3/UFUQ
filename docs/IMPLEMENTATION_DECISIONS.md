@@ -167,17 +167,24 @@ Historical report/deviation/authority status remains in `governance/`.
   extinction/transparency, cloud/weather, light-pollution, renderer, and learner-
   eligibility policies remain unresolved. No approved or warning-bearing refracted
   result is reachable before the model/input/domain/warning/tolerance/operating-domain
-  gates and named astronomy review are complete.
+  gates and named astronomy review are complete. Milestone 2C.5A freezes a separate
+  24-record scientific experiment protocol and machine registry. It classifies 17
+  synthetic-only records as runnable for bounded measurement/invariant evidence, five
+  as project-decision blocked, one as required-data blocked, and one as deferred until
+  production exists. It adds no numerical body/result, source-derived input,
+  production selection, or tolerance. Same-family Astropy/PyERFA/ERFA agreement is
+  explicitly non-independent, and all numerical measurements remain without
+  acceptance until AST-006 supplies a separate error budget.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:** Review the proposed route/effect matrix, close the
   evidence/decision blockers listed in
-  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`, its eight 2C.2 experiment families,
-  its six 2C.3 offline/status/time/observer/domain experiment families, and its seven
-  2C.4 refraction/input/horizon/visibility experiment families. Then run independent
-  pinned source-derived oracle cases, an effect/error
-  budget, and operation-specific approved tolerances before scientific acceptance.
+  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` and the 2C.5A experiment registry.
+  Review and, if approved, execute the proposed synthetic batch without promoting its
+  results; resolve the blocked experiment inputs/policies; then run independent pinned
+  source-derived and production/reference cases, an effect/error budget, and
+  operation-specific approved tolerances before scientific acceptance.
 
 ## IMP-010 — Scene coordinate adapter
 

@@ -29,7 +29,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Kaaba coordinate | No coordinate is approved here; record authority, datum, order/sign, precision, version/date, uncertainty, and the convention-compatible Malaysian/domain validation method. | MANUAL DOMAIN DECISION AST-005 |
 | Angular comparison | Use robust unit-vector separation; use wrapped circular difference for headings. | CLARIFIED |
 | Numerical tolerances | Define an error budget and per-operation implementation, reference-disagreement, and learner-task tolerances, including near singularities. No fallback default. | MANUAL DOMAIN DECISION AST-006 |
-| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns Astropy/PyERFA to the independent path only. Milestone 2C.3 requires future scientific fixtures to install exact EOP/leap artifacts, disable network/cache fallback, retain each field's source quality, availability, provenance, coverage, and scientific approval, plus observer/time provenance, warnings/outcomes, boundary cases, and deterministic hashes. The production candidate remains a separate SOFA-based semantic route. | Reference/production boundary proposed; production data, PyERFA patch-doc acceptance, scientific fixtures/comparisons, and reviewer approval unresolved |
+| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns Astropy/PyERFA to the independent path only. Milestone 2C.3 requires future scientific fixtures to install exact EOP/leap artifacts, disable network/cache fallback, retain each field's source quality, availability, provenance, coverage, and scientific approval, plus observer/time provenance, warnings/outcomes, boundary cases, and deterministic hashes. Milestone 2C.5A freezes 24 experiment records, explicit execution/claim classes, shared-lineage disclosure, and separate fixture/result schemas; it runs none. The production candidate remains a separate SOFA-based semantic route. | Reference/production boundary and experiment protocol proposed; production data, PyERFA patch-doc acceptance, scientific fixtures/comparisons, error budget, and reviewer approval unresolved |
 
 ## Canonical value objects
 
@@ -240,16 +240,24 @@ Correctness is `distance <= approvedTaskTolerance`; the exact tolerance and incl
    refraction inputs, and all selected policies in a manifest.
 2. A reviewer other than the runtime implementer approves the oracle protocol and a
    code-sharing audit. The generator must not import, call, or mechanically translate
-   runtime TypeScript. Add policy-level differential cases so two implementations cannot
-   agree merely because they share the same wrong convention.
-3. Generate fixed expected equatorial/horizontal values independently. Preserve the
+   runtime TypeScript. Add policy-level differential cases so two implementations
+   cannot agree merely because they share the same wrong convention. Astropy
+   high-level transforms and direct PyERFA calls disclose their shared ERFA/SOFA
+   lineage and are not independent algorithms for same-family agreement.
+3. Before execution, register the experiment's stable ID, scientific question,
+   permitted/prohibited claims, input class, exact dependencies and conventions,
+   artifacts, partitions, comparison lineage, metrics, repetition/hashes, result
+   schema, acceptance mode, reviewer gate, and follow-up decision under the 2C.5A
+   protocol. Source-derived and production-generated inputs remain unavailable unless
+   their separate gates are open.
+4. Generate fixed expected equatorial/horizontal values independently. Preserve the
    permitted fixed outputs and provenance; the production runtime never calls the
    oracle.
-4. Cross-check selected time/sidereal cases against a pinned, precisely identified USNO
+5. Cross-check selected time/sidereal cases against a pinned, precisely identified USNO
    or other independent artifact and Qibla cases against the approved
    convention-compatible Malaysian/domain procedure. A contextual web page alone is
    not a numerical oracle.
-5. Include meridian/east/west, angle wrap, UTC day boundary, leap-date and approved
+6. Include meridian/east/west, angle wrap, UTC day boundary, leap-date and approved
    leap-second input behavior, equator, Malaysian latitudes, reference-only high
    latitude, horizon/below-horizon, zenith singularity, catalogue reference epoch,
    reference-only high-proper-motion data, and supported-range endpoints. These tests do
@@ -258,14 +266,16 @@ Correctness is `distance <= approvedTaskTolerance`; the exact tolerance and incl
    non-results, model/domain/warnings, geometric versus apparent horizon,
    below-horizon partitions, and independent visibility components; no fixture may
    rely on an unrecorded library default.
-6. Produce an error-budget table per case/policy: catalogue position/space-motion
+7. Produce an error-budget table per case/policy: catalogue position/space-motion
    uncertainty, omitted-effect bound, EOP/observer uncertainty, floating-point error,
    oracle disagreement, total scientific bound, and learner-task tolerance. Record both
    component and great-circle errors. Release requires every case within AST-006; no
    average may hide a failed fixture.
-7. Separate implementation-numerics tolerances, scientific/reference tolerances, and
+8. Separate implementation-numerics tolerances, scientific/reference tolerances, and
    learner-answer tolerances. Until AST-006 approves them, tests must fail as
-   unconfigured rather than use a convenient constant.
+   unconfigured rather than use a convenient constant. Before then, numerical
+   experiment outputs are `MEASURED_NO_ACCEPTANCE`; only exact supported invariants can
+   pass or fail.
 
 Astropy documents its ERFA-based refraction as inaccurate below about 5 degrees and
 warns of meaningless or highly discrepant behavior near/below zero altitude in

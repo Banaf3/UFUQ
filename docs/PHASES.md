@@ -99,6 +99,19 @@ does not approve a model, input/altitude range, near/below-horizon rule, terrain
 visibility, warning, learner-eligibility policy, or tolerance. AST-004/006/007 review
 remains required, so Milestone 2C remains open.
 
+Milestone 2C.5A freezes the scientific experiment protocol before numerical execution.
+It records 24 stable experiment IDs with permitted/prohibited claims, exact input and
+dependency requirements, shared-lineage disclosure, metrics, deterministic replay and
+hash rules, result/acceptance semantics, reviewer gates, and follow-up decisions. A
+machine registry plus separate fixture/result schemas support later deterministic
+execution without widening the existing smoke fixture. Seventeen records can run now
+only with explicit synthetic inputs; five await project decisions, one awaits a
+required independent data/model path, and one awaits production. The proposed
+five-group 2C.5B batch runs no source-derived input and cannot create authority,
+production approval, a domain, an error budget, or a tolerance. No experiment body or
+result is added by 2C.5A, `test:reference` remains inactive, and Milestone 2C remains
+open.
+
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and
 the permitted handling of generated data; unresolved redistribution authority does not

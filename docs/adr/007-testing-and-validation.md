@@ -19,7 +19,22 @@ security/privacy; backup/restore; evidence manifests; and a separately approved 
 evaluation. Missing tolerances or baseline configuration fail rather than using invented
 constants.
 
-Keep reference fixture generation structurally independent from runtime TypeScript astronomy. Every fixture and result records software/data/policy/tolerance version. Missing tolerance fails validation. Coverage is diagnostic; pure decision/formula modules target complete branches but reference agreement is the correctness oracle.
+Keep reference fixture generation structurally independent from runtime TypeScript
+astronomy. Every fixture and result records software/data/policy/tolerance status.
+Missing tolerance prevents numerical acceptance; it does not prevent a clearly
+labelled measurement-only experiment or an exact supported invariant. Coverage is
+diagnostic; pure decision/formula modules target complete branches, while approved
+independent reference agreement plus the error budget is the later correctness oracle.
+
+Milestone 2C.5A adds a human and machine experiment registry before execution. Every
+record states what it may and cannot establish, its input class, exact dependencies and
+conventions, artifact needs, partitions, comparison lineage, metrics, repetitions and
+hashes, result schema, acceptance mode, reviewer gate, and follow-up decision. Astropy
+high-level transformations and direct PyERFA calls disclose their shared ERFA/SOFA
+lineage and cannot validate each other as independent algorithms. Numerical results
+remain `MEASURED_NO_ACCEPTANCE` until AST-006 supplies a separately versioned error
+budget; exact deterministic, status-preservation, and deliberately injected guard
+checks may pass or fail without a numerical tolerance.
 
 Use separate fail-closed Vitest configurations for unit, reference, and integration
 tests. Phase 0 CI runs only the active unit and browser suites. The reference suite
@@ -34,6 +49,8 @@ fixture envelope. It never imports production astronomy; comparison code under
 ## Consequences
 
 - Results are defensible and traceable to distinct claims.
+- Runnable synthetic evidence remains visibly separate from source authority,
+  production approval, and later scientific acceptance.
 - CI/local environments need real MySQL and pinned browsers; astronomy fixture generation may use a separate approved Python/Astropy environment outside production.
 - Visual/performance baselines require frozen environment metadata and reviewed updates.
 - Human evaluation cannot start before ethics/privacy/protocol approval.

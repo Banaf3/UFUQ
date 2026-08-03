@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ufuq:astronomy-experiment-registry:v1",
+  "title": "UFUQ astronomy experiment registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "protocolVersion",
+    "protocolDocument",
+    "fixtureSchema",
+    "resultSchema",
+    "errorBudgetStatus",
+    "classificationVocabulary",
+    "firstBatch",
+    "experiments"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ufuq.astronomy-experiment-registry.v1"
+    },
+    "protocolVersion": {
+      "const": "2C.5A-v1"
+    },
+    "protocolDocument": {
+      "const": "docs/spikes/PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md"
+    },
+    "fixtureSchema": {
+      "const": "ufuq.astronomy-experiment-fixture.v1"
+    },
+    "resultSchema": {
+      "const": "ufuq.astronomy-experiment-result.v1"
+    },
+    "errorBudgetStatus": {
+      "const": "NOT_ESTABLISHED_AST_006_OPEN"
+    },
+    "classificationVocabulary": {
+      "type": "array",
+      "prefixItems": [
+        { "const": "RUNNABLE_SYNTHETIC_NOW" },
+        { "const": "BLOCKED_BY_SOURCE_AUTHORITY" },
+        { "const": "BLOCKED_BY_PROJECT_DECISION" },
+        { "const": "BLOCKED_BY_REVIEW" },
+        { "const": "BLOCKED_BY_REQUIRED_DATA" },
+        { "const": "DEFERRED_TO_PRODUCTION_IMPLEMENTATION" }
+      ],
+      "items": false,
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "firstBatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "batchId",
+        "status",
+        "inputClassification",
+        "prohibitedInputClasses",
+        "prohibitedSourceMaterial",
+        "prohibitedClaims",
+        "executionGroups"
+      ],
+      "properties": {
+        "batchId": { "const": "2C.5B-BATCH-01" },
+        "status": { "const": "PROPOSED_SYNTHETIC_EXECUTION_ONLY" },
+        "inputClassification": {
+          "const": "SYNTHETIC_EXPERIMENT_INPUT"
+        },
+        "prohibitedInputClasses": {
+          "type": "array",
+          "prefixItems": [{ "const": "SOURCE_DERIVED" }, { "const": "PRODUCTION_GENERATED" }],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "prohibitedSourceMaterial": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "I311_CATALOGUE_ROWS" },
+            { "const": "HIP_SOURCE_DERIVED_VALUES" },
+            { "const": "CATALOGUE_SOURCE_BYTES" }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "prohibitedClaims": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "I311_EPOCH_TIME_SCALE_RESOLVED" },
+            { "const": "PRODUCTION_APPROVAL" },
+            {
+              "const": "INDEPENDENT_SCIENTIFIC_VALIDATION_FROM_SHARED_LINEAGE"
+            },
+            { "const": "SCIENTIFIC_TOLERANCE_ACCEPTED" }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "executionGroups": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/batchExecutionGroup" }
+        }
+      }
+    },
+    "experiments": {
+      "type": "array",
+      "minItems": 24,
+      "maxItems": 24,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/experiment" }
+    }
+  },
+  "$defs": {
+    "experimentId": {
+      "enum": [
+        "2C.1-EXP-01",
+        "2C.1-EXP-02",
+        "2C.1-EXP-03",
+        "2C.2-EXP-01",
+        "2C.2-EXP-02",
+        "2C.2-EXP-03",
+        "2C.2-EXP-04",
+        "2C.2-EXP-05",
+        "2C.2-EXP-06",
+        "2C.2-EXP-07",
+        "2C.2-EXP-08",
+        "2C.3-EXP-01",
+        "2C.3-EXP-02",
+        "2C.3-EXP-03",
+        "2C.3-EXP-04",
+        "2C.3-EXP-05",
+        "2C.3-EXP-06",
+        "2C.4-EXP-01",
+        "2C.4-EXP-02",
+        "2C.4-EXP-03",
+        "2C.4-EXP-04",
+        "2C.4-EXP-05",
+        "2C.4-EXP-06",
+        "2C.4-EXP-07"
+      ]
+    },
+    "batchExecutionGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["groupId", "members"],
+      "properties": {
+        "groupId": {
+          "enum": [
+            "EPOCH_LABEL_GUARDS",
+            "ROUTE_AND_CONVENTION_CONSISTENCY",
+            "MOTION_CONVENTION_GUARDS",
+            "DETERMINISTIC_REPLAY",
+            "OPTIONAL_STATE_GUARDS"
+          ]
+        },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/batchMember" }
+        }
+      }
+    },
+    "batchMember": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experimentId", "scopeId", "includedPartitions"],
+      "properties": {
+        "experimentId": { "$ref": "#/$defs/experimentId" },
+        "scopeId": {
+          "type": "string",
+          "pattern": "^2C\\.[1-4]-EXP-[0-9]{2}-BATCH01-[A-Z0-9-]+$"
+        },
+        "includedPartitions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9]+(?:_[A-Z0-9]+)*$"
+          }
+        }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experimentId",
+        "title",
+        "currentClassification",
+        "protocolRecord",
+        "scientificQuestion",
+        "mayEstablish",
+        "cannotEstablish",
+        "inputClasses",
+        "referenceDependencies",
+        "requiredInputPolicy",
+        "parameterPartitions",
+        "comparisonLineage",
+        "metrics",
+        "determinismProfile",
+        "hashProfile",
+        "acceptanceMode",
+        "reviewerApproval",
+        "followUpDecisions",
+        "blockers",
+        "firstBatch"
+      ],
+      "properties": {
+        "experimentId": {
+          "$ref": "#/$defs/experimentId"
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "currentClassification": {
+          "enum": [
+            "RUNNABLE_SYNTHETIC_NOW",
+            "BLOCKED_BY_SOURCE_AUTHORITY",
+            "BLOCKED_BY_PROJECT_DECISION",
+            "BLOCKED_BY_REVIEW",
+            "BLOCKED_BY_REQUIRED_DATA",
+            "DEFERRED_TO_PRODUCTION_IMPLEMENTATION"
+          ]
+        },
+        "protocolRecord": {
+          "type": "string",
+          "pattern": "^PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#"
+        },
+        "scientificQuestion": { "type": "string", "minLength": 1 },
+        "mayEstablish": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "cannotEstablish": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "inputClasses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "SYNTHETIC",
+              "SOURCE_DERIVED",
+              "PRODUCTION_GENERATED",
+              "EXTERNAL_AUTHORITATIVE_ARTIFACT"
+            ]
+          }
+        },
+        "referenceDependencies": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requiredInputPolicy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameterPartitions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "comparisonLineage": {
+          "enum": [
+            "STRUCTURAL_INVARIANT",
+            "SAME_ERFA_SOFA_FAMILY",
+            "CODE_INDEPENDENT_SHARED_MODEL",
+            "POLICY_SENSITIVITY_NO_INDEPENDENT_COMPARISON",
+            "INDEPENDENT_MODEL_REQUIRED",
+            "PRODUCTION_COMPARISON_REQUIRED"
+          ]
+        },
+        "metrics": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "GREAT_CIRCLE_ANGULAR_SEPARATION",
+              "WRAPPED_AZIMUTH_DIFFERENCE",
+              "ALTITUDE_DIFFERENCE",
+              "COMPONENT_RESIDUALS",
+              "WARNINGS",
+              "STRUCTURED_STATUSES",
+              "DETERMINISTIC_BYTES",
+              "DETERMINISTIC_SHA256"
+            ]
+          }
+        },
+        "determinismProfile": {
+          "enum": ["TWO_RUN_CANONICAL_REPLAY", "FRESH_ENVIRONMENT_REPLAY"]
+        },
+        "hashProfile": {
+          "const": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS"
+        },
+        "acceptanceMode": {
+          "enum": [
+            "EXACT_INVARIANT_ONLY",
+            "MEASUREMENT_ONLY",
+            "EXACT_INVARIANT_AND_MEASUREMENT",
+            "NOT_RUNNABLE"
+          ]
+        },
+        "reviewerApproval": { "type": "string", "minLength": 1 },
+        "followUpDecisions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "blockers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "firstBatch": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "currentClassification": {
+                "const": "RUNNABLE_SYNTHETIC_NOW"
+              }
+            },
+            "required": ["currentClassification"]
+          },
+          "then": {
+            "properties": {
+              "inputClasses": {
+                "contains": { "const": "SYNTHETIC" },
+                "items": {
+                  "enum": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"]
+                }
+              },
+              "acceptanceMode": {
+                "enum": [
+                  "EXACT_INVARIANT_ONLY",
+                  "MEASUREMENT_ONLY",
+                  "EXACT_INVARIANT_AND_MEASUREMENT"
+                ]
+              },
+              "blockers": { "maxItems": 0 }
+            }
+          },
+          "else": {
+            "properties": {
+              "acceptanceMode": { "const": "NOT_RUNNABLE" },
+              "blockers": { "minItems": 1 },
+              "firstBatch": { "const": false }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "firstBatch": { "const": true } },
+            "required": ["firstBatch"]
+          },
+          "then": {
+            "properties": {
+              "currentClassification": {
+                "const": "RUNNABLE_SYNTHETIC_NOW"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

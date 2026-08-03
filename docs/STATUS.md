@@ -143,6 +143,18 @@ extinction/transparency, cloud/weather, light pollution, screen, learner eligibi
 and tolerances remain blocked. Approved and warning-bearing refracted results remain
 unreachable. Seven experiments are specified but not run.
 
+Milestone 2C.5A freezes the experiment protocol without executing numerical work. The
+human and machine registries contain 24 stable records, each separating executability,
+permitted and prohibited claims, inputs/conventions/artifacts, comparison lineage,
+metrics, deterministic repetition/hashes, result schema, pass/fail basis, reviewer
+gate, and follow-up decision. Seventeen records are runnable with explicit synthetic
+inputs only, five are blocked by project decisions, one by a required independent
+data/model path, and the production/reference comparison is deferred. Astropy
+high-level and direct PyERFA routes retain their shared ERFA/SOFA lineage; their
+agreement is consistency evidence, not independent validation. A five-group
+synthetic-only first batch is proposed for 2C.5B, but no experiment body, fixture
+instance, result, error-budget ledger, or threshold is added in 2C.5A.
+
 Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
 but no reviewer approval selects the I/311 epoch/derivative time scale, actual
 TypeScript production implementation, supported date/location/height range or endpoint
@@ -150,8 +162,10 @@ inclusion, datum/height/longitude/polar policy, production EOP/leap artifacts/ha
 field precedence/interpolation, stale/update cadence, prediction/preliminary or
 celestial-pole-offset policy, parallax/RV policy,
 refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
-tolerance. No 2C.2, 2C.3, or 2C.4 experiment or production/reference comparison
-exists, and the reference suite remains intentionally inactive and fail-closed.
+tolerance. The 2C.1-2C.4 experiments are classified but unrun, no
+production/reference comparison exists, and the reference suite remains intentionally
+inactive and fail-closed. The first browser astronomy vertical slice therefore remains
+blocked.
 
 ### Milestone 2B catalogue authority and provenance
 
@@ -265,8 +279,9 @@ mapping, commands, corrections, and independent post-migration verdict are in
 
 Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
 contract but remains open. The next authorized work is to obtain and record only the
-evidence, experiments, reviewer decisions, and approvals listed by that contract; it
-does not authorize production astronomy implementation.
+evidence, experiments, reviewer decisions, and approvals listed by that contract.
+Milestone 2C.5B may implement only the reviewed synthetic Batch 01 protocol; it does
+not authorize source-derived or production astronomy implementation.
 
 Milestone 2D then records the catalogue source/deployment-authority outcome. The local
 I/311 parser, runtime validation, and deterministic generation follow in Phase 1

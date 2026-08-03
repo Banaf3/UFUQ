@@ -37,6 +37,24 @@ network. Smoke execution uses Astropy's packaged data with automatic IERS downlo
 general Astropy internet access disabled, a fresh temporary cache, and socket
 connections blocked.
 
+## Milestone 2C.5A experiment protocol
+
+`experiments/experiment-registry.v1.json` is a declarative registry of the 24
+Milestone 2C.1-2C.4 experiment records. Its registry, fixture, and result schemas freeze
+input classification, comparison lineage, deterministic evidence, and acceptance
+limits. They add no experiment runner, fixture instance, numerical result, source-
+derived value, production code, or tolerance.
+
+The current smoke tool still does not import PyERFA directly. Before a 2C.5B runner
+uses direct `erfa` routines, that milestone must deliberately make PyERFA a direct
+reference-tool dependency and update the dependency contract, lock evidence, import
+audit, and tests. Its installed transitive version is already pinned, but transitive
+availability alone is not the dependency policy.
+
+Synthetic experiment execution in this tool does not activate `test:reference`.
+That suite activates only when a comparison imports production astronomy and compares
+it with the independent reference path.
+
 ## Canonical fixtures
 
 `fixtures/synthetic-input.v1.json` is labelled `SYNTHETIC_TEST_INPUT` per case.
