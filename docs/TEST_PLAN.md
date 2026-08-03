@@ -66,6 +66,16 @@ when no matching test exists; neither uses `passWithNoTests`.
   pinned Python/Astropy oracle. The oracle does not import production astronomy;
   comparison code in `tests/reference` imports `astronomy-core`. Differences are
   recorded, not hidden behind an invented tolerance.
+- Milestone 2C.4 reference design requires separate geometric/refracted states,
+  explicit atmosphere units/provenance and no implicit defaults, model/domain/warning
+  capture, near/zero/below-horizon partitions, distinct geometric/refracted-apparent/
+  physical-dip/terrain/renderer/learner horizon states, nine independent visibility
+  components, and multi-fault precedence that retains earlier valid scientific states,
+  coordinates, provenance, warnings, and statuses. Tests distinguish not-requested,
+  unavailable, invalid, outside-domain, warning-bearing, and approved-refraction
+  branches without making currently reserved branches reachable. Its seven experiment
+  families remain evidence work until an approved production/reference comparison
+  activates `test:reference`.
 - The spike can be removed or replaced without changing public contracts.
 
 ## Phase 2 tests

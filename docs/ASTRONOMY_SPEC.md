@@ -22,9 +22,9 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Hour angle | `H = normalizeSigned(LST - RA)` with west-positive hour angle. | CONFIRMED |
 | Azimuth | Degrees/radians clockwise from geographic True North: north 0°, east 90°, south 180°, west 270°. | CONFIRMED |
 | Three.js axes | `+Y` zenith/up, `-Z` north, `+X` east. | CONFIRMED |
-| Refraction | Default candidate is deterministic geometric altitude with Astropy reference pressure 0; no refraction claim. | MANUAL DOMAIN DECISION AST-004 |
-| Below horizon | Candidate normal mode hides and disables selection; an optional labelled teaching ghost may be allowed. | MANUAL DOMAIN DECISION AST-004 |
-| Magnitude/visibility | Filter on the exact AST-001-approved photometric band/source column with explicit null/variability/threshold and teaching rules. Do not treat `Hp` and Johnson `V` as interchangeable or claim weather, extinction, or human visibility. | MANUAL DOMAIN DECISION AST-001/004 |
+| Refraction | Milestone 2C.4 proposes geometric altitude only for the first vertical slice. Optional refraction is a separate immutable state requiring explicit pressure, temperature, humidity, wavelength, measurement provenance/uncertainty, approved model/domain, and warnings. No default pressure, temperature, humidity, wavelength, observer atmosphere, height transfer, or lapse model is approved; Astropy defaults are reference-library behavior only. Missing requested inputs return refraction unavailable, never a default value. | Separation/no-default/first-slice `PROJECT_DECISION` proposal; model/ranges/warnings `HUMAN_REVIEW_REQUIRED` / `AUTHORITY_OR_EVIDENCE_MISSING` under AST-004/006 |
+| Below horizon | `BELOW_GEOMETRIC_HORIZON` is an attached classification, not a terminal failure or replacement for `GeometricHorizontalDirection`. It preserves signed altitude, azimuth when defined, singularity state, ENU direction, provenance, warnings, and statuses. Geometric horizon means the astronomical local horizontal plane at geometric altitude zero before refraction; it is not the visible sea/Earth-curvature horizon, observer-height dip, terrain/buildings, clipping, or a learner cue. | Separation `PROJECT_DECISION`; equality/physical-dip/terrain/downstream policy `HUMAN_REVIEW_REQUIRED` under AST-004/006/007 |
+| Magnitude/visibility | Keep astronomical horizon; approved-band photometry/variability; Sun altitude/daylight/twilight; atmospheric extinction/transparency; cloud/weather; terrain/obstruction; light pollution; screen presentation; and learner eligibility as nine independent components. No component promotes another. Do not treat `Hp` and Johnson `V` as interchangeable or claim that a rendered star is scientifically visible. No threshold or aggregation rule is approved. | Separation `PROJECT_DECISION`; component rules `AUTHORITY_OR_EVIDENCE_MISSING` / `HUMAN_REVIEW_REQUIRED` under AST-001/004/006/007 |
 | Qibla model | Initial great-circle bearing on a sphere, clockwise from True North and normalized to `[0,360)`. | CONFIRMED/CLARIFIED |
 | Kaaba coordinate | No coordinate is approved here; record authority, datum, order/sign, precision, version/date, uncertainty, and the convention-compatible Malaysian/domain validation method. | MANUAL DOMAIN DECISION AST-005 |
 | Angular comparison | Use robust unit-vector separation; use wrapped circular difference for headings. | CLARIFIED |
@@ -59,10 +59,28 @@ conceptual types prevent accidental double propagation or frame mixing:
 - `GeometricHorizontalDirection{azimuthNorthEastDeg,geometricAltitudeDeg,
   enuDirection,observationInstant,observerPolicy,eopPolicy,singularityStatus,...}`;
 - `RefractedHorizontalDirection{azimuthNorthEastDeg,refractedAltitudeDeg,
-  sourceGeometricDirection,refractionPolicy,modelInputs,validityStatus,...}`;
-- separate `VisibilityState` and `SceneDirection` records that retain their upstream
-  state/policy identifiers;
+  sourceGeometricDirection,refractionPolicy,atmosphereObservation,modelInputs,
+  validityStatus,warnings,...}`;
+- `AtmosphereObservation{pressureHpa,groundTemperatureC,
+  relativeHumidityFraction,observationWavelengthMicrometres,measurementInstant,
+  measurementLocation,sourceProvenance,uncertainty,measuredOrDerivedStatus,
+  derivationModelAndVersion,heightOrLapseAssumptions,validationStatus}`;
+- separate `GeometricHorizonState`, `RefractedApparentHorizonState`,
+  `PhysicalHorizonDipState`, `TerrainObstructionHorizonState`, `SceneClipState`, and
+  `LearnerHorizonCueState` records;
+- a componentized `VisibilityState` retaining independent astronomical-horizon,
+  photometric/variability, Sun-altitude/daylight/twilight, atmospheric-extinction/
+  transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and
+  learner-eligibility states and their policy/provenance/availability; and
+- a separate `SceneDirection` that retains its upstream state/policy identifiers and
+  applies no scientific correction;
 - `EnuUnitVector{east,north,up}` and `BearingNorthEastDeg`.
+
+`RefractedApparentHorizonState` means only comparison of an approved refracted
+direction with apparent altitude zero under its named model/policy. Apparent altitude
+zero is not geometric altitude zero, a visible skyline, terrain/building horizon,
+physical horizon dip, or a SOFA/ERFA numerical guard. Each alternative requires its
+own reviewed state and policy.
 
 Reject non-finite values and out-of-range latitude. AST-003/007 must choose exact
 canonical representatives at longitude/angle wrap boundaries so serialization and
@@ -78,6 +96,21 @@ failure level are reported; exact wire codes remain under review. An approved
 geometric result and an explicitly allowlisted warning-bearing result are separate. A
 degraded result is reserved and unreachable until a named degraded mode, quantitative
 bound, warning contract, and reviewer approval exist.
+
+Milestone 2C.4 extends that precedence only after an approved geometric direction:
+geometric horizon classification; requested refraction input, policy, and domain;
+requested visibility components; then screen and learner policy. Core invalid input,
+unsupported domain, source, leap, and EOP failures always precede these optional
+stages. An optional-stage non-result retains rather than erases the approved geometric
+state. Proposed semantic outcomes are `APPROVED_REFRACTED_RESULT`,
+`REFRACTION_NOT_REQUESTED`, `REFRACTION_UNAVAILABLE`, `REFRACTION_INPUT_INVALID`,
+`REFRACTION_OUTSIDE_VALID_DOMAIN`, `BELOW_GEOMETRIC_HORIZON`, and
+`VISIBILITY_POLICY_UNAVAILABLE`; exact wire/HTTP forms and warning-bearing refraction
+remain unapproved. `APPROVED_REFRACTED_RESULT` is unreachable until its exact
+model/version, complete meteorology/provenance, validity and combined supported
+operating domains, warning policy, scientific tolerance, and named astronomy-review
+approval exist. `BELOW_GEOMETRIC_HORIZON` attaches to and retains the valid geometric
+result rather than replacing it.
 
 The supported domain is the intersection of the approved catalogue-propagation,
 model/ephemeris, leap, per-field EOP, observer, scenario, and tolerance domains. No
@@ -220,7 +253,11 @@ Correctness is `distance <= approvedTaskTolerance`; the exact tolerance and incl
    leap-second input behavior, equator, Malaysian latitudes, reference-only high
    latitude, horizon/below-horizon, zenith singularity, catalogue reference epoch,
    reference-only high-proper-motion data, and supported-range endpoints. These tests do
-   not expand the learner UI beyond approved scenarios.
+   not expand the learner UI beyond approved scenarios. Refraction cases additionally
+   retain explicit atmosphere inputs/provenance, geometric and refracted states or
+   non-results, model/domain/warnings, geometric versus apparent horizon,
+   below-horizon partitions, and independent visibility components; no fixture may
+   rely on an unrecorded library default.
 6. Produce an error-budget table per case/policy: catalogue position/space-motion
    uncertainty, omitted-effect bound, EOP/observer uncertainty, floating-point error,
    oracle disagreement, total scientific bound, and learner-task tolerance. Record both
@@ -230,4 +267,8 @@ Correctness is `distance <= approvedTaskTolerance`; the exact tolerance and incl
    learner-answer tolerances. Until AST-006 approves them, tests must fail as
    unconfigured rather than use a convenient constant.
 
-Astropy documents refraction as unreliable near/below roughly 5° in common configurations, so any refracted near-horizon assessment needs an explicit exclusion or tolerance study. USNO's online material is a validation reference, not a runtime service dependency.
+Astropy documents its ERFA-based refraction as inaccurate below about 5 degrees and
+warns of meaningless or highly discrepant behavior near/below zero altitude in
+affected cases. These are source-supported reference-library limitations and
+experiment partitions, not UFUQ validity thresholds or tolerances. USNO's online
+material is a validation reference, not a runtime service dependency.

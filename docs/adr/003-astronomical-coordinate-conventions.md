@@ -52,6 +52,21 @@ ephemeris, leap, EOP, observer, scenario, and tolerance domain. Missing, stale,
 out-of-range, or unapproved-quality data return structured non-results. One EOP field
 cannot promote another. No degraded result is approved.
 
+Milestone 2C.4 proposes as a `PROJECT_DECISION`, without approving a model or range,
+geometric altitude only for the first vertical slice and a separate optional refracted
+state that requires explicit provenance-bearing meteorology. No default atmosphere is
+approved, and a scene adapter may not apply refraction. Geometric, refracted-apparent,
+physical-dip, terrain/obstruction, renderer, and learner horizon states are distinct;
+astronomical, photometric/variability, Sun-altitude/daylight/twilight, atmospheric-
+extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen,
+and learner-eligibility visibility components are also independent and cannot promote
+one another. Below-geometric-horizon is attached to the approved direction and retains
+signed altitude, defined azimuth/singularity, provenance, warnings, and statuses; it
+cannot decide visibility or presentation. Optional-stage failures never hide an
+earlier core scientific failure or erase a valid geometric state. A refracted apparent
+horizon means only apparent altitude zero under a named approved refraction policy; it
+is not geometric altitude zero, physical dip, skyline/terrain, or a numerical guard.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -74,8 +89,12 @@ also select the exact production data artifacts/hashes, field precedence/interpo
 stale and expiry rules, update cadence, preliminary/prediction disposition, UTC
 precision/zone adapter, observer normalization/ranges, endpoint semantics, and warning
 mapping. Also
-approve refraction/horizon/visibility, Kaaba/observer coordinate semantics, error
-budget and tolerances as detailed in `../ASTRONOMY_SPEC.md`.
+approve the geometric-only first slice; refraction model, atmosphere provenance and
+ranges, near/below-horizon validity, warnings; geometric/refracted-apparent/physical-
+dip/terrain horizon policy; photometric/daylight/extinction/transparency/cloud/weather/
+light-pollution/terrain/screen/learner visibility policy;
+Kaaba/observer coordinate semantics; error budget; and tolerances as detailed in
+`../ASTRONOMY_SPEC.md`.
 
 ## Consequences
 
@@ -98,5 +117,8 @@ Independent pinned Astropy/PyERFA/domain fixtures across frame/time/EOP/leap/obs
 wrap/horizon/singularity and exact-endpoint partitions, reconstructed offline with
 artifact hashes, independent per-field source-quality/availability/approval records,
 warnings, deterministic multi-fault precedence, and structured outcomes. Every numeric
-comparison must be inside AST-006. Internal Three mapping fixtures cannot serve as
-independent astronomy proof.
+comparison must be inside AST-006. Refraction fixtures additionally preserve explicit
+atmosphere inputs/provenance, model/domain/warnings, geometric and refracted states,
+near/below-horizon partitions, and independent visibility components; the seven 2C.4
+experiment families must not rely on unrecorded defaults. Internal Three mapping
+fixtures cannot serve as independent astronomy proof.

@@ -65,6 +65,41 @@ prediction, WGS 84 default, or automatic leap-table selection as production poli
 stale rule, prediction/preliminary policy, observer range, or precision is selected.
 The existing `astropy-iers-data` files/hashes remain synthetic-smoke evidence only.
 
+## Milestone 2C.4 refraction consequences
+
+`SOURCE_SUPPORTED_FACT` from official Astropy `8.0.1` `AltAz` documentation:
+
+- a nonzero `pressure` requests refraction, while pressure `0` disables it;
+- the library fields are pressure in pressure units, ground-level temperature in
+  degrees Celsius, relative humidity as a dimensionless fraction from 0 through 1,
+  and observation wavelength in length units;
+- the documented defaults are `0 hPa`, `0 deg C`, `0`, and `1 micron`; and
+- the ERFA-based model is documented as inaccurate below about 5 degrees, with
+  potentially meaningless or highly discrepant behavior near/below altitude zero.
+
+`PROJECT_DECISION`: every future reference case explicitly supplies all atmosphere
+fields, even when selecting pressure zero for a geometric result. It records geometric
+and refracted states separately and captures every warning. Missing meteorology in a
+requested UFUQ refraction case is an unavailable result, not permission to inherit the
+Astropy defaults.
+
+`AUTHORITY_OR_EVIDENCE_MISSING`: Astropy's defaults, about-5-degree statement, and
+round-trip behavior do not select UFUQ's atmosphere, range, validity threshold,
+below-horizon behavior, or tolerance. Astropy defines no terrain, photometric,
+daylight/twilight, extinction/transparency, cloud/weather, light-pollution, renderer,
+or learner-eligibility policy.
+
+`HUMAN_REVIEW_REQUIRED`: AST-004/006 must approve the model/domain/input provenance,
+warnings, and any comparison case before a nonzero-pressure output can become an
+approved reference expectation. `APPROVED_REFRACTED_RESULT` and any warning-bearing
+variant also require the approved combined operating domain, scientific tolerance, and
+named astronomy-review approval; library output alone cannot make either reachable.
+
+`EXPERIMENT_REQUIRED`: the seven 2C.4 experiment families compare model choice,
+meteorology sensitivity, near-horizon numerics, geometric/apparent horizons,
+below-horizon behavior, library-default consequences, and visibility-state separation.
+They do not create source authority or a tolerance.
+
 ## Official PyERFA documentation and version boundary
 
 | Record | Version/status | Required use |

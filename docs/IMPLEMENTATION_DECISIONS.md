@@ -156,22 +156,36 @@ Historical report/deviation/authority status remains in `governance/`.
   artifact/hash, stale rule, update cadence, UTC precision/zone policy, observer datum/
   range, date endpoint, prediction horizon, degraded bound, or warning serialization
   is approved. Deterministic semantic failure precedence is proposed, while stable wire
-  codes remain under review.
+  codes remain under review. Milestone 2C.4 proposes geometric-only output for the
+  first vertical slice; a separate explicit atmosphere/refraction state with no
+  default atmosphere; distinct geometric, refracted-apparent, physical-dip, terrain,
+  renderer, and learner horizon states; nine independent visibility components; and
+  optional-stage outcomes that retain earlier valid scientific states, including all
+  geometric coordinates, provenance, warnings, and statuses. SOFA/Astropy input/
+  default/low-altitude behavior is evidence, not UFUQ policy. The model, input ranges/provenance,
+  near/below-horizon domain, warnings, physical dip, terrain, photometric/daylight,
+  extinction/transparency, cloud/weather, light-pollution, renderer, and learner-
+  eligibility policies remain unresolved. No approved or warning-bearing refracted
+  result is reachable before the model/input/domain/warning/tolerance/operating-domain
+  gates and named astronomy review are complete.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:** Review the proposed route/effect matrix, close the
   evidence/decision blockers listed in
   `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md`, its eight 2C.2 experiment families,
-  and its six 2C.3 offline/status/time/observer/domain experiment families. Then run
-  independent pinned source-derived oracle cases, an effect/error
+  its six 2C.3 offline/status/time/observer/domain experiment families, and its seven
+  2C.4 refraction/input/horizon/visibility experiment families. Then run independent
+  pinned source-derived oracle cases, an effect/error
   budget, and operation-specific approved tolerances before scientific acceptance.
 
 ## IMP-010 — Scene coordinate adapter
 
 - **Decision:** Mapping from horizontal astronomy coordinates to Three.js.
 - **Current choice:** Domain ENU maps to Three.js `+X east`, `+Y up`, `-Z north`; scene
-  code is an adapter and never the astronomy oracle.
+  code is an adapter and never the astronomy oracle. It consumes a labelled approved
+  direction and does not apply refraction, horizon corrections, or scientific
+  visibility policy.
 - **Status:** approved
 - **What code it affects:** Astronomy-to-scene adapter, camera orientation, raycasting,
   deterministic scene tests.

@@ -129,6 +129,20 @@ zero-filled, nearest-value, extrapolated, and
 degraded execution remain unapproved. Six offline/status/degradation/time/observer/
 domain experiments are specified but not run.
 
+Milestone 2C.4 records `SOURCE_SUPPORTED_FACT` for SOFA `iauRefco` inputs and
+`iauAtioq`'s numerical guard, plus Astropy `8.0.1` `AltAz` pressure/default and
+low-altitude limitations. Its `PROJECT_DECISION` proposal uses geometric altitude only
+for the first vertical slice, requires an explicit provenance-bearing atmosphere with
+no defaults for optional refraction, keeps six horizon meanings and nine visibility
+components distinct, preserves below-geometric-horizon as a non-terminal classification
+attached to the valid direction, and extends optional-stage outcome precedence without
+erasing its coordinates, provenance, warnings, or statuses. Physical dip,
+cloud/weather, and light pollution remain separate. The refraction model/ranges,
+near/below-horizon validity, warnings, physical dip, terrain, photometric/daylight,
+extinction/transparency, cloud/weather, light pollution, screen, learner eligibility,
+and tolerances remain blocked. Approved and warning-bearing refracted results remain
+unreachable. Seven experiments are specified but not run.
+
 Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
 but no reviewer approval selects the I/311 epoch/derivative time scale, actual
 TypeScript production implementation, supported date/location/height range or endpoint
@@ -136,8 +150,8 @@ inclusion, datum/height/longitude/polar policy, production EOP/leap artifacts/ha
 field precedence/interpolation, stale/update cadence, prediction/preliminary or
 celestial-pole-offset policy, parallax/RV policy,
 refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
-tolerance. No 2C.2 or 2C.3 experiment or production/reference comparison exists, and
-the reference suite remains intentionally inactive and fail-closed.
+tolerance. No 2C.2, 2C.3, or 2C.4 experiment or production/reference comparison
+exists, and the reference suite remains intentionally inactive and fail-closed.
 
 ### Milestone 2B catalogue authority and provenance
 

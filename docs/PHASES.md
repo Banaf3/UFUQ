@@ -89,6 +89,16 @@ reference experiments. It selects no production product/hash, date/location/heig
 range, stale/update threshold, field-quality approval, degraded mode, or
 tolerance. Milestone 2C remains open and source-derived execution remains blocked.
 
+Milestone 2C.4 proposes geometric altitude only for the first vertical slice, explicit
+atmosphere provenance with no default atmosphere, separate geometric/refracted
+direction states, six distinct horizon states, nine independent visibility components,
+optional-stage outcome precedence that retains the valid geometric result, and seven
+experiment families. Official
+SOFA/Astropy documentation supports the candidate input and limitation inventory but
+does not approve a model, input/altitude range, near/below-horizon rule, terrain,
+visibility, warning, learner-eligibility policy, or tolerance. AST-004/006/007 review
+remains required, so Milestone 2C remains open.
+
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and
 the permitted handling of generated data; unresolved redistribution authority does not

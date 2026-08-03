@@ -136,6 +136,49 @@ outcome serialization.
 field-state partitions, degradation sensitivity, leap/time boundaries, observer
 partitions, and future domain endpoints. No degraded result is currently approved.
 
+## Milestone 2C.4 refraction, horizon, and visibility proposal
+
+`SOURCE_SUPPORTED_FACT`: SOFA `iauRefco` defines a compact refraction-coefficient
+model using pressure, temperature, relative humidity, and wavelength; `iauAtioq`
+consumes coefficients and contains a low-altitude numerical guard. Astropy `8.0.1`
+`AltAz` uses nonzero pressure to request refraction, documents library defaults, and
+documents inaccurate or unstable behavior in its low-altitude region. None defines
+UFUQ terrain, photometric, daylight, transmission, screen, or learner visibility.
+
+`PROJECT_DECISION`: propose geometric altitude only for the first vertical slice.
+Optional refraction produces a separate immutable result from an explicit
+provenance-bearing `AtmosphereObservation`; no default atmosphere is approved, and the
+scene adapter applies no refraction. Keep geometric, refracted-apparent, physical-dip,
+terrain/obstruction, renderer, and learner horizons distinct. Geometric horizon means
+the astronomical local horizontal plane at geometric altitude zero; refracted apparent
+horizon means only apparent altitude zero under a named model/policy. Keep astronomical
+horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric-
+extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen,
+and learner-eligibility visibility components independent. No component promotes
+another. Below-geometric-horizon is a non-terminal classification attached to the
+valid geometric direction, not a scientific failure or visibility/rendering decision;
+it retains coordinates, provenance, warnings, and statuses. Optional-stage failures
+retain earlier valid states.
+
+`AUTHORITY_OR_EVIDENCE_MISSING`: there is no approved refraction model/input or
+altitude range, height/lapse policy, physical-dip/terrain profile, photometric/
+daylight/extinction/transparency/cloud/weather/light-pollution rule, visibility
+aggregation, warning allowlist, or learner eligibility. Astropy defaults and its
+about-5-degree limitation cannot fill those gaps.
+
+`HUMAN_REVIEW_REQUIRED`: AST-001/004/006/007 must approve or reject the first-slice,
+model/domain, atmosphere provenance/uncertainty, near/below-horizon, physical-dip/
+terrain, visibility, outcome, warning, and learner-facing policies.
+`APPROVED_REFRACTED_RESULT` and `WARNING_BEARING_REFRACTED_RESULT` remain unreachable
+until the exact model/version, complete meteorology/provenance, reviewed validity and
+combined supported operating domains, warning policy/allowlist, scientific tolerance,
+and named astronomy-review approval exist.
+
+`EXPERIMENT_REQUIRED`: seven experiment families cover model comparison, meteorology
+sensitivity, near-horizon numerics, geometric/apparent horizon, below-horizon behavior,
+default-atmosphere consequences, and visibility separation with deterministic
+provenance.
+
 ## Authority by topic
 
 | Topic | Highest authority | Supporting source | UFUQ consequence |
@@ -189,7 +232,7 @@ partitions, and future domain endpoints. No degraded result is currently approve
 | Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`; convert `yr` using 365.25 days. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408; CDS Catalogue Standard 2.0 Section 3.2.2 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned independent oracle. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
 | Compare explicit Julian-TT/TDB/UTC, calendar-decimal-year, and Besselian guard interpretations with synthetic space-motion inputs; record time and direction deltas without inferring source meaning. | I/311/ESA epoch evidence conflict; Astropy `8.0.1` time docs; PyERFA `pmsafe` TDB contract | `EXPERIMENT_REQUIRED` |
-| Choose geometric/refraction and horizon/visibility behavior explicitly. | SOFA `iauRefco`/`iauAtioq`; AST-004 | `PROJECT_DECISION_REQUIRED` |
+| Use geometric-only first-slice output, no default atmosphere, separate optional refraction states, six typed horizon meanings, and nine independent visibility components. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004 | `PROJECT_DECISION`; model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required |
 | Derive acceptance thresholds from measured independent disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `EXPERIMENT_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
 | Run scientific requests offline from an immutable hash-addressed EOP/leap bundle; update separately and retain old bundles for replay. | IERS product/status evidence; Astropy fallback surfaces; reproducibility contract | `PROJECT_DECISION`; product selection, cadence, and activation approval remain `HUMAN_REVIEW_REQUIRED` |
@@ -220,8 +263,10 @@ PyERFA release/hash are pinned; PyERFA's official stable docs remain one patch b
 Milestone 2C.2 supplies a proposed production semantic route and effect matrix.
 Milestone 2C.3 supplies proposed observer/time boundaries, immutable offline data and
 update semantics, orthogonal field-state handling, domain composition, deterministic
-outcome precedence, structured outcomes, and
-reference evidence. The actual implementation/library and approvals remain open,
+outcome precedence, structured outcomes, and reference evidence. Milestone 2C.4
+supplies a geometric-only/no-default proposal, explicit atmosphere/refraction state,
+separate horizon and visibility components, optional-stage precedence, and reference
+experiment requirements. The actual implementation/library and approvals remain open,
 together with production EOP/leap artifacts and hashes, stale/update and prediction/
 preliminary policy, refraction, date/location/height endpoints, epoch/derivative scale,
 radial velocity, source-derived comparison cases, omission bounds, error budget, and
