@@ -174,13 +174,24 @@ Historical report/deviation/authority status remains in `governance/`.
   production exists. It adds no numerical body/result, source-derived input,
   production selection, or tolerance. Same-family Astropy/PyERFA/ERFA agreement is
   explicitly non-independent, and all numerical measurements remain without
-  acceptance until AST-006 supplies a separate error budget. Milestone 2C.5B then
+  acceptance until AST-006 approves bounded terms and an operation-specific
+  threshold; the 2C.5C review-draft ledger supplies neither. Milestone 2C.5B then
   completes 9/9 reviewed Batch 01 synthetic scopes inside the non-production
   Python tool. It promotes the unchanged locked PyERFA release to a direct tool
   dependency, passes 24 exact guard/status/replay checks with no failures, and has six
   measurement-only checks covering 27 measurement records, all
   `MEASURED_NO_ACCEPTANCE`. It adds no production implementation, source-derived
   propagation, independent scientific validation, or policy/tolerance approval.
+  Milestone 2C.5C interprets those frozen results in a separate 49-term AST-006
+  ledger: 45 terms retain an unbounded numerical-bound state and four aggregate
+  ledger terms are exact non-numerical guards, distinct from the 24 Batch checks. It
+  separates source, model, Earth-orientation/time, observer, atmosphere,
+  implementation, scene, and learner layers; keeps scene and learner budgets outside
+  astronomy accuracy; defines boundary-specific metrics and candidate conservative/
+  covariance/RSS rules; and ranks the remaining runnable synthetic experiments.
+  Every required numerical term remains unbounded, RSS remains prohibited without
+  justified independence, all six tolerance classes are blocked, and the review
+  recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED`. No hashed Batch input changed.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
@@ -189,8 +200,9 @@ Historical report/deviation/authority status remains in `governance/`.
   `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` and the 2C.5A experiment registry.
   Review the completed synthetic batch without promoting its results; resolve the
   blocked experiment inputs/policies; then run independent pinned
-  source-derived and production/reference cases, an effect/error budget, and
-  operation-specific approved tolerances before scientific acceptance.
+  source-derived and production/reference cases, bound the ledger terms over the
+  approved operating domain, and obtain operation-specific approved tolerances before
+  scientific acceptance.
 
 ## IMP-010 — Scene coordinate adapter
 

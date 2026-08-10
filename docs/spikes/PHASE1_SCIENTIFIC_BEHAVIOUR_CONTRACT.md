@@ -16,7 +16,9 @@ Milestone 2C.2 now defines a reviewable SOFA-based candidate route and effect ma
 Milestones 2C.3-2C.4 add fail-closed operating-data and refraction/horizon/visibility
 contracts, and Milestone 2C.5A freezes a separate experiment protocol,
 machine-readable registry, fixture/result schemas, current execution classifications,
-and a proposed synthetic-only first batch. None approves an executable production
+and a proposed synthetic-only first batch. Milestone 2C.5B executes that bounded
+batch, and Milestone 2C.5C inventories its exact and measurement-only evidence in a
+separate error-budget framework and machine-readable AST-006 ledger. None approves an executable production
 implementation or closes the epoch, date-range, Earth-orientation, observer,
 refraction, visibility, error-budget, or tolerance decisions on which that route
 depends.
@@ -84,6 +86,15 @@ Milestone 2C.5A separately classifies experiment execution as
 `BLOCKED_BY_PROJECT_DECISION`, `BLOCKED_BY_REVIEW`,
 `BLOCKED_BY_REQUIRED_DATA`, or `DEFERRED_TO_PRODUCTION_IMPLEMENTATION`. Execution
 classification never changes the evidence class of a scientific conclusion.
+
+Milestone 2C.5C separately classifies each budget term or tolerance decision as
+`EXACT_CONTRACT_INVARIANT`, `MEASURED_SYNTHETIC_SENSITIVITY`,
+`SOURCE_UNCERTAINTY_UNRESOLVED`, `MODEL_UNCERTAINTY_UNRESOLVED`,
+`OPERATIONAL_DATA_UNCERTAINTY_UNRESOLVED`, `IMPLEMENTATION_ERROR_UNMEASURED`,
+`INDEPENDENT_VALIDATION_REQUIRED`, `HUMAN_REVIEW_REQUIRED`,
+`CANDIDATE_TOLERANCE_PROPOSAL`, or `FINAL_TOLERANCE_NOT_JUSTIFIED`.
+These classes do not promote a measured value into a source uncertainty, authority
+limit, engineering allowance, or approved threshold.
 
 Primary evidence for this audit is:
 
@@ -930,6 +941,39 @@ No aggregation rule or final threshold is approved. Catalogue formal errors, SOF
 accuracy prose, the van Leeuwen aggregate results, smoke-fixture byte identity, and a
 visually plausible sky are not UFUQ acceptance tolerances.
 
+Milestone 2C.5C records the review candidate in
+`PHASE1_SCIENTIFIC_ERROR_BUDGET.md` and
+`../governance/AST_006_ERROR_BUDGET_LEDGER.v1.json`:
+
+- layers A-F separately retain source/catalogue, propagation/model,
+  Earth-orientation/time, observer, atmosphere/refraction, and numerical
+  implementation uncertainty;
+- scene/render layer G and downstream scenario/learner/assessment layer H are tracked
+  separately and may not weaken or redefine astronomy accuracy; scenario generation
+  remains its own policy term rather than learner uncertainty;
+- the 49 ledger terms comprise 45 terms with an explicitly
+  `UNBOUNDED_UNRESOLVED` numerical-bound state and four exact non-numerical aggregate
+  guards (`F-002`, `F-003`, `F-004`, and `F-006`), distinct from the 24 Batch checks;
+  none contributes a numerical value to a combined budget yet, and this count does
+  not move downstream layers G-H into the astronomy budget;
+- worst-case bounded sum is the conservative candidate when dependence is unknown;
+  RSS is allowed only for evidenced independent zero-mean random terms, while
+  correlated/systematic/asymmetric terms require covariance, a joint model, or a
+  conservative grouped bound;
+- metrics are boundary-specific: great-circle/vector separation for directions,
+  component/covariance evidence in the owning frame, signed altitude and wrapped
+  azimuth where defined, field-specific time/EOP residuals, and observer-position
+  perturbations; and
+- azimuth is not a valid universal metric at or near zenith/nadir, while refraction
+  and altitude behavior near the horizon require a model- and domain-dependent rule.
+
+The six named classes `ScientificReferenceTolerance`,
+`ProductionImplementationTolerance`, `ScenarioGenerationTolerance`,
+`SceneAngularTolerance`, `LearnerInteractionTolerance`, and
+`AssessmentScoringTolerance` are all `BLOCKED` with no numerical value. The candidate
+method is reviewable, but the AST-006 recommendation is
+`FINAL_TOLERANCE_NOT_JUSTIFIED`.
+
 ## 16. Independent reference protocol
 
 The repository requires a neutral versioned JSON fixture protocol. Each scientific
@@ -1059,8 +1103,9 @@ stop. Synthetic run permission does not approve the later scientific decision.
 Astropy and PyERFA remain independent of future production code, but their shared
 ERFA/SOFA lineage is recorded for every applicable comparison. Same-family agreement
 is consistency evidence only. Numerical results use `MEASURED_NO_ACCEPTANCE` until
-AST-006 supplies a separate error-budget ledger and approved threshold; only exact,
-source- or project-supported invariants may return `PASS` or `FAIL` now.
+AST-006 approves the 2C.5C error-budget method and an operation-specific threshold;
+the review-draft ledger itself supplies no acceptance. Only exact, source- or
+project-supported invariants may return `PASS` or `FAIL` now.
 
 The executed 2C.5B first batch covers epoch-label guards, route/convention consistency,
 motion/cosine/status guards, deterministic replay, and optional-state/no-default/
@@ -1078,6 +1123,12 @@ rejects a missing/nonzero replacement, result manifests bind the
 fixture bytes, and structured statuses preserve the explicit-location fact. All
 pre-correction result and replay hashes were invalidated and replaced only by the
 complete runner regeneration.
+
+The 2C.5A protocol document is itself a hashed Batch 01 input. Milestone 2C.5C does
+not edit it, the registry, schemas, runner, fixtures, environment manifest, or
+lockfile. Interpretive additions live in the separate 2C.5C document and AST-006
+ledger so the committed result evidence remains valid; changing any hashed input
+requires complete Batch regeneration before further interpretation.
 
 ## 17. Evidence and decision audit
 
@@ -1181,7 +1232,7 @@ complete runner regeneration.
 | `2C.5A-003` | Astropy high-level transforms and direct PyERFA calls share ERFA/SOFA lineage for the affected calculations. | `SOURCE_SUPPORTED_FACT` | Different Python interfaces do not make them independent algorithms; agreement is same-family consistency only. |
 | `2C.5A-004` | Permit numerical pass/fail before an error budget and threshold exist. | `HUMAN_REVIEW_REQUIRED` | Prohibited until AST-006; numerical outputs are `MEASURED_NO_ACCEPTANCE`. Exact deterministic/status/guard invariants remain eligible for pass/fail. |
 | `2C.5A-005` | Execute the proposed five-group Batch 01 using only explicit synthetic inputs and the locked reference environment. | `EXPERIMENT_REQUIRED` | No experiment ran in 2C.5A; the exact batch is subsequently executed in 2C.5B. |
-| `2C.5A-006` | Create a separate error-budget ledger now. | `PROJECT_DECISION` | Deferred until AST-006 proposes a numerical acceptance claim; result schemas report `NOT_ESTABLISHED_AST_006_OPEN`. |
+| `2C.5A-006` | Create a separate error-budget ledger now. | `PROJECT_DECISION` | Deferred at the 2C.5A checkpoint; result schemas report `NOT_ESTABLISHED_AST_006_OPEN`. Milestone 2C.5C subsequently creates a review-draft ledger without changing those result semantics or approving a threshold. |
 
 ### 17.6 Milestone 2C.5B Batch 01 execution audit
 
@@ -1196,6 +1247,18 @@ complete runner regeneration.
 | `2C.5B-007` | Reproduce canonical fixtures/results offline. | `PROJECT_DECISION` | Nine fixtures and nine results validate; two internal fresh-cache repetitions and two independent OS-process, identical-argv runs in the same locked environment produce identical bytes and SHA-256 values. Clean-environment dependency reconstruction is not established; byte identity is determinism evidence only. |
 | `2C.5B-008` | Activate the production/reference suite. | `PROJECT_DECISION` | Not activated: Batch 01 imports no production code and contains no production/reference comparison. |
 | `2C.5B-009` | Make the Astropy epoch-label conversion location and leap input explicit without approving observer/leap policy. | `PROJECT_DECISION` | The three affected fixtures/schema/constructors fix synthetic ITRS-geocentre `[0,0,0] m` and initialize the pinned smoke-only leap artifact even in isolated runs; manifests and statuses retain the boundary. This is no physical observer, source interpretation, datum/site or production-leap approval, or production default. Pre-correction evidence was invalidated and runner-regenerated. |
+
+### 17.7 Milestone 2C.5C error-budget audit
+
+| ID | Conclusion | Classification | Result |
+|---|---|---|---|
+| `2C.5C-001` | Inventory every committed Batch 01 measurement without summarizing away serialized zero residuals. | `MEASURED_SYNTHETIC_SENSITIVITY` | All 27 records, values, units, fixture/result IDs, hashes, lineages, guard context, and budget dispositions are machine checked. Ten epoch/calendar records are descriptive future inputs only; none is currently combinable. |
+| `2C.5C-002` | Treat the 24 exact passes as bounded mutation/state-contract guards rather than numerical uncertainty bounds. | `EXACT_CONTRACT_INVARIANT` | Each guard names the mistake class it retires and the source/model/production uncertainty it cannot retire. No guard contributes a numerical budget term. |
+| `2C.5C-003` | Separate astronomy layers A-F from scene/render layer G and downstream scenario/learner/assessment layer H. | `CANDIDATE_TOLERANCE_PROPOSAL` | The layer boundary and traceability method are proposed for review; scenario generation remains an independent policy term, and G/H cannot weaken astronomy acceptance. |
+| `2C.5C-004` | Combine bounded terms with worst-case, covariance/joint, RSS, or asymmetric rules according to evidenced dependence and distribution. | `CANDIDATE_TOLERANCE_PROPOSAL` | RSS is prohibited without justified independence; any required unbounded term keeps the case and total unbounded. |
+| `2C.5C-005` | Approve any numerical tolerance from same-family zeros, deterministic hashes, library behavior, convenient epsilons, or UI needs. | `FINAL_TOLERANCE_NOT_JUSTIFIED` | All six tolerance classes are blocked; no final numerical scientific tolerance is defensible. |
+| `2C.5C-006` | Require future multi-date, multi-location, motion/parallax/RV, EOP, horizon, supported-endpoint, source-derived, and production/reference evidence. | `INDEPENDENT_VALIDATION_REQUIRED` | Same-family ERFA/SOFA consistency remains separate. No geographic range or one-site global tolerance is invented. |
+| `2C.5C-007` | Rank the remaining runnable synthetic work without executing it. | `MEASURED_SYNTHETIC_SENSITIVITY` plus `EXACT_CONTRACT_INVARIANT` as applicable | `2C.3-EXP-02`, `2C.3-EXP-05`, and `2C.3-EXP-04` are the proposed next structural/boundary batch, followed by effect, observer/parallax/RV, and refraction/horizon sensitivity work. The ranking is risk/knowledge-value planning, not execution or scientific approval. Separate batch review is still required, and unavailable policy, data, or review prerequisites remain fail-closed. |
 
 ## 18. Decisions still blocking implementation
 
@@ -1228,7 +1291,9 @@ complete runner regeneration.
 - approved astronomical-horizon, photometric/variability, Sun-altitude/daylight/
   twilight, extinction/transparency, cloud/weather, terrain/obstruction,
   light-pollution, screen, and learner-eligibility visibility policies; and
-- a per-case scientific error budget.
+- source/model/data/observer/atmosphere/implementation terms bounded over the approved
+  domain and a per-case combined scientific error budget. The 2C.5C ledger structure
+  exists, but its required terms remain unbounded.
 
 ### 18.2 Manual scientific/project decisions
 
@@ -1239,7 +1304,10 @@ complete runner regeneration.
 - AST-004: approve, revise, or reject the geometric-only first slice, no-default
   atmosphere rule, refraction model/input/domain/warnings, below-horizon behavior,
   separate horizon states, and visibility-component/aggregation policy;
-- AST-006: error aggregation and operation-specific scientific/reference tolerances;
+- AST-006: approve or revise the 2C.5C layer, metric, correlation, and aggregation
+  method; then approve operation-specific scientific/reference tolerances only after
+  every required term is bounded and independent validation exists. The current
+  recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED`;
 - AST-007: supported observer/time scenario inputs and boundary semantics; and
 - exact UTC fractional precision and scenario-zone handling; production data-product
   selection/update cadence; and structured status/error/warning serialization for the
@@ -1282,7 +1350,14 @@ evidence. Milestone 2C.5B completes 9/9 synthetic Batch 01 experiments: 24 exact
 checks pass and none fail, six measurement-only checks cover 27 measurement records
 that are all `MEASURED_NO_ACCEPTANCE`, and two-run canonical replay is byte-
 identical. Same-family agreement is not independent validation, and execution changes
-no source, production, data, reviewer, domain, error-budget, or tolerance status. The
+no source, production, data, reviewer, domain, or tolerance status. Milestone 2C.5C
+adds a machine-checked 49-term error-budget ledger (45 unbounded numerical-bound
+states plus four exact non-numerical aggregate guards, distinct from the 24 Batch
+checks), interprets every exact and measured record, defines candidate boundary
+metrics and combination rules, and ranks the next synthetic work. It approves no
+numerical value: every required physical, operational, and implementation term remains
+unbounded and all six tolerance classes are blocked under
+`FINAL_TOLERANCE_NOT_JUSTIFIED`. The
 contract deliberately selects no production artifact, date/location/height or
 refraction-validity range, refraction model, prediction/degraded policy, visibility
 rule, warning allowlist, or tolerance. Milestone 2C remains **OPEN**.

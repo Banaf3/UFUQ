@@ -202,9 +202,10 @@ replay, and optional-state/no-default/visibility separation. No body or result i
 by 2C.5A.
 
 `HUMAN_REVIEW_REQUIRED`: AST-003/004/006/007 review is required before a result changes
-production policy. Until AST-006 supplies a separate error-budget ledger and threshold,
-numerical results remain `MEASURED_NO_ACCEPTANCE`; only exact supported invariants may
-pass or fail. Synthetic execution cannot establish I/311 meaning, production approval,
+production policy. The 2C.5C review-draft ledger supplies no threshold; until AST-006
+approves bounded terms and an operation-specific threshold, numerical results remain
+`MEASURED_NO_ACCEPTANCE` and only exact supported invariants may pass or fail.
+Synthetic execution cannot establish I/311 meaning, production approval,
 supported domains, degraded modes, omission bounds, refraction/visibility policy, or a
 tolerance.
 
@@ -242,6 +243,35 @@ effect/data/model/domain experiment partitions remain unrun or blocked.
 `HUMAN_REVIEW_REQUIRED`: no measurement may become acceptance, source meaning,
 production selection, omission bound, domain, refraction/visibility policy, degraded
 mode, error budget, or tolerance without the existing AST-003/004/006/007 gates.
+
+## Milestone 2C.5C error-budget interpretation
+
+`EXACT_CONTRACT_INVARIANT`: the 24 Batch passes retire only their bounded synthetic
+mutation, status, provenance, replay, and optional-state failure classes. They do not
+bound physical/model/source uncertainty or prove the future production route.
+
+`MEASURED_SYNTHETIC_SENSITIVITY`: all 27 serialized values, including same-family
+zeros, are retained individually. Ten epoch/calendar records may inform a future
+candidate sensitivity bound after source/domain/motion policy is resolved. Same-family
+route values, rejected-Besselian diagnostics, deliberate cosine mutations, JD/warning
+diagnostics, replay bytes/hashes, and structural coordinate retention currently make
+no numerical error-budget contribution.
+
+`CANDIDATE_TOLERANCE_PROPOSAL`: the candidate method separates source/catalogue,
+propagation/model, Earth-orientation/time, observer, atmosphere/refraction, and
+numerical implementation layers. Scene/render and learner/assessment layers remain
+outside astronomy accuracy. It uses boundary-specific vector/component/time/observer
+metrics, conservative bounded sums when dependence is unknown, covariance or joint
+models for correlated/systematic terms, asymmetric bounds where required, and RSS
+only with justified independent zero-mean random terms.
+
+`FINAL_TOLERANCE_NOT_JUSTIFIED`: all required numerical terms remain unbounded and no
+production/reference disagreement or independent end-to-end validation exists. All
+six scientific, implementation, scenario, scene, learner-interaction, and assessment
+tolerance classes remain blocked. Multiple dates, observers, latitude/longitude/
+height partitions, motion/parallax/RV cases, EOP boundaries, horizon cases, and
+supported-domain endpoints are required before review. No one-location or global
+altitude/azimuth tolerance is inferred.
 
 ## Authority by topic
 
@@ -334,10 +364,12 @@ separate horizon and visibility components, optional-stage precedence, and refer
 experiment requirements. Milestone 2C.5A supplies a human/machine experiment registry,
 fixture/result schemas, execution/claim separation, and shared-lineage disclosure.
 Milestone 2C.5B executes only its bounded synthetic first batch; this adds guard and
-determinism evidence, not independent scientific or production validation. The actual
+determinism evidence, not independent scientific or production validation. Milestone
+2C.5C adds the review-draft ledger, boundary metrics, and combination method, but
+every required numerical term remains unbounded and no tolerance is justified. The actual
 implementation/library and approvals remain open, together with production EOP/leap artifacts and hashes,
 stale/update and prediction/
 preliminary policy, refraction, date/location/height endpoints, epoch/derivative scale,
-radial velocity, source-derived comparison cases, omission bounds, error budget, and
-numerical tolerances. No degraded mode is approved. The I/311 `pmRA` component and
+radial velocity, source-derived comparison cases, omission bounds, approved combined
+budgets, and numerical tolerances. No degraded mode is approved. The I/311 `pmRA` component and
 numeric 365.25-day rate-unit semantics are no longer open items.

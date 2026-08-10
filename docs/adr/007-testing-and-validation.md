@@ -32,9 +32,10 @@ conventions, artifact needs, partitions, comparison lineage, metrics, repetition
 hashes, result schema, acceptance mode, reviewer gate, and follow-up decision. Astropy
 high-level transformations and direct PyERFA calls disclose their shared ERFA/SOFA
 lineage and cannot validate each other as independent algorithms. Numerical results
-remain `MEASURED_NO_ACCEPTANCE` until AST-006 supplies a separately versioned error
-budget; exact deterministic, status-preservation, and deliberately injected guard
-checks may pass or fail without a numerical tolerance.
+remain `MEASURED_NO_ACCEPTANCE` until AST-006 approves bounded terms and an
+operation-specific threshold; the separately versioned 2C.5C review-draft ledger
+supplies neither. Exact deterministic, status-preservation, and deliberately injected
+guard checks may pass or fail without a numerical tolerance.
 
 Milestone 2C.5B completes 9/9 experiments in the registry's synthetic Batch 01. Its
 non-production Python runner uses a fixed allowlist, direct pinned PyERFA, canonical
@@ -47,6 +48,20 @@ Componentized/composed ERFA agreement retains the declared
 same-family lineage; deterministic bytes and passing guards do not establish
 scientific correctness. Because no production code is compared, this execution does
 not activate the reference Vitest suite.
+
+Milestone 2C.5C interprets the committed Batch results without changing a hashed input
+or regenerating canonical evidence. Its machine-checkable AST-006 ledger accounts for
+all 27 measured
+records and all 24 exact passes, but an exact mutation/status/state guard is not a
+numerical uncertainty bound. The candidate error-budget method keeps source, model,
+Earth-orientation/time, observer, atmosphere, and implementation terms separate;
+keeps scene and learner tolerances outside astronomy accuracy; uses boundary-specific
+direction/component/time/observer metrics; uses a conservative bounded sum when
+dependence is unknown; and permits RSS only with evidence of independent zero-mean
+random terms. Correlated, systematic, asymmetric, or nonlinear terms require a joint
+model, covariance, or conservative grouped bound. Every required numerical term is
+currently unbounded, so all six tolerance classes remain blocked and the AST-006
+recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED`.
 
 Use separate fail-closed Vitest configurations for unit, reference, and integration
 tests. Phase 0 CI runs only the active unit and browser suites. The reference suite

@@ -124,6 +124,20 @@ scientific validation. No production code is compared, so `test:reference` remai
 inactive. All 2C.1-2C.4 authority, production, data, domain, error-budget, tolerance,
 and reviewer blockers remain, and Milestone 2C remains open.
 
+Milestone 2C.5C interprets the committed Batch 01 evidence without changing or
+rerunning its hashed inputs. A human framework and machine-checkable AST-006 ledger
+inventory all 27 measurement records, all 24 passing exact checks, and 49 source,
+model, Earth-orientation/time, observer, atmosphere, implementation, scene, and
+learner terms. Of those ledger terms, 45 retain an unbounded numerical-bound state
+and four are exact non-numerical aggregate guards, distinct from the 24 Batch checks.
+Exact guards retire only bounded synthetic mutation/state-contract
+classes; measured values, including zeros, remain without acceptance. The candidate
+method uses boundary-specific metrics, conservative bounded sums when dependence is
+unknown, covariance/joint treatment for correlated terms, and RSS only when
+independence is justified. No required numerical term is bounded, all six tolerance
+classes remain blocked, and `FINAL_TOLERANCE_NOT_JUSTIFIED` is prepared for AST-006
+review. Milestone 2C remains open.
+
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and
 the permitted handling of generated data; unresolved redistribution authority does not

@@ -183,6 +183,20 @@ invalidated all earlier Batch results, manifests, output hashes, and replay clai
 final nine-result inventory was regenerated only through the runner before the
 isolated-process/cache replay.
 
+Milestone 2C.5C reads those committed results without regenerating canonical Batch 01
+evidence or changing any hashed input. The new human framework and machine-checkable
+AST-006 ledger retain
+all 27 measurements, including serialized zeros, and all 24 exact passes with the
+specific fault class each can and cannot retire. Forty-nine terms are separated across
+source, model, Earth-orientation/time, observer, atmosphere, numerical implementation,
+scene, and learner layers: 45 terms retain an unbounded numerical-bound state, while
+four aggregate ledger terms are exact non-numerical guards distinct from the 24 Batch
+checks. Scene/learner quantities cannot weaken astronomy accuracy;
+RSS requires evidenced independence; and any required unbounded term leaves the case
+unbounded. All six tolerance classes are blocked with no numerical value. The AST-006
+recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED` pending named review and future
+evidence.
+
 Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
 but no reviewer approval selects the I/311 epoch/derivative time scale, actual
 TypeScript production implementation, supported date/location/height range or endpoint
@@ -190,7 +204,9 @@ inclusion, datum/height/longitude/polar policy, production EOP/leap artifacts/ha
 field precedence/interpolation, stale/update cadence, prediction/preliminary or
 celestial-pole-offset policy, parallax/RV policy,
 refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
-tolerance. Batch 01 retires only its bounded synthetic guard/replay work; broader
+tolerance. The 2C.5C method and ledger are reviewable, but every required numerical
+source/model/data/observer/atmosphere/implementation term remains unbounded. Batch 01
+retires only its bounded synthetic guard/replay work; broader
 2C.1-2C.4 experiments remain unrun or blocked, no production/reference comparison
 exists, and the reference suite remains intentionally inactive and fail-closed. The
 first browser astronomy vertical slice therefore remains blocked.
@@ -313,9 +329,11 @@ Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audi
 contract but remains open. The next authorized work is to obtain and record only the
 evidence, experiments, reviewer decisions, and approvals listed by that contract.
 Milestone 2C.5B has completed only the reviewed synthetic Batch 01 protocol. The next
-2C work is the remaining evidence, experiments, reviewer decisions, and approvals in
-the contract; Batch execution does not authorize source-derived or production
-astronomy implementation.
+2C work is AST-006 review of the 2C.5C method, a separately reviewed next synthetic
+batch beginning with EOP state, observer, and leap/timestamp partitions, and the
+remaining evidence, decisions, and approvals in the contract. Batch execution and the
+error-budget draft do not authorize source-derived or production astronomy
+implementation.
 
 Milestone 2D then records the catalogue source/deployment-authority outcome. The local
 I/311 parser, runtime validation, and deterministic generation follow in Phase 1

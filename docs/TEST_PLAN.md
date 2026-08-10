@@ -111,6 +111,18 @@ when no matching test exists; neither uses `passWithNoTests`.
   claim clean-environment dependency reconstruction. All
   numerical measurements remain `MEASURED_NO_ACCEPTANCE`; the synthetic execution does
   not activate `test:reference` because no production/reference comparison exists.
+- Milestone 2C.5C validates the error-budget ledger directly against the committed
+  result bytes and companion hashes without importing or rerunning the Batch runner.
+  The ledger test proves exact 9/24/0/6/27 totals; full measurement/check coverage;
+  frozen protocol/registry/schema/environment/lock/runner hashes; 49 terms split into
+  45 unbounded numerical-bound states and four exact non-numerical aggregate
+  guards; exact layer counts/IDs; evidence-ID and human-document cross-references;
+  external-authority-limit ownership; separation of scene/learner layers; six blocked
+  tolerance classes with no numerical values; and a ranking containing exactly the
+  eight remaining runnable non-Batch experiments. Exact guards remain boolean contract
+  evidence, measured zeros remain without acceptance, and an unbounded required term
+  prevents a combined scientific budget. This documentation/ledger validation still
+  does not activate `test:reference`.
 - The spike can be removed or replaced without changing public contracts.
 
 ## Phase 2 tests
@@ -177,6 +189,9 @@ when no matching test exists; neither uses `passWithNoTests`.
 
 - Never choose a catalogue value, cultural mapping, tolerance, BKT parameter, or policy
   merely to make a test pass.
+- Never substitute machine epsilon, a library/test-framework epsilon, display
+  precision, deterministic hash identity, same-family agreement, scene pixels, or a
+  learner radius for an unresolved AST-006 scientific term.
 - Generic route tests use visibly synthetic IDs/labels; a passing schema or selection
   test is not cultural verification.
 - Record random seeds, exact environment/tool/browser/database versions, input hashes,

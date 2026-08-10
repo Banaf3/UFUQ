@@ -28,8 +28,8 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Qibla model | Initial great-circle bearing on a sphere, clockwise from True North and normalized to `[0,360)`. | CONFIRMED/CLARIFIED |
 | Kaaba coordinate | No coordinate is approved here; record authority, datum, order/sign, precision, version/date, uncertainty, and the convention-compatible Malaysian/domain validation method. | MANUAL DOMAIN DECISION AST-005 |
 | Angular comparison | Use robust unit-vector separation; use wrapped circular difference for headings. | CLARIFIED |
-| Numerical tolerances | Define an error budget and per-operation implementation, reference-disagreement, and learner-task tolerances, including near singularities. No fallback default. | MANUAL DOMAIN DECISION AST-006 |
-| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns Astropy/PyERFA to the independent path only. Milestone 2C.3 requires future scientific fixtures to install exact EOP/leap artifacts, disable network/cache fallback, retain each field's source quality, availability, provenance, coverage, and scientific approval, plus observer/time provenance, warnings/outcomes, boundary cases, and deterministic hashes. Milestone 2C.5A freezes 24 experiment records, explicit execution/claim classes, shared-lineage disclosure, and separate fixture/result schemas. Milestone 2C.5B completes 9/9 bounded synthetic scopes: 24 exact checks pass, none fail, and six measurement-only checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`; same-family ERFA agreement is not independent validation. The production candidate remains a separate SOFA-based semantic route. | Reference/production boundary, experiment protocol, and first synthetic guard batch established; production data, PyERFA patch-doc acceptance, independent scientific/production comparisons, error budget, and reviewer approval unresolved |
+| Numerical tolerances | Milestone 2C.5C defines separate source, model, Earth-orientation/time, observer, atmosphere, numerical-implementation, scene, and learner/assessment budget layers; a boundary-specific metric hierarchy; and candidate worst-case/covariance/RSS combination rules. RSS is prohibited without justified independence, an unbounded required term leaves the combined budget unbounded, and scene/learner tolerances cannot weaken astronomy accuracy. All six tolerance classes remain blocked with no numerical value. | `CANDIDATE_TOLERANCE_PROPOSAL` for method only; `FINAL_TOLERANCE_NOT_JUSTIFIED` / MANUAL DOMAIN DECISION AST-006 for every numerical threshold |
+| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns Astropy/PyERFA to the independent path only. Milestone 2C.3 requires future scientific fixtures to install exact EOP/leap artifacts, disable network/cache fallback, retain each field's source quality, availability, provenance, coverage, and scientific approval, plus observer/time provenance, warnings/outcomes, boundary cases, and deterministic hashes. Milestone 2C.5A freezes 24 experiment records, explicit execution/claim classes, shared-lineage disclosure, and separate fixture/result schemas. Milestone 2C.5B completes 9/9 bounded synthetic scopes: 24 exact checks pass, none fail, and six measurement-only checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`; same-family ERFA agreement is not independent validation. Milestone 2C.5C inventories every measurement and exact guard without promoting either and requires future multi-date, multi-observer, source-derived, supported-domain, and production/reference partitions before acceptance. The production candidate remains a separate SOFA-based semantic route. | Reference/production boundary, experiment protocol, first synthetic guard batch, and error-budget method established; production data, PyERFA patch-doc acceptance, independent scientific/production comparisons, bounded terms, thresholds, and reviewer approval unresolved |
 
 ## Canonical value objects
 
@@ -115,6 +115,15 @@ result rather than replacing it.
 The supported domain is the intersection of the approved catalogue-propagation,
 model/ephemeris, leap, per-field EOP, observer, scenario, and tolerance domains. No
 numerical date, location, or height endpoints are approved by this specification.
+
+The Milestone 2C.5C error-budget framework is recorded in
+`spikes/PHASE1_SCIENTIFIC_ERROR_BUDGET.md` and its machine-checkable AST-006 ledger.
+Layers A-F form the future astronomy scientific budget. Scene/render layer G and
+downstream scenario/learner/assessment layer H remain separate. Scenario generation is
+an independent downstream policy term in that layer, not learner uncertainty.
+Catalogue/source, model, operational data,
+observer, atmosphere, and production implementation terms are currently
+`UNBOUNDED_UNRESOLVED`; exact Batch 01 guards have no numerical contribution.
 
 Internal computation uses radians and double-precision JavaScript numbers. Serialization uses named degree fields; never serialize an unlabelled `[a,b]` coordinate pair.
 
@@ -266,11 +275,15 @@ Correctness is `distance <= approvedTaskTolerance`; the exact tolerance and incl
    non-results, model/domain/warnings, geometric versus apparent horizon,
    below-horizon partitions, and independent visibility components; no fixture may
    rely on an unrecorded library default.
-7. Produce an error-budget table per case/policy: catalogue position/space-motion
-   uncertainty, omitted-effect bound, EOP/observer uncertainty, floating-point error,
-   oracle disagreement, total scientific bound, and learner-task tolerance. Record both
-   component and great-circle errors. Release requires every case within AST-006; no
-   average may hide a failed fixture.
+7. Produce an error-budget table per case/policy using the 2C.5C ledger terms:
+   catalogue position/space-motion uncertainty and covariance, model/omitted-effect
+   bounds, per-field EOP/time and observer uncertainty, atmosphere when requested,
+   floating-point/production error, and independent-oracle disagreement. Record both
+   component and boundary-appropriate vector errors. Use RSS only for justified
+   independent random terms; keep systematic/correlated/asymmetric terms explicit.
+   Scene and learner quantities remain separate. Release requires every case within
+   AST-006; an unresolved required term leaves the case unbounded and no average may
+   hide a failed fixture.
 8. Separate implementation-numerics tolerances, scientific/reference tolerances, and
    learner-answer tolerances. Until AST-006 approves them, tests must fail as
    unconfigured rather than use a convenient constant. Before then, numerical
@@ -283,6 +296,13 @@ and shared-lineage evidence toward item 2, but the required independent reviewer
 approval and policy-level differential cases remain open. It imports no production
 astronomy, uses no source-derived values, and therefore cannot satisfy items 4-7 as a
 production/reference correctness claim or activate `test:reference`.
+
+Milestone 2C.5C interprets those committed results without regenerating canonical
+evidence or changing a hashed Batch input: all 27 records remain measured values
+without acceptance, and the 24 exact passes retire only
+bounded synthetic mutation/state-contract classes. No serialized zero, same-family
+agreement, hash identity, or deterministic replay supplies an implementation or
+scientific tolerance.
 
 Astropy documents its ERFA-based refraction as inaccurate below about 5 degrees and
 warns of meaningless or highly discrepant behavior near/below zero altitude in
