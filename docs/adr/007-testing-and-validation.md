@@ -36,6 +36,18 @@ remain `MEASURED_NO_ACCEPTANCE` until AST-006 supplies a separately versioned er
 budget; exact deterministic, status-preservation, and deliberately injected guard
 checks may pass or fail without a numerical tolerance.
 
+Milestone 2C.5B completes 9/9 experiments in the registry's synthetic Batch 01. Its
+non-production Python runner uses a fixed allowlist, direct pinned PyERFA, canonical
+fixtures/results, complete source/data/environment hashes, two isolated fresh-cache
+repetitions plus a two-process same-environment replay, and fail-closed
+source/scope/schema guards. This does not prove clean-environment dependency
+reconstruction. Twenty-four exact checks pass and none fail; six measurement-only
+checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`.
+Componentized/composed ERFA agreement retains the declared
+same-family lineage; deterministic bytes and passing guards do not establish
+scientific correctness. Because no production code is compared, this execution does
+not activate the reference Vitest suite.
+
 Use separate fail-closed Vitest configurations for unit, reference, and integration
 tests. Phase 0 CI runs only the active unit and browser suites. The reference suite
 becomes mandatory when Phase 1 introduces the first production/reference comparison,

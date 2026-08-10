@@ -1,0 +1,144 @@
+{
+  "canonicalContentSha256": "664393b3c84ca5f9e43cc8ca33afc2a2a93c94e7bdfd694ff0af1aa1ad8683ec",
+  "caseId": "no-default-atmosphere",
+  "checks": [
+    {
+      "basis": "Requested refraction with missing meteorology returns unavailable.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "missing-meteorology-produces-unavailable",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "Neither branch inserted pressure, temperature, humidity, wavelength, or lapse defaults.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "no-atmosphere-default-inserted",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "Not-requested and requested-but-unavailable remain distinct states.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "not-requested-distinct-from-unavailable",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    }
+  ],
+  "decisionLimits": [
+    "Synthetic evidence does not establish the source meaning of I/311 Ep=1991.25.",
+    "Same-family ERFA/SOFA agreement is not independent scientific validation.",
+    "No Batch 01 result approves a TypeScript production implementation or policy.",
+    "No numerical measurement has an AST-006 acceptance threshold."
+  ],
+  "errorBudgetStatus": "NOT_ESTABLISHED_AST_006_OPEN",
+  "executionManifest": {
+    "cachePolicy": "FRESH_ISOLATED_CACHE_NO_DISCOVERY",
+    "canonicalSerialization": "UFUQ_CANONICAL_JSON_V1",
+    "caseId": "no-default-atmosphere",
+    "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+    "experimentId": "2C.4-EXP-06",
+    "externalArtifactProvenance": [],
+    "fixtureId": "2C.4-EXP-06:no-default-atmosphere",
+    "fixtureSchemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+    "hashes": {
+      "environmentManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+      "fixtureByteLength": 4012,
+      "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+      "fixtureSha256": "477372f3226acf81af2b28dd7c896c61e866d2c0db790ee304cad4fd6c1e16d1",
+      "lockfileSha256": "6d37face85f513ee66e6677ced1f72b0cdf6f9ec5d904ce7cc0ce9e8eaa0abc1",
+      "protocolDocumentSha256": "c6e8f2e12b847cfb4b718b2b6b3c30ac0b2ae94f5e0451b1ecaef4ae70548b81",
+      "registrySchemaSha256": "f85a60a50474c7d68e68903750e87bc47b0bcbb4e402faf321d3f3748928288b",
+      "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+      "resultSchemaSha256": "688edef0f17c7901753414968fde9257a063d34ad418c5b53297caf5846efd22"
+    },
+    "manifestVersion": "ufuq.astronomy-experiment-execution-manifest.v1",
+    "networkPolicy": "OFFLINE_AUTO_DOWNLOAD_DISABLED",
+    "protocolVersion": "2C.5A-v1",
+    "recordOrdering": "REGISTRY_ID_GROUP_MEMBER_INPUT_KEY_MEASUREMENT_ID_STATUS_SEQUENCE_CHECK_ID",
+    "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+    "repetitionCount": 2,
+    "resultSchemaVersion": "ufuq.astronomy-experiment-result.v1",
+    "runner": {
+      "argv": [
+        "run.py",
+        "batch-01"
+      ],
+      "entryPoint": "run.py",
+      "runnerId": "ufuq-astronomy-batch-01",
+      "runnerVersion": "2C.5B-BATCH-01-v1",
+      "sourceFiles": [
+        {
+          "path": "run.py",
+          "sha256": "d15d2ba82a538a038aa4585dd26b953e13562d1afd6b86d0d1bf05e6645be5ad"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/__init__.py",
+          "sha256": "143a40dbb3b12bee6625b1c0c35ab9f0ab261736924940d4938ca0e1cd4f1b0a"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/batch01.py",
+          "sha256": "86fd7c9ed07384bc179a565d59e57bb6c1e7a8518dd3a1d9a2a60b5e01683cac"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/experiment_protocol.py",
+          "sha256": "95e533d971465e22342c0ee5746d6c36383c1f4e0f10fea19c6ff5da4cbc0b14"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/oracle.py",
+          "sha256": "7bfea6dee40925ee14e9e5e73fb24443f48601cb3df92ba9822d6b5a60a85de8"
+        }
+      ],
+      "workingDirectory": "tools/astronomy-reference"
+    },
+    "runtimeContext": {
+      "architecture": "AMD64",
+      "operatingSystem": "Windows",
+      "operatingSystemVersion": "10.0.26200",
+      "pythonImplementation": "CPython"
+    },
+    "softwareRuntime": {
+      "astropyIersDataVersion": "0.2026.7.20.15.31.18",
+      "astropyVersion": "8.0.1",
+      "directlyImportedPackages": [
+        "astropy",
+        "astropy_iers_data",
+        "erfa"
+      ],
+      "erfaVersion": "2.0.1",
+      "pyerfaDependencyKind": "DIRECT",
+      "pyerfaVersion": "2.0.1.5",
+      "pythonVersion": "3.14.6",
+      "sofaIssue": "20231011",
+      "uvVersion": "0.11.32"
+    }
+  },
+  "executionOutcome": {
+    "reasons": [],
+    "state": "COMPLETED"
+  },
+  "experimentId": "2C.4-EXP-06",
+  "fixtureId": "2C.4-EXP-06:no-default-atmosphere",
+  "measurements": [],
+  "resultClassification": "SYNTHETIC_EXPERIMENT_EVIDENCE_ONLY",
+  "schemaVersion": "ufuq.astronomy-experiment-result.v1",
+  "structuredStatuses": [
+    {
+      "code": "REFRACTION_NOT_REQUESTED",
+      "message": "The no-refraction branch supplied no atmosphere values.",
+      "sequenceIndex": 0,
+      "severity": "INFO",
+      "source": "REFRACTION_REQUEST"
+    },
+    {
+      "code": "REFRACTION_UNAVAILABLE",
+      "message": "The requested branch remained unavailable without inserting defaults.",
+      "sequenceIndex": 1,
+      "severity": "INFO",
+      "source": "REFRACTION_REQUEST"
+    }
+  ],
+  "warnings": []
+}

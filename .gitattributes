@@ -11,6 +11,7 @@ tools/astronomy-reference/uv.lock text eol=lf
 *.md text eol=lf
 *.mjs text eol=lf
 *.py text eol=lf
+*.sha256 text eol=lf
 *.toml text eol=lf
 *.ts text eol=lf
 *.tsx text eol=lf

@@ -174,15 +174,21 @@ Historical report/deviation/authority status remains in `governance/`.
   production exists. It adds no numerical body/result, source-derived input,
   production selection, or tolerance. Same-family Astropy/PyERFA/ERFA agreement is
   explicitly non-independent, and all numerical measurements remain without
-  acceptance until AST-006 supplies a separate error budget.
+  acceptance until AST-006 supplies a separate error budget. Milestone 2C.5B then
+  completes 9/9 reviewed Batch 01 synthetic scopes inside the non-production
+  Python tool. It promotes the unchanged locked PyERFA release to a direct tool
+  dependency, passes 24 exact guard/status/replay checks with no failures, and has six
+  measurement-only checks covering 27 measurement records, all
+  `MEASURED_NO_ACCEPTANCE`. It adds no production implementation, source-derived
+  propagation, independent scientific validation, or policy/tolerance approval.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:** Review the proposed route/effect matrix, close the
   evidence/decision blockers listed in
   `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` and the 2C.5A experiment registry.
-  Review and, if approved, execute the proposed synthetic batch without promoting its
-  results; resolve the blocked experiment inputs/policies; then run independent pinned
+  Review the completed synthetic batch without promoting its results; resolve the
+  blocked experiment inputs/policies; then run independent pinned
   source-derived and production/reference cases, an effect/error budget, and
   operation-specific approved tolerances before scientific acceptance.
 

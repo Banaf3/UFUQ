@@ -1,6 +1,6 @@
 # Implementation status
 
-**Assessment date:** 2026-08-03
+**Assessment date:** 2026-08-10
 
 The consolidated Phase 0 repository scaffold is validated. It contains health-only web
 and API applications, eight npm workspaces, pure empty/type-placeholder production
@@ -94,9 +94,10 @@ production science protocol remains incomplete.
 Milestone 2C.1 precisely bounds the remaining epoch gap. `SOURCE_SUPPORTED_FACT` covers
 the I/311 wording and ESA's I/311-specific `J1991.25`; `AUTHORITY_OR_EVIDENCE_MISSING`
 covers the unstated time scale. The bounded `PROJECT_DECISION` preserves the label and
-Julian representation while source-derived propagation remains unavailable. Named
-astronomy review and a synthetic candidate-interpretation sensitivity experiment are
-still required; experiment output cannot become source authority.
+Julian representation while source-derived propagation remains unavailable. Batch 01
+runs the bounded synthetic TT/TDB/UTC, calendar-year, and Besselian-guard cases, but
+named astronomy review and an authoritative source interpretation are still required;
+experiment output cannot become source authority.
 
 Milestone 2C.2 defines a proposed componentized SOFA `2023-10-11` CIO-family route:
 source-to-declared-target-epoch space motion, observer-aware CIRS, an explicit
@@ -110,8 +111,9 @@ aberration. The `iauApco13` convenience branch supplies model CIP/CIO and accept
 offsets `dX`,`dY`; those corrections require a reviewed lower-level route. Proper
 motion, parallax/RV, polar motion, celestial-pole offsets, and refraction retain blocked
 or conditional gates. Astropy and PyERFA remain the independent reference path, while
-composed ERFA `atco13` is only a same-family consistency check. Eight route/effect
-experiments are specified but not run.
+composed ERFA `atco13` is only a same-family consistency check. Batch 01 runs the
+bounded composed/componentized case and five convention guards; the remaining route/
+effect families and broader partitions are unrun or blocked.
 
 Milestone 2C.3 records `SOURCE_SUPPORTED_FACT` from the distinct official Bulletin A
 rapid-estimate/prediction, Bulletin B final/preliminary, Bulletin C announcement, and
@@ -126,8 +128,9 @@ approval with any unavailable or unapproved required field blocking, supported-d
 intersection, and explicit endpoint outcomes with deterministic semantic precedence.
 IERS-estimate, predicted, preliminary, stale,
 zero-filled, nearest-value, extrapolated, and
-degraded execution remain unapproved. Six offline/status/degradation/time/observer/
-domain experiments are specified but not run.
+degraded execution remain unapproved. Batch 01 runs only the bounded offline canonical
+replay guard; the scientific EOP/status/degradation/time/observer/domain experiments
+remain unrun or blocked.
 
 Milestone 2C.4 records `SOURCE_SUPPORTED_FACT` for SOFA `iauRefco` inputs and
 `iauAtioq`'s numerical guard, plus Astropy `8.0.1` `AltAz` pressure/default and
@@ -141,7 +144,8 @@ cloud/weather, and light pollution remain separate. The refraction model/ranges,
 near/below-horizon validity, warnings, physical dip, terrain, photometric/daylight,
 extinction/transparency, cloud/weather, light pollution, screen, learner eligibility,
 and tolerances remain blocked. Approved and warning-bearing refracted results remain
-unreachable. Seven experiments are specified but not run.
+unreachable. Seven experiment families are specified; Batch 01 later runs only the
+bounded state/no-default/visibility guard subsets, not the blocked numerical studies.
 
 Milestone 2C.5A freezes the experiment protocol without executing numerical work. The
 human and machine registries contain 24 stable records, each separating executability,
@@ -155,6 +159,30 @@ agreement is consistency evidence, not independent validation. A five-group
 synthetic-only first batch is proposed for 2C.5B, but no experiment body, fixture
 instance, result, error-budget ledger, or threshold is added in 2C.5A.
 
+Milestone 2C.5B implements and completes exactly 9/9 Batch 01 experiments. The
+locked PyERFA `2.0.1.5` release is now a direct dependency of the non-production Python
+runner; no dependency version or unrelated package changes. Nine canonical synthetic
+fixtures produce nine schema-validated canonical results plus companion hashes. The
+runner rejects unknown/non-Batch IDs, source/production material, partition drift,
+noncanonical bytes, and stale manifests; every experiment executes twice in a fresh
+offline cache context, and the complete command is replayed in two independent OS
+processes in the same pre-synchronized locked environment. This does not reconstruct a
+clean virtual environment. Twenty-four exact contract/status/determinism checks pass,
+none fail, and six measurement-only checks cover 27 measurement records, all
+`MEASURED_NO_ACCEPTANCE`. The componentized/composed result is same-family ERFA/SOFA
+consistency only. No production
+comparison exists, so `test:reference` remains inactive.
+
+The final epoch-label evidence explicitly supplies a synthetic ITRS-geocentre
+`[0,0,0] m` location to every affected Astropy `Time` constructor. It is only a TT/TDB
+conversion reference location and does not approve a physical observer or production
+observer policy. All three cases also initialize and evidence the pinned smoke-only
+leap artifact in isolated execution; this does not approve production leap data. The
+schema/tests reject missing or nonzero variants. This correction
+invalidated all earlier Batch results, manifests, output hashes, and replay claims; the
+final nine-result inventory was regenerated only through the runner before the
+isolated-process/cache replay.
+
 Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
 but no reviewer approval selects the I/311 epoch/derivative time scale, actual
 TypeScript production implementation, supported date/location/height range or endpoint
@@ -162,10 +190,10 @@ inclusion, datum/height/longitude/polar policy, production EOP/leap artifacts/ha
 field precedence/interpolation, stale/update cadence, prediction/preliminary or
 celestial-pole-offset policy, parallax/RV policy,
 refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
-tolerance. The 2C.1-2C.4 experiments are classified but unrun, no
-production/reference comparison exists, and the reference suite remains intentionally
-inactive and fail-closed. The first browser astronomy vertical slice therefore remains
-blocked.
+tolerance. Batch 01 retires only its bounded synthetic guard/replay work; broader
+2C.1-2C.4 experiments remain unrun or blocked, no production/reference comparison
+exists, and the reference suite remains intentionally inactive and fail-closed. The
+first browser astronomy vertical slice therefore remains blocked.
 
 ### Milestone 2B catalogue authority and provenance
 
@@ -193,15 +221,19 @@ than the minimum release satisfying that old constraint.
 
 Exact CPython 3.14.6 and uv 0.11.32 now lock Astropy 8.0.1,
 `astropy-iers-data` 0.2026.7.20.15.31.18, NumPy 2.5.1, packaging 26.2, PyERFA
-2.0.1.5, and PyYAML 6.0.3. Astropy and IERS data are direct dependencies; the others
-are transitive because UFUQ does not import them directly.
+2.0.1.5, and PyYAML 6.0.3. At the 2A checkpoint, Astropy and IERS data were direct and
+PyERFA was transitive. Milestone 2C.5B subsequently promotes the same locked PyERFA
+release to direct because its bounded runner imports `erfa`; NumPy, packaging, and
+PyYAML remain transitive.
 
 The two valid synthetic transforms and one structured invalid case passed seven
 unittests. Automatic IERS download/general Astropy internet access are disabled,
 connection attempts fail closed, a fresh temporary cache is used, and the actual
 packaged Earth-orientation/leap-second files and hashes are recorded. Two separate
 locked offline executions produced byte-identical canonical output with SHA-256
-`d1183fd6ff3d74603ff6b4c70809ef4d954fdb55a6ac8a3b62f2ee78f341da69`.
+`2e179cad1d694e8da42a12d19ec854d7955ce89c617e791bc0ade43ceed3d2a4`
+after regenerating environment evidence for the PyERFA dependency-kind change; the
+smoke astronomy inputs and coordinate outputs are unchanged.
 A fresh environment was reconstructed offline from existing package caches, so the
 honest reproduction classification is `CACHE_DEPENDENT_OFFLINE_EXECUTION`, not a full
 air-gapped rebuild.
@@ -280,8 +312,10 @@ mapping, commands, corrections, and independent post-migration verdict are in
 Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
 contract but remains open. The next authorized work is to obtain and record only the
 evidence, experiments, reviewer decisions, and approvals listed by that contract.
-Milestone 2C.5B may implement only the reviewed synthetic Batch 01 protocol; it does
-not authorize source-derived or production astronomy implementation.
+Milestone 2C.5B has completed only the reviewed synthetic Batch 01 protocol. The next
+2C work is the remaining evidence, experiments, reviewer decisions, and approvals in
+the contract; Batch execution does not authorize source-derived or production
+astronomy implementation.
 
 Milestone 2D then records the catalogue source/deployment-authority outcome. The local
 I/311 parser, runtime validation, and deterministic generation follow in Phase 1

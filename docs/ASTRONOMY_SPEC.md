@@ -29,7 +29,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Kaaba coordinate | No coordinate is approved here; record authority, datum, order/sign, precision, version/date, uncertainty, and the convention-compatible Malaysian/domain validation method. | MANUAL DOMAIN DECISION AST-005 |
 | Angular comparison | Use robust unit-vector separation; use wrapped circular difference for headings. | CLARIFIED |
 | Numerical tolerances | Define an error budget and per-operation implementation, reference-disagreement, and learner-task tolerances, including near singularities. No fallback default. | MANUAL DOMAIN DECISION AST-006 |
-| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns Astropy/PyERFA to the independent path only. Milestone 2C.3 requires future scientific fixtures to install exact EOP/leap artifacts, disable network/cache fallback, retain each field's source quality, availability, provenance, coverage, and scientific approval, plus observer/time provenance, warnings/outcomes, boundary cases, and deterministic hashes. Milestone 2C.5A freezes 24 experiment records, explicit execution/claim classes, shared-lineage disclosure, and separate fixture/result schemas; it runs none. The production candidate remains a separate SOFA-based semantic route. | Reference/production boundary and experiment protocol proposed; production data, PyERFA patch-doc acceptance, scientific fixtures/comparisons, error budget, and reviewer approval unresolved |
+| Independent implementation | The locked synthetic-only Astropy tool proves the environment, neutral-envelope, offline, and production-import boundaries. Milestone 2C.2 assigns Astropy/PyERFA to the independent path only. Milestone 2C.3 requires future scientific fixtures to install exact EOP/leap artifacts, disable network/cache fallback, retain each field's source quality, availability, provenance, coverage, and scientific approval, plus observer/time provenance, warnings/outcomes, boundary cases, and deterministic hashes. Milestone 2C.5A freezes 24 experiment records, explicit execution/claim classes, shared-lineage disclosure, and separate fixture/result schemas. Milestone 2C.5B completes 9/9 bounded synthetic scopes: 24 exact checks pass, none fail, and six measurement-only checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`; same-family ERFA agreement is not independent validation. The production candidate remains a separate SOFA-based semantic route. | Reference/production boundary, experiment protocol, and first synthetic guard batch established; production data, PyERFA patch-doc acceptance, independent scientific/production comparisons, error budget, and reviewer approval unresolved |
 
 ## Canonical value objects
 
@@ -276,6 +276,13 @@ Correctness is `distance <= approvedTaskTolerance`; the exact tolerance and incl
    unconfigured rather than use a convenient constant. Before then, numerical
    experiment outputs are `MEASURED_NO_ACCEPTANCE`; only exact supported invariants can
    pass or fail.
+
+Milestone 2C.5B Batch 01 satisfies only the registration/execution-shape prerequisite
+in item 3 and the exact/measurement separation in item 8. It supplies code-separation
+and shared-lineage evidence toward item 2, but the required independent reviewer
+approval and policy-level differential cases remain open. It imports no production
+astronomy, uses no source-derived values, and therefore cannot satisfy items 4-7 as a
+production/reference correctness claim or activate `test:reference`.
 
 Astropy documents its ERFA-based refraction as inaccurate below about 5 degrees and
 warns of meaningless or highly discrepant behavior near/below zero altitude in

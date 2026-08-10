@@ -67,6 +67,13 @@ earlier core scientific failure or erase a valid geometric state. A refracted ap
 horizon means only apparent altitude zero under a named approved refraction policy; it
 is not geometric altitude zero, physical dip, skyline/terrain, or a numerical guard.
 
+Milestone 2C.5B executes only the nine bounded synthetic Batch 01 scopes. It passes
+exact epoch-label/rejection, motion-convention, raw-status, deterministic-replay, and
+optional-state guards while retaining all numerical outputs as
+`MEASURED_NO_ACCEPTANCE`. Componentized/composed ERFA agreement is same-family
+consistency, not independent validation. These results change none of this ADR's
+source, production, EOP, observer, refraction, domain, tolerance, or approval blockers.
+
 Fixed now:
 
 - latitude north and longitude east are positive;

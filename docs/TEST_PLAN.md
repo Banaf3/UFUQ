@@ -89,7 +89,28 @@ when no matching test exists; neither uses `passWithNoTests`.
   Batch 01 membership and bounded partitions, synthetic-only fixture/result scope,
   schema/version/closed-object contracts, execution outcomes and manifest fields,
   canonicalization rules, local schema references, and the absence of direct `erfa`
-  imports or experiment instances.
+  imports or experiment instances at that milestone boundary.
+- Milestone 2C.5B promotes the already locked PyERFA release to a direct reference-tool
+  dependency and permits an `erfa` import only in the bounded Batch 01 runner. The
+  offline Python unit suite validates the exact nine fixture/result inventory, registry
+  allowlist and five-part `2C.2-EXP-04` scope, schema keyword subset and negative
+  branches, canonical bytes/hash boundaries, source prohibitions, unknown/non-Batch
+  rejection, two internal fresh-cache repetitions, in-process full-batch replay,
+  warning/raw-status
+  preservation, exact guard outcomes, measurement-only outcomes, optional-state
+  non-erasure, dependency/lock/environment consistency, and production-import absence.
+  The epoch-label tests additionally require the exact synthetic ITRS-geocentre
+  `[0,0,0] m` fixture record, reject missing/nonzero variants, statically confirm every
+  affected Astropy `Time` constructor supplies `location=`, and require the matching
+  structured status/fixture-manifest binding. Each epoch case must run alone after
+  explicitly initializing and evidencing the pinned smoke-only leap artifact; inherited
+  ERFA leap state is prohibited. Stale result or companion hashes fail.
+  A separate execution check invokes the complete Batch command in two independent OS
+  processes with separate temporary cache/comparison directories in the same
+  pre-synchronized locked environment and compares every result byte/hash; it does not
+  claim clean-environment dependency reconstruction. All
+  numerical measurements remain `MEASURED_NO_ACCEPTANCE`; the synthetic execution does
+  not activate `test:reference` because no production/reference comparison exists.
 - The spike can be removed or replaced without changing public contracts.
 
 ## Phase 2 tests

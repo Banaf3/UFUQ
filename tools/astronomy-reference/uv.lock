@@ -123,10 +123,12 @@ source = { virtual = "." }
 dependencies = [
     { name = "astropy" },
     { name = "astropy-iers-data" },
+    { name = "pyerfa" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "astropy", specifier = ">=8.0.1,<9" },
     { name = "astropy-iers-data", specifier = ">=0.2026.7.20.15.31.18,<0.2027" },
+    { name = "pyerfa", specifier = "==2.0.1.5" },
 ]

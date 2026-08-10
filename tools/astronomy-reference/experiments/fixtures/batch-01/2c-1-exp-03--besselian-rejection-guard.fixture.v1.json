@@ -1,0 +1,214 @@
+{
+  "caseId": "besselian-rejection-guard",
+  "conventions": {
+    "coordinateConventions": [
+      "RA_EASTWARD_ICRS",
+      "BYEAR_DIAGNOSTIC_REJECTED",
+      "CARTESIAN_XYZ_AT_EARTH_CENTRE"
+    ],
+    "epochRepresentationsAndScales": [
+      "JYEAR_TT",
+      "BYEAR_TT_DIAGNOSTIC_ONLY",
+      "TARGET_JYEAR_TDB"
+    ],
+    "frames": [
+      "ICRS",
+      "ITRS_GEOCENTRIC"
+    ],
+    "units": [
+      "RADIAN",
+      "MAS_PER_JULIAN_YEAR",
+      "SECOND",
+      "METRE"
+    ]
+  },
+  "dependencyManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+  "expectedChecks": [
+    {
+      "basis": "The rejected diagnostic difference has no acceptance threshold.",
+      "basisClassification": "MEASUREMENT_PROTOCOL",
+      "checkId": "besselian-diagnostic-difference-measured",
+      "kind": "MEASUREMENT_ONLY",
+      "thresholdStatus": "UNAPPROVED_MEASUREMENT_ONLY"
+    },
+    {
+      "basis": "BYEAR is outside the allowed synthetic source-candidate representation set.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "besselian-source-candidate-rejected",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    }
+  ],
+  "experimentId": "2C.1-EXP-03",
+  "fixtureId": "2C.1-EXP-03:besselian-rejection-guard",
+  "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+  "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+  "inputs": {
+    "declinationDeg": {
+      "coordinateConvention": "POSITIVE_NORTH",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_DECLINATION",
+      "timeScale": "NOT_APPLICABLE",
+      "unit": "DEGREE",
+      "value": 60
+    },
+    "diagnosticRejectedRepresentation": {
+      "coordinateConvention": "DIAGNOSTIC_ONLY",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "REJECTED_EPOCH_REPRESENTATION",
+      "timeScale": "TT",
+      "unit": "EPOCH_REPRESENTATION_TOKEN",
+      "value": "BYEAR"
+    },
+    "parallaxArcsec": {
+      "coordinateConvention": "POSITIVE_PARALLAX",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_PARALLAX",
+      "timeScale": "SOURCE_EPOCH_CANDIDATE",
+      "unit": "ARCSECOND",
+      "value": 1
+    },
+    "properMotionDecMasPerYear": {
+      "coordinateConvention": "POSITIVE_NORTH",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_DECLINATION_RATE",
+      "timeScale": "TDB_JULIAN_YEAR_RATE_CANDIDATE",
+      "unit": "MAS_PER_JULIAN_YEAR",
+      "value": -500
+    },
+    "properMotionRaCosDecMasPerYear": {
+      "coordinateConvention": "MU_ALPHA_STAR",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_STARRED_ALPHA_RATE",
+      "timeScale": "TDB_JULIAN_YEAR_RATE_CANDIDATE",
+      "unit": "MAS_PER_JULIAN_YEAR",
+      "value": 1000
+    },
+    "radialVelocityKmPerSecond": {
+      "coordinateConvention": "POSITIVE_RECEDING",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_RADIAL_VELOCITY",
+      "timeScale": "SOURCE_EPOCH_CANDIDATE",
+      "unit": "KM_PER_SECOND",
+      "value": 0
+    },
+    "rightAscensionRad": {
+      "coordinateConvention": "EASTWARD",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_RIGHT_ASCENSION",
+      "timeScale": "SOURCE_EPOCH_CANDIDATE",
+      "unit": "RADIAN",
+      "value": 1.234
+    },
+    "sourceCandidateRepresentationAllowlist": {
+      "coordinateConvention": "ALLOWLIST",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "EPOCH_REPRESENTATION_ALLOWLIST",
+      "timeScale": "EXPLICIT_PER_INPUT",
+      "unit": "EPOCH_REPRESENTATION_TOKEN",
+      "value": [
+        "JYEAR"
+      ]
+    },
+    "sourceEpochNumericLabel": {
+      "coordinateConvention": "JYEAR_OR_REJECTED_BYEAR_DIAGNOSTIC",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_EPOCH_LABEL",
+      "timeScale": "TT",
+      "unit": "EPOCH_NUMBER",
+      "value": 1991.25
+    },
+    "targetEpochNumericLabel": {
+      "coordinateConvention": "JYEAR_LABEL",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_TARGET_EPOCH",
+      "timeScale": "TDB",
+      "unit": "JULIAN_EPOCH_NUMBER",
+      "value": 2050
+    },
+    "tdbConversionLocationGeocentricMetres": {
+      "coordinateConvention": "CARTESIAN_XYZ_AT_EARTH_CENTRE",
+      "frame": "ITRS_GEOCENTRIC",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "TDB_MINUS_TT_REFERENCE_LOCATION",
+      "timeScale": "NOT_APPLICABLE",
+      "unit": "METRE",
+      "value": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "parameterPartition": [
+    "BESSELIAN_REJECTION_GUARD"
+  ],
+  "protocolVersion": "2C.5A-v1",
+  "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+  "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+  "requiredArtifactStates": {
+    "earthOrientation": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "ephemeris": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "leapSeconds": {
+      "references": [
+        "astropy-iers-data/Leap_Second.dat"
+      ],
+      "requirement": "PINNED_EXTERNAL_SMOKE_ONLY"
+    },
+    "meteorology": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "observer": {
+      "references": [
+        "inputs.tdbConversionLocationGeocentricMetres"
+      ],
+      "requirement": "SYNTHETIC_EXPLICIT"
+    }
+  },
+  "schemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+  "scientificQuestion": "Does the protocol prevent Besselian byear from being treated as an I/311 candidate?",
+  "sourceProhibitions": {
+    "catalogueSourceBytesAbsent": true,
+    "hipSourceDerivedValuesAbsent": true,
+    "i311EpochResolutionClaimAbsent": true,
+    "i311RowsAbsent": true,
+    "productionGeneratedValuesAbsent": true
+  },
+  "usedArtifactHashes": [
+    {
+      "artifactId": "astropy-iers-data/Leap_Second.dat",
+      "classification": "EXTERNAL_AUTHORITATIVE_ARTIFACT",
+      "role": "LEAP_SECONDS",
+      "sha256": "6cb6f5d4b819f2e568e25db4b0b26d89dedf031fdffb18bc94d40f4e94e268d7",
+      "version": "0.2026.7.20.15.31.18"
+    }
+  ]
+}

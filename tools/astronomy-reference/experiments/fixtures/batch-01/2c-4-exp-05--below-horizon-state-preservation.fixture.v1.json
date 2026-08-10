@@ -1,0 +1,155 @@
+{
+  "caseId": "below-horizon-state-preservation",
+  "conventions": {
+    "coordinateConventions": [
+      "AZIMUTH_NORTH_THROUGH_EAST",
+      "BELOW_HORIZON_CLASSIFICATION_ATTACHED"
+    ],
+    "epochRepresentationsAndScales": [
+      "SYNTHETIC_OBSERVATION_INSTANT_METADATA_ONLY"
+    ],
+    "frames": [
+      "GEOMETRIC_HORIZONTAL"
+    ],
+    "units": [
+      "DEGREE",
+      "STATUS_TOKEN"
+    ]
+  },
+  "dependencyManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+  "expectedChecks": [
+    {
+      "basis": "Below-horizon is a classification attached to a valid geometric state.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "below-horizon-attaches-to-geometric-state",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Later optional failures retain the earlier valid geometric state.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "optional-failure-does-not-erase-geometric-state",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Coordinate residuals are recorded without a scientific threshold.",
+      "basisClassification": "MEASUREMENT_PROTOCOL",
+      "checkId": "retained-coordinate-residuals-recorded",
+      "kind": "MEASUREMENT_ONLY",
+      "thresholdStatus": "UNAPPROVED_MEASUREMENT_ONLY"
+    },
+    {
+      "basis": "Signed altitude, azimuth, frame, and provenance survive classification.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "signed-altitude-azimuth-provenance-preserved",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Earlier warnings/statuses precede and survive optional stages.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "warnings-and-statuses-preserved",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    }
+  ],
+  "experimentId": "2C.4-EXP-05",
+  "fixtureId": "2C.4-EXP-05:below-horizon-state-preservation",
+  "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+  "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+  "inputs": {
+    "earlierStructuredStatuses": {
+      "coordinateConvention": "SEQUENCE_ORDER_PRESERVED",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "UPSTREAM_STATUS_SEQUENCE",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "STATUS_TOKEN",
+      "value": [
+        "SYNTHETIC_VALID_GEOMETRIC_CALCULATION"
+      ]
+    },
+    "earlierWarnings": {
+      "coordinateConvention": "SEQUENCE_ORDER_PRESERVED",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "UPSTREAM_WARNING_SEQUENCE",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "WARNING_TOKEN",
+      "value": [
+        "SYNTHETIC_UPSTREAM_WARNING"
+      ]
+    },
+    "geometricAltitudeDeg": {
+      "coordinateConvention": "ZERO_IS_LOCAL_HORIZONTAL_PLANE",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SIGNED_GEOMETRIC_ALTITUDE",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "DEGREE",
+      "value": -2.5
+    },
+    "geometricAzimuthDeg": {
+      "coordinateConvention": "NORTH_ZERO_EAST_NINETY",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "GEOMETRIC_AZIMUTH",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "DEGREE",
+      "value": 123
+    },
+    "geometricProvenance": {
+      "coordinateConvention": "EXPLICIT",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "GEOMETRIC_STATE_PROVENANCE",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "PROVENANCE_TOKEN",
+      "value": "SYNTHETIC_GEOMETRIC_DIRECTION"
+    }
+  },
+  "parameterPartition": [
+    "BELOW_HORIZON_GEOMETRIC_STATE_PRESERVATION"
+  ],
+  "protocolVersion": "2C.5A-v1",
+  "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+  "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+  "requiredArtifactStates": {
+    "earthOrientation": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "ephemeris": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "leapSeconds": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "meteorology": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "observer": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    }
+  },
+  "schemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+  "scientificQuestion": "Does below-horizon probing preserve the valid geometric direction and earlier warnings/statuses?",
+  "sourceProhibitions": {
+    "catalogueSourceBytesAbsent": true,
+    "hipSourceDerivedValuesAbsent": true,
+    "i311EpochResolutionClaimAbsent": true,
+    "i311RowsAbsent": true,
+    "productionGeneratedValuesAbsent": true
+  },
+  "usedArtifactHashes": []
+}

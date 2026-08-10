@@ -208,6 +208,41 @@ pass or fail. Synthetic execution cannot establish I/311 meaning, production app
 supported domains, degraded modes, omission bounds, refraction/visibility policy, or a
 tolerance.
 
+## Milestone 2C.5B Batch 01 execution
+
+`PROJECT_DECISION`: execute only the nine registered Batch 01 synthetic scopes through
+a fixed allowlist. PyERFA `2.0.1.5` becomes a direct dependency of this reference tool
+because the runner imports `erfa`; no package release changes. Nine fixtures and nine
+results retain complete canonical/hash/runtime/source-prohibition evidence, every
+handler runs twice in an offline fresh-cache context, and the complete command is
+replayed in two independent OS processes in the same pre-synchronized locked
+environment. This does not establish clean-environment dependency reconstruction.
+
+The three epoch-label fixtures and every affected Astropy `Time` constructor use an
+explicit synthetic ITRS-geocentre `[0,0,0] m` TT/TDB conversion reference location.
+Each case also initializes the exact pinned smoke-only leap artifact used by that
+conversion, including isolated single-ID execution. The schema rejects absence or a
+nonzero replacement. This is controlled synthetic
+provenance, not I/311 authority, a physical observer, or a production observer policy.
+All results and hashes created before this correction were excluded; the final evidence
+set is the complete runner-regenerated and replayed nine-result inventory.
+
+`SOURCE_SUPPORTED_FACT`: raw `pmsafe` status `1` and the wrapper `ErfaWarning` are
+preserved together. The componentized `apco13`/`atciq`/`atioq` branch and composed
+`atco13` branch share ERFA/SOFA lineage, so agreement is same-family consistency only.
+
+`EXPERIMENT_REQUIRED`: all 9/9 bounded Batch 01 experiments complete, yielding 24 passing exact checks with no
+failures; six measurement-only checks cover 27 measurement records, all
+`MEASURED_NO_ACCEPTANCE`. It exercises TT/TDB/UTC labels, calendar decimal year,
+Besselian rejection, composed/decomposed routing, omitted/double-cosine mutations,
+declared target epoch, JD splits, warning/status preservation, replay, below-horizon
+non-erasure, no-default atmosphere, and visibility-component independence. Broader
+effect/data/model/domain experiment partitions remain unrun or blocked.
+
+`HUMAN_REVIEW_REQUIRED`: no measurement may become acceptance, source meaning,
+production selection, omission bound, domain, refraction/visibility policy, degraded
+mode, error budget, or tolerance without the existing AST-003/004/006/007 gates.
+
 ## Authority by topic
 
 | Topic | Highest authority | Supporting source | UFUQ consequence |
@@ -297,9 +332,10 @@ outcome precedence, structured outcomes, and reference evidence. Milestone 2C.4
 supplies a geometric-only/no-default proposal, explicit atmosphere/refraction state,
 separate horizon and visibility components, optional-stage precedence, and reference
 experiment requirements. Milestone 2C.5A supplies a human/machine experiment registry,
-fixture/result schemas, execution/claim separation, shared-lineage disclosure, and a
-proposed synthetic batch, but no experiment result. The actual implementation/library
-and approvals remain open, together with production EOP/leap artifacts and hashes,
+fixture/result schemas, execution/claim separation, and shared-lineage disclosure.
+Milestone 2C.5B executes only its bounded synthetic first batch; this adds guard and
+determinism evidence, not independent scientific or production validation. The actual
+implementation/library and approvals remain open, together with production EOP/leap artifacts and hashes,
 stale/update and prediction/
 preliminary policy, refraction, date/location/height endpoints, epoch/derivative scale,
 radial velocity, source-derived comparison cases, omission bounds, error budget, and

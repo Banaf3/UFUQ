@@ -1018,7 +1018,7 @@ policy, or tolerance.
 
 | ID | Experiment | Required comparison and evidence |
 |---|---|---|
-| `2C.3-EXP-01` | Offline deterministic reconstruction | Install one explicitly named synthetic EOP/leap bundle into fresh isolated reference environments; disable network/cache fallback; reproduce canonical bytes, hashes, warnings, orthogonal field states, UTC/TAI/TT/UT1 values, and directions. |
+| `2C.3-EXP-01` | Offline deterministic reconstruction (bounded Batch 01 replay partition) | Use the explicitly named synthetic EOP/leap bundle in fresh cache contexts and independent OS processes within the pre-synchronized locked reference environment; disable network/cache fallback; reproduce canonical bytes, hashes, warnings, and statuses. Clean-environment dependency reconstruction remains outside this bounded run. |
 | `2C.3-EXP-02` | EOP state partitions | Exercise source quality, artifact availability, field availability, and scientific approval independently for `UT1-UTC`, `xp`, `yp`, `dX`, and `dY`; cover mixed quality, stale, missing, blank, hash-mismatch, and out-of-range cases, prove one field cannot promote another, and assert no nearest/zero substitution. |
 | `2C.3-EXP-03` | EOP degradation sensitivity | Measure nonzero-versus-zero, fresh-versus-candidate-stale, and observed-versus-predicted differences for each field and interactions over candidate domains. Do not enable a degraded outcome without AST-006 tolerances and review. |
 | `2C.3-EXP-04` | Leap and timestamp boundaries | Test valid and invalid `23:59:60Z`, adjacent instants, fractional seconds, malformed dates/offsets, `-00:00`, unavailable/expired tables, and UTC-to-TAI/TT/UT1 status preservation against a pinned synthetic bundle. |
@@ -1046,8 +1046,8 @@ threshold, or set a tolerance.
 `PROJECT_DECISION`: the complete human registry and execution rules are frozen in
 `PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md`; the corresponding machine registry and
 Draft 2020-12 fixture/result schemas are under
-`tools/astronomy-reference/experiments/`. They add no numerical experiment body or
-result.
+`tools/astronomy-reference/experiments/`. At the 2C.5A checkpoint they add no numerical
+experiment body or result; 2C.5B execution is recorded separately below.
 
 The audit classifies 24 experiment records: 17 are runnable now only with explicit
 synthetic inputs and measurement/invariant claims, five are blocked by missing project
@@ -1062,10 +1062,22 @@ is consistency evidence only. Numerical results use `MEASURED_NO_ACCEPTANCE` unt
 AST-006 supplies a separate error-budget ledger and approved threshold; only exact,
 source- or project-supported invariants may return `PASS` or `FAIL` now.
 
-The proposed 2C.5B first batch covers epoch-label guards, route/convention consistency,
+The executed 2C.5B first batch covers epoch-label guards, route/convention consistency,
 motion/cosine/status guards, deterministic replay, and optional-state/no-default/
-visibility-separation guards. It remains synthetic-only and does not activate
+visibility-separation guards. Its 24 exact checks pass and none fail; six
+measurement-only checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`.
+It remains synthetic-only and does not activate
 `test:reference` because no production/reference comparison exists.
+
+The three epoch-label cases supply an explicit synthetic ITRS-geocentre Cartesian
+`[0,0,0] m` location to every affected Astropy `Time` constructor. This controls the
+TT/TDB conversion input without selecting a physical observer or production observer
+policy. Each case also initializes the exact pinned smoke-only leap artifact consumed
+by the conversion path, so isolated execution does not inherit leap state. The schema
+rejects a missing/nonzero replacement, result manifests bind the
+fixture bytes, and structured statuses preserve the explicit-location fact. All
+pre-correction result and replay hashes were invalidated and replaced only by the
+complete runner regeneration.
 
 ## 17. Evidence and decision audit
 
@@ -1084,7 +1096,7 @@ visibility-separation guards. It remains synthetic-only and does not activate
 | `2C-011` | Keep direction, every horizon type, visibility components, and rendering/learner states separate; select actual behaviour. | Milestone 2C.4 defines distinct typed states and makes below-geometric-horizon result-bearing. No source/owner has selected terrain, photometric, daylight, transmission, or learner policy. | Separation proposed; policy remains blocked under AST-001/004/006/007. |
 | `2C-012` | Preserve structured scientific outcomes and upstream warnings; fix stable API mapping. | SOFA status contracts plus ADR-003/007. Milestones 2C.3-2C.4 propose core, geometric, refraction, horizon, visibility, warning, and reserved-degraded families with staged precedence. | Semantic families `PARTIAL_PROPOSAL`; stable wire/HTTP mapping and warning allowlists require review. |
 | `2C-013` | Use per-case vector/circular metrics and a separated error budget; approve aggregation and tolerances. | Astronomy Specification/ADR-007 plus independent-measurement requirement. | Metrics resolved; budget aggregation and thresholds `BLOCKED_EXPERIMENT_AND_APPROVAL` under AST-006. |
-| `2C-014` | Establish an independent, pinned scientific oracle and comparison matrix. | Locked synthetic-only oracle proves environment/independence smoke. Milestone 2C.2 distinguishes the Astropy/PyERFA reference route from the SOFA-based production candidate and names the comparison experiments. | `PARTIAL`; reference implementation expansion, source-derived fixtures, and production comparison remain unstarted. |
+| `2C-014` | Establish an independent, pinned scientific oracle and comparison matrix. | Locked synthetic-only oracle proves environment/independence smoke. Milestone 2C.2 distinguishes the Astropy/PyERFA reference route from the SOFA-based production candidate and names the comparison experiments; 2C.5B executes the first same-family/structural synthetic batch. | `PARTIAL`; source-derived fixtures, an independent-model path for applicable claims, production implementation, and production/reference comparison remain unstarted. |
 | `2C-015` | Select supported date/location/altitude range and endpoint failures. | Milestone 2C.3 defines the domain as the intersection of every approved scientific/data/observer/scenario range and fixes explicit endpoint outcomes. Sources expose individual limits but do not select UFUQ endpoints. | Domain rule proposed; numerical endpoints remain `AUTHORITY_OR_EVIDENCE_MISSING`/`HUMAN_REVIEW_REQUIRED` under AST-003/AST-006/AST-007. |
 
 ### 17.1 Milestone 2C.1 authority audit
@@ -1096,7 +1108,7 @@ visibility-separation guards. It remains synthetic-only and does not activate
 | `2C.1-003` | No inspected I/311-applicable authority states TT/TDB/UTC or an exact two-part Julian Date. | `AUTHORITY_OR_EVIDENCE_MISSING` | Exact propagation instant remains blocked. |
 | `2C.1-004` | Preserve the literal label and Julian representation, but make source-derived propagation unavailable while the scale is unresolved. | `PROJECT_DECISION` | Prevents a library default or silent TT transfer from becoming science authority. |
 | `2C.1-005` | Approve or reject a bounded TT interpretation if no stronger source is found. | `HUMAN_REVIEW_REQUIRED` | Astronomy reviewer decision remains open under AST-003. |
-| `2C.1-006` | Compare explicit candidate interpretations with synthetic motion cases and structured warnings. | `EXPERIMENT_REQUIRED` | Experiment specified; output cannot decide source meaning or tolerance. |
+| `2C.1-006` | Compare explicit candidate interpretations with synthetic motion cases and structured warnings. | `EXPERIMENT_REQUIRED` | Batch 01 executes TT/TDB/UTC, calendar-decimal-year, and Besselian-guard synthetic cases. Measurements cannot decide source meaning or tolerance. |
 | `2C.1-007` | Astropy `8.0.1` reference-design pages and the official PyERFA `2.0.1.5` release/source hash are pinned. | `SOURCE_SUPPORTED_FACT` | Astropy documentation gap closed for 2C.1; exact PyERFA distribution is reproducible. |
 | `2C.1-008` | Official PyERFA stable API documentation displays `2.0.1.4`, one patch behind the locked `2.0.1.5`. | `AUTHORITY_OR_EVIDENCE_MISSING` | Version-matched documentation/tagged-source review or explicit reviewer acceptance remains open. |
 
@@ -1114,8 +1126,8 @@ visibility-separation guards. It remains synthetic-only and does not activate
 | `2C.2-008` | Supply radial velocity or treat perspective acceleration as an approved omission/unavailable branch. | `AUTHORITY_OR_EVIDENCE_MISSING` | I/311 supplies no RV field and no supplemental source/crossmatch policy or omission bound is approved. |
 | `2C.2-009` | Bound solar-only versus multiple-body light deflection and every other candidate omission across the approved domain. | `EXPERIMENT_REQUIRED` | Ablation/interaction and elongation studies specified; no result or threshold exists. |
 | `2C.2-010` | Keep pressure-zero geometric output normative as a separate state and expose nonzero refraction only under an approved input/range policy. | `HUMAN_REVIEW_REQUIRED` | AST-004 approval and low-altitude experiment remain open. |
-| `2C.2-011` | Use Astropy/PyERFA only for the independent reference route, with explicit policies and structured warnings; use composed ERFA `atco13` only as a same-family consistency check. | `PROJECT_DECISION` | Reference/production independence boundary fixed; scientific fixtures and comparisons remain unstarted. |
-| `2C.2-012` | Run route-equivalence, independent-reference, effect-ablation, epoch/motion, EOP/range, observer/motion, deflection, and refraction experiments before approval. | `EXPERIMENT_REQUIRED` | Eight experiment families specified; none can determine a missing source meaning or tolerance. |
+| `2C.2-011` | Use Astropy/PyERFA only for the independent reference route, with explicit policies and structured warnings; use composed ERFA `atco13` only as a same-family consistency check. | `PROJECT_DECISION` | Reference/production independence boundary fixed; Batch 01 executes same-family componentized/composed and bounded motion guards, not independent scientific validation. |
+| `2C.2-012` | Run route-equivalence, independent-reference, effect-ablation, epoch/motion, EOP/range, observer/motion, deflection, and refraction experiments before approval. | `EXPERIMENT_REQUIRED` | Batch 01 executes the bounded route-equivalence case and five synthetic convention guards. The remaining partitions/families are unrun or blocked, and none can determine a missing source meaning or tolerance. |
 | `2C.2-013` | Interpret the I/311/VizieR proper-motion unit `yr` as exactly 365.25 days for numeric conversion to SOFA radians per Julian year. | `SOURCE_SUPPORTED_FACT` | Resolved by CDS Catalogue Standard 2.0 Section 3.2.2; this does not resolve the I/311 epoch/derivative time scale. |
 
 ### 17.3 Milestone 2C.3 operating-domain and data-policy audit
@@ -1139,7 +1151,7 @@ visibility-separation guards. It remains synthetic-only and does not activate
 | `2C.3-015` | Return distinct invalid, unsupported-date, EOP/leap status, observer-domain, approved-result, warning-result, and reserved-degraded outcomes with no non-result fallback. | `PROJECT_DECISION` | Semantic outcome families proposed; exact stable serialization/warning allowlist requires review. |
 | `2C.3-016` | Quantify IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy over a proposed domain. | `EXPERIMENT_REQUIRED` | No bound exists; `DEGRADED_GEOMETRIC_RESULT` remains reserved and unreachable. |
 | `2C.3-017` | Approve any IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy after a named mode, quantitative bound, warning contract, and domain/tolerance evidence exist. | `HUMAN_REVIEW_REQUIRED` | None is approved. |
-| `2C.3-018` | Reconstruct independent fixtures offline with observer/time/EOP/leap provenance, separate source-quality/availability/approval states, boundary cases, warnings/outcomes, and deterministic hashes. | `PROJECT_DECISION` | Fixture-evidence contract extended; six experiment families remain unrun. |
+| `2C.3-018` | Reconstruct independent fixtures offline with observer/time/EOP/leap provenance, separate source-quality/availability/approval states, boundary cases, warnings/outcomes, and deterministic hashes. | `PROJECT_DECISION` | Batch 01 proves the bounded synthetic offline/canonical replay transport using smoke-only artifact hashes. Scientific EOP/leap partitions and the other families remain unrun or blocked. |
 | `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Structural input precedes leap-backed UTC validation, combined date, observer, source, EOP artifact, EOP field availability, and field-quality/approval checks; exact serialization remains `HUMAN_REVIEW_REQUIRED`. |
 
 ### 17.4 Milestone 2C.4 refraction, horizon, and visibility audit
@@ -1158,7 +1170,7 @@ visibility-separation guards. It remains synthetic-only and does not activate
 | `2C.4-010` | Supply authority and approve terrain/dip, photometric band/threshold/variability, daylight/twilight, extinction/transparency/weather/light pollution, and learner eligibility. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requested aggregate visibility returns unavailable until review under AST-001/004/006/007. |
 | `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | The detailed 2C.3 order is preserved; exact wire/HTTP mapping and canonical field order require review. |
 | `2C.4-012` | Approve warning-bearing or approved refracted output without exact model/version, complete input provenance, reviewed validity and supported operating domains, quantitative bound, tolerance, warning contract, and named astronomy reviewer. | `HUMAN_REVIEW_REQUIRED` | Neither branch is reachable now. |
-| `2C.4-013` | Run seven refraction/input/horizon/visibility experiment families with complete deterministic provenance. | `EXPERIMENT_REQUIRED` | Experiments specified and unrun; they cannot create authority or tolerance. |
+| `2C.4-013` | Run seven refraction/input/horizon/visibility experiment families with complete deterministic provenance. | `EXPERIMENT_REQUIRED` | Batch 01 executes only the bounded below-horizon state, no-default-atmosphere, and visibility-separation guards. Numerical model/domain families remain unrun or data/decision blocked; no authority or tolerance follows. |
 
 ### 17.5 Milestone 2C.5A experiment-protocol audit
 
@@ -1168,8 +1180,22 @@ visibility-separation guards. It remains synthetic-only and does not activate
 | `2C.5A-002` | Freeze 24 stable experiment records with permitted/prohibited claims, explicit inputs/conventions/artifacts, partitions, lineage, metrics, deterministic hashes, output schema, acceptance mode, reviewer gate, and follow-up decision. | `PROJECT_DECISION` | Human and machine registries plus fixture/result schemas are added; no result instance or experiment body exists. |
 | `2C.5A-003` | Astropy high-level transforms and direct PyERFA calls share ERFA/SOFA lineage for the affected calculations. | `SOURCE_SUPPORTED_FACT` | Different Python interfaces do not make them independent algorithms; agreement is same-family consistency only. |
 | `2C.5A-004` | Permit numerical pass/fail before an error budget and threshold exist. | `HUMAN_REVIEW_REQUIRED` | Prohibited until AST-006; numerical outputs are `MEASURED_NO_ACCEPTANCE`. Exact deterministic/status/guard invariants remain eligible for pass/fail. |
-| `2C.5A-005` | Execute the proposed five-group Batch 01 using only explicit synthetic inputs and the locked reference environment. | `EXPERIMENT_REQUIRED` | Proposed for Milestone 2C.5B; no numerical experiment is run in 2C.5A. |
+| `2C.5A-005` | Execute the proposed five-group Batch 01 using only explicit synthetic inputs and the locked reference environment. | `EXPERIMENT_REQUIRED` | No experiment ran in 2C.5A; the exact batch is subsequently executed in 2C.5B. |
 | `2C.5A-006` | Create a separate error-budget ledger now. | `PROJECT_DECISION` | Deferred until AST-006 proposes a numerical acceptance claim; result schemas report `NOT_ESTABLISHED_AST_006_OPEN`. |
+
+### 17.6 Milestone 2C.5B Batch 01 execution audit
+
+| ID | Conclusion | Classification | Result |
+|---|---|---|---|
+| `2C.5B-001` | Execute exactly nine registered Batch 01 fixtures and no other runnable or blocked experiment. | `PROJECT_DECISION` | Fixed allowlist, scope/partition cross-checks, and rejection tests pass; the five-part `2C.2-EXP-04` scope cannot silently expand. |
+| `2C.5B-002` | Promote PyERFA `2.0.1.5` to a direct reference-tool dependency because the runner imports `erfa`. | `PROJECT_DECISION` | Direct dependency and environment kind recorded; version and package artifact hashes unchanged; no unrelated package changes. |
+| `2C.5B-003` | Treat componentized-versus-composed ERFA output as independent validation. | `SOURCE_SUPPORTED_FACT` | Prohibited: both branches share ERFA/SOFA lineage. Residuals are `MEASURED_NO_ACCEPTANCE`. |
+| `2C.5B-004` | Pass or fail numerical scientific agreement without AST-006. | `HUMAN_REVIEW_REQUIRED` | Prohibited. Six measurement-only checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`, including zero residuals. |
+| `2C.5B-005` | Apply exact source/project-supported contract, warning/status, and deterministic guards. | `PROJECT_DECISION` plus `SOURCE_SUPPORTED_FACT` where a SOFA status contract is checked | Twenty-four exact checks pass; none fail. Raw `pmsafe` status `1` and its `ErfaWarning` are both retained. |
+| `2C.5B-006` | Preserve a below-horizon geometric result and separate optional refraction/visibility states. | `PROJECT_DECISION` | Exact guards retain signed altitude, azimuth, provenance, warnings/statuses, distinguish not-requested from unavailable, insert no atmosphere defaults, and emit no aggregate visibility claim. |
+| `2C.5B-007` | Reproduce canonical fixtures/results offline. | `PROJECT_DECISION` | Nine fixtures and nine results validate; two internal fresh-cache repetitions and two independent OS-process, identical-argv runs in the same locked environment produce identical bytes and SHA-256 values. Clean-environment dependency reconstruction is not established; byte identity is determinism evidence only. |
+| `2C.5B-008` | Activate the production/reference suite. | `PROJECT_DECISION` | Not activated: Batch 01 imports no production code and contains no production/reference comparison. |
+| `2C.5B-009` | Make the Astropy epoch-label conversion location and leap input explicit without approving observer/leap policy. | `PROJECT_DECISION` | The three affected fixtures/schema/constructors fix synthetic ITRS-geocentre `[0,0,0] m` and initialize the pinned smoke-only leap artifact even in isolated runs; manifests and statuses retain the boundary. This is no physical observer, source interpretation, datum/site or production-leap approval, or production default. Pre-correction evidence was invalidated and runner-regenerated. |
 
 ## 18. Decisions still blocking implementation
 
@@ -1191,9 +1217,10 @@ visibility-separation guards. It remains synthetic-only and does not activate
 - approved date endpoints, endpoint inclusion, observer datum/ellipsoid, longitude
   representative, height/location range, polar semantics, and uncertainty policy;
 - source-derived independent cases after catalogue-processing authority permits them;
-- execution and review of the 2C.5A-classified experiment programme: the proposed
-  synthetic Batch 01 is unrun, five families remain project-decision blocked, one needs
-  a required model/data path, and the production/reference comparison is deferred;
+- execution and review of the remaining 2C.5A-classified experiment programme: the
+  bounded synthetic Batch 01 has run, while five records remain project-decision
+  blocked, one needs a required model/data path, broader runnable partitions are
+  deferred, and the production/reference comparison is deferred;
 - an approved refraction model, explicit atmosphere provenance/ranges, altitude
   validity domain, below-horizon/warning policy, and uncertainty treatment;
 - approved geometric/refracted-apparent/physical-dip/terrain horizon equality,
@@ -1250,8 +1277,12 @@ EOP/leap states, supported-domain composition, endpoint outcomes, and reference
 evidence. Milestone 2C.4 proposes a geometric-only first slice, explicit no-default
 atmosphere contract, separate horizon/visibility states, staged outcomes, and seven
 experiment families. Milestone 2C.5A freezes the 24-record human/machine experiment
-protocol, classifies runnable and blocked work, defines deterministic fixture/result
-evidence, and proposes a synthetic-only first batch without running it. It deliberately
-selects no production artifact, date/location/height or refraction-validity range,
-refraction model, prediction/degraded policy, visibility rule, warning allowlist, or
-tolerance. Milestone 2C remains **OPEN**.
+protocol, classifies runnable and blocked work, and defines deterministic fixture/result
+evidence. Milestone 2C.5B completes 9/9 synthetic Batch 01 experiments: 24 exact
+checks pass and none fail, six measurement-only checks cover 27 measurement records
+that are all `MEASURED_NO_ACCEPTANCE`, and two-run canonical replay is byte-
+identical. Same-family agreement is not independent validation, and execution changes
+no source, production, data, reviewer, domain, error-budget, or tolerance status. The
+contract deliberately selects no production artifact, date/location/height or
+refraction-validity range, refraction model, prediction/degraded policy, visibility
+rule, warning allowlist, or tolerance. Milestone 2C remains **OPEN**.

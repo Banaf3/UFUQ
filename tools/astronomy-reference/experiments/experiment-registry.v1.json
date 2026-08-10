@@ -123,7 +123,7 @@
         "PyERFA 2.0.1.5 pmsafe",
         "smoke-only pinned leap artifact"
       ],
-      "requiredInputPolicy": "Explicit ICRS, jyear scale, two-part TDB JD, mas per Julian year, parallax/RV; no EOP, observer, meteorology, or ephemeris.",
+      "requiredInputPolicy": "Explicit ICRS, jyear scale, two-part TDB JD, mas per Julian year, parallax/RV, pinned smoke-only leap artifact, and synthetic ITRS geocentre [0,0,0] m as the TT/TDB conversion reference; no EOP, physical/topocentric or production observer, meteorology, or ephemeris.",
       "parameterPartitions": [
         "TT/TDB/UTC labels",
         "zero/high motion",
@@ -161,9 +161,9 @@
       "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
       "referenceDependencies": [
         "Astropy 8.0.1 TimeDecimalYear/TimeJulianEpoch/apply_space_motion",
-        "smoke-only pinned leap artifact when UTC conversion is exercised"
+        "smoke-only pinned leap artifact consumed by TT/TDB conversion"
       ],
-      "requiredInputPolicy": "Explicit representation and scale, ICRS, motion units, target instant, parallax/RV; no production data policy.",
+      "requiredInputPolicy": "Explicit representation and scale, ICRS, motion units, target instant, parallax/RV, pinned smoke-only leap artifact, and synthetic ITRS geocentre [0,0,0] m as the TT/TDB conversion reference; no physical/topocentric observer or production data policy.",
       "parameterPartitions": [
         "leap/non-leap calendar years",
         "zero/high motion",
@@ -195,9 +195,12 @@
         "Establish an exact candidate-set rejection guard and record diagnostic differences."
       ],
       "cannotEstablish": ["Infer catalogue intent from numerical separation."],
-      "inputClasses": ["SYNTHETIC"],
-      "referenceDependencies": ["Astropy 8.0.1 TimeBesselianEpoch/TimeJulianEpoch"],
-      "requiredInputPolicy": "Explicit diagnostic TT scale; byear is labelled rejected, never a source candidate.",
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 TimeBesselianEpoch/TimeJulianEpoch",
+        "smoke-only pinned leap artifact consumed by TT/TDB conversion"
+      ],
+      "requiredInputPolicy": "Explicit diagnostic TT scale, pinned smoke-only leap artifact, and synthetic ITRS geocentre [0,0,0] m as the TT/TDB conversion reference; byear is labelled rejected, never a source candidate, and no physical/topocentric observer or production data policy follows.",
       "parameterPartitions": ["ordinary/high motion", "deliberately mislabelled fixture"],
       "comparisonLineage": "STRUCTURAL_INVARIANT",
       "metrics": [

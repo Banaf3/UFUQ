@@ -188,6 +188,103 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "experimentId": {
+            "enum": ["2C.1-EXP-01", "2C.1-EXP-02", "2C.1-EXP-03"]
+          }
+        },
+        "required": ["experimentId"]
+      },
+      "then": {
+        "properties": {
+          "conventions": {
+            "properties": {
+              "frames": { "contains": { "const": "ITRS_GEOCENTRIC" } },
+              "units": { "contains": { "const": "METRE" } },
+              "coordinateConventions": {
+                "contains": {
+                  "const": "CARTESIAN_XYZ_AT_EARTH_CENTRE"
+                }
+              }
+            }
+          },
+          "inputs": {
+            "required": ["tdbConversionLocationGeocentricMetres"],
+            "properties": {
+              "tdbConversionLocationGeocentricMetres": {
+                "allOf": [
+                  { "$ref": "#/$defs/syntheticInput" },
+                  {
+                    "properties": {
+                      "semanticRole": {
+                        "const": "TDB_MINUS_TT_REFERENCE_LOCATION"
+                      },
+                      "inputIntent": { "const": "VALID_VALUE" },
+                      "value": {
+                        "type": "array",
+                        "prefixItems": [{ "const": 0 }, { "const": 0 }, { "const": 0 }],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "unit": { "const": "METRE" },
+                      "frame": { "const": "ITRS_GEOCENTRIC" },
+                      "timeScale": { "const": "NOT_APPLICABLE" },
+                      "coordinateConvention": {
+                        "const": "CARTESIAN_XYZ_AT_EARTH_CENTRE"
+                      },
+                      "provenance": { "const": "SYNTHETIC_EXPLICIT" }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "requiredArtifactStates": {
+            "properties": {
+              "leapSeconds": {
+                "properties": {
+                  "requirement": {
+                    "const": "PINNED_EXTERNAL_SMOKE_ONLY"
+                  },
+                  "references": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "const": "astropy-iers-data/Leap_Second.dat"
+                      }
+                    ],
+                    "items": false,
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              "observer": {
+                "properties": {
+                  "requirement": { "const": "SYNTHETIC_EXPLICIT" },
+                  "references": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "const": "inputs.tdbConversionLocationGeocentricMetres"
+                      }
+                    ],
+                    "items": false,
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "sha256": {
       "type": "string",

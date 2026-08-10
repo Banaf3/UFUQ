@@ -1,0 +1,122 @@
+{
+  "caseId": "two-run-canonical-replay",
+  "conventions": {
+    "coordinateConventions": [
+      "OFFLINE_NO_DISCOVERY",
+      "BYTE_IDENTITY_IS_DETERMINISM_ONLY"
+    ],
+    "epochRepresentationsAndScales": [
+      "NO_ASTRONOMICAL_EPOCH_REQUIRED"
+    ],
+    "frames": [
+      "PROTOCOL_EVIDENCE"
+    ],
+    "units": [
+      "UTF8_BYTE",
+      "SHA256_HEX"
+    ]
+  },
+  "dependencyManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+  "expectedChecks": [
+    {
+      "basis": "Consumed smoke-only artifact bytes must match their fixture hashes.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "artifact-hashes-verified",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Canonical evidence payload bytes and SHA-256 repeat exactly.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "canonical-replay-bytes-identical",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "The runner enforces offline execution and fresh isolated cache state.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "network-and-cache-policy-preserved",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    }
+  ],
+  "experimentId": "2C.3-EXP-01",
+  "fixtureId": "2C.3-EXP-01:two-run-canonical-replay",
+  "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+  "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+  "inputs": {
+    "replayPayloadTokens": {
+      "coordinateConvention": "ARRAY_ORDER_SEMANTIC",
+      "frame": "PROTOCOL_EVIDENCE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_CANONICAL_REPLAY_PAYLOAD",
+      "timeScale": "NOT_APPLICABLE",
+      "unit": "TOKEN",
+      "value": [
+        "BATCH_01",
+        "SYNTHETIC_ONLY",
+        "NO_NETWORK",
+        "NO_CACHE_DISCOVERY"
+      ]
+    }
+  },
+  "parameterPartition": [
+    "TWO_RUN_CANONICAL_REPLAY",
+    "FRESH_ISOLATED_ENVIRONMENT_REPLAY"
+  ],
+  "protocolVersion": "2C.5A-v1",
+  "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+  "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+  "requiredArtifactStates": {
+    "earthOrientation": {
+      "references": [
+        "astropy-iers-data/finals2000A.all"
+      ],
+      "requirement": "PINNED_EXTERNAL_SMOKE_ONLY"
+    },
+    "ephemeris": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "leapSeconds": {
+      "references": [
+        "astropy-iers-data/Leap_Second.dat"
+      ],
+      "requirement": "PINNED_EXTERNAL_SMOKE_ONLY"
+    },
+    "meteorology": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "observer": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    }
+  },
+  "schemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+  "scientificQuestion": "Can the named synthetic bundle, fixtures, warnings, and results be reconstructed offline byte-for-byte?",
+  "sourceProhibitions": {
+    "catalogueSourceBytesAbsent": true,
+    "hipSourceDerivedValuesAbsent": true,
+    "i311EpochResolutionClaimAbsent": true,
+    "i311RowsAbsent": true,
+    "productionGeneratedValuesAbsent": true
+  },
+  "usedArtifactHashes": [
+    {
+      "artifactId": "astropy-iers-data/finals2000A.all",
+      "classification": "EXTERNAL_AUTHORITATIVE_ARTIFACT",
+      "role": "EARTH_ORIENTATION",
+      "sha256": "d4bb5af084caf3e82621bc75aad902dc7ad9e38e785a97d3fcac0a23d89644fb",
+      "version": "0.2026.7.20.15.31.18"
+    },
+    {
+      "artifactId": "astropy-iers-data/Leap_Second.dat",
+      "classification": "EXTERNAL_AUTHORITATIVE_ARTIFACT",
+      "role": "LEAP_SECONDS",
+      "sha256": "6cb6f5d4b819f2e568e25db4b0b26d89dedf031fdffb18bc94d40f4e94e268d7",
+      "version": "0.2026.7.20.15.31.18"
+    }
+  ]
+}

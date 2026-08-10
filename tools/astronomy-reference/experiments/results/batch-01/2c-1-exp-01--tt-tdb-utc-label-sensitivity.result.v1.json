@@ -1,0 +1,229 @@
+{
+  "canonicalContentSha256": "fc27a4c407441d4c2310120020d7d3c61158cbd22ee8303068ffd535f83b358b",
+  "caseId": "tt-tdb-utc-label-sensitivity",
+  "checks": [
+    {
+      "basis": "The fixture's three explicit Julian-epoch scale labels remained distinct inputs with an explicit synthetic geocentre conversion location.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "explicit-scale-labels-preserved",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "Instant and propagated-direction differences were recorded without acceptance.",
+      "basisClassification": "MEASUREMENT_PROTOCOL",
+      "checkId": "scale-label-sensitivity-measured",
+      "kind": "MEASUREMENT_ONLY",
+      "numericalThreshold": null,
+      "status": "MEASURED_NO_ACCEPTANCE"
+    },
+    {
+      "basis": "The synthetic comparison carries no claim about the source epoch time scale.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "source-meaning-claim-absent",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    }
+  ],
+  "decisionLimits": [
+    "Synthetic evidence does not establish the source meaning of I/311 Ep=1991.25.",
+    "Same-family ERFA/SOFA agreement is not independent scientific validation.",
+    "No Batch 01 result approves a TypeScript production implementation or policy.",
+    "No numerical measurement has an AST-006 acceptance threshold."
+  ],
+  "errorBudgetStatus": "NOT_ESTABLISHED_AST_006_OPEN",
+  "executionManifest": {
+    "cachePolicy": "FRESH_ISOLATED_CACHE_NO_DISCOVERY",
+    "canonicalSerialization": "UFUQ_CANONICAL_JSON_V1",
+    "caseId": "tt-tdb-utc-label-sensitivity",
+    "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+    "experimentId": "2C.1-EXP-01",
+    "externalArtifactProvenance": [
+      {
+        "artifactId": "astropy-iers-data/Leap_Second.dat",
+        "role": "LEAP_SECONDS",
+        "sha256": "6cb6f5d4b819f2e568e25db4b0b26d89dedf031fdffb18bc94d40f4e94e268d7",
+        "version": "0.2026.7.20.15.31.18"
+      }
+    ],
+    "fixtureId": "2C.1-EXP-01:tt-tdb-utc-label-sensitivity",
+    "fixtureSchemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+    "hashes": {
+      "environmentManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+      "fixtureByteLength": 6388,
+      "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+      "fixtureSha256": "6490f374d5eb79cb82475f6da66d491e17948c2363d79aba0438a9c67c8be338",
+      "lockfileSha256": "6d37face85f513ee66e6677ced1f72b0cdf6f9ec5d904ce7cc0ce9e8eaa0abc1",
+      "protocolDocumentSha256": "c6e8f2e12b847cfb4b718b2b6b3c30ac0b2ae94f5e0451b1ecaef4ae70548b81",
+      "registrySchemaSha256": "f85a60a50474c7d68e68903750e87bc47b0bcbb4e402faf321d3f3748928288b",
+      "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+      "resultSchemaSha256": "688edef0f17c7901753414968fde9257a063d34ad418c5b53297caf5846efd22"
+    },
+    "manifestVersion": "ufuq.astronomy-experiment-execution-manifest.v1",
+    "networkPolicy": "OFFLINE_AUTO_DOWNLOAD_DISABLED",
+    "protocolVersion": "2C.5A-v1",
+    "recordOrdering": "REGISTRY_ID_GROUP_MEMBER_INPUT_KEY_MEASUREMENT_ID_STATUS_SEQUENCE_CHECK_ID",
+    "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+    "repetitionCount": 2,
+    "resultSchemaVersion": "ufuq.astronomy-experiment-result.v1",
+    "runner": {
+      "argv": [
+        "run.py",
+        "batch-01"
+      ],
+      "entryPoint": "run.py",
+      "runnerId": "ufuq-astronomy-batch-01",
+      "runnerVersion": "2C.5B-BATCH-01-v1",
+      "sourceFiles": [
+        {
+          "path": "run.py",
+          "sha256": "d15d2ba82a538a038aa4585dd26b953e13562d1afd6b86d0d1bf05e6645be5ad"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/__init__.py",
+          "sha256": "143a40dbb3b12bee6625b1c0c35ab9f0ab261736924940d4938ca0e1cd4f1b0a"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/batch01.py",
+          "sha256": "86fd7c9ed07384bc179a565d59e57bb6c1e7a8518dd3a1d9a2a60b5e01683cac"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/experiment_protocol.py",
+          "sha256": "95e533d971465e22342c0ee5746d6c36383c1f4e0f10fea19c6ff5da4cbc0b14"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/oracle.py",
+          "sha256": "7bfea6dee40925ee14e9e5e73fb24443f48601cb3df92ba9822d6b5a60a85de8"
+        }
+      ],
+      "workingDirectory": "tools/astronomy-reference"
+    },
+    "runtimeContext": {
+      "architecture": "AMD64",
+      "operatingSystem": "Windows",
+      "operatingSystemVersion": "10.0.26200",
+      "pythonImplementation": "CPython"
+    },
+    "softwareRuntime": {
+      "astropyIersDataVersion": "0.2026.7.20.15.31.18",
+      "astropyVersion": "8.0.1",
+      "directlyImportedPackages": [
+        "astropy",
+        "astropy_iers_data",
+        "erfa"
+      ],
+      "erfaVersion": "2.0.1",
+      "pyerfaDependencyKind": "DIRECT",
+      "pyerfaVersion": "2.0.1.5",
+      "pythonVersion": "3.14.6",
+      "sofaIssue": "20231011",
+      "uvVersion": "0.11.32"
+    }
+  },
+  "executionOutcome": {
+    "reasons": [],
+    "state": "COMPLETED"
+  },
+  "experimentId": "2C.1-EXP-01",
+  "fixtureId": "2C.1-EXP-01:tt-tdb-utc-label-sensitivity",
+  "measurements": [
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tdb-astropy-vs-pyerfa-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 0
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tdb-utc-propagated-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 9.758026479142074e-11
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tdb-utc-start-instant-seconds",
+      "metric": "COMPONENT_RESIDUAL",
+      "unit": "SECOND",
+      "value": -58.18564352977016
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tt-astropy-vs-pyerfa-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 2.0630814761166832e-16
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tt-tdb-propagated-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 2.694516999735788e-15
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tt-tdb-start-instant-seconds",
+      "metric": "COMPONENT_RESIDUAL",
+      "unit": "SECOND",
+      "value": 0.0016435295460581756
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tt-utc-propagated-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 9.757755367285327e-11
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "tt-utc-start-instant-seconds",
+      "metric": "COMPONENT_RESIDUAL",
+      "unit": "SECOND",
+      "value": -58.1840000002241
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "utc-astropy-vs-pyerfa-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 0
+    }
+  ],
+  "resultClassification": "SYNTHETIC_EXPERIMENT_EVIDENCE_ONLY",
+  "schemaVersion": "ufuq.astronomy-experiment-result.v1",
+  "structuredStatuses": [
+    {
+      "code": "SYNTHETIC_GEOCENTRE_LOCATION_EXPLICIT",
+      "message": "TDB/TT conversion uses the declared ITRS geocentric [0,0,0] metre location.",
+      "sequenceIndex": 0,
+      "severity": "INFO",
+      "source": "ASTROPY_TIME"
+    },
+    {
+      "code": "PMSAFE_STATUS_0_TT",
+      "message": "Synthetic TT label returned raw pmsafe status 0.",
+      "sequenceIndex": 1,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE"
+    },
+    {
+      "code": "PMSAFE_STATUS_0_TDB",
+      "message": "Synthetic TDB label returned raw pmsafe status 0.",
+      "sequenceIndex": 2,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE"
+    },
+    {
+      "code": "PMSAFE_STATUS_0_UTC",
+      "message": "Synthetic UTC label returned raw pmsafe status 0.",
+      "sequenceIndex": 3,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE"
+    }
+  ],
+  "warnings": []
+}

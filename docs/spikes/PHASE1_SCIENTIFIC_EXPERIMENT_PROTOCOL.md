@@ -2,17 +2,18 @@
 
 ## Status and scope
 
-This document freezes the review protocol for the scientific experiments proposed by
-Milestones 2C.1–2C.4. It does not run an experiment, create a source-derived fixture,
-select production astronomy, approve a scientific model or data product, or establish
-a numerical tolerance.
+This document froze the 2C.5A review protocol for the scientific experiments proposed
+by Milestones 2C.1–2C.4. Milestone 2C.5A itself did not run an experiment, create a
+source-derived fixture, select production astronomy, approve a scientific model or
+data product, or establish a numerical tolerance. The later bounded 2C.5B execution is
+recorded in its own section below and does not alter those prohibited claims.
 
 The registry distinguishes whether an experiment can execute now from whether its
 output can close a scientific decision. A synthetic measurement can be executable
 while the source interpretation, production policy, supported domain, error budget,
 and reviewer approval remain blocked.
 
-The following constraints are normative for Milestone 2C.5A:
+The following 2C.5A constraints remain normative for Milestone 2C.5B:
 
 - only explicitly labelled synthetic inputs and the locked astronomy-reference
   environment may be used by a currently runnable experiment;
@@ -99,7 +100,9 @@ Unless a row is stricter, every runnable experiment uses:
   production-package import;
 - at least two executions from the same canonical fixture with byte-identical
   canonical results and matching SHA-256 hashes; any experiment claiming isolated
-  replay additionally repeats in a fresh synchronized environment;
+  replay additionally repeats in independent OS processes with separate temporary
+  cache and comparison directories inside the same existing pre-synchronized
+  `--locked --no-sync` environment;
 - explicit hashes for the protocol document, registry, registry schema, fixture
   schema, result schema, environment manifest, lockfile, canonical fixture bytes,
   every consumed external artifact, and every runner source file;
@@ -122,6 +125,18 @@ synthetic provenance, unit, frame, time scale, and coordinate convention. A new 
 shape or source/production class requires a reviewed successor schema; changing a
 label in a v1 file cannot authorize it.
 
+`PROJECT_DECISION`: the three Batch 01 epoch-label fixtures additionally declare an
+explicit synthetic ITRS-geocentric Cartesian conversion location of `[0,0,0]` metres.
+It is supplied to every affected Astropy `Time` constructor solely to make the TT/TDB
+conversion reference location explicit. Because that conversion consults ERFA's leap-
+second state, all three fixtures also declare and initialize the exact pinned smoke-
+only `Leap_Second.dat` artifact, including isolated single-ID runs. Neither input is an
+I/311 fact, a physical or
+topocentric observer, a production datum/site decision, or an epoch interpretation.
+The fixture schema fixes the exact record and reference; each result manifest binds it
+through the canonical fixture bytes/hash and retains a
+`SYNTHETIC_GEOCENTRE_LOCATION_EXPLICIT` structured status.
+
 Every input also declares `VALID_VALUE`, `DELIBERATELY_INVALID_TOKEN`, or
 `DELIBERATELY_MISSING`. Missing inputs use the explicit `MISSING` sentinel; they are
 never represented by an absent required field or `null`. Non-finite strings may appear
@@ -141,12 +156,12 @@ mismatch before execution. Schema v1 accepts no JSON `null` except the required
 `numericalThreshold: null`, whose explicit meaning is “numerical acceptance prohibited
 in this schema,” not unknown or omitted.
 
-PyERFA is installed and version-pinned transitively in the locked environment, but the
-current smoke executable does not import it. Before a 2C.5B body uses direct `erfa`
-routines, that milestone must promote PyERFA to a direct reference-tool dependency and
-update the lock/dependency evidence and import tests. This is a required mechanical
-runner change, not permission to select production astronomy and not a missing
-scientific input for the runnable classifications.
+At the 2C.5A checkpoint, PyERFA was installed and version-pinned transitively and the
+smoke executable did not import it. The later 2C.5B runner promotes that same release
+to a direct reference-tool dependency before importing `erfa`, and updates the
+lock/dependency evidence and import tests. This is a mechanical runner change, not
+permission to select production astronomy and not a missing scientific input for the
+runnable classifications.
 
 All runnable results require the owning AST-003, AST-004, AST-006, or AST-007 reviewer
 before they may change production policy. Merely recording a measurement requires no
@@ -191,9 +206,9 @@ does not permit a library default.
 
 | ID | Question; may establish; cannot establish | Inputs, dependencies, and conventions | Partitions, comparison, metrics, approval, and follow-up |
 |---|---|---|---|
-| `2C.1-EXP-01` | Does assigning TT, TDB, or UTC to the same synthetic Julian epoch label change the represented instant and propagated direction? May measure scale sensitivity and warning/status differences. Cannot identify the I/311 time scale, approve TT, or set a tolerance. | `SYNTHETIC` astrometry plus the smoke-only leap artifact; Astropy `Time`/`apply_space_motion` and PyERFA `pmsafe`; ICRS, explicit `jyear` scale, conversion to two-part TDB JD, mas/Julian-year, explicit parallax/RV. No EOP, observer, meteorology, or ephemeris. | Zero/high motion, high declination, parallax/RV branches, short/long synthetic intervals, alternative JD splits. Astropy high-level versus direct PyERFA has shared ERFA lineage. Use time/component/angular/status metrics. AST-003/006 review may use measurements to bound alternatives, never to establish source meaning. |
-| `2C.1-EXP-02` | How does calendar `decimalyear` differ from the source-supported Julian representation under otherwise identical synthetic motion? May measure instant and direction deltas. Cannot make `decimalyear` source-supported. | `SYNTHETIC`; Astropy `TimeDecimalYear`, `TimeJulianEpoch`, and space motion with the same explicit conventions and smoke-only leap data when a UTC conversion is exercised. | Leap/non-leap calendar partitions, zero/high motion, identical target instants. Comparison shares Astropy/ERFA lineage; report time, angular, component, warning, byte, and hash metrics. AST-003 review may reject or bound this alternative. |
-| `2C.1-EXP-03` | Does the protocol prevent Besselian `byear` from being treated as an I/311 candidate? May establish an exact registry/fixture rejection invariant and measure diagnostic differences. Cannot infer catalogue intent from numerical distance. | `SYNTHETIC`; Astropy `TimeBesselianEpoch` and `TimeJulianEpoch`; explicit TT label for the diagnostic only. No EOP, observer, meteorology, or ephemeris. | Ordinary/high-motion partitions and a deliberately mislabelled fixture. Exact check: the candidate set rejects `byear`; numerical outputs are measurement-only. AST-003 review may use the guard when approving an epoch adapter. |
+| `2C.1-EXP-01` | Does assigning TT, TDB, or UTC to the same synthetic Julian epoch label change the represented instant and propagated direction? May measure scale sensitivity and warning/status differences. Cannot identify the I/311 time scale, approve TT, or set a tolerance. | `SYNTHETIC` astrometry plus the smoke-only leap artifact; Astropy `Time`/`apply_space_motion` and PyERFA `pmsafe`; ICRS, explicit `jyear` scale, conversion to two-part TDB JD, mas/Julian-year, explicit parallax/RV, and explicit synthetic ITRS geocentre `[0,0,0] m` only as the TT/TDB conversion reference location. No EOP, physical/topocentric observer, meteorology, or ephemeris. | Zero/high motion, high declination, parallax/RV branches, short/long synthetic intervals, alternative JD splits. Astropy high-level versus direct PyERFA has shared ERFA lineage. Use time/component/angular/status metrics. AST-003/006 review may use measurements to bound alternatives, never to establish source meaning. |
+| `2C.1-EXP-02` | How does calendar `decimalyear` differ from the source-supported Julian representation under otherwise identical synthetic motion? May measure instant and direction deltas. Cannot make `decimalyear` source-supported. | `SYNTHETIC`; Astropy `TimeDecimalYear`, `TimeJulianEpoch`, and space motion with the same explicit conventions, the pinned smoke-only leap artifact, and explicit synthetic ITRS geocentre `[0,0,0] m` only as the TT/TDB conversion reference location. | Leap/non-leap calendar partitions, zero/high motion, identical target instants. Comparison shares Astropy/ERFA lineage; report time, angular, component, warning, byte, and hash metrics. AST-003 review may reject or bound this alternative. |
+| `2C.1-EXP-03` | Does the protocol prevent Besselian `byear` from being treated as an I/311 candidate? May establish an exact registry/fixture rejection invariant and measure diagnostic differences. Cannot infer catalogue intent from numerical distance. | `SYNTHETIC`; Astropy `TimeBesselianEpoch` and `TimeJulianEpoch`; explicit TT label for the diagnostic, the pinned smoke-only leap artifact, and explicit synthetic ITRS geocentre `[0,0,0] m` only as the TT/TDB conversion reference location. No EOP, physical/topocentric observer, meteorology, or ephemeris. | Ordinary/high-motion partitions and a deliberately mislabelled fixture. Exact check: the candidate set rejects `byear`; numerical outputs are measurement-only. AST-003 review may use the guard when approving an epoch adapter. |
 
 ### Milestone 2C.2
 
@@ -212,7 +227,7 @@ does not permit a library default.
 
 | ID | Question; may establish; cannot establish | Inputs, dependencies, and conventions | Partitions, comparison, metrics, approval, and follow-up |
 |---|---|---|---|
-| `2C.3-EXP-01` | Can a named synthetic EOP/leap bundle, fixtures, warnings, and results be reconstructed offline byte-for-byte? May establish deterministic protocol and artifact replay. Cannot approve the packaged smoke files for production or prove an air-gapped rebuild without package artifacts. | `SYNTHETIC` plus the pinned `EXTERNAL_AUTHORITATIVE_ARTIFACT` files in the environment manifest; locked Python/Astropy tool; explicit network/cache policy. | Two local repetitions and a fresh isolated synchronized environment; artifact-present/hash-mismatch/missing negative cases. Compare canonical bytes/hashes and statuses exactly. ADR-007 review may approve the replay mechanism, not science data. |
+| `2C.3-EXP-01` | Can a named synthetic EOP/leap bundle, fixtures, warnings, and results be replayed offline byte-for-byte? May establish deterministic protocol and artifact replay. Cannot approve the packaged smoke files for production, reconstruct dependency installation, or prove an air-gapped rebuild without package artifacts. | `SYNTHETIC` plus the pinned `EXTERNAL_AUTHORITATIVE_ARTIFACT` files in the environment manifest; locked Python/Astropy tool; explicit network/cache policy. | Two local fresh-cache execution contexts plus two independent OS-process invocations in the same pre-synchronized `--locked --no-sync` environment; artifact/hash validation and canonical byte/status comparison. The registry token `FRESH_ISOLATED_ENVIRONMENT_REPLAY` means this bounded fresh process/cache context, not creation or synchronization of a new virtual environment. ADR-007 review may approve the replay mechanism, not science data. |
 | `2C.3-EXP-02` | Does every EOP field retain independent source quality, availability, provenance, coverage, and approval without substitution or promotion? May establish exact structural/status invariants. Cannot approve any quality or calculate accepted astronomy. | `SYNTHETIC` status fixtures only; no numeric EOP value is needed for the invariant. Fields are independently labelled `UT1-UTC`,`xp`,`yp`,`dX`,`dY`. | Mixed qualities, missing/blank/stale/out-of-range/hash mismatch, one-field changes, zero/nearest fault injection. Structural comparison independent of ERFA; exact status and canonical hash checks. AST-003/007 review may approve a future state schema. |
 | `2C.3-EXP-03` | What are the consequences of named degraded EOP modes over a proposed domain? May later quantify candidate degradation. Cannot define “stale,” prediction acceptance, zero fill, or a domain by inventing inputs. | Would require a project-selected product, per-field modes, freshness rule, candidate range, observer cases, and approved perturbation partitions. | Field-by-field and interaction measurements across candidate endpoints; blocked until AST-003/007 define the modes. AST-006 later evaluates quantitative bounds. |
 | `2C.3-EXP-04` | Does the locked reference path preserve syntax, leap validation, UTC/TAI/TT/UT1 values, warnings, and errors at timestamp boundaries? May establish reference-library and protocol status behaviour. Cannot select production grammar, precision, artifact, expiry, or date range. | `SYNTHETIC` timestamp strings plus the smoke-only pinned leap artifact; Astropy `Time`/`LeapSeconds` and PyERFA `dtf2d`/time conversions. | Valid/invalid second 60, adjacent instants, fractions, malformed dates/offsets, `-00:00`, artifact missing/expired simulations. Shared ERFA lineage; time component/status/byte/hash metrics. AST-003/007 review may approve later grammar/status mapping. |
@@ -241,9 +256,9 @@ production approval.
 |---|---|---|---|
 | Epoch-label guards | `2C.1-EXP-01`, `2C.1-EXP-02`, `2C.1-EXP-03` | Quantifies representation/scale sensitivity while proving rejected interpretations remain rejected. | Measurements plus exact candidate-set guard; no source interpretation or tolerance. |
 | Route/convention consistency | `2C.2-EXP-01` | Detects route wiring, sign, unit, intermediate-state, cardinal/wrap, and warning/status faults early. | Same-family consistency only; never independent validation. |
-| Motion-convention guards | Runnable subset of `2C.2-EXP-04` | Detects omitted/double cosine, target-epoch labelling, JD-split, pole-guard, and warning-loss defects. | Exact injected-fault/status checks plus measurements; no I/311 propagation. |
+| Motion-convention guards | Runnable subset of `2C.2-EXP-04` | Detects omitted/double cosine, target-epoch labelling, JD-split, and warning-loss defects. | Exact injected-fault/status checks plus measurements; no I/311 propagation. |
 | Deterministic replay | `2C.3-EXP-01` | Proves registry/fixture/result serialization, hashes, offline configuration, and replay before numerical evidence expands. | Exact byte/hash/status checks; no production EOP/leap approval. |
-| Optional-state guards | `2C.4-EXP-05`, `2C.4-EXP-06`, `2C.4-EXP-07` | Proves geometric-state preservation, no default atmosphere, outcome precedence, and visibility-component independence. | Exact structural/status checks plus library-default consequence measurements; no refraction/visibility policy. |
+| Optional-state guards | `2C.4-EXP-05`, `2C.4-EXP-06`, `2C.4-EXP-07` | Proves geometric-state preservation, no default atmosphere, outcome precedence, and visibility-component independence. | Exact structural/status checks plus retained-coordinate measurement only; no refraction/visibility policy or library-default sweep. |
 
 Meteorology sweeps, near-horizon numerical studies, broad effect ablations, timestamp
 boundaries, and observer partitions are runnable but excluded from Batch 01. They add
@@ -308,6 +323,71 @@ field omitted; after insertion, the complete result file receives a separate com
 SHA-256. Byte identity establishes deterministic serialization and replay only. It is
 not evidence of scientific correctness, source authority, or numerical acceptance.
 
+## Milestone 2C.5B Batch 01 execution record
+
+`PROJECT_DECISION`: Batch 01 implements and completes exactly 9/9 registry members in
+the scopes listed above. The runner uses a fixed filename/ID/scope/partition allowlist; it does
+not discover arbitrary fixture files. It rejects unknown IDs, registered-but-non-Batch
+IDs, false source-prohibition declarations, source-like material inside synthetic
+inputs, any change to the nine compiled canonical fixture-byte hashes, hash drift,
+noncanonical bytes, and any partition expansion. The single
+`2C.2-EXP-04` fixture contains exactly the five committed convention-guard partitions.
+
+The registry v1 `PROPOSED_SYNTHETIC_EXECUTION_ONLY` field remains the frozen 2C.5A
+authorization snapshot; it is not rewritten as an execution ledger. The nine result
+instances and this execution record carry the later 2C.5B execution state.
+
+PyERFA `2.0.1.5` is promoted from a transitive package to a direct dependency because
+the runner imports `erfa`. No package version changes. The numerical bodies remain
+inside the non-production Python reference tool, import no UFUQ production package,
+block network access, disable Astropy automatic downloads, and use a fresh isolated
+Astropy cache for each internal repetition. The existing production/reference Vitest
+suite remains inactive because Batch 01 compares no production implementation. The
+result schema retains its versioned dependency-kind enum; semantic runner validation
+requires the Batch 01 manifest value to be `DIRECT`.
+
+Nine canonical fixture instances, nine canonical result instances, and nine complete-
+result SHA-256 companions are committed under the Batch 01 experiment directories.
+Fixture, schema, protocol, or runner-source changes invalidate prior Batch evidence;
+result JSON and companion hashes are runner-owned and are never hand-edited. The
+explicit-geocentre correction therefore invalidated every earlier result/hash and the
+runner regenerated the complete nine-result set before replay.
+Every handler runs twice internally in separate fresh-cache contexts. A second
+independent OS-process run with the same logical argv in the already synchronized
+locked environment, using separate temporary cache and comparison directories, must
+reproduce every result and companion byte-for-byte. This does not reconstruct or
+synchronize a clean virtual environment. Each result
+embeds its fixture, protocol, registry, schemas, environment, lockfile, runner-source,
+runtime, used-artifact, warning, status, lineage, and repetition evidence.
+
+The tool validates every registry/fixture/result instance using a fail-closed local
+validator for exactly the Draft 2020-12 keywords present in the three committed
+schemas. Unsupported keywords and non-local references are rejected, and conditional,
+closed-object, prefix-array, `contains`, numeric, duplicate-key, and negative-instance
+tests are included. This is bounded experiment-protocol validation, not selection of
+a general production/browser runtime validator or a claim of full official meta-schema
+conformance; the broader `DATA-SRC-002` decision remains open.
+
+`EXPERIMENT_REQUIRED` becomes executed synthetic evidence for this bounded batch: 24
+exact contract/status/determinism checks pass, no exact check fails, and six
+measurement-only checks cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`.
+The warning record
+retains the expected PyERFA `ErfaWarning` paired with raw `pmsafe` status `1`; the
+below-horizon fixture also demonstrates preservation of an explicit synthetic upstream
+warning. There are no Batch 01 `BLOCKED`, `SKIPPED`, or `EXECUTION_ERROR` results.
+Those facts establish only that the reviewed synthetic protocol executed as declared.
+
+`SOURCE_SUPPORTED_FACT`: componentized `apco13`/`atciq`/`atioq` and composed `atco13`
+evidence has shared ERFA/SOFA lineage. Its residuals therefore remain same-family
+consistency measurements, never independent scientific validation. Epoch-label,
+calendar-year, Besselian diagnostic, route, cosine, and JD-split numbers remain
+measurements without acceptance even when a residual serializes as zero.
+
+`HUMAN_REVIEW_REQUIRED`: AST-003/004/006/007 reviewers may use these results when
+considering later policies, but no source interpretation, production route, operating
+domain, refraction/visibility policy, degraded mode, error budget, or tolerance is
+approved by execution.
+
 ## Decisions experiment output may inform
 
 - the magnitude and warning/status consequences of candidate epoch labels without
@@ -340,8 +420,8 @@ not evidence of scientific correctness, source authority, or numerical acceptanc
 
 ## Exit decision
 
-Milestone 2C.5A freezes a proposed protocol and machine-readable scaffolding. Milestone
-2C.5B may implement Batch 01 only after explicit project review accepts its frozen
-synthetic scope; it may not introduce source-derived or production astronomy.
+Milestone 2C.5A froze the protocol and machine-readable scaffolding. Milestone 2C.5B
+subsequently implements and executes only its reviewed synthetic Batch 01 scope; it
+introduces neither source-derived nor production astronomy.
 Milestone 2C remains **OPEN** because the 2C.1–2C.4 source, project-decision, data,
 review, production, error-budget, and tolerance blockers are unchanged.

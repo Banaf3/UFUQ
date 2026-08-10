@@ -541,7 +541,7 @@ class ExperimentProtocolTests(unittest.TestCase):
 
             walk(schema)
 
-    def test_2c5a_has_no_direct_erfa_import_or_experiment_instances(self) -> None:
+    def test_2c5b_promotes_erfa_only_for_the_bounded_runner(self) -> None:
         self.assertEqual(
             {path.name for path in EXPERIMENT_ROOT.iterdir() if path.is_file()},
             {
@@ -557,8 +557,9 @@ class ExperimentProtocolTests(unittest.TestCase):
         dependency_block = pyproject.split("dependencies = [", 1)[1].split(
             "]", 1
         )[0]
-        self.assertNotIn("pyerfa", dependency_block.casefold())
+        self.assertIn('"pyerfa==2.0.1.5"', dependency_block.casefold())
 
+        erfa_importers = []
         for python_file in PROJECT_ROOT.rglob("*.py"):
             if ".venv" in python_file.parts or "__pycache__" in python_file.parts:
                 continue
@@ -574,7 +575,45 @@ class ExperimentProtocolTests(unittest.TestCase):
                 for node in ast.walk(tree)
                 if isinstance(node, ast.ImportFrom) and node.module is not None
             )
-            self.assertNotIn("erfa", imported_modules, str(python_file))
+            if "erfa" in imported_modules:
+                erfa_importers.append(python_file.relative_to(PROJECT_ROOT).as_posix())
+        self.assertEqual(
+            erfa_importers,
+            ["src/ufuq_astronomy_reference/batch01.py"],
+        )
+
+        environment = read_json(PROJECT_ROOT / "environment-manifest.json")
+        dependency_kinds = {
+            package["name"]: package["dependencyKind"]
+            for package in environment["resolvedRuntimePackages"]
+        }
+        self.assertEqual(dependency_kinds["pyerfa"], "DIRECT")
+        self.assertEqual(
+            {
+                path.name
+                for path in (EXPERIMENT_ROOT / "fixtures" / "batch-01").glob(
+                    "*.json"
+                )
+            },
+            {
+                f"{experiment_id.lower().replace('.', '-')}--{case_id}.fixture.v1.json"
+                for members in EXPECTED_BATCH.values()
+                for experiment_id, (_, partitions) in members.items()
+                for case_id in [
+                    {
+                        "2C.1-EXP-01": "tt-tdb-utc-label-sensitivity",
+                        "2C.1-EXP-02": "calendar-decimal-year-vs-julian-epoch",
+                        "2C.1-EXP-03": "besselian-rejection-guard",
+                        "2C.2-EXP-01": "decomposed-vs-composed-route",
+                        "2C.2-EXP-04": "synthetic-convention-guards",
+                        "2C.3-EXP-01": "two-run-canonical-replay",
+                        "2C.4-EXP-05": "below-horizon-state-preservation",
+                        "2C.4-EXP-06": "no-default-atmosphere",
+                        "2C.4-EXP-07": "visibility-component-independence",
+                    }[experiment_id]
+                ]
+            },
+        )
 
 
 if __name__ == "__main__":

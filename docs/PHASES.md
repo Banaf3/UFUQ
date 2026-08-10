@@ -112,6 +112,18 @@ production approval, a domain, an error budget, or a tolerance. No experiment bo
 result is added by 2C.5A, `test:reference` remains inactive, and Milestone 2C remains
 open.
 
+Milestone 2C.5B completes 9/9 experiments in the five-group synthetic Batch 01 scope.
+The non-production Python runner promotes the already locked PyERFA `2.0.1.5` package
+to a direct dependency, rejects non-Batch/source/production inputs and partition drift,
+consumes nine fixed canonical schema-validated fixtures, and emits nine canonical
+results with complete hashes and two-repetition manifests. Twenty-four exact
+contract/status/determinism checks pass and none fail; six measurement-only checks
+cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`. Componentized versus
+composed ERFA evidence is explicitly same-family consistency, not independent
+scientific validation. No production code is compared, so `test:reference` remains
+inactive. All 2C.1-2C.4 authority, production, data, domain, error-budget, tolerance,
+and reviewer blockers remain, and Milestone 2C remains open.
+
 Milestone 2D records the catalogue source/deployment-authority outcome required before
 source-derived processing. It must explicitly resolve local processing authority and
 the permitted handling of generated data; unresolved redistribution authority does not

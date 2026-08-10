@@ -6,6 +6,7 @@ requires-python = ">=3.14,<3.15"
 dependencies = [
   "astropy>=8.0.1,<9",
   "astropy-iers-data>=0.2026.7.20.15.31.18,<0.2027",
+  "pyerfa==2.0.1.5",
 ]
 
 [tool.uv]
@@ -13,6 +14,6 @@ package = false
 required-version = "==0.11.32"
 
 [tool.ufuq]
-phase = "phase-1-milestone-2a"
+phase = "phase-1-milestone-2c5b-batch-01"
 scope = "synthetic-only"
 production-implementation = false
