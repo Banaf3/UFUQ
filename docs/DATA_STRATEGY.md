@@ -9,10 +9,11 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 | Class | Contents | Authority | Repository policy |
 |---|---|---|---|
 | 1. Numerical astronomical catalogue | Stable UFUQ `starId`; source-release crosswalk; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits; changing source releases does not change cultural identifiers |
-| 2. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member UFUQ `starId` values; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication or catalogue-specific foreign keys; not limited to one named pattern |
-| 3. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
-| 4. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
-| 5. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–4 | Never hand-edit; generated header/manifest/checksum required |
+| 2. Observer preset data | Stable preset/site identity; exact reference point; geodetic coordinates; datum/frame/ellipsoid; typed height; applicable coordinate epoch; accuracy; provenance; source/data versions; approval | `ObserverPreset` semantics from 2C; concrete source and data approval in 2D | Exact values are acquired, reviewed, versioned and hash-bound rather than copied from a map or embedded in formulas; unknown accuracy stays explicit |
+| 3. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member UFUQ `starId` values; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication or catalogue-specific foreign keys; not limited to one named pattern |
+| 4. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
+| 5. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
+| 6. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–5 | Never hand-edit; generated header/manifest/checksum required |
 
 Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
 
@@ -87,6 +88,32 @@ multiplicity, candidate-selection, schema, sorting, and checksum policies are fi
 partial and raw/derived redistribution is unresolved, so source-derived output stays
 ignored and local. Do not add catalogue rows to Git or deployment storage; the existing
 data-scaffold guard is intentionally unchanged.
+
+### Observer-preset handoff
+
+Milestone 2C owns the generic `ObserverPreset` field semantics, explicit units and
+reference systems, east-positive longitude convention, typed height/epoch/accuracy
+states, default prohibitions, and fail-closed outcomes. It selects only the identity
+`umpsa-pekan-faculty-of-computing` for `ScientificProfileV1`; it does not supply that
+site's numerical coordinates.
+
+Milestone 2D acquires and approves the exact Faculty reference point, latitude,
+longitude, height, datum/frame/ellipsoid, applicable coordinate epoch, accuracy,
+source record or official service response, acquisition identity/date, licence/use
+conditions, data version, and immutable manifest/hash where appropriate. An official
+reproducible UMPSA institutional or Malaysian-government geographic record is an
+eligible candidate for 2D review when it supplies every required semantic field and
+documented accuracy. Its source class alone does not establish scientific adequacy. A
+JUPEM survey-control record is optional, not mandatory, and cannot be substituted for
+the intended Faculty point merely because it is more precise. Missing provenance,
+browser geolocation, implicit `(0,0)`, hidden map coordinates, assumed WGS 84, zero
+height, silent orthometric-to-ellipsoidal conversion, and unknown accuracy encoded as
+zero are prohibited.
+
+No user acquisition is required to implement the generic contract. The concrete record
+is required before 2D can approve the preset and before real ProfileV1 execution. A
+future `Riyadh, Saudi Arabia` preset uses the same contract but belongs to a later
+multi-location profile and has no data-acquisition requirement now.
 
 I/311 `pmRA` is source-defined in Appendix G Table G.3 as `mu_alpha_star`; normalize it
 as `properMotionRaCosDecMilliarcsecondsPerYear` and do not apply or remove another

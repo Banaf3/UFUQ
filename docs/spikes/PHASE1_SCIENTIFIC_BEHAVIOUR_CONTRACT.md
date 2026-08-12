@@ -533,63 +533,128 @@ mandatory warning contract, and named reviewer approval.
 
 ## 9. Observer contract
 
-Every observer input must explicitly include:
+Every observer input is resolved from a versioned `ObserverPreset`; observer fields may
+not be an unlabelled tuple. Resolved `PROJECT_DECISION`:
 
-- geodetic latitude;
-- east-positive longitude;
-- datum/ellipsoid identifier;
-- height in metres;
-- height type/datum; and
-- input provenance and validation status.
-
-Resolved `PROJECT_DECISION`:
-
-- latitude is north-positive and longitude is east-positive;
-- latitude must be finite and within `[-90 degrees, +90 degrees]`; and
-- observer fields may not be an unlabelled tuple.
+- `ScientificProfileV1` accepts only preset ID
+  `umpsa-pekan-faculty-of-computing`, whose human-readable identity is Faculty of
+  Computing, UMPSA Pekan Campus, Pahang, Malaysia;
+- latitude is geodetic and north-positive, finite, and within
+  `[-90 degrees,+90 degrees]`;
+- longitude is east-positive and canonicalized to `[-180 degrees,+180 degrees)`, with
+  `+180 degrees` represented as `-180 degrees`; and
+- arbitrary coordinates, browser geolocation, implicit `(0,0)`, another preset, or a
+  hidden map-provider location are outside V1.
 
 `SOURCE_SUPPORTED_FACT`: SOFA `iauAtco13`/`iauApco13` use east-positive geodetic
 longitude, geodetic latitude, and height above the WGS 84 ellipsoid. Astropy
 `EarthLocation.from_geodetic` has the same input roles and a WGS 84 default. Those
 routine contracts do not select UFUQ's production datum or observer range.
 
-The proposed typed observer boundary is:
+The typed observer-data boundary is:
 
 ```text
-ObserverInput {
-  geodeticLatitudeDeg,
-  longitudeEastDeg,
-  longitudeNormalization,
-  referenceDatum,
-  referenceEllipsoid,
-  ellipsoidalHeightM,
-  coordinateProvenance,
-  uncertainty,
-  validationStatus
+ObserverPreset {
+  schemaVersion,
+  presetId,
+  siteIdentity,
+  referencePointDescription,
+  geodeticLatitude { value, unit, northPositive },
+  geodeticLongitude {
+    value,
+    unit,
+    eastPositive,
+    canonicalNormalization,
+    sourceRepresentation
+  },
+  referenceSystem { kind, id, realization? },
+  referenceEllipsoidId,
+  coordinateReferenceEpoch:
+    | { status: DECLARED, value, representation, scaleOrStandardSemantics, basis }
+    | { status: NOT_REQUIRED, basis, source },
+  height:
+    | { heightType: ELLIPSOIDAL, value, unit, ellipsoidId }
+    | { heightType: ORTHOMETRIC, value, unit, verticalDatumId }
+    | { heightType: OTHER_APPROVED, value, unit, referenceSurfaceId,
+        representationId },
+  heightConversion? {
+    modelAndVersion,
+    inputs,
+    provenance,
+    outputRepresentation,
+    uncertainty
+  },
+  coordinateAccuracy {
+    status,
+    componentsOrCovariance?,
+    units?,
+    confidenceOrCoverageMeaning?,
+    method?,
+    source,
+    reasonWhenUnknown?
+  },
+  provenance {
+    sourceId,
+    sourceRecordOrServiceResponseId,
+    sourceVersion,
+    acquisitionIdentity,
+    acquisitionDate,
+    licenceOrUseConditions
+  },
+  dataVersionId,
+  artifactIdentity,
+  artifactAvailability,
+  validationStatus,
+  scientificApproval { status, scope, reviewer, decisionDate, decisionReference }
 }
 ```
 
-The following are `PROJECT_DECISION` proposals:
+The following are resolved contract semantics for profile review:
 
-- all numeric fields must be finite; latitude outside `[-90,+90]` is invalid;
-- longitude is east-positive and must arrive with an explicit normalization policy;
-- height is ellipsoidal height in metres for the candidate SOFA `13` route;
-  orthometric/elevation-above-sea-level input is not silently relabelled and requires
-  an approved geoid/conversion model or is rejected;
-- uncertainty is retained as supplied with source and units; missing uncertainty is
-  labelled unknown, never zero; and
-- syntactically valid but unapproved datum, height, location, or polar-site semantics
-  returns `OBSERVER_OUTSIDE_SUPPORTED_DOMAIN` rather than coercion.
+- all coordinate and height values are finite and have explicit units;
+- datum/reference frame, realization where applicable, ellipsoid, height type and
+  height reference surface are named rather than inferred;
+- `referenceSystem.kind` discriminates a geodetic datum from a terrestrial reference
+  frame, and the selected reference system/ellipsoid must match the approved route or
+  use an approved, provenance-bearing transformation with explicit uncertainty;
+- `coordinateReferenceEpoch` is declared when the source/frame requires it, or carries
+  a source-supported `NOT_REQUIRED` state; a missing required epoch is unsupported;
+- an ellipsoidal-height route accepts an orthometric or other typed source height only
+  through an approved, provenance-bearing conversion; no height is silently relabelled;
+- accuracy state is `SOURCE_DECLARED`, `DERIVED`, or `UNKNOWN_UNBOUNDED`, with source
+  and units retained where applicable; unknown accuracy is never zero;
+- artifact availability, structural validation, and scientific approval are separate;
+  none can promote another; and
+- missing, invalid, unsupported, unavailable, or unapproved data produces a non-result
+  rather than a default or coercion. These are distinct semantic states: missing means
+  a required field/reference is absent; invalid means malformed representation/value/
+  unit/range; unavailable means the identified artifact cannot be resolved; unsupported
+  means a well-formed record is incompatible with the approved route/domain; and
+  unapproved means activation is absent or rejected. Exact wire/HTTP codes remain
+  separate.
 
-`HUMAN_REVIEW_REQUIRED`:
+Official UMPSA evidence supplies only the selected site identity. Milestone 2D owns the
+exact reference point, latitude, longitude, height, datum/frame/ellipsoid, applicable
+coordinate epoch, accuracy, source response, acquisition identity/date, licence/use
+conditions, version, manifest/hash, and activation approval. An official reproducible
+UMPSA institutional or Malaysian-government record with documented accuracy is an
+eligible candidate for 2D review when it supplies every required semantic field. The
+2D reviewer must approve the represented point, semantics, accuracy, transformations,
+provenance, and bounded use; source class alone does not establish scientific adequacy.
+A JUPEM survey-control record is optional, not mandatory, and this public-web audit did
+not establish a Faculty-specific control record; that is not evidence none exists.
 
-- approval of WGS 84 and ellipsoidal height for production;
-- allowed height range and below-ellipsoid handling;
-- the proposed canonical longitude interval `[-180,+180)` and `+180 -> -180` wrap;
-- polar-site longitude/azimuth semantics;
-- whether height contributes to topocentric parallax, horizon dip, or both; and
-- whether coordinate/height uncertainty is required or merely retained; and
-- approved scenario coordinates, location scope, and their authority.
+Pekan and Riyadh represent materially different observer geometry and are a useful
+later multi-location validation partition. This qualitative distinction neither adds
+Riyadh to ProfileV1 nor supplies a numerical position or angular tolerance.
+
+`HUMAN_REVIEW_REQUIRED` after acquisition:
+
+- approval of the selected UMPSA record and any height conversion for pending-validation
+  V1 execution;
+- whether its stated or unknown-unbounded accuracy is adequate for that approval scope;
+  and
+- later polar-site, multiple-preset, global-range, and arbitrary-location semantics.
 
 WGS 84 and ellipsoidal height in the synthetic smoke fixtures are bounded fixture
 choices, not production approval.
@@ -1156,7 +1221,7 @@ requires complete Batch regeneration before further interpretation.
 | `2C-004` | Interpret I/311 `pmRA` as `mu_alpha_star` and normalize explicitly. | `SOURCE_SUPPORTED_FACT`: I/311 Appendix G Table G.3; project field-name decision. | `RESOLVED_INPUT_SEMANTICS`; production motion model remains open. |
 | `2C-005` | Keep UTC, TAI, TT, and UT1 distinct with TT for precession-nutation and UT1 for Earth rotation. | `SOURCE_SUPPORTED_FACT`: SOFA routine contracts; IERS TN36 Chapters 5 and 10. | `RESOLVED_TIME_ROLES`; operational data/failure policy remains open. |
 | `2C-006` | Use north-positive latitude, east-positive longitude, north-zero/eastward azimuth, signed altitude, and vector comparison at zenith/nadir. | `PROJECT_DECISION`: Astronomy Specification and ADR-003; SOFA supports the horizon convention. | `RESOLVED_CONVENTIONS`; exact serialization/status code remains open. |
-| `2C-007` | Select datum/ellipsoid, height semantics/range, longitude representative, and approved observer locations. | Milestone 2C.3 proposes an explicit geodetic/ellipsoidal typed boundary and invalid-versus-outside-domain split. SOFA/Astropy document WGS 84 routine/reference behaviour but do not select UFUQ values. | `PARTIAL_PROPOSAL`; datum, wrap, ranges, poles, uncertainty, and locations require human review under AST-003/AST-007. |
+| `2C-007` | Define observer-preset semantics and separate them from concrete site data. | `PROJECT_DECISION`: V1 fixes the generic versioned `ObserverPreset`, north-positive geodetic latitude, east-positive `[-180 deg,+180 deg)` canonical longitude, explicit datum/frame/ellipsoid/typed height/conditional epoch/accuracy/provenance/version/approval states, the UMPSA Pekan Faculty identity, and fail-closed no-default behavior. `SOURCE_SUPPORTED_FACT`: official UMPSA material places the Faculty at Pekan campus. | `RESOLVED_CONTRACT_FOR_PROFILE_REVIEW`; exact reference point, coordinates, height, Earth model, accuracy and artifact are `BLOCKS_2D_DATA_AUTHORITY`. Unknown accuracy remains unbounded, global/polar/multiple-location support remains later, and no Faculty-specific JUPEM control record is claimed. |
 | `2C-008` | Select the production algorithm/library, coherent CIO/equinox route, and implement-or-omit effect matrix. | Milestone 2C.2 proposes a componentized SOFA `2023-10-11` CIO-family semantic route and classifies every effect. It does not approve the future TypeScript algorithm/library, blocked inputs, omission bounds, or tolerances. | `PARTIAL_PROPOSAL`; AST-003 profile review remains preimplementation, while experiments run only at their registered lifecycle stages. |
 | `2C-009` | Select production leap-second/EOP files, coverage, source-quality approval/offline/update policy, and approximation/failure modes. | Milestone 2C.3 pins the distinct official Bulletin A/B/C roles and `finals2000A` field flags, then proposes immutable offline bundles and orthogonal source-quality/availability/approval semantics. Smoke files/hashes remain smoke-only. | `PARTIAL_PROPOSAL`; product bytes/hashes, precedence, stale/update cadence, field-quality approval, coverage, and degraded mode remain open. |
 | `2C-010` | Keep geometric and refracted direction separate; select the Phase 2 refraction model/policy. | Milestone 2C.4 proposes geometric-only first-slice semantics, an explicit atmosphere record, no defaults, and optional refraction non-results. SOFA/Astropy supply input and limitation evidence but do not choose UFUQ policy. | Separation/default prohibition proposed; model, ranges, uncertainty, validity, warnings, and exposure remain `HUMAN_REVIEW_REQUIRED`/`AUTHORITY_OR_EVIDENCE_MISSING` under AST-004/006. |
@@ -1204,8 +1269,8 @@ requires complete Batch regeneration before further interpretation.
 | `2C.3-001` | IERS Bulletin A provides rapid `xp`,`yp`,`UT1-UTC`, predictions, and `dX`,`dY`; `finals2000A` records separate IERS/prediction flags per field. Bulletin B supplies monthly final/preliminary EOP, and Bulletin C announces leap-second decisions. | `SOURCE_SUPPORTED_FACT` | Official roles, fields, publication frequencies, flags, and source-quality distinctions are pinned; no UFUQ product or scientific approval is selected. |
 | `2C.3-002` | Use a restricted RFC 3339 UTC text at the astronomy boundary and keep offset/IANA-wall-time resolution in a provenance-preserving upstream adapter. | `PROJECT_DECISION` | Candidate input boundary defined; fractional precision, IANA-zone set/version, fold/gap rules, and wire mapping require review. |
 | `2C.3-003` | Accept second `60` only for an instant validated by the approved leap artifact and reject unqualified time/`-00:00` at the astronomy boundary. | `PROJECT_DECISION` | Fail-closed candidate semantics defined; production leap bytes/hash remain missing. |
-| `2C.3-004` | Use explicit geodetic latitude, east-positive longitude, datum/ellipsoid, ellipsoidal height, provenance, uncertainty, and validation status. | `PROJECT_DECISION` | Typed observer boundary defined; no silent orthometric-to-ellipsoidal conversion. |
-| `2C.3-005` | Approve WGS 84, the `[-180,+180)` representative, height/location ranges, polar semantics, and uncertainty requirements. | `HUMAN_REVIEW_REQUIRED` | SOFA/Astropy behaviour supports the candidate but does not choose UFUQ policy. |
+| `2C.3-004` | Use a versioned `ObserverPreset` with explicit geodetic latitude, east-positive longitude, reference system/realization, ellipsoid, discriminated height and conditional epoch, accuracy, provenance, version, validation, availability, and approval. | `PROJECT_DECISION` | Generic typed observer boundary and `[-180,+180)` canonical longitude are defined; no reference system, height conversion, position, or uncertainty is inferred. |
+| `2C.3-005` | Approve the selected preset's concrete reference system/ellipsoid, height representation or conversion, accuracy adequacy, and supported observer domain. | `HUMAN_REVIEW_REQUIRED` | Exact UMPSA data and activation move to 2D; broader height/location ranges and polar semantics remain a later profile concern. SOFA/Astropy behavior does not choose either policy. |
 | `2C.3-006` | Execute astronomy offline from an immutable, hash-addressed, prevalidated EOP/leap bundle and update only through a separate reviewed atomic workflow with old bundles retained. | `PROJECT_DECISION` | Proposed deterministic execution/update boundary; production artifact and operational cadence remain open. |
 | `2C.3-007` | Keep `SourceFieldQuality`, artifact/field availability, and `ScientificApproval` separate for every required EOP field; Bulletin A `I` is an IERS estimate rather than final, missing/blank is not zero, prediction/preliminary is not final, and file coverage is not the supported domain. | `PROJECT_DECISION` | Orthogonal fail-closed state model defined from official field flags/product roles plus explicit UFUQ approval; no field can promote another. |
 | `2C.3-008` | Approve a production EOP product/file, field precedence, per-field source-quality/availability/approval policy, version/hashes, interpolation, and corrections/CPO mapping. | `HUMAN_REVIEW_REQUIRED` | No selection or approval; Earth-orientation execution remains blocked. |
@@ -1273,7 +1338,7 @@ requires complete Batch regeneration before further interpretation.
 | `2C.5C-003` | Separate astronomy layers A-F from scene/render layer G and downstream scenario/learner/assessment layer H. | `CANDIDATE_TOLERANCE_PROPOSAL` | The layer boundary and traceability method are proposed for review; scenario generation remains an independent policy term, and G/H cannot weaken astronomy acceptance. |
 | `2C.5C-004` | Combine bounded terms with worst-case, covariance/joint, RSS, or asymmetric rules according to evidenced dependence and distribution. | `CANDIDATE_TOLERANCE_PROPOSAL` | RSS is prohibited without justified independence; any required unbounded term keeps the case and total unbounded. |
 | `2C.5C-005` | Approve any numerical tolerance from same-family zeros, deterministic hashes, library behavior, convenient epsilons, or UI needs. | `FINAL_TOLERANCE_NOT_JUSTIFIED` | All six tolerance classes are blocked; no final numerical scientific tolerance is defensible. |
-| `2C.5C-006` | Require future multi-date, claimed-observer-domain, motion/parallax/RV, EOP, horizon, supported-endpoint, source-derived, and production/reference evidence. | `INDEPENDENT_VALIDATION_REQUIRED` | ProfileV1 covers its one approved preset and applicable boundary/uncertainty partitions. Multiple-location evidence is required before generalizing to a broader observer domain; same-family ERFA/SOFA consistency remains separate. No geographic range or one-site global tolerance is invented. |
+| `2C.5C-006` | Require future multi-date, claimed-observer-domain, motion/parallax/RV, EOP, horizon, supported-endpoint, source-derived, and production/reference evidence. | `INDEPENDENT_VALIDATION_REQUIRED` | ProfileV1 will cover its selected identity instantiated by the eventual 2D-approved preset record and applicable boundary/uncertainty partitions. Multiple-location evidence is required before generalizing to a broader observer domain; same-family ERFA/SOFA consistency remains separate. No geographic range or one-site global tolerance is invented. |
 | `2C.5C-007` | Rank the remaining runnable synthetic work without executing it. | `MEASURED_SYNTHETIC_SENSITIVITY` plus `EXACT_CONTRACT_INVARIANT` as applicable | `2C.3-EXP-02`, `2C.3-EXP-05`, and `2C.3-EXP-04` are the proposed next structural/boundary batch, followed by effect, observer/parallax/RV, and refraction/horizon sensitivity work. The ranking is risk/knowledge-value planning, not execution or scientific approval. Separate batch review is still required, and unavailable policy, data, or review prerequisites remain fail-closed. |
 
 ## 18. Milestone 2C.6 profile and lifecycle audit
@@ -1291,15 +1356,14 @@ Only these profile-scoped decisions remain preimplementation blockers:
 2. approve the pure-TypeScript route/library mapping and each effect's included,
    excluded, conditional, or unavailable disposition, including parallax, radial
    velocity, multiple-body deflection, and celestial-pole offsets;
-3. approve exactly one preset observer record and reject-all-other-locations boundary;
-4. approve one exact UTC grammar/precision and bounded date interval with endpoint and
+3. approve one exact UTC grammar/precision and bounded date interval with endpoint and
    leap-second semantics;
-5. approve exact leap/EOP product classes, artifact-selection requirements, per-field
+4. approve exact leap/EOP product classes, artifact-selection requirements, per-field
    quality/availability/interpolation/coverage, offline/expiry/update, and no-degraded
    behavior;
-6. make geometric-only output, disabled refraction, no atmosphere defaults, and no
+5. make geometric-only output, disabled refraction, no atmosphere defaults, and no
    aggregate visibility normative; and
-7. approve fail-closed semantic outcomes, precedence, singularity, warning/status
+6. approve fail-closed semantic outcomes, precedence, singularity, warning/status
    preservation, and the distinction between executable and scientifically accepted
    output.
 
@@ -1313,6 +1377,10 @@ for named approval.
 - I/311 acquisition, licensing, row eligibility, time-scale authority, and permanent
   source selection are `BLOCKS_2D_DATA_AUTHORITY`. The engine rejects an astrometric
   state with unspecified epoch/derivative semantics; it does not assume I/311.
+- The exact `umpsa-pekan-faculty-of-computing` reference point, latitude, longitude,
+  height, datum/frame/ellipsoid, applicable coordinate epoch, accuracy, provenance,
+  licence, version and immutable artifact are `BLOCKS_2D_DATA_AUTHORITY`. Their absence
+  blocks real V1 execution, not the generic `ObserverPreset` implementation.
 - TypeScript/reference residuals, production floating-point error, supported-domain
   partitions, any stronger independent validation required by the claimed boundary,
   combined error bounds, and numerical tolerances are
@@ -1355,8 +1423,9 @@ Milestone 2C closes for `ScientificProfileV1` implementation when:
    missing-value branches are explicit;
 3. the profile-scoped transformation route, effect ownership, and production mapping
    are normative;
-4. one preset-observer contract and named approved preset record, one UTC/date domain,
-   leap/EOP input policy, and offline/fail-closed rules are normative;
+4. the generic preset-observer contract and selected UMPSA site identity, one UTC/date
+   domain, leap/EOP input policy, and offline/fail-closed rules are normative, while the
+   exact observer record is explicitly handed to 2D;
 5. geometric output, below-horizon classification, singularity behavior,
    warning/status precedence, and pending-validation status are normative;
 6. source acquisition, rights, row eligibility, crosswalk, and artifact decisions are
@@ -1374,5 +1443,5 @@ implementation, or numerical closure of all 49 error-budget terms.
 **Current outcome:** `2C_REMAINS_OPEN_WITH_EXACT_PREIMPLEMENTATION_BLOCKERS`.
 Milestones 2C.1-2C.5C retain all source, synthetic, and error-budget evidence without
 promotion. Milestone 2C.6 removes the circular gate and narrows the open set to the
-seven profile decisions in Section 18.1. The absence of production code,
+six profile decisions in Section 18.1. The absence of production code,
 production/reference residuals, and numerical tolerances no longer keeps 2C open.

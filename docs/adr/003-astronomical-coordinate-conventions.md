@@ -78,12 +78,16 @@ optional-state guards while retaining all numerical outputs as
 consistency, not independent validation. These results change none of this ADR's
 source, production, EOP, observer, refraction, domain, tolerance, or approval blockers.
 
-Milestone 2C.6 proposes `ScientificProfileV1`: one approved preset observer, one
-bounded explicit-UTC domain, a 2D-approved minimal source-neutral star artifact, one
-normative pure-TypeScript route/effect disposition, immutable offline leap/EOP inputs,
-fail-closed geometric output, disabled refraction, no atmosphere defaults, and no
-aggregate visibility. It separates permission to implement from later scientific
-acceptance. I/311 authority is a 2D eligibility question if retained;
+Milestone 2C.6 proposes `ScientificProfileV1`: one selected observer-preset identity
+under a generic fail-closed contract, one bounded explicit-UTC domain, a 2D-approved
+minimal source-neutral star artifact, one normative pure-TypeScript route/effect
+disposition, immutable offline leap/EOP inputs, fail-closed geometric output, disabled
+refraction, no atmosphere defaults, and no aggregate visibility. The selected identity
+is `umpsa-pekan-faculty-of-computing`; exact coordinates, reference point, datum/frame/
+ellipsoid, typed height, accuracy, provenance, version, and activation record belong to
+2D and block real V1 execution rather than generic astronomy-core implementation. It
+separates permission to implement from later scientific acceptance. I/311 authority is
+a 2D eligibility question if retained;
 production/reference residuals, any stronger independent validation required by the
 claimed boundary, numerical bounds, and tolerances follow implementation.
 
@@ -102,10 +106,11 @@ Before `ScientificProfileV1` implementation, AST-003 must approve, revise, or re
 the profile's semantic route and actual pure-TypeScript algorithm/library mapping. It
 must give every effect an explicit included, excluded, conditional, or unavailable
 disposition; approve source-neutral motion/parallax/radial-velocity branches, one
-preset-observer contract, one UTC/date domain, leap/EOP field and offline policy,
-geometric-only/no-refraction/no-visibility scope, and fail-closed warning/status
-semantics. Actual I/311 scale, row, rights, and artifact eligibility belong to 2D if
-that source is retained; the generic engine accepts no unspecified scale.
+preset-observer contract and selected site identity, one UTC/date domain, leap/EOP
+field and offline policy, geometric-only/no-refraction/no-visibility scope, and
+fail-closed warning/status semantics. Actual I/311 scale, row, rights, and artifact
+eligibility belong to 2D if that source is retained; the generic engine accepts no
+unspecified scale.
 
 Quantified production disagreement, omission bounds, final numerical error budgets,
 and scientific/reference tolerances are postimplementation acceptance gates. Full

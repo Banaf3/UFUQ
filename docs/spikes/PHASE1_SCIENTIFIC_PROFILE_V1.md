@@ -10,9 +10,10 @@
 - **Frozen Batch 01 evidence changed:** no
 
 `ScientificProfileV1` is a deliberately narrow contract for starting the first real
-UFUQ astronomy implementation. It accepts one approved observer preset and one bounded
-UTC domain, consumes a small authority-approved star artifact through source-neutral
-typed astrometry, and produces geometric horizontal directions only. It does not claim
+UFUQ astronomy implementation. It selects one observer-preset ID that becomes usable
+for real execution only when instantiated by a 2D-approved record, and it accepts one
+bounded UTC domain. It consumes a small authority-approved star artifact through
+source-neutral typed astrometry and produces geometric horizontal directions only. It does not claim
 global observer support, atmospheric refraction, scientific visibility, terrain,
 weather, light pollution, rendering accuracy, learner tolerance, or scoring accuracy.
 
@@ -38,7 +39,7 @@ supplies their available options. Library defaults never become profile policy.
 | Boundary | Candidate V1 contract | Gate state |
 |---|---|---|
 | Profile identity | Every request and result carries `ScientificProfileV1` plus the exact algorithm/model/ephemeris, source-artifact, observer-preset, leap, EOP, and policy identities, versions, and hashes. | `PROJECT_DECISION`; approval required. |
-| Observer | Exactly one immutable preset is accepted. It declares geodetic latitude, east-positive longitude, normalization, datum/reference frame and epoch where applicable, reference ellipsoid, ellipsoidal height, units, uncertainty/accuracy, provenance, and approval. Any other preset or arbitrary coordinate is outside the profile. Internal astronomy types remain observer-generic. | Preset record and reviewer approval missing. |
+| Observer | Exactly one preset ID is accepted: `umpsa-pekan-faculty-of-computing`, identifying **Faculty of Computing, UMPSA Pekan Campus, Pahang, Malaysia**. The generic `ObserverPreset` contract below fixes coordinate, Earth-model, height, accuracy, provenance, version, approval, and fail-closed semantics. Any other preset or arbitrary coordinate is outside V1; internal astronomy types remain observer-generic. | Contract semantics and site identity are the 2C project decision. Exact values and the approved immutable record are a 2D data handoff before real V1 execution. |
 | Time input | The astronomy boundary accepts only explicit canonical UTC text; there is no default current time. The candidate syntax is the 2C.3 Z-only subset `YYYY-MM-DDTHH:mm:ss[.fraction]Z`. Fractional precision, leap-backed second-`60` validation, earliest/latest instants, endpoint inclusion, and artifact coverage are profile fields rather than hidden parser behavior. | Exact precision, interval, endpoints, and approval missing. |
 | Catalogue/data | The runtime artifact contains only the minimal approved numerical ProfileV1 star allowlist selected in 2D. Cultural records reference stable internal `starId` values; a versioned crosswalk maps each `starId` to one or more source-release identifiers. A catalogue may be replaced or coexist without copying coordinates into cultural records. I/311 is the Phase 1 spike source, not the permanent catalogue by default. | Source/release, rights, row eligibility, allowlist, and artifact authority belong to 2D. |
 | Normalized astrometry | Every eligible row supplies ICRS frame, right ascension, declination, source epoch label, epoch representation and time scale, proper-motion derivative convention and duration unit, parallax/distance disposition, radial-velocity/perspective disposition, uncertainties/covariance or explicit reviewed omission, quality state, units, and provenance. `UNSPECIFIED` epoch scale, an implicit zero, or a library default is ineligible. | Interface is proposed; exact eligibility branches require profile approval and 2D data. |
@@ -50,6 +51,93 @@ supplies their available options. Library defaults never become profile policy.
 | Visibility | No aggregate scientific `visible`/`not-visible` result exists. Photometry/variability, daylight/twilight, extinction/transparency, cloud/weather, terrain/obstruction, light pollution, screen presentation, and learner eligibility remain separate unavailable components. | Excluded from V1. |
 | Failure behavior | Evaluation fails closed after ordered validation of structure, leap-backed UTC, profile date, preset observer, normalized source state, leap/EOP artifacts, and each required EOP field. Optional/downstream concerns cannot hide an earlier failure or erase a valid geometric state. No degraded result is reachable. | Semantic outcome family, precedence, and warning preservation require final profile approval; wire/HTTP serialization remains a separate contract task. |
 | Validation state | Preimplementation evidence permits code only after the remaining profile decisions below are approved. Production results are labelled pending validation until postimplementation comparison and tolerance review succeed. | Explicitly not `APPROVED_GEOMETRIC_RESULT` merely because code executes. |
+
+### ObserverPreset contract and data handoff
+
+Official UMPSA material establishes the selected site identity: the Faculty of
+Computing is at the UMPSA Pekan campus. It supplies no approved latitude, longitude,
+height, datum, coordinate epoch, or accuracy. `SOURCE_SUPPORTED_FACT` therefore covers
+the identity only. Selecting that identity and the contract below is a
+`PROJECT_DECISION`; the absent values remain `AUTHORITY_OR_EVIDENCE_MISSING` and are
+owned by `B BLOCKS_2D_DATA_AUTHORITY`.
+
+The only V1 identity is:
+
+| Field | V1 value |
+|---|---|
+| `presetId` | `umpsa-pekan-faculty-of-computing` |
+| Display label | `UMPSA Pekan — Faculty of Computing` |
+| `siteIdentity` | `Faculty of Computing, UMPSA Pekan Campus, Pahang, Malaysia` |
+
+The values below are required fields of every versioned `ObserverPreset`; their
+concrete UMPSA values are deliberately absent from 2C:
+
+| Contract field | Required semantics |
+|---|---|
+| `schemaVersion` | Identifies the observer-preset schema. |
+| `presetId` | Stable project identifier; arbitrary coordinates and unknown IDs are outside V1. |
+| `siteIdentity` | Human-readable physical-site identity, separate from numerical coordinates. |
+| `referencePointDescription` | Identifies the point represented within a spatially extended site; a nearby control monument or campus centroid cannot be silently relabelled as the Faculty observation point. |
+| `geodeticLatitude` | Finite value and unit; geodetic rather than geocentric; north-positive. The representational range is `[-90 deg,+90 deg]`, but V1 accepts only its approved preset rather than every point in that range. |
+| `geodeticLongitude` | Finite value and unit; east-positive. Canonical V1 serialization is `[-180 deg,+180 deg)`, so `+180 deg` canonicalizes to `-180 deg`; the source representation and any normalization applied remain recorded. |
+| `referenceSystem` | Discriminated kind (`GEODETIC_DATUM` or `TERRESTRIAL_REFERENCE_FRAME`), named identifier, and realization where applicable. WGS 84 is not inferred from absence. |
+| `referenceEllipsoidId` | Named ellipsoid associated with the usable geodetic coordinates. |
+| `coordinateReferenceEpoch` | Discriminated `DECLARED` value/representation and scale or standard semantics when required, or `NOT_REQUIRED` only with a source-supported basis. Missing a required epoch makes the artifact unsupported. |
+| `height` | A discriminated `ELLIPSOIDAL`, `ORTHOMETRIC`, or `OTHER_APPROVED` representation: finite value and unit plus ellipsoid, vertical datum, or other approved reference-surface ID as applicable. |
+| `heightConversion` | Absent when no conversion occurred; otherwise carries the model/version, inputs, provenance, output representation, and uncertainty. If the approved route requires ellipsoidal height, another height type is unsupported without an approved conversion. |
+| `coordinateAccuracy` | State is `SOURCE_DECLARED`, `DERIVED`, or `UNKNOWN_UNBOUNDED`; retain horizontal/vertical components or covariance, units, confidence/coverage meaning, method, and source when supplied. Unknown accuracy is never encoded as zero. |
+| `provenance` | Authority/source ID, source record or service-response ID, source version, acquisition identity/date, and licence/use conditions. A hidden map-provider coordinate is prohibited. |
+| `dataVersionId` | Immutable version of the concrete observer data. |
+| `artifactIdentity` | Manifest ID, byte length and SHA-256 when an immutable artifact or retained service response exists; a justified non-byte source reference must still be reproducible. |
+| `artifactAvailability` | Availability is independent of scientific approval. Missing/unavailable data cannot activate the preset. |
+| `validationStatus` | Structural/unit/range/reference-system validation is independent of source authority and approval. |
+| `scientificApproval` | `APPROVED`, `NOT_APPROVED`, or `REVIEW_REQUIRED`, with scope, named reviewer, decision date, and decision reference. Approval for pending-validation implementation input is not a numerical accuracy bound or scientific result acceptance. |
+
+| Lifecycle owner | Exact ownership |
+|---|---|
+| Milestone 2C | The generic fields and meanings above; north/east sign conventions and canonical longitude normalization; typed frame/ellipsoid/epoch/height/accuracy/provenance/version/approval states; the selected stable ID and site identity; one-preset-only V1 behavior; missing/unsupported outcomes; default prohibitions; and observer-generic, multi-preset-capable architecture. |
+| Milestone 2D | The exact reference point within the Faculty site; latitude, longitude and height values; datum/frame realization, ellipsoid and applicable coordinate epoch; height source/conversion; accuracy evidence; source artifact/service response; acquisition identity/date; licence/use conditions; data version; manifest/hash; scientific/data review; and activation approval. |
+
+The contract fails closed. It never obtains browser geolocation, inserts `(0,0)`, uses
+zero height, discovers a map-provider pin, assumes WGS 84, substitutes another preset,
+converts orthometric and ellipsoidal height silently, drops provenance, or turns an
+unknown accuracy into zero. Missing, invalid, unsupported, unavailable, or unapproved
+observer data prevents real V1 astronomy evaluation; it does not prevent implementing
+the generic types, validation branches, and transformation interfaces.
+
+Those observer states are distinct semantic outcomes: `MISSING` means a required field
+or preset reference is absent; `INVALID` means its representation, value, unit, or
+range is malformed; `UNAVAILABLE` means the identified artifact cannot be resolved;
+`UNSUPPORTED` means a well-formed record is incompatible with the approved route or
+domain; and `UNAPPROVED` means scientific activation is absent or rejected. The exact
+wire and HTTP codes remain a separate contract decision. The selected reference system,
+ellipsoid, epoch state, and height representation must match the approved route or pass
+through an approved, provenance-bearing transformation whose uncertainty remains
+explicit.
+
+Milestone 2D must choose the exact Faculty reference point and acquire/review its
+latitude, longitude, height, datum/frame/ellipsoid, applicable coordinate epoch,
+accuracy, source record or official service response, acquisition identity/date,
+licence/use conditions, data version, and immutable manifest/hash where appropriate.
+An official reproducible UMPSA institutional or Malaysian-government geographic record
+with documented accuracy is an eligible candidate for 2D review for this educational
+celestial-direction application. The reviewer must approve its represented point,
+semantics, accuracy, transformations, provenance, and bounded use; source class alone
+does not establish scientific adequacy. A JUPEM survey-control record is **optional**,
+not mandatory: it is useful only when it represents the intended point or supports a
+documented transformation to it. This public-web audit did not establish a Faculty-
+specific control record; that is not evidence none exists.
+
+Exact coordinates remain necessary for replay and provenance. Away from a singular or
+classification boundary, nearby points within the campus produce correspondingly local
+changes in the direction vector; near the horizon a classification can change, and
+near zenith/nadir azimuth can be ill-conditioned even when vector separation is small.
+This qualitative sensitivity supplies no observer-position or angular tolerance and
+does not turn UFUQ into a surveying system. Pekan and `Riyadh, Saudi Arabia` represent
+materially different observer geometry and therefore form a useful later multi-location
+validation partition, without implying any numerical positional tolerance. Riyadh is
+only a planned later preset using this same contract: no Riyadh values are acquired, it
+is not in V1, and it does not block the first implementation.
 
 ## Candidate effect disposition
 
@@ -84,18 +172,15 @@ and supervisor approval; none requires TypeScript output or a numerical toleranc
 2. Approve the normative V1 route and production algorithm/library/model/ephemeris
    mapping, including every include/exclude/unavailable effect disposition and the
    source-neutral parallax/radial-velocity/missing-state branches.
-3. Approve exactly one preset observer contract and record, including datum/reference
-   frame, ellipsoid, ellipsoidal height, coordinate epoch where applicable,
-   uncertainty, provenance, and reject-all-other-locations behavior.
-4. Approve the exact UTC grammar/precision and one bounded date interval with endpoint
+3. Approve the exact UTC grammar/precision and one bounded date interval with endpoint
    inclusion and leap-second syntax.
-5. Approve the V1 leap/EOP product classes, exact artifact-selection requirements,
+4. Approve the V1 leap/EOP product classes, exact artifact-selection requirements,
    field-by-field quality/availability/interpolation/coverage rules, offline/expiry/
    update policy, and no-degraded-fallback behavior. Actual acquired bytes and hashes
    are a 2D handoff before real execution.
-6. Make geometric-only output, disabled refraction, no default atmosphere, and no
+5. Make geometric-only output, disabled refraction, no default atmosphere, and no
    aggregate visibility normative.
-7. Approve semantic fail-closed outcomes, validation precedence, singularity behavior,
+6. Approve semantic fail-closed outcomes, validation precedence, singularity behavior,
    warning/status preservation, and the pending-validation result state. Exact wire and
    HTTP codes may follow without changing the science semantics.
 
@@ -118,7 +203,8 @@ bounded 49-term ledger belongs in this preimplementation list.
 
 Each row below is one distinct unresolved decision or evidence obligation with one
 controlling lifecycle category. A related concern is split into separate rows where its
-engine semantics and its source data have different owners.
+engine semantics and its source data have different owners. The resolved generic
+observer contract is documented above and is no longer an open row.
 
 | Decision or evidence obligation | Primary category | Controlling consequence |
 |---|---|---|
@@ -132,7 +218,7 @@ engine semantics and its source data have different owners.
 | Transformation route, TypeScript mapping and effect ownership | `A BLOCKS_SCIENTIFIC_PROFILE_V1` | The included/excluded/conditional/unavailable matrix must be normative. |
 | Leap/EOP product classes, per-field quality/interpolation and offline/fail policy | `A BLOCKS_SCIENTIFIC_PROFILE_V1` | These are scientific runtime semantics required by the profile. |
 | Exact operational leap/EOP bytes, hashes, acquisition and deployment authority | `B BLOCKS_2D_DATA_AUTHORITY` | 2D supplies the immutable artifacts after the semantic policy is approved. |
-| One preset observer contract and authoritative record | `A BLOCKS_SCIENTIFIC_PROFILE_V1` | Required to define the only accepted V1 location. |
+| Exact UMPSA reference point, coordinates, Earth model, height, accuracy and immutable record | `B BLOCKS_2D_DATA_AUTHORITY` | 2D acquires and approves the concrete preset before real V1 execution; missing values do not prevent generic astronomy-core implementation. |
 | UTC grammar/precision and bounded supported instants/endpoints | `A BLOCKS_SCIENTIFIC_PROFILE_V1` | Required to define the V1 time domain; no date is invented here. |
 | Geometric-only, refraction-disabled and no-default-atmosphere decision | `A BLOCKS_SCIENTIFIC_PROFILE_V1` | The exclusion itself must be approved before code starts. |
 | Physical refraction model, meteorology and apparent-horizon domain | `D BLOCKS_LATER_EXTENSION` | Required only if a later profile enables refraction. |
@@ -162,7 +248,7 @@ silently reopened.
 | `2C-004` | B | Starred-alpha normalization is resolved for I/311; source-row use remains 2D. |
 | `2C-005` | F | UTC/TAI/TT/UT1 roles are resolved and carried forward. |
 | `2C-006` | F | Sign, horizon, ENU, and singularity conventions are resolved. |
-| `2C-007` | A | One preset observer contract/record is required; global ranges and pole support are later. |
+| `2C-007` | F | The generic contract and UMPSA Pekan Faculty site identity are defined; the concrete record is B, while global ranges and pole support are D. |
 | `2C-008` | A | V1 route, mapping, and effect dispositions must be normative. |
 | `2C-009` | A | V1 leap/EOP semantics and fail-closed input policy are runtime science inputs; bytes/hashes are acquired in 2D. |
 | `2C-010` | D | Refraction model questions move later once geometric-only V1 is approved. |
@@ -177,7 +263,7 @@ silently reopened.
 | `AST-004` | A | Approving V1's geometric-only/no-refraction/no-visibility exclusion is the controlling obligation; after that, all remaining model and learner questions are D/E. |
 | `AST-005` | F | Kaaba/Qibla target authority is outside this celestial-position profile. |
 | `AST-006` | C | The 2C.5C method may be reviewed now; numerical bounds/tolerances are postimplementation acceptance work. |
-| `AST-007` | A | Only the one-preset and bounded-UTC subset is A; multiple cities, arbitrary locations, wall-time UX, and learner fixtures are D/E. |
+| `AST-007` | A | Only the bounded-UTC subset remains A. The observer contract/site identity is resolved for 2C, its concrete record is B, and multiple cities, arbitrary locations, wall-time UX, and learner fixtures are D/E. |
 
 ## Source-gap triage
 
@@ -198,7 +284,7 @@ relationships prevent loss of the bundled concern.
 | `AST-SRC-009` | B | Controls I/311 eligibility only. |
 | `AST-SRC-010` | A | Route/effect selection is A; production comparison and tolerance are C. |
 | `AST-SRC-011` | B | Source scale/RV authority is B; the normalized unavailable/omission branch is secondary A. |
-| `AST-SRC-012` | A | One preset is required; multiple/global observer support is D. |
+| `AST-SRC-012` | B | The V1 contract/site identity is defined; exact UMPSA values, accuracy and artifact approval are 2D data, while multiple/global observer support is D. |
 | `AST-SRC-013` | D | Learner-facing visibility is secondary E. |
 | `AST-SRC-014` | C | Production comparison controls acceptance; source-derived cases are B and nonrequired synthetic work is F/D. |
 | `AST-SRC-015` | C | Numerical closure and tolerances are postimplementation; the framework already exists. |
@@ -220,8 +306,8 @@ uncertainty to be closed before code starts.
 
 | Primary category | Ledger IDs | Count | Profile interpretation |
 |---|---|---:|---|
-| A | `A-003`, `A-004`, `B-002`-`B-006`, `B-008`, `B-009`, `C-001`-`C-004`, `C-007`-`C-009`, `D-001`-`D-006` | 22 | Decide included-input/effect/observer/time semantics; their numerical bounds may remain unresolved for later acceptance. |
-| B | `A-001`, `A-002`, `A-005`, `A-006`, `B-001` | 5 | Catalogue/source uncertainty and epoch authority move to 2D eligibility. |
+| A | `A-003`, `A-004`, `B-002`-`B-006`, `B-008`, `B-009`, `C-001`-`C-004`, `C-007`-`C-009` | 16 | Decide included-input/effect/time semantics; their numerical bounds may remain unresolved for later acceptance. |
+| B | `A-001`, `A-002`, `A-005`, `A-006`, `B-001`, `D-001`-`D-006` | 11 | Catalogue/source and concrete observer-artifact values, provenance, uncertainty and domain instantiation move to 2D eligibility. The generic observer contract remains fixed by 2C. |
 | C | `F-001`, `F-005`, `F-006` | 3 | Production floating-point/reference disagreement and production determinism require code. `F-005` includes the code-independent production/reference measurement plus any stronger lineage-independent evidence required by the claim; it does not label Astropy/ERFA agreement independent. `F-006` is already satisfied for Batch evidence transport only. |
 | D | `B-007`, `C-005`, `C-006`, `E-001`-`E-007`, `G-001`-`G-003` | 13 | Multiple-body deflection, observed CPO, refraction, and scene/render terms remain explicitly unresolved because the candidate excludes those capabilities. Their dispositions revert to A or C only if a later profile includes them. |
 | E | `H-001`-`H-003` | 3 | Scenario, learner-interaction, and scoring tolerances remain outside astronomy accuracy. |
@@ -293,8 +379,9 @@ Milestone 2C closes for `ScientificProfileV1` implementation when:
 2. its normalized astrometric input contract, frames, epochs/scales, units, motion
    conventions, and missing-value branches are explicit;
 3. the profile-scoped route/effect ownership and pure-TypeScript mapping are normative;
-4. one preset-observer contract and named approved preset record, one UTC/date domain,
-   leap/EOP input policy, and offline/fail-closed rules are normative;
+4. the generic preset-observer contract and selected site identity, one UTC/date
+   domain, leap/EOP input policy, and offline/fail-closed rules are normative, while
+   the exact observer record is explicitly handed to 2D;
 5. geometric horizontal output, below-horizon classification, singularity behavior,
    warning/status precedence, and pending-validation status are normative;
 6. catalogue acquisition, licensing, row eligibility, source crosswalk, and artifact
@@ -312,9 +399,9 @@ implementation, or numerical closure of all 49 ledger terms.
 ## Multi-location architecture
 
 The initial profile's one-preset restriction is an operating-domain rule, not a
-hard-coded astronomy formula. Observer coordinates enter through the same typed
-`ObserverInput` used by future profiles. Later validation must partition multiple
-approved presets, latitude, longitude, ellipsoidal height, near-equatorial
+hard-coded astronomy formula. Observer coordinates enter through the same generic
+`ObserverPreset` resolution contract used by future profiles. Later validation must
+partition multiple approved presets, latitude, longitude, ellipsoidal height, near-equatorial
 Polaris/horizon cases, and any eventual arbitrary-location domain. No worldwide range
 is claimed here.
 
@@ -343,7 +430,11 @@ eligibility remain separate E-category gates.
 | IANA versioned leap artifacts | `OFFICIAL_WEB_SUFFICIENT` | Candidate machine artifact; IERS Bulletin C remains event authority. |
 | CDS I/311 ReadMe/Appendix G/unit standard and ESA I/311 epoch page | `ALREADY_AVAILABLE_AND_SUFFICIENT` | Sufficient for known fields and Julian representation, not time scale, rights, row suitability, or permanent source selection. |
 | ESA Gaia release documentation/archive | `OFFICIAL_WEB_SUFFICIENT` | Sufficient for 2D candidate evaluation; no Gaia release or subset is selected here. |
-| Selected preset-observer geodetic record | `USER_ACTION_REQUIRED_NOW` | Required to close the one-preset V1 contract. |
+| Official UMPSA Faculty/Pekan site-identity pages | `OFFICIAL_WEB_SUFFICIENT` | Establish the selected Faculty-at-Pekan identity only; they supply no approved geodetic value or accuracy. |
+| JUPEM geodetic product/service documentation | `OFFICIAL_WEB_SUFFICIENT` | Establishes available GPS-control, coordinate-transformation, geoid and GNSS/RINEX services. It does not prove a Faculty-specific control record exists or make survey control mandatory. |
+| Exact UMPSA observer-preset data record | `USER_ACTION_REQUIRED_BEFORE_2D` | Required before 2D can approve the concrete preset and before real V1 execution, not before 2C closes or generic astronomy-core is written. |
+| JUPEM survey-control record for the Faculty site | `NOT_NEEDED` | Optional evidence if site-matched and proportionate; no control monument is a profile requirement. |
+| Future `Riyadh, Saudi Arabia` preset record | `REQUIRED_LATER` | Uses the same generic contract in a later multi-location profile; no coordinates are needed now. |
 | I/311 epoch/derivative-scale authority | `USER_ACTION_REQUIRED_BEFORE_2D` | Conditional before 2D can approve propagated I/311 data; it does not prevent 2D from starting or evaluating another source. |
 | I/311 raw/derived deployment permission | `USER_ACTION_REQUIRED_BEFORE_2D` | Conditional before 2D can approve deployment of I/311-derived records; it does not prevent 2D from starting. |
 | Per-row catalogue acquisition, quality, uncertainty, and covariance evidence | `HUMAN_REVIEW_REQUIRED` | 2D scientific/data review; no new general astronomy book required. |
@@ -357,32 +448,38 @@ eligibility remain separate E-category gates.
 | WCAG 2.2 / WAI-ARIA APG | `OFFICIAL_WEB_SUFFICIENT` | Later UI/accessibility work, not a 2C science resource. |
 | Restricted local FYP report | `NOT_NEEDED` | It is not external scientific authority and remains private. |
 
-**Immediate user-action answer:** yes, one item is needed now to close 2C: select the
-first physical observer preset and provide or authorize retrieval of its authoritative
-geodetic site record. No new astronomy standards PDF, positional-astronomy manual,
-replacement SOFA/IERS document, or NOVAS package is needed now.
+**Immediate user-action answer:** no. The first site identity is selected and the 2C
+contract can close without numerical observer data. No coordinate download, new
+astronomy standards PDF, positional-astronomy manual, replacement SOFA/IERS document,
+Riyadh record, or NOVAS package is needed now.
 
-### USER_ACTION_REQUIRED: selected observer preset
+### USER_ACTION_REQUIRED_BEFORE_2D: exact UMPSA observer record
 
-- **Project choice required:** nominate and approve the physical site that V1 will use;
-  the geodetic record must refer to that exact site rather than a nearby city centroid.
-- **Exact resource:** an official JUPEM GPS-control/MyRTKnet station record or a
-  licensed survey record for the physical site selected as the first preset.
-- **Why:** V1 needs latitude, east-positive longitude, ellipsoidal height,
+- **Selected site:** `Faculty of Computing, UMPSA Pekan Campus, Pahang, Malaysia`;
+  official UMPSA evidence already supports this identity.
+- **Exact resource:** an official reproducible UMPSA institutional geographic/asset
+  record, Malaysian-government geographic record, JUPEM product/service response, or
+  equivalent licensed record for a described point at the Faculty site.
+- **Why:** 2D must instantiate latitude, east-positive longitude, typed height,
   datum/reference frame, reference ellipsoid, coordinate epoch where applicable,
-  uncertainty/accuracy, source identity, and acquisition date/version. Orthometric
-  height alone is insufficient without a separately evidenced geoid conversion.
-- **Acceptable source:** official JUPEM product/service output or an equivalently
-  authoritative licensed survey tied to the named site. An official Malaysian Falak
-  facility record is sufficient only if it supplies every required geodetic field, or
-  is paired with authoritative survey evidence that does.
+  accuracy/uncertainty, source identity, acquisition metadata, use conditions, and
+  version/hash. Orthometric height cannot reach an ellipsoidal-height route without a
+  separately evidenced conversion.
+- **Acceptable source:** an official/reproducible institutional or Malaysian-government
+  record is eligible for 2D review when it supplies the contract fields and documented
+  accuracy. The reviewer, not the source class, decides whether it is adequate for the
+  bounded use. A JUPEM survey-control record is optional and must not be substituted
+  for the intended Faculty point merely because it is more precise.
 - **PDF/download actually needed:** no particular file format is required; an official
-  web/download record is sufficient if it exposes every required site-specific field.
+  retained service response or reproducible web/download record is an acceptable
+  acquisition format for 2D review if it exposes the required site-specific fields.
 - **Suggested path:**
-  `local-reference/astronomy/observers/<preset-id>/jupem-geodetic-site-record.<original-extension>`.
-- **Blocks:** remaining 2C profile approval and first real ProfileV1 execution.
-- **Web substitution:** yes, only if an official JUPEM page/download exposes every
-  required field for the exact site.
+  `local-reference/astronomy/observers/umpsa-pekan-faculty-of-computing/<source-record>.<original-extension>`.
+- **Blocks:** 2D approval/activation of the concrete observer artifact and real
+  ProfileV1 execution. It does not block 2C closure or generic astronomy-core work.
+- **Web substitution:** yes. An authoritative reproducible web/service record can be
+  retained with its source identity, acquisition date, version, and hash where
+  appropriate.
 
 ### USER_ACTION_REQUIRED_BEFORE_2D: I/311 time-scale clarification
 
@@ -457,7 +554,7 @@ No new standards PDF or general positional-astronomy manual is required now.
 
 ```text
 2C.6 profile contract and exit-gate approval
-  -> 2D catalogue/source, acquisition, rights, row, crosswalk, and operational-data authority
+  -> 2D catalogue/source, observer-preset, acquisition, rights, row, crosswalk, and operational-data authority
   -> 2E parser, runtime validation, and deterministic generated data
   -> first bounded pure-TypeScript astronomy implementation
   -> production/reference comparison and test:reference activation

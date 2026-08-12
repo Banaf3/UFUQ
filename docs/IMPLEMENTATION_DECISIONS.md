@@ -196,12 +196,15 @@ Historical report/deviation/authority status remains in `governance/`.
   Milestone 2C.6 defines the candidate `ScientificProfileV1` and separates lifecycle
   gates. V1 is one-preset, one-bounded-UTC-domain, source-neutral, offline,
   fail-closed, geometric-only, refraction-disabled, and without aggregate visibility.
-  I/311 source authority moves to 2D if retained. Production/reference residuals,
+  Its generic `ObserverPreset` contract and the UMPSA Pekan Faculty site identity are
+  preimplementation semantics; exact coordinates, Earth model, typed height, accuracy,
+  provenance and immutable observer artifact move to 2D. I/311 source authority also
+  moves to 2D if retained. Production/reference residuals,
   any stronger independent validation required by the claimed release boundary,
   numerical error-budget population, and tolerance approval follow implementation and
-  do not precede it. The profile remains
-  unresolved only until its seven scoped route/input/exclusion/outcome decisions are
-  approved.
+  do not precede it. The profile remains unresolved only until its six scoped route/
+  input/exclusion/outcome decisions are approved; the concrete observer record is not a
+  seventh preimplementation blocker.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
@@ -272,10 +275,13 @@ Historical report/deviation/authority status remains in `governance/`.
 - **Decision:** Observer/time scenario, eligible lesson route, required-star
   availability, target evidence, supported answer form, and learner/scientific
   tolerances for the first vertical slice.
-- **Current choice:** Contract/type shape may be scaffolded; no production scenario or
-  numeric tolerance is selected. The one-preset/time input record needed by
-  `ScientificProfileV1` is separate from learner-answer and scoring policy; a missing
-  final scientific tolerance blocks later acceptance, not implementation start.
+- **Current choice:** The generic `ObserverPreset` contract selects only
+  `umpsa-pekan-faculty-of-computing` for V1 and may be implemented without numerical
+  coordinates. Milestone 2D owns its exact reference point, coordinates, Earth model,
+  typed height, accuracy, provenance, version and approval artifact before real V1
+  execution. No production scenario or numeric tolerance is selected. The observer/time
+  input remains separate from learner-answer and scoring policy; a missing final
+  scientific tolerance blocks later acceptance, not implementation start.
 - **Status:** unresolved
 - **What code it affects:** Scenario/route fixture, route-selection use case,
   assessment-core scoring, API validation, browser interaction, reference tests.

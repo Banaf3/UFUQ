@@ -146,14 +146,17 @@ classes remain blocked, and `FINAL_TOLERANCE_NOT_JUSTIFIED` is prepared for AST-
 review. Milestone 2C remains open.
 
 Milestone 2C.6 defines the candidate `ScientificProfileV1` and audits the exit gate.
-The first profile is source-neutral and geometric-only: exactly one approved preset
-observer, one bounded explicit-UTC domain, one minimal 2D-approved star artifact,
+The first profile is source-neutral and geometric-only: exactly one selected observer
+preset identity under a generic fail-closed contract, one bounded explicit-UTC domain,
+one minimal 2D-approved star artifact,
 explicit normalized ICRS epoch/motion semantics, an approved route/effect disposition,
 immutable offline leap/EOP inputs, fail-closed outcomes, disabled refraction, and no
 aggregate visibility. Internal observer types remain multi-location capable. The audit
 removes the circular requirement for TypeScript/reference residuals and numerical
-tolerances before the TypeScript implementation exists. Milestone 2C remains open only
-for the seven profile-scoped decisions in
+tolerances before the TypeScript implementation exists. The selected V1 identity is
+`umpsa-pekan-faculty-of-computing`; 2D, not 2C, owns its exact reference point,
+coordinates, Earth model, typed height, accuracy and immutable data record. Milestone
+2C remains open only for the six profile-scoped decisions in
 `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md`; production/reference results, any stronger
 independent validation required by the claimed release boundary, error-budget
 population, and tolerance approval are later scientific-acceptance gates.
@@ -162,8 +165,10 @@ Milestone 2D records the data/source/deployment-authority outcome required befor
 ProfileV1 execution. It selects the catalogue/release rather than inheriting I/311 from
 the spike, approves acquisition/licensing and row eligibility, creates the stable
 internal-star/source crosswalk and minimal allowlist, and selects the exact permitted
-operational leap/EOP artifacts. Unresolved redistribution authority does not become
-permission to track or deploy I/311-derived rows.
+operational leap/EOP artifacts. It also acquires and approves the concrete UMPSA Pekan
+Faculty `ObserverPreset` data and provenance before real ProfileV1 execution; a JUPEM
+survey-control record is optional rather than mandatory. Unresolved redistribution
+authority does not become permission to track or deploy I/311-derived rows.
 
 Milestone 2E implements the local read-only catalogue parser, runtime validation, and
 deterministic generation after Milestones 2C and 2D. Inputs and outputs remain ignored
@@ -194,9 +199,11 @@ response, server scoring, and feedback. The route may use a reviewed helper patt
 Banat Na'sh or Dhat al-Kursi; it is selected from data rather than hardcoded. Persistence
 and BKT adaptation are not required yet.
 
-**Entry decisions:** bounded astronomy-core implementation may start when IMP-008/009
-and the astronomy-input part of IMP-012 supply the selected 2D/2E numerical artifact,
-approved profile semantics, and preset observer/time inputs. IMP-011 and the learner/
+**Entry decisions:** the generic `ObserverPreset` types, validators, no-default branches,
+and observer-generic astronomy interfaces do not require the UMPSA numerical values.
+Real ProfileV1 execution and data-backed fixtures require the selected 2D/2E numerical
+artifacts, approved profile semantics, and preset observer/time inputs under
+IMP-008/009 and the astronomy-input part of IMP-012. IMP-011 and the learner/
 scoring part of IMP-012 gate only integration into a learner-facing lesson; missing
 cultural evidence does not block the astronomy engine. IMP-018 already fixes the
 generic structure. A final scientific or learner tolerance is not an

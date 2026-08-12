@@ -16,7 +16,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Apparent-place effects | Milestone 2C.2 proposes a componentized SOFA `2023-10-11` CIO-family semantic route: preliminary source-to-declared-target-epoch propagation, `iauApco13`/`iauAtciq` observer-aware CIRS, an explicit Earth-orientation context, and `iauAtioq` geometric/optional refracted outputs. J2000.0 is the candidate target epoch required by the selected SOFA celestial interface; it is not a frame conversion. Candidate semantic inclusions are frame bias, IAU 2006 precession with IAU 2000A nutation, annual aberration, solar deflection, ERA-based Earth rotation, and diurnal aberration. ScientificProfileV1 must approve its route/mapping and motion, parallax/RV, EOP/polar-motion, observed-CPO, and geometric-only dispositions. Source-row eligibility belongs to 2D; refraction and broader effects are later; omission bounds and tolerances are postimplementation acceptance work. | PROPOSED ROUTE/EFFECT MATRIX; PROFILE SUBSET REQUIRES AST-003/004 REVIEW |
 | Time input | Milestone 2C.3 makes a `PROJECT_DECISION` proposal to narrow RFC 3339 to `YYYY-MM-DDTHH:mm:ss[.fraction]Z` at the UTC astronomy boundary; RFC 3339 itself also permits numeric offsets. Offset/IANA wall-time resolution stays upstream with original input, zone-data version, and ambiguity decision retained; unqualified time and `-00:00` are invalid. Second `60` is only syntactically valid after the approved leap artifact confirms that exact UTC date. Precision, zones, folds/gaps, and production artifact remain open. | `PROJECT_DECISION` proposal; `HUMAN_REVIEW_REQUIRED` / `AUTHORITY_OR_EVIDENCE_MISSING` |
 | Earth time/orientation | UTC is external; TAI/TT/UT1 remain typed internally. Milestone 2C.3 proposes request-time offline execution from immutable hash-addressed EOP/leap bundles, separate reviewed atomic updates, old-bundle replay, and explicit non-results. EOP source quality, artifact/field availability, and scientific approval are separate dimensions for each of `UT1-UTC`, `xp`, `yp`, and any selected `dX`, `dY`; no field promotes another. No production product/hash, stale rule, source-quality acceptance, date range, or degraded mode is approved. UTC≈UT1 and zero/nearest EOP are forbidden. | `PROJECT_DECISION` proposal; production selection `HUMAN_REVIEW_REQUIRED` / `AUTHORITY_OR_EVIDENCE_MISSING` under AST-003/006/007 |
-| Observer Earth model | Require explicit geodetic latitude, east-positive longitude plus normalization policy, datum/ellipsoid, ellipsoidal height, provenance, uncertainty, and validation status. WGS 84/ellipsoidal height matches the SOFA `13` candidate and Astropy reference behaviour but is not production approval; no orthometric height is silently relabelled. Datum, wrap, height/location range, poles, and approved locations remain open. | Typed boundary `PROJECT_DECISION`; values/ranges `HUMAN_REVIEW_REQUIRED` under AST-003/004/007 |
+| Observer Earth model | `ObserverPreset` requires a stable ID/site identity; finite north-positive geodetic latitude; east-positive longitude canonically in `[-180 deg,+180 deg)`; explicit datum/frame/realization, ellipsoid, typed height/reference surface, conditional coordinate epoch, accuracy state, provenance, data/artifact version, availability, validation, and approval. V1 selects only `umpsa-pekan-faculty-of-computing`, identifying Faculty of Computing, UMPSA Pekan Campus, Pahang, Malaysia. No browser geolocation, `(0,0)`, WGS 84, zero height, map pin, height conversion, or zero uncertainty is inferred. | Contract/site identity `PROJECT_DECISION` for 2C; exact values/source/accuracy/artifact `BLOCKS_2D_DATA_AUTHORITY`; polar/multiple/global domains remain later |
 | Longitude | Degrees east are positive; west is negative. Latitude north is positive. | CLARIFIED |
 | Sidereal time | Local apparent sidereal time candidate: `LAST = normalize24(GAST + longitudeEast/15)` hours. Exact GAST/mean-apparent policy follows AST-003. | CLARIFIED formula; policy manual |
 | Hour angle | `H = normalizeSigned(LST - RA)` with west-positive hour angle. | CONFIRMED |
@@ -33,12 +33,18 @@ This specification separates fixed conventions from unresolved domain choices. N
 
 ## ScientificProfileV1 lifecycle boundary
 
-The candidate in `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md` narrows the first production
-implementation to one approved preset observer, one bounded explicit-UTC domain, one
+The candidate in `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md` narrows real V1 execution to
+one selected preset identity instantiated by a 2D-approved observer artifact, one
+bounded explicit-UTC domain, one
 2D-approved minimal star artifact, an explicit source-neutral astrometric input, an
 approved route/effect disposition, immutable offline leap/EOP inputs, and geometric
 horizontal output. Refraction and aggregate visibility are disabled. Internal types
 remain multi-location and multi-source capable; no global operating domain is implied.
+
+The generic `ObserverPreset` types, validators, no-default branches, and observer-
+generic transformation interfaces may be implemented before 2D supplies the numerical
+UMPSA artifact. Missing or unapproved observer data blocks real V1 evaluation, not that
+contract implementation.
 
 Authoritative semantics, approved profile decisions, frozen synthetic guards, and the
 pinned reference environment are `PRE_IMPLEMENTATION` evidence. TypeScript/reference
@@ -60,9 +66,11 @@ conceptual types prevent accidental double propagation or frame mixing:
 - `UtcObservationInput{canonicalUtcText,originalInput,sourceZoneOrOffset,
   zoneDataVersion,ambiguityDecision,precision,leapValidationStatus}` plus typed
   `UtcInstant`, `TaiInstant`, `TtInstant`, and `Ut1Instant` values;
-- `ObserverInput{geodeticLatitudeDeg,longitudeEastDeg,longitudeNormalization,
-  referenceDatum,referenceEllipsoid,ellipsoidalHeightM,coordinateProvenance,
-  uncertainty,validationStatus}`;
+- `ObserverPreset{schemaVersion,presetId,siteIdentity,referencePointDescription,
+  geodeticLatitude,geodeticLongitude,referenceSystem,referenceEllipsoidId,
+  coordinateReferenceEpoch,height,heightConversion,coordinateAccuracy,provenance,
+  dataVersionId,artifactIdentity,artifactAvailability,validationStatus,
+  scientificApproval}`;
 - `CatalogueIcrsState{raDeg,decDeg,sourceEpochLabel,epochRepresentation,
   epochScaleStatus,properMotionRaCosDec,...}`;
 - `PropagatedIcrsAstrometry{raDeg,decDeg,targetEpochLabel,targetInstant,
@@ -103,9 +111,12 @@ zero is not geometric altitude zero, a visible skyline, terrain/building horizon
 physical horizon dip, or a SOFA/ERFA numerical guard. Each alternative requires its
 own reviewed state and policy.
 
-Reject non-finite values and out-of-range latitude. AST-003/007 must choose exact
-canonical representatives at longitude/angle wrap boundaries so serialization and
-equality do not disagree.
+Reject non-finite values and out-of-range latitude. Observer longitude is east-positive
+and canonically serialized in `[-180 deg,+180 deg)`, with `+180 deg` represented as
+`-180 deg`; other angle-wrap decisions remain explicit so serialization and equality do
+not disagree. The exact UMPSA reference point, numerical coordinates, Earth model,
+height, accuracy and artifact provenance are 2D data and are not invented by this
+specification.
 
 Milestone 2C.3 proposes distinct non-result outcomes for invalid input, unsupported
 date, unavailable/stale/out-of-range EOP, unapproved EOP field quality, unavailable/
