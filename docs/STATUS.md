@@ -60,9 +60,11 @@ The documentation-only source, policy, licensing, and performance audit is compl
 It is recorded in `spikes/PHASE1_ASTRONOMY_DATA_SPIKE.md`. No implementation stage has
 begun.
 
-CDS I/311, *Hipparcos, the New Reduction*, is approved as the sole catalogue source for
-the Phase 1 local technical spike. No alternate parser, fixture, benchmark, migration,
-or dual-catalogue support is planned.
+CDS I/311, *Hipparcos, the New Reduction*, is approved only as the sole source for the
+bounded Phase 1 local technical spike. No alternate adapter is required inside that
+spike. The production catalogue/release remains a 2D decision, and the source-neutral
+`starId`/source-release crosswalk permits a reviewed source to coexist with or replace
+astrometry without coupling cultural records to copied coordinates.
 
 I/311 local structure is verified, acquisition provenance is partial, derived-data
 redistribution remains unresolved, and the local-only parser boundary is defined in
@@ -86,7 +88,8 @@ artifacts.
 The audit resolves the contract-level status of I/311 ICRS input semantics, the literal
 `Ep=1991.25` source label, Julian representation, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles, UFUQ sign and
 horizontal conventions, coordinate-state separation, structured-outcome requirement,
-comparison metrics, and the independent-reference protocol. It also corrects the
+comparison metrics, and the code-independent reference protocol with shared-lineage
+disclosure. It also corrects the
 source-gap records: Astropy `8.0.1` reference-design pages and the official PyERFA
 `2.0.1.5` release/hash are pinned. The PyERFA stable API is one patch behind, and the
 production science protocol remains incomplete.
@@ -110,8 +113,10 @@ aberration. The `iauApco13` convenience branch supplies model CIP/CIO and accept
 `UT1-UTC` and polar motion `xp`,`yp`, but it cannot apply observed celestial-pole
 offsets `dX`,`dY`; those corrections require a reviewed lower-level route. Proper
 motion, parallax/RV, polar motion, celestial-pole offsets, and refraction retain blocked
-or conditional gates. Astropy and PyERFA remain the independent reference path, while
-composed ERFA `atco13` is only a same-family consistency check. Batch 01 runs the
+or conditional gates. Astropy and PyERFA remain a reference path independent of future
+TypeScript code, while their shared ERFA/SOFA lineage and composed ERFA `atco13` make
+the applicable comparisons same-family consistency checks rather than stronger
+independent validation. Batch 01 runs the
 bounded composed/componentized case and five convention guards; the remaining route/
 effect families and broader partitions are unrun or blocked.
 
@@ -197,19 +202,26 @@ unbounded. All six tolerance classes are blocked with no numerical value. The AS
 recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED` pending named review and future
 evidence.
 
-Milestone 2C remains **OPEN**. The CDS-defined 365.25-day proper-motion `yr` is resolved,
-but no reviewer approval selects the I/311 epoch/derivative time scale, actual
-TypeScript production implementation, supported date/location/height range or endpoint
-inclusion, datum/height/longitude/polar policy, production EOP/leap artifacts/hashes,
-field precedence/interpolation, stale/update cadence, prediction/preliminary or
-celestial-pole-offset policy, parallax/RV policy,
-refraction/visibility behaviour, exact warning/error mapping, error aggregation, or
-tolerance. The 2C.5C method and ledger are reviewable, but every required numerical
-source/model/data/observer/atmosphere/implementation term remains unbounded. Batch 01
-retires only its bounded synthetic guard/replay work; broader
-2C.1-2C.4 experiments remain unrun or blocked, no production/reference comparison
-exists, and the reference suite remains intentionally inactive and fail-closed. The
-first browser astronomy vertical slice therefore remains blocked.
+Milestone 2C.6 audits the circular exit gate and defines a candidate
+`ScientificProfileV1`. The first profile is one-preset, one-bounded-UTC-domain,
+source-neutral, offline, fail-closed, and geometric-only. Refraction is disabled, no
+atmosphere default exists, and no aggregate scientific visibility claim is produced.
+Internal observer and astrometry types remain extensible to later locations and source
+releases. I/311 is not promoted from spike source to permanent catalogue; its authority,
+rights, row eligibility, and unresolved time scale move to 2D if 2D retains it.
+
+Milestone 2C remains **OPEN**, but only for seven exact preimplementation decision
+clusters: approval of the profile boundary/pending-validation state; the pure-TypeScript
+route and effect dispositions; one authoritative preset observer record; one exact UTC
+grammar/precision and date interval; leap/EOP product-class and field/offline policy;
+geometric-only/refraction-disabled/no-visibility scope; and fail-closed outcome,
+precedence, singularity, and warning/status semantics. Production code,
+production/reference residuals, any stronger independent validation required by the
+claimed release boundary, numerical tolerance, global locations, refraction,
+visibility, and numerical closure of all 49 ledger terms
+do not keep 2C open. They retain their data, postimplementation acceptance, later-
+extension, or learner-content gates. The decision is
+`2C_REMAINS_OPEN_WITH_EXACT_PREIMPLEMENTATION_BLOCKERS`.
 
 ### Milestone 2B catalogue authority and provenance
 
@@ -308,7 +320,7 @@ deterministic key/record order, and defined numeric formatting.
 | `npm.cmd run lint` | PASS; applications, packages, catalogue tool, tests, scripts, and root config modules reported no ESLint error. |
 | `npm.cmd run typecheck` | PASS; seven composite Node/shared projects, the private no-emit web app, and test/config sources typechecked. |
 | `npm.cmd run test` | PASS; 1 unit file and 1 API health test. |
-| `npm.cmd run boundaries` | PASS; 8 workspaces, approved edges, no cycle/private import/runtime-to-tool edge, independent oracle. |
+| `npm.cmd run boundaries` | PASS; 8 workspaces, approved edges, no cycle/private import/runtime-to-tool edge, code-independent reference-tool boundary. |
 | `npm.cmd run cycles` | PASS; the same graph check explicitly confirmed acyclicity. |
 | `npm.cmd run data:verify` | PASS at the scaffold checkpoint; the guard now distinguishes permitted ignored local raw candidates from prohibited tracked/unignored raw data. |
 | `npm.cmd run build` | PASS; API, five shared packages, catalogue tool, and Vite web build completed; Vite transformed 16 modules. |
@@ -326,36 +338,41 @@ mapping, commands, corrections, and independent post-migration verdict are in
 ## Authorized next work
 
 Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
-contract but remains open. The next authorized work is to obtain and record only the
-evidence, experiments, reviewer decisions, and approvals listed by that contract.
-Milestone 2C.5B has completed only the reviewed synthetic Batch 01 protocol. The next
-2C work is AST-006 review of the 2C.5C method, a separately reviewed next synthetic
-batch beginning with EOP state, observer, and leap/timestamp partitions, and the
-remaining evidence, decisions, and approvals in the contract. Batch execution and the
-error-budget draft do not authorize source-derived or production astronomy
-implementation.
+contract but remains open only for the seven `ScientificProfileV1` decision clusters
+listed above. The next 2C work is named astronomy-expert and supervisor review of that
+candidate; another synthetic batch and AST-006 numerical approval are not prerequisites
+to starting the bounded implementation.
 
-Milestone 2D then records the catalogue source/deployment-authority outcome. The local
-I/311 parser, runtime validation, and deterministic generation follow in Phase 1
-Milestone 2E and remain subject to that authority outcome.
+After profile approval, Milestone 2D selects the actual catalogue/release and minimal
+star allowlist, records acquisition/licensing/row/crosswalk authority, and approves the
+permitted operational leap/EOP artifacts. It must not inherit I/311 as a permanent
+source merely because the spike studied it. Milestone 2E then implements the parser,
+runtime validation, and deterministic generated data.
+
+The first bounded pure-TypeScript astronomy implementation follows 2E. Its
+production/reference comparison then activates `test:reference`; stronger independent
+validation (for example, a pinned USNO NOVAS candidate) and numerical tolerance review
+follow. Production/reference evidence remains mandatory for scientific acceptance;
+stronger independent validation applies where required by the claimed release
+boundary. Neither is a circular prerequisite to implementation.
 
 ## Decisions that block the validated vertical slice
 
-- **IMP-008 / AST-001:** raw/derived redistribution and deployment permission,
-  acquisition provenance beyond `PARTIAL`, and scientific review of each selected
-  row's solution, multiplicity, uncertainty, fit, variability, and supplement evidence.
-  The local-only parser contract and candidate scope are resolved.
-- **IMP-009 / AST-003 and AST-006:** approval or revision of the proposed production
-  coordinate/time route and effect matrix; actual TypeScript implementation/library;
-  production EOP/leap products/hashes and field-quality/availability/approval plus
-  update policy; observer/time contract
-  values; supported date/location/height endpoints; degraded/warning outcomes;
-  independent comparison, error budget, and tolerances.
+- **IMP-008 / AST-001 (`BLOCKS_2D_DATA_AUTHORITY`):** select the real catalogue/release
+  and minimal allowlist; resolve acquisition, raw/derived handling, deployment rights,
+  stable internal-star/source crosswalks, and row-level scientific eligibility. The
+  local I/311 spike contract does not select a permanent source.
+- **IMP-009 / AST-003 (`BLOCKS_SCIENTIFIC_PROFILE_V1`):** approve the candidate
+  profile, pure-TypeScript route/library mapping, effect dispositions, one preset
+  observer, one bounded UTC domain, leap/EOP field and offline policy, geometric-only
+  exclusions, and fail-closed/pending-validation outcomes. AST-006 numerical tolerance
+  and production/reference residuals are `POST_IMPLEMENTATION_VALIDATION`.
 - **IMP-011 / AST-002:** reviewed `SkyPattern` and `GuidanceRelationship` records for
   one complete route to Al-Jady, including stable IDs, labels, membership, segments,
   instructional geometry/explanation, and review/verification status.
-- **IMP-012 / AST-007 and AST-006:** one sourced observer/time scenario, expected
-  result, answer representation, and justified learner/scientific tolerance.
+- **IMP-012 / AST-007:** one sourced observer/time preset is part of the V1 input
+  contract. Expected learner answers and learner/scoring tolerances remain downstream;
+  scientific tolerance remains postimplementation.
 
 BKT parameters/cues do not block the Phase 2 minimal slice because adaptation begins in
 Phase 3. Persistence, authentication, participant, privacy/security release, and

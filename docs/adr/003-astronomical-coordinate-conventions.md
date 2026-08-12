@@ -34,9 +34,10 @@ built-in model CIP/CIO from IAU 2006 precession with IAU 2000A nutation and acce
 `UT1-UTC` plus polar motion `xp`,`yp`; it does not apply observed celestial-pole
 offsets `dX`,`dY`. A reviewed lower-level context is required if those corrections are
 selected. The proposed semantic-inclusion matrix and eight required experiment
-families are recorded in the contract. Astropy/PyERFA is the independent reference
-route, not the production selection, and composed `atco13` is only same-family
-consistency evidence. Routine availability does not close the epoch/derivative-scale,
+families are recorded in the contract. Astropy/PyERFA is a reference route independent
+of future TypeScript code, not the production selection or a lineage-independent
+oracle, and composed `atco13` is only same-family consistency evidence. Routine
+availability does not close the epoch/derivative-scale,
 radial-velocity, or tolerance blockers.
 
 Milestone 2C.3 proposes as a `PROJECT_DECISION`, without selecting production data or
@@ -47,10 +48,12 @@ execution from immutable hash-addressed EOP/leap bundles; separate reviewed atom
 updates with prior bundles retained; and independent source quality, artifact/field
 availability, provenance, coverage, and scientific approval for every required EOP
 field.
-The supported domain is the intersection of every approved catalogue, model,
-ephemeris, leap, EOP, observer, scenario, and tolerance domain. Missing, stale,
-out-of-range, or unapproved-quality data return structured non-results. One EOP field
-cannot promote another. No degraded result is approved.
+The supported input domain is the intersection of every approved catalogue, model,
+ephemeris, leap, EOP, observer, and scenario domain. Missing, stale, out-of-range, or
+unapproved-quality data return structured non-results. Postimplementation acceptance
+evaluates results over that already defined domain; a missing tolerance does not block
+pending-validation execution. One EOP field cannot promote another. No degraded result
+is approved.
 
 Milestone 2C.4 proposes as a `PROJECT_DECISION`, without approving a model or range,
 geometric altitude only for the first vertical slice and a separate optional refracted
@@ -60,7 +63,8 @@ physical-dip, terrain/obstruction, renderer, and learner horizon states are dist
 astronomical, photometric/variability, Sun-altitude/daylight/twilight, atmospheric-
 extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen,
 and learner-eligibility visibility components are also independent and cannot promote
-one another. Below-geometric-horizon is attached to the approved direction and retains
+one another. Below-geometric-horizon is attached to the valid direction with its
+pending-or-approved validation state and retains
 signed altitude, defined azimuth/singularity, provenance, warnings, and statuses; it
 cannot decide visibility or presentation. Optional-stage failures never hide an
 earlier core scientific failure or erase a valid geometric state. A refracted apparent
@@ -74,6 +78,15 @@ optional-state guards while retaining all numerical outputs as
 consistency, not independent validation. These results change none of this ADR's
 source, production, EOP, observer, refraction, domain, tolerance, or approval blockers.
 
+Milestone 2C.6 proposes `ScientificProfileV1`: one approved preset observer, one
+bounded explicit-UTC domain, a 2D-approved minimal source-neutral star artifact, one
+normative pure-TypeScript route/effect disposition, immutable offline leap/EOP inputs,
+fail-closed geometric output, disabled refraction, no atmosphere defaults, and no
+aggregate visibility. It separates permission to implement from later scientific
+acceptance. I/311 authority is a 2D eligibility question if retained;
+production/reference residuals, any stronger independent validation required by the
+claimed boundary, numerical bounds, and tolerances follow implementation.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -85,29 +98,28 @@ Fixed now:
 - angular answers use robust vector separation or wrapped circular distance;
 - every policy and tolerance is versioned and server scoring is authoritative.
 
-Before implementation, AST-003 must approve, revise, or reject the proposed route and
-select the actual pure-TypeScript algorithm/library, including the exact I/311 epoch
-and proper-motion derivative time scale. The CDS-defined 365.25-day `yr` duration is
-resolved. AST-003 must explicitly implement or omit with a
-quantified bound proper motion, parallax, radial velocity/perspective acceleration,
-aberration, light deflection, precession/nutation, topocentric effects, polar motion,
-celestial-pole offsets, EOP/time handling, datum/elevation and supported range. It must
-also select the exact production data artifacts/hashes, field precedence/interpolation,
-stale and expiry rules, update cadence, preliminary/prediction disposition, UTC
-precision/zone adapter, observer normalization/ranges, endpoint semantics, and warning
-mapping. Also
-approve the geometric-only first slice; refraction model, atmosphere provenance and
-ranges, near/below-horizon validity, warnings; geometric/refracted-apparent/physical-
-dip/terrain horizon policy; photometric/daylight/extinction/transparency/cloud/weather/
-light-pollution/terrain/screen/learner visibility policy;
-Kaaba/observer coordinate semantics; error budget; and tolerances as detailed in
-`../ASTRONOMY_SPEC.md`.
+Before `ScientificProfileV1` implementation, AST-003 must approve, revise, or reject
+the profile's semantic route and actual pure-TypeScript algorithm/library mapping. It
+must give every effect an explicit included, excluded, conditional, or unavailable
+disposition; approve source-neutral motion/parallax/radial-velocity branches, one
+preset-observer contract, one UTC/date domain, leap/EOP field and offline policy,
+geometric-only/no-refraction/no-visibility scope, and fail-closed warning/status
+semantics. Actual I/311 scale, row, rights, and artifact eligibility belong to 2D if
+that source is retained; the generic engine accepts no unspecified scale.
+
+Quantified production disagreement, omission bounds, final numerical error budgets,
+and scientific/reference tolerances are postimplementation acceptance gates. Full
+refraction, atmosphere, physical/terrain horizon, visibility, global observer, Kaaba,
+scene, and learner policies are later or separate gates. None is silently treated as
+zero or as a library default.
 
 ## Consequences
 
 - Browser, server, fixtures, and thesis results can use identical named semantics.
-- Missing IERS/policy/tolerance data causes an explicit non-result. A labelled degraded
-  approximation is unavailable until separately quantified and approved.
+- Missing required IERS data or profile policy causes an explicit non-result. A missing
+  tolerance prevents later scientific acceptance, not pending-validation execution. A
+  labelled degraded approximation is unavailable until separately quantified and
+  approved.
 - Near zenith, azimuth cannot be used as the scoring oracle; direction vectors are required.
 - Polaris remains a star cue distinct from terrestrial True North.
 
@@ -120,12 +132,12 @@ Kaaba/observer coordinate semantics; error budget; and tolerances as detailed in
 
 ## Validation
 
-Independent pinned Astropy/PyERFA/domain fixtures across frame/time/EOP/leap/observer/
-wrap/horizon/singularity and exact-endpoint partitions, reconstructed offline with
-artifact hashes, independent per-field source-quality/availability/approval records,
-warnings, deterministic multi-fault precedence, and structured outcomes. Every numeric
-comparison must be inside AST-006. Refraction fixtures additionally preserve explicit
-atmosphere inputs/provenance, model/domain/warnings, geometric and refracted states,
-near/below-horizon partitions, and independent visibility components; the seven 2C.4
-experiment families must not rely on unrecorded defaults. Internal Three mapping
-fixtures cannot serve as independent astronomy proof.
+Preimplementation review covers authoritative semantics, profile decisions, Batch 01
+guards, the pinned candidate reference environment, and planned fixtures.
+Postimplementation pinned reference fixtures cover frame/time/EOP/leap/observer/wrap/
+horizon/singularity and exact endpoints with artifact hashes, independent per-field
+states, warnings, precedence, and outcomes; `test:reference` activates then. Every
+numeric acceptance remains inside AST-006. A later NOVAS or other genuinely independent
+path strengthens validation; shared ERFA/SOFA lineage does not. Refraction fixtures are
+required only when that later capability is proposed. Internal Three mapping fixtures
+cannot serve as independent astronomy proof.

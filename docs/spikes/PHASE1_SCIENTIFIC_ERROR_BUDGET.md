@@ -248,27 +248,30 @@ boolean contract tests, not tolerances.
 following before AST-006 approval:
 
 - the approved TypeScript production route and a code-sharing audit;
-- a genuinely independent reference path for the claimed boundary, with same-family
-  SOFA/ERFA consistency recorded separately;
-- source-derived fixtures only after I/311 epoch/derivative authority and catalogue
-  processing authority are resolved;
+- any genuinely independent reference path required by the claimed boundary, with
+  same-family SOFA/ERFA consistency recorded separately;
+- source-derived fixtures only after the selected source's semantics and catalogue
+  processing authority are resolved; I/311 epoch/derivative clarification applies
+  only if 2D retains propagated I/311 rows;
 - row-level position/motion/parallax uncertainty and covariance plus the approved RV
   or omission policy;
 - approved production leap/EOP artifacts and per-field quality, coverage,
   interpolation, stale/prediction, and celestial-pole-offset policy;
 - multiple dates across the eventual supported domain, including endpoints and
   leap/EOP boundaries;
-- multiple approved observers: the initial first-slice location, preset locations,
-  latitude and longitude partitions, height partitions, near-equatorial guide-star
-  cases, and any future arbitrary-location mode;
+- for ProfileV1, the one approved preset plus its coordinate/height uncertainty and
+  supported-domain boundary partitions; multiple presets, wider latitude/longitude/
+  height partitions, near-equatorial guide-star cases, and arbitrary-location mode are
+  required before a tolerance is generalized to those later domains;
 - high- and low-declination, high-motion, parallax, RV, horizon, zenith/nadir, and
   warning/status cases; and
 - per-case disagreement and term budgets reviewed by a named astronomy expert.
 
-No geographic range is invented here. Polaris or another guide star changes altitude
-with observer latitude, including near-equatorial cases close to the geometric
-horizon. Future validation must therefore partition locations rather than certify one
-hard-coded site as a global tolerance.
+No geographic range is invented here. A tolerance reviewed for the one-preset V1
+domain is not a global tolerance. Polaris or another guide star changes altitude with
+observer latitude, including near-equatorial cases close to the geometric horizon, so
+future profile expansion must add the corresponding location partitions before
+generalizing the claim.
 
 ## Ranked next synthetic experiments
 
@@ -304,6 +307,15 @@ agreement, supported-domain coverage, or a final numerical threshold.
 
 AST-006 should review and either approve or revise the layer, metric, combination, and
 traceability method while leaving every numerical tolerance unapproved. Milestone
-2C.5C and Milestone 2C remain open/review-gated until the unbounded required terms are
-bounded or the affected behavior is explicitly removed from scope, followed by named
-astronomy-expert and supervisor approval.
+2C.6 does not require the 45 unresolved numerical-bound states to be closed before
+implementation. Instead, `PHASE1_SCIENTIFIC_PROFILE_V1.md` assigns all 49 terms to a
+controlling lifecycle: profile semantics, 2D data authority, postimplementation
+validation, later extension, or learner-facing policy. An A-category term requires an
+explicit effect/input disposition before code starts; its numerical uncertainty may
+remain unbounded for later acceptance. Excluded terms remain unresolved rather than
+zero.
+
+Production floating-point and reference-disagreement terms, combined error bounds,
+and all six numerical tolerance classes are postimplementation scientific-acceptance
+work. Milestone 2C remains open only for the profile decisions listed by 2C.6, not
+because production evidence does not yet exist.

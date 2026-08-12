@@ -8,8 +8,8 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 
 | Class | Contents | Authority | Repository policy |
 |---|---|---|---|
-| 1. Numerical astronomical catalogue | Stable source ID; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits |
-| 2. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member catalogue IDs; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication; not limited to one named pattern |
+| 1. Numerical astronomical catalogue | Stable UFUQ `starId`; source-release crosswalk; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits; changing source releases does not change cultural identifiers |
+| 2. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member UFUQ `starId` values; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication or catalogue-specific foreign keys; not limited to one named pattern |
 | 3. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
 | 4. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
 | 5. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–4 | Never hand-edit; generated header/manifest/checksum required |
@@ -40,9 +40,9 @@ Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and
 system can reuse reviewed patterns and edges in more than one lesson without embedding
 cultural claims in code.
 
-- A `SkyPattern` contains its stable ID, names and cultural labels, member star
-  catalogue IDs, line segments, and cultural-review status. Coordinates remain solely
-  in the numerical catalogue.
+- A `SkyPattern` contains its stable ID, names and cultural labels, member UFUQ
+  `starId` values, line segments, and cultural-review status. Coordinates and external
+  catalogue identifiers remain solely in the numerical catalogue/crosswalk.
 - A `GuidanceRelationship` connects a source pattern or star to a target pattern, star,
   or typed direction. It records its relationship type, instructional line/vector,
   explanation, applicable scenarios, and verification status.
@@ -56,7 +56,7 @@ generic capability only. No helper constellation, mapping, segment, explanation,
 relationship is approved by this structural clarification.
 
 For each scenario, the server resolves a selected route alternative and derives the
-union of required catalogue-star IDs from all referenced patterns, star endpoints, and
+union of required UFUQ `starId` values from all referenced patterns, star endpoints, and
 instructional geometry. A route is eligible only when every required star is available
 under that approved scenario and all content/reference/review constraints pass. Missing
 stars make the whole route ineligible; the build/runtime must not silently remove a
@@ -73,8 +73,13 @@ containing:
 - retrieval timestamp in UTC, retrieval tool/version, source citation, licence URL/text identifier, and redistribution determination;
 - raw byte SHA-256, normalized table SHA-256, expected row count, and approved reviewer/date.
 
-CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the approved sole source for the
-Phase 1 local technical spike. Use the corrected author-replacement files recorded on
+CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the selected source for the
+Phase 1 local technical spike only; it is not thereby UFUQ's permanent production
+catalogue. Milestone 2D must approve the first deployed source release, its rights, and
+its mapping into stable UFUQ `starId` values. The source-release crosswalk must permit a
+reviewed source such as Gaia to coexist with or replace individual astrometric records
+without rewriting cultural records. For the existing I/311 spike, use the corrected
+author-replacement files recorded on
 2008-09-16, with `hip2.dat` as the main table and an exact matching supplement when a
 selected `Sn` family requires it. The Phase 1 field, missing/duplicate, solution,
 multiplicity, candidate-selection, schema, sorting, and checksum policies are fixed in
@@ -125,15 +130,16 @@ a hand-made Phase 1 fixture with a different provenance mechanism.
 
 Schemas reject unknown required semantics and at least verify:
 
-- unique, non-empty stable source IDs;
-- exactly one main row for every selected HIP and no unrequested row in the selected
-  artifact; a required 3/7/9-parameter or VIM supplement resolves exactly once;
+- unique, non-empty UFUQ `starId` values and unique source-release crosswalk keys;
+- for the I/311 spike, exactly one main row for every selected HIP and no unrequested
+  row in the selected artifact; a required 3/7/9-parameter or VIM supplement resolves
+  exactly once;
 - finite required astrometric/photometric/uncertainty values and their documented ranges/units; every omitted uncertainty/covariance or space-motion field has an approved error-bound rationale;
 - explicit frame/epoch/catalogue version; no mixed frames or epochs in one unlabelled artifact;
 - approved handling of missing/flagged astrometry;
 - Unicode NFC for Arabic and transliteration text;
 - `SkyPattern` records with unique stable IDs, citations, reviewer/date/status, member
-  IDs that resolve to selected catalogue rows, and segment endpoints that resolve to
+  UFUQ `starId` values that resolve to selected numerical rows, and segment endpoints that resolve to
   members; no self/duplicate edge unless explicitly justified;
 - `GuidanceRelationship` source/target/geometry references resolve to typed
   pattern/star/direction records and carry applicable-scenario plus verification status;
@@ -153,8 +159,8 @@ acquisition, a checksum differs, or a coordinate appears only in curation.
 Generated JSON is a build artifact with a companion manifest containing input
 versions/hashes, schema version, generator version/Git commit, selection evidence,
 licence/citation notices, artifact byte length/count, and artifact SHA-256. The v1
-canonical form is UTF-8 without BOM, NFC, lexicographic object-key order, numeric HIP
-record order, schema-defined order for other arrays, finite shortest-round-trip JSON
+canonical form is UTF-8 without BOM, NFC, lexicographic object-key order, stable
+`starId` record order, schema-defined order for other arrays, finite shortest-round-trip JSON
 numbers with negative zero normalized to zero, and one trailing LF. Volatile
 retrieval/review timestamps and machine paths stay outside the canonical payload. Two
 builds from identical approved inputs and tool versions must produce identical bytes.

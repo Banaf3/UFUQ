@@ -15,7 +15,7 @@ The Phase 0 scaffold should expose these stable intentions through package scrip
 | `check` | formatting/lint, TypeScript, package boundaries, and browser-bundle exclusions |
 | `data:verify` | schema, provenance manifest, canonical serialization, referential integrity, and hashes |
 | `test` | unit/contract/property tests discovered only by `vitest.unit.config.ts` |
-| `test:reference` | independent astronomy and BKT comparisons discovered only by `vitest.reference.config.ts` |
+| `test:reference` | production/reference astronomy and separately justified independent-oracle or BKT comparisons discovered only by `vitest.reference.config.ts` |
 | `test:integration` | API plus real-MySQL tests discovered only by `vitest.integration.config.ts` |
 | `test:e2e` | focused browser journeys, interaction boundaries, and accessibility checks |
 
@@ -27,9 +27,27 @@ when no matching test exists; neither uses `passWithNoTests`.
 | Suite | Mandatory from | Activation rule |
 |---|---|---|
 | Unit | Phase 0 | Always; the health test proves discovery. |
-| Reference | First production/reference comparison | Add to CI when that comparison is introduced in Phase 1; it remains mandatory thereafter. |
+| Reference | First production/reference comparison | Add to CI when a production implementation first has pinned comparison fixtures; it remains mandatory thereafter. |
 | Integration | Phase 4 | Add to CI with the first API/persistence integration test; real MySQL is mandatory for transaction claims. |
 | E2E | Phase 0 | Always; the health smoke proves browser/server lifecycle. |
+
+Milestone 2C.6 makes the astronomy evidence order explicit:
+
+- `PRE_IMPLEMENTATION` approves `ScientificProfileV1` semantics, exclusions,
+  fail-closed outcomes, synthetic exact guards, the pinned candidate reference
+  environment, and the comparison plan. It does not require TypeScript residuals or a
+  numerical tolerance.
+- `POST_IMPLEMENTATION` introduces TypeScript/reference fixtures, residuals,
+  supported-domain partitions, implementation-error evidence, and activates
+  `test:reference`. Numerical acceptance remains blocked until AST-006 supplies an
+  operation-specific threshold.
+- `STRONGER_INDEPENDENT_VALIDATION` later evaluates USNO NOVAS or another genuinely
+  independent positional-astronomy path. Shared Astropy/PyERFA/ERFA/SOFA lineage is
+  not an independent oracle.
+
+The absence of a postimplementation comparison cannot block writing the production
+implementation that the comparison must exercise. It does block scientific acceptance
+once that implementation exists.
 
 ## Phase 0 tests
 
@@ -51,21 +69,25 @@ when no matching test exists; neither uses `passWithNoTests`.
   supplemental solution shapes, numerical/cultural separation, canonical artifact
   rules, and provenance/licence/checksum requirements. No alternate-catalogue contract
   or fixture is required.
-- Phase 1 / Milestone 2E tests must cover fixed widths, source-hash mismatch,
-  missing/duplicate/invalid rows, blank optional photometry, negative parallax,
-  solution/supplement joins, component/multiplicity reporting, sorted unique HIP
-  selection, and two-run byte/hash determinism. Source-derived outputs remain ignored
-  and may not enter Git or the reference suite while redistribution is unresolved.
+- If 2D retains I/311, Milestone 2E adapter tests must cover fixed widths,
+  source-hash mismatch, missing/duplicate/invalid rows, blank optional photometry,
+  negative parallax, solution/supplement joins, component/multiplicity reporting,
+  sorted unique HIP selection, and two-run byte/hash determinism. If 2D selects another
+  release, its approved adapter contract replaces the I/311-specific obligations.
+  Source-derived outputs remain ignored and may not enter Git or the reference suite
+  while their applicable redistribution authority is unresolved.
 - Source-adapter and schema prototypes use synthetic data clearly labelled as
   non-catalogue input until the applicable source-derived gates are met.
 - Generic schema tests cover `SkyPattern`, `GuidanceRelationship`, and `LessonRoute`
   without asserting that any synthetic helper pattern or mapping is culturally valid.
 - Acquisition inputs, transformation options, serialization, and hashes are recorded.
 - Coordinate types prevent frame/unit/epoch mixing at compile time where practical.
-- Candidate transformations are compared with fixtures produced by the separately
-  pinned Python/Astropy oracle. The oracle does not import production astronomy;
-  comparison code in `tests/reference` imports `astronomy-core`. Differences are
-  recorded, not hidden behind an invented tolerance.
+- After the production route exists, candidate transformations are compared with
+  fixtures produced by the separately pinned Python/Astropy reference tool. The tool
+  does not import production astronomy, but shared ERFA/SOFA lineage is disclosed and
+  is not called stronger independent validation. Comparison code in `tests/reference`
+  imports `astronomy-core`; differences are recorded, not hidden behind an invented
+  tolerance.
 - Milestone 2C.4 reference design requires separate geometric/refracted states,
   explicit atmosphere units/provenance and no implicit defaults, model/domain/warning
   capture, near/zero/below-horizon partitions, distinct geometric/refracted-apparent/
@@ -74,8 +96,9 @@ when no matching test exists; neither uses `passWithNoTests`.
   coordinates, provenance, warnings, and statuses. Tests distinguish not-requested,
   unavailable, invalid, outside-domain, warning-bearing, and approved-refraction
   branches without making currently reserved branches reachable. Its seven experiment
-  families remain evidence work until an approved production/reference comparison
-  activates `test:reference`.
+  families run only when a later refraction/visibility profile opens their scientific
+  policy and input-data gates. Only cases that compare production code with the
+  reference tool depend on `test:reference` activation.
 - Milestone 2C.5A freezes 24 experiment records in a human protocol and machine
   registry with separate fixture/result schemas. A runnable synthetic record must use
   explicit synthetic inputs, locked offline dependencies, declared ERFA/SOFA lineage,
@@ -128,7 +151,9 @@ when no matching test exists; neither uses `passWithNoTests`.
 ## Phase 2 tests
 
 - Approved minimal catalogue/curation artifact rebuilds deterministically.
-- Independent astronomy cases cover the selected scenario and boundary partitions.
+- Production/reference astronomy cases cover the selected scenario and ProfileV1
+  boundary partitions; any stronger independent-oracle cases are separately labelled
+  and lineage-audited.
 - Every numeric tolerance is named, sourced, versioned, and justified before it becomes
   an acceptance gate.
 - ENU-to-Three cardinal/horizon/zenith and camera tests are deterministic.

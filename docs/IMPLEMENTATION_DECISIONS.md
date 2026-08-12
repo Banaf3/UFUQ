@@ -85,7 +85,7 @@ Historical report/deviation/authority status remains in `governance/`.
   `tools/astronomy-reference` as a separate non-npm Python/Astropy fixture producer.
 - **Status:** approved
 - **What code it affects:** Folder creation, explicit workspace list, dependency graph,
-  public entry points, independent reference environment.
+  public entry points, code-independent reference environment with lineage disclosure.
 - **Validation required:** No unresolved scientific, cultural, BKT, participant,
   security, or deployment value changes these folder/package boundaries.
 
@@ -93,27 +93,26 @@ Historical report/deviation/authority status remains in `governance/`.
 
 - **Decision:** Exact catalogue/table/version, licence/access route, subset, fields,
   quality rules, and canonical runtime artifact.
-- **Current choice:** Use only the corrected 2008-09-16 `hip2.dat` main table and
-  required solution supplements from CDS/VizieR I/311, *Hipparcos, the New Reduction*.
-  Phase 1 uses an explicit 19-HIP technical review allowlist, retains every main-table
-  field, preserves all solution/multiplicity/quality evidence, and fails on
-  missing/duplicate/invalid rows or supplements. I/311 `pmRA` is `mu_alpha_star` and
-  normalizes directly to `properMotionRaCosDecMilliarcsecondsPerYear`. Canonical
-  artifacts and provenance follow the v1 schemas and serialization policy in
-  `packages/catalogue-schema`. Raw or derived rows remain local and ignored while
-  redistribution is unresolved; the candidate allowlist is not cultural or lesson
-  approval.
-- **Status:** provisional (contract approved for local non-redistributing Phase 1 /
-  Milestone 2E parser implementation after Milestone 2D resolves source/deployment
-  authority; acquisition provenance remains partial, redistribution/deployment and
-  row/cultural review remain blocked)
+- **Current choice:** The corrected 2008-09-16 CDS/VizieR I/311 `hip2.dat` table,
+  supplements, and 19-HIP allowlist define only the bounded local Phase 1 parser spike.
+  That spike preserves every source field and solution/multiplicity/quality record,
+  fails on missing/duplicate/invalid rows or supplements, maps its source-supported
+  `pmRA` directly to the starred-alpha normalized field, and keeps all raw/derived rows
+  local while rights remain unresolved. Milestone 2D must separately select the
+  production catalogue/release, minimal numerical ProfileV1 allowlist, rights, row
+  eligibility, and stable UFUQ `starId`/source-release crosswalk. I/311 is neither
+  automatically retained nor migrated away here. Cultural records reference `starId`,
+  never copied coordinates or a permanently coupled external identifier.
+- **Status:** provisional (local non-redistributing I/311 spike contract approved;
+  production source/release, acquisition, deployment, allowlist, row authority, and
+  crosswalk unresolved under Milestone 2D)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.
-- **Validation required:** Pre-parse raw-hash verification; exact fixed-width and
-  supplemental joins; schema/range/solution/multiplicity/quality reporting; sorted
-  unique selection; byte-identical rebuild and checksum; provenance/licence manifest;
-  scientific row review; and separate falak/cultural review before any learner-facing
-  use.
+- **Validation required:** For the source selected by 2D: transport/hash verification,
+  source-specific parse/join rules, schema/range/quality reporting, sorted unique
+  selection, byte-identical rebuild, provenance/licence manifest, crosswalk integrity,
+  and scientific row review. The existing fixed-width/supplement/HIP checks apply only
+  if 2D retains I/311. Falak/cultural review remains separate before learner-facing use.
 
 ## IMP-009 — Astronomy transformation pipeline
 
@@ -121,8 +120,9 @@ Historical report/deviation/authority status remains in `governance/`.
   algorithm, supported range, effects, failure modes, and error budget.
 - **Current choice:** The Milestone 2C evidence audit confirms the typed state
   boundaries, I/311 ICRS input/frame label, starred-alpha `pmRA`, UTC/TAI/TT/UT1 roles,
-  fixed sign/horizontal conventions, structured-outcome requirement, and independent
-  comparison protocol. Milestone 2C.1 records ESA Gaia DR1's direct I/311-specific
+  fixed sign/horizontal conventions, structured-outcome requirement, and the
+  code-independent comparison protocol with explicit lineage. Milestone 2C.1 records
+  ESA Gaia DR1's direct I/311-specific
   `J1991.25` usage as source support for the Julian representation. It does not find an
   I/311 time scale. Preserve the label/representation and make source-derived
   propagation unavailable until exact authority or named astronomy-review approval
@@ -139,9 +139,10 @@ Historical report/deviation/authority status remains in `governance/`.
   observed celestial-pole offsets `dX`,`dY`. Motion, parallax/RV, polar motion,
   observed celestial-pole offsets, and refraction retain explicit blocked/conditional
   states. Routine availability resolves none of the epoch/derivative-scale, radial-
-  velocity, or acceptance-tolerance blockers.
-  Astropy `8.0.1` remains the independent reference path, not the production
-  selection; composed ERFA `atco13` is only a same-family consistency check. The
+  velocity, or later acceptance-tolerance questions.
+  Astropy `8.0.1` remains a reference path independent of future TypeScript code, not
+  the production selection or a lineage-independent oracle; composed ERFA `atco13` is
+  only a same-family consistency check. The
   actual pure-TypeScript implementation/library, epoch/derivative-scale interpretation,
   observer/EOP/refraction policies, supported range, effect bounds, error aggregation,
   and tolerances remain unresolved. Milestone 2C.3 proposes as a project decision a
@@ -192,25 +193,39 @@ Historical report/deviation/authority status remains in `governance/`.
   Every required numerical term remains unbounded, RSS remains prohibited without
   justified independence, all six tolerance classes are blocked, and the review
   recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED`. No hashed Batch input changed.
+  Milestone 2C.6 defines the candidate `ScientificProfileV1` and separates lifecycle
+  gates. V1 is one-preset, one-bounded-UTC-domain, source-neutral, offline,
+  fail-closed, geometric-only, refraction-disabled, and without aggregate visibility.
+  I/311 source authority moves to 2D if retained. Production/reference residuals,
+  any stronger independent validation required by the claimed release boundary,
+  numerical error-budget population, and tolerance approval follow implementation and
+  do not precede it. The profile remains
+  unresolved only until its seven scoped route/input/exclusion/outcome decisions are
+  approved.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
-- **Validation required:** Review the proposed route/effect matrix, close the
-  evidence/decision blockers listed in
-  `spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` and the 2C.5A experiment registry.
-  Review the completed synthetic batch without promoting its results; resolve the
-  blocked experiment inputs/policies; then run independent pinned
-  source-derived and production/reference cases, bound the ledger terms over the
-  approved operating domain, and obtain operation-specific approved tolerances before
-  scientific acceptance.
+- **Validation required:**
+  - **PRE_IMPLEMENTATION:** approve `ScientificProfileV1`, its semantic route/effect
+    ownership, pure-TypeScript mapping, typed inputs, explicit exclusions, and
+    fail-closed/pending-validation outcomes. Review Batch 01 only for its bounded
+    synthetic claims.
+  - **POST_IMPLEMENTATION:** compare the TypeScript implementation with pinned
+    reference fixtures across the approved domain, record residuals and statuses,
+    populate `F-001`/`F-005` and other applicable ledger evidence, activate
+    `test:reference`, and seek operation-specific tolerance approval before scientific
+    acceptance.
+  - **STRONGER_INDEPENDENT_VALIDATION:** evaluate USNO NOVAS or another genuinely
+    independent positional-astronomy path. Astropy/PyERFA/ERFA/SOFA shared lineage
+    cannot satisfy this stage.
 
 ## IMP-010 — Scene coordinate adapter
 
 - **Decision:** Mapping from horizontal astronomy coordinates to Three.js.
 - **Current choice:** Domain ENU maps to Three.js `+X east`, `+Y up`, `-Z north`; scene
-  code is an adapter and never the astronomy oracle. It consumes a labelled approved
-  direction and does not apply refraction, horizon corrections, or scientific
-  visibility policy.
+  code is an adapter and never the astronomy oracle. It consumes a labelled valid
+  direction with its pending-or-approved validation state, never promotes that state,
+  and does not apply refraction, horizon corrections, or scientific visibility policy.
 - **Status:** approved
 - **What code it affects:** Astronomy-to-scene adapter, camera orientation, raycasting,
   deterministic scene tests.
@@ -258,7 +273,9 @@ Historical report/deviation/authority status remains in `governance/`.
   availability, target evidence, supported answer form, and learner/scientific
   tolerances for the first vertical slice.
 - **Current choice:** Contract/type shape may be scaffolded; no production scenario or
-  numeric tolerance is selected.
+  numeric tolerance is selected. The one-preset/time input record needed by
+  `ScientificProfileV1` is separate from learner-answer and scoring policy; a missing
+  final scientific tolerance blocks later acceptance, not implementation start.
 - **Status:** unresolved
 - **What code it affects:** Scenario/route fixture, route-selection use case,
   assessment-core scoring, API validation, browser interaction, reference tests.

@@ -74,8 +74,11 @@ assumptions. A rule without one of the permitted bases is not retained.
 
 - Coverage percentages do not measure source authenticity, translation quality, or
   legal acquisition provenance.
-- The Astropy/PyERFA/IERS-data environment and official Astropy documentation remain
-  unpinned and therefore were not studied as a versioned oracle source.
+- The Astropy `8.0.1`, PyERFA `2.0.1.5`, and IERS-data reference environment plus
+  official Astropy reference-design pages are pinned. PyERFA's official stable API
+  documentation remains one patch behind the locked runtime; this limits later
+  postimplementation wrapper/reference claims but does not invalidate the frozen
+  synthetic evidence or supply a stronger independent oracle.
 - The current cultural source set cannot close Najdi, Arabic-human-review, exact
   membership, line-segment, or instructional-route approval.
 - Source study alone does not approve a project catalogue choice, runtime astronomy

@@ -11,8 +11,9 @@ UFUQ makes scientific, software, performance, usability, adaptive-model, and lea
 ## Decision
 
 Adopt the layers and configured gates in `../governance/TEST_STRATEGY.md`: pure-domain
-units/properties; catalogue schemas; independently authored/reviewed pinned
-Astropy/USNO/domain fixtures and error budgets; BKT oracles/sensitivity; real-SYS-001
+units/properties; catalogue schemas; separately authored/reviewed pinned reference
+fixtures, plus lineage-independent oracle fixtures where required, and error budgets;
+BKT oracles/sensitivity; real-SYS-001
 MySQL API/transaction/concurrency tests; deterministic raycast and approved browser
 E2E; focused scientific/scaffold visual regression; accessibility; performance;
 security/privacy; backup/restore; evidence manifests; and a separately approved human
@@ -24,7 +25,8 @@ astronomy. Every fixture and result records software/data/policy/tolerance statu
 Missing tolerance prevents numerical acceptance; it does not prevent a clearly
 labelled measurement-only experiment or an exact supported invariant. Coverage is
 diagnostic; pure decision/formula modules target complete branches, while approved
-independent reference agreement plus the error budget is the later correctness oracle.
+production/reference evidence plus the error budget is the later acceptance basis.
+Any stronger independent-oracle claim additionally requires a lineage audit.
 
 Milestone 2C.5A adds a human and machine experiment registry before execution. Every
 record states what it may and cannot establish, its input class, exact dependencies and
@@ -62,6 +64,17 @@ random terms. Correlated, systematic, asymmetric, or nonlinear terms require a j
 model, covariance, or conservative grouped bound. Every required numerical term is
 currently unbounded, so all six tolerance classes remain blocked and the AST-006
 recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED`.
+
+Milestone 2C.6 makes the lifecycle non-circular. `PRE_IMPLEMENTATION` evidence consists
+of authoritative semantics, the approved `ScientificProfileV1`, frozen synthetic
+guards, the pinned candidate reference environment, and planned fixtures. It permits
+implementation but not scientific acceptance. `POST_IMPLEMENTATION` evidence consists
+of TypeScript/reference residuals, supported-domain partitions, implementation ledger
+terms, `test:reference` activation, and tolerance review. A later
+`STRONGER_INDEPENDENT_VALIDATION` stage evaluates USNO NOVAS or another genuinely
+independent positional-astronomy path; shared Astropy/PyERFA/ERFA/SOFA lineage cannot
+satisfy it. Neither later stage is required before the implementation that produces
+its evidence exists.
 
 Use separate fail-closed Vitest configurations for unit, reference, and integration
 tests. Phase 0 CI runs only the active unit and browser suites. The reference suite
