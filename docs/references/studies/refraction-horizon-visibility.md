@@ -6,7 +6,7 @@
 - Governing question: AST-004.
 - Primary algorithm authority: IAU SOFA issue `2023-10-11`, especially
   `iauRefco`, `iauAtioq`, and `iauHd2ae`.
-- Independent-reference documentation: official Astropy `8.0.1` `AltAz`
+- Code-independent-reference documentation: official Astropy `8.0.1` `AltAz`
   documentation retrieved on 2026-08-03.
 - This dossier records source behaviour and authority limits. The separately tracked
   UFUQ project decision now normatively excludes refraction and aggregate visibility
@@ -19,7 +19,7 @@
 | Source | Exact documentation | Authority use |
 |---|---|---|
 | `SOFA-2023-10-11` | IAU SOFA ANSI C issue `2023-10-11`, release/manual routine documentation for `iauRefco`, `iauAtioq`, and `iauHd2ae`; official release index: <https://www.iausofa.org/current-software> | Production-route algorithm semantics and routine inputs; not UFUQ policy. |
-| `ASTROPY-DOCS-PIN` | Astropy `8.0.1`, [`AltAz`](https://docs.astropy.org/en/stable/api/astropy.coordinates.AltAz.html), official stable page as displayed on 2026-08-03 | Independent-reference frame/input/default/limitation behaviour; not production policy. |
+| `ASTROPY-DOCS-PIN` | Astropy `8.0.1`, [`AltAz`](https://docs.astropy.org/en/stable/api/astropy.coordinates.AltAz.html), official stable page as displayed on 2026-08-03 | Code-independent-reference frame/input/default/limitation behaviour with shared ERFA/SOFA lineage disclosed; not production policy or stronger-independent validation. |
 
 ## Source-supported facts
 
@@ -76,7 +76,7 @@ cannot create source authority or approve a threshold.
    variability, Sun altitude/daylight/twilight, extinction/transparency, cloud/weather,
    terrain/obstruction, light pollution, screen, and learner states independently.
 
-## Independent-reference fixture requirements
+## Code-independent-reference fixture requirements
 
 Every geometric/refraction fixture must retain the synthetic source, observation and
 observer/EOP/leap provenance, geometric direction, model/routine/version, pressure,

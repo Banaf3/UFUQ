@@ -90,9 +90,12 @@ The following are `PROJECT_DECISION` proposals for later approval:
    availability (`AVAILABLE`, `STALE`, `UNAVAILABLE`, `OUT_OF_RANGE`, with artifact
    staleness distinct from field coverage); and scientific approval (`APPROVED`,
    `NOT_APPROVED`, `REVIEW_REQUIRED`).
-4. `UT1-UTC`, `xp`, `yp`, and each selected `dX`, `dY` retain independent product/row
-   provenance, source quality, availability, coverage, and approval. If a source flag
-   applies to a pair, both fields cite it independently; no field promotes another.
+4. ScientificProfileV1 requires `UT1-UTC`, `xp`, and `yp`; each retains independent
+   product/row provenance, source quality, availability, coverage, interpolation
+   evidence, and approval. Observed `dX`,`dY` are explicitly outside the model-CIP-only
+   V1 route and are neither requested nor represented as zero. If a later profile
+   selects them, each gets the same independent field state. If a source flag applies
+   to a pair, both fields cite it independently; no field promotes another.
 5. Missing, blank, stale, expired, out-of-range, or unapproved-quality inputs are
    explicit non-result outcomes. Automatic downloads, cached-table discovery, stale-
    table use, prediction acceptance, zero substitution, and nearest-row extrapolation
@@ -106,7 +109,7 @@ The following are `PROJECT_DECISION` proposals for later approval:
 
 | Decision | Classification | Closure evidence |
 |---|---|---|
-| Select the production EOP family/file, exact version, hashes, field-precedence rules, and per-field source-quality/availability/approval policy. | `HUMAN_REVIEW_REQUIRED` | Astronomy review of a concrete immutable bundle and orthogonal field-state mapping. |
+| Select the production EOP family/file classes, field precedence/interpolation, and per-field source-quality/availability/approval policy for V1 `UT1-UTC`,`xp`,`yp`. | `HUMAN_REVIEW_REQUIRED` | Astronomy review of the semantic policy. Exact version/bytes/hashes and concrete immutable-bundle activation then belong to 2D. |
 | Select the production leap-second machine artifact and prove it agrees with the applicable Bulletin C history. | `HUMAN_REVIEW_REQUIRED` | Version, bytes, SHA-256, expiration/validity metadata, cross-check, and approval. |
 | Instantiate the earliest/latest supported instants under the normative endpoint contract. | `BLOCKS_2D_DATA_AUTHORITY` / activation data | Deterministic intersection of approved source epoch/propagation, leap, per-field EOP/interpolation support, ephemeris/model, observer, and scenario ranges; explicit approval and boundary fixtures. |
 | Accept any IERS-estimate, preliminary, or predicted EOP value. | `HUMAN_REVIEW_REQUIRED` | Named field-by-field scope, prediction horizon where applicable, uncertainty/error budget, warning contract, and approval. |
@@ -127,8 +130,9 @@ missing policy:
   approval independently for IERS-estimate, final, preliminary, mixed, predicted,
   stale, expired, missing, blank, and out-of-range rows without allowing nearest-value
   or zero substitution;
-- quantify nonzero-versus-zero and current-versus-stale changes separately for
-  `UT1-UTC`, `xp`,`yp`, and `dX`,`dY`, including interactions;
+- quantify nonzero-versus-zero and current-versus-stale changes separately for V1
+  `UT1-UTC`, `xp`,`yp`, including interactions; evaluate `dX`,`dY` only before a later
+  profile proposes to include observed celestial-pole offsets;
 - test valid and invalid `23:59:60Z` inputs against a pinned leap table, adjacent UTC
   instants, and normative rejection of fractional seconds, malformed offsets, and
   `-00:00`; and

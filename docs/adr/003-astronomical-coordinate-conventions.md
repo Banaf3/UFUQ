@@ -1,9 +1,9 @@
 # ADR-003: Astronomical coordinate and scene conventions
 
-- **Status:** Blocked pending manual domain decisions
-- **Classification:** CONFIRMED and CLARIFIED, with MANUAL DOMAIN DECISION inputs
+- **Status:** Blocked only pending final leap/EOP policy
+- **Classification:** ROUTE APPROVED FOR IMPLEMENTATION ENTRY; EOP POLICY MANUAL
 - **Date:** 2026-07-20
-- **Blockers:** AST-001, AST-003, AST-004, AST-005, AST-006, AST-007
+- **Blocker:** remaining AST-003 leap/EOP policy
 
 ## Context
 
@@ -13,8 +13,9 @@ Sky positions can look plausible while being wrong if catalogue epoch/frame, pro
 
 The Phase 1 Milestone 2C evidence audit in
 `../spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` confirms which items below are
-source-supported or already fixed project conventions. It does not change this ADR's
-blocked status or approve the remaining AST-003/004/006/007 choices.
+source-supported or already fixed project conventions. Successive focused audits now
+approve the ProfileV1 route, exclusions, observer/time contracts and implementation
+entry boundary. This ADR remains blocked only on the separate leap/EOP policy.
 
 Milestone 2C.1 adds one source-supported clarification: ESA Gaia DR1 directly
 identifies the I/311 new reduction and calls its parameter epoch `J1991.25`, resolving
@@ -109,6 +110,25 @@ complete required-field coverage. Exact earliest/latest timestamp values are der
 from approved artifacts during 2D/2E activation; neither RFC 3339 nor SOFA selects
 them, and generic astronomy-core implementation does not require them first.
 
+The focused route audit now approves the ProfileV1 transformation and production
+mapping. The source-neutral typed route is `CatalogueIcrsState` to
+`PropagatedIcrsAstrometry`, then `ObserverAwareCirsDirection` under an explicit
+`EarthOrientationContext`, then `GeometricHorizontalDirection`. Production is a
+UFUQ-owned pure-TypeScript subset derived from exact SOFA `2023-10-11` lower-level C
+semantics: strict full-input `pmsafe` propagation to the J2000.0 TDB epoch interface,
+pinned `epv00` Earth/Sun state, IAU 2006 precession with IAU 2000A nutation/CIO model
+orientation, declared-ellipsoid observer construction, `apco`/`apcs`-derived context,
+`atciq`-derived ICRS-to-CIRS and only the geometric part of the `atioq`-derived local
+stage. Observer velocity carries diurnal aberration through the `apcs`/`atciq`-
+derived context, so the later local `diurab` term is disabled as redundant, matching
+SOFA `apco`. Every eligible row requires approved epoch/derivative scale, `mu_alpha_star`,
+Dec motion, positive parallax/equivalent distance and finite radial velocity. V1
+requires leap data plus `UT1-UTC`,`xp`,`yp`; it deliberately does not consume observed
+`dX`,`dY`. Extra-body deflection and refraction are also outside V1. None of these
+omissions is zero uncertainty. The current-package audit finds no third-party
+TypeScript package with this exact model/data/status boundary, so ERFA or official
+SOFA C-to-WebAssembly is only a fallback if the owned subset proves unmaintainable.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -126,16 +146,14 @@ Fixed now:
 - angular answers use robust vector separation or wrapped circular distance;
 - every policy and tolerance is versioned and server scoring is authoritative.
 
-Before `ScientificProfileV1` implementation, AST-003 must approve, revise, or reject
-the profile's semantic route and actual pure-TypeScript algorithm/library mapping. It
-must give every effect an explicit included, excluded, conditional, or unavailable
-disposition; approve source-neutral motion/parallax/radial-velocity branches, one
-preset-observer contract and selected site identity, and leap/EOP field,
-interpolation, quality, offline and update policy. The UTC grammar/time-domain,
-geometric/no-refraction/no-visibility and core
-outcome/precedence contracts are already normative. Actual I/311 scale, row, rights,
-and artifact eligibility belong to 2D if that source is retained; the generic engine
-accepts no unspecified scale.
+Before `ScientificProfileV1` implementation, AST-003 must now approve only the leap/EOP
+product, field-quality, interpolation, coverage, offline, expiry, update and warning
+policy for required leap data, `UT1-UTC`,`xp`,`yp`. The route/effect mapping,
+source-neutral motion/parallax/radial-velocity eligibility, observer and UTC contracts,
+geometric/no-refraction/no-visibility scope and core outcome/precedence contracts are
+normative. Actual I/311 scale, row, rights and artifact eligibility belong to 2D if
+that source is retained; the generic engine accepts no unspecified scale or missing
+parallax/RV substitute.
 
 Quantified production disagreement, omission bounds, final numerical error budgets,
 and scientific/reference tolerances are postimplementation acceptance gates. Full

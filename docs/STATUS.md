@@ -1,6 +1,6 @@
 # Implementation status
 
-**Assessment date:** 2026-08-10
+**Assessment date:** 2026-08-13
 
 The consolidated Phase 0 repository scaffold is validated. It contains health-only web
 and API applications, eight npm workspaces, pure empty/type-placeholder production
@@ -15,7 +15,7 @@ persistence/authentication behavior, dashboard, or deployment configuration.
 | Gate | Result | Basis |
 |---|---|---|
 | Repository scaffolding | YES | The consolidated eight-workspace TypeScript monorepo, non-npm oracle boundary, strict compiler/build setup, test discovery, dependency enforcement, lockfile, and CI are validated. |
-| Validated celestial-guidance vertical slice | NO | The local I/311 parser contract is defined, but redistribution/deployment, selected-row scientific review, cultural membership/route approval, the production astronomy pipeline/error budget, scenario, and scoring tolerances remain unresolved. |
+| Validated celestial-guidance vertical slice | NO | The source-neutral production route is specified but unimplemented. Leap/EOP policy, 2D source/observer/artifact authority, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
 | Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
 | Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
@@ -227,9 +227,18 @@ precedence, exact zenith/nadir singularity, and warning/status preservation.
 `APPROVED_GEOMETRIC_RESULT` remains unreachable until postimplementation acceptance.
 No numerical ill-conditioned-azimuth boundary is invented.
 
-Milestone 2C remains **OPEN**, but only for two exact preimplementation decision
-clusters: the pure-TypeScript route and effect dispositions; and leap/EOP product-
-class, field, interpolation, quality, offline, expiry, and update policy. The whole-
+The transformation-route audit makes the source-neutral strict full-astrometry branch,
+UFUQ-owned pure-TypeScript SOFA `2023-10-11`-derived mapping, complete V1 effect
+dispositions, model-CIP-only `UT1-UTC`,`xp`,`yp` input set, and catalogue-reference
+runtime-propagation artifact shape normative. Approved epoch/derivative/parallax/RV
+states are row-eligibility requirements; missing values fail closed. Observed
+`dX`,`dY`, extra-body deflection and refraction remain explicit unbounded omissions,
+not zero. No current audited third-party TypeScript package matches the required
+model/data/status boundary.
+
+Milestone 2C remains **OPEN**, but only for one exact preimplementation decision
+cluster: leap/EOP product class, per-field interpolation, quality, offline, expiry,
+update and warning policy for required leap data, `UT1-UTC`,`xp`,`yp`. The whole-
 second Z-only UTC grammar, typed time states, `SupportedTimeDomain`, endpoint behavior,
 and fail-closed time outcomes are normative. Concrete earliest/latest values are
 derived and approved during 2D/2E profile activation rather than invented in 2C.
@@ -356,9 +365,9 @@ mapping, commands, corrections, and independent post-migration verdict are in
 ## Authorized next work
 
 Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
-contract but remains open only for the two `ScientificProfileV1` decision clusters
-listed above. The next 2C work is named astronomy-expert and supervisor review of those
-route and leap/EOP choices; another synthetic batch and AST-006 numerical approval are not
+contract but remains open only for the one `ScientificProfileV1` leap/EOP decision
+listed above. The next 2C work is named astronomy-expert and supervisor review of that
+policy; another synthetic batch and AST-006 numerical approval are not
 prerequisites to starting the bounded implementation.
 
 After profile approval, Milestone 2D selects the actual catalogue/release and minimal
@@ -382,9 +391,10 @@ boundary. Neither is a circular prerequisite to implementation.
   and minimal allowlist; resolve acquisition, raw/derived handling, deployment rights,
   stable internal-star/source crosswalks, and row-level scientific eligibility. The
   local I/311 spike contract does not select a permanent source.
-- **IMP-009 / AST-003 (`BLOCKS_SCIENTIFIC_PROFILE_V1`):** approve the candidate
-  pure-TypeScript route/library mapping and effect dispositions, and leap/EOP field/
-  interpolation/offline policy. Generic one-preset semantics, canonical UTC/time-
+- **IMP-009 / AST-003 (`BLOCKS_SCIENTIFIC_PROFILE_V1`):** approve the remaining
+  leap/EOP product/field-quality/interpolation/offline/expiry/update/warning policy.
+  The pure-TypeScript route/library mapping, effect dispositions, required row/EOP
+  field interface, generic one-preset semantics, canonical UTC/time-
   domain semantics, geometric-only exclusions, fail-closed precedence, and pending-
   validation outcomes are now normative. AST-006 numerical tolerance and production/
   reference residuals are

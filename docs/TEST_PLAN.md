@@ -34,9 +34,11 @@ when no matching test exists; neither uses `passWithNoTests`.
 Milestone 2C.6 makes the astronomy evidence order explicit:
 
 - `PRE_IMPLEMENTATION` approves `ScientificProfileV1` semantics, exclusions,
-  fail-closed outcomes, synthetic exact guards, the pinned candidate reference
-  environment, and the comparison plan. It does not require TypeScript residuals or a
-  numerical tolerance.
+  fail-closed outcomes, the source-neutral SOFA `2023-10-11`-derived pure-TypeScript
+  route/effect mapping, synthetic exact guards, the pinned candidate reference
+  environment, and the comparison plan. The remaining leap/EOP policy must define
+  the operational semantics for leap data, `UT1-UTC`,`xp`,`yp`; this stage does not
+  require TypeScript residuals or a numerical tolerance.
 - `POST_IMPLEMENTATION` introduces TypeScript/reference fixtures, residuals,
   supported-domain partitions, implementation-error evidence, and activates
   `test:reference`. Numerical acceptance remains blocked until AST-006 supplies an

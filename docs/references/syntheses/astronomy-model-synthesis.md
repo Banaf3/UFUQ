@@ -44,61 +44,52 @@ factorizes terrestrial/celestial orientation into polar motion, Earth rotation, 
 celestial pole motion. *Fundamental Astronomy* Chapter 2 explains the catalogue,
 mean/apparent, and observer-local distinctions but is not the implementation authority.
 
-## Milestone 2C.2 proposed route
+## Milestone 2C.2 route, finalized for ProfileV1 implementation entry
 
-`PROJECT_DECISION`: the review candidate is a componentized SOFA `2023-10-11`
-CIO-family semantic route, not an Astropy production call:
+`PROJECT_DECISION`: the source-neutral componentized SOFA `2023-10-11` CIO-family
+route is normative; it is not an Astropy production call:
 
 ```text
-I/311 CatalogueIcrsState at J1991.25 with unresolved scale
--> blocked iauPmsafe candidate to PropagatedIcrsAstrometry at a declared target epoch
--> iauApco13 model-only context + iauAtciq ObserverAwareCirsDirection
--> explicit EarthOrientationContext (TT, UT1, ERA, xp, yp, offset policy, data status)
--> iauAtioq GeometricHorizontalDirection with refraction coefficients zero
--> optional separate iauRefco/iauAtioq RefractedHorizontalDirection
--> separate VisibilityState
--> separate SceneDirection
+CatalogueIcrsState
+-> PropagatedIcrsAstrometry at the J2000.0 TDB epoch interface
+-> ObserverAwareCirsDirection under an explicit EarthOrientationContext
+-> GeometricHorizontalDirection
 ```
 
-For the selected celestial-interface candidate, the declared propagation target is
-J2000.0. This is an epoch input boundary, not an ICRS frame transformation, and no
-source-derived state exists while the epoch/space-motion inputs remain blocked.
-Routine availability does not resolve the I/311 epoch or derivative time scale,
-missing radial velocity, warnings, or tolerances.
+Production is a UFUQ-owned pure-TypeScript subset derived from exact lower-level SOFA
+C semantics. It uses the strict full-input `pmsafe` branch, pinned `epv00` Earth/Sun
+state, IAU 2006 precession with IAU 2000A nutation and matching CIO transformation,
+declared-ellipsoid observer construction, explicit leap/`UT1-UTC`/`xp`/`yp` inputs,
+observer-aware `atciq` semantics, and only the geometric portion of the local
+transformation. The J2000.0 target is an epoch interface, not an ICRS frame conversion.
+Observer velocity carries diurnal aberration through the `apcs`/`atciq`-derived
+context; matching SOFA `apco`, the later local `diurab` term is disabled as redundant.
 
-The candidate semantic model includes frame bias, IAU 2006 precession with IAU 2000A
-nutation, annual aberration, solar deflection, ERA-based Earth rotation, and diurnal
-aberration; `included` does not mean approved or executable.
-Proper-motion propagation, parallax, radial velocity, polar motion, celestial-pole
-offsets, and refraction retain blocked or conditional gates. The full per-effect inputs,
-omission consequences, validation cases, limitations, and reviewer approvals are in the
-Scientific Behaviour Contract.
+Every eligible source-neutral row requires approved epoch and derivative scales,
+`mu_alpha_star`, Dec proper motion, positive approved parallax/equivalent distance, and
+approved finite radial velocity. Missing or unapproved values make only the row
+ineligible and never become zero. I/311's unresolved scale and absent RV therefore
+remain 2D source-eligibility gaps if 2D retains it; they do not block generic code.
 
-SOFA `iauApco13` is only the convenience candidate: it chooses the SOFA Earth
-ephemeris and built-in model CIP/CIO from IAU 2006 precession with IAU 2000A nutation.
-It accepts `UT1-UTC` and polar motion `xp`,`yp`, but has no observed celestial-pole-
-offset `dX`,`dY` input. Polar motion and observed celestial-pole offsets are distinct
-EOP responsibilities. If observed offsets or an external ephemeris are approved, the
-production route must use lower-level `iauApco`-family inputs or an equivalent explicit
-context rather than silently retaining `iauApco13`.
+V1 includes frame bias, IAU 2006 precession, IAU 2000A nutation, annual aberration,
+solar deflection, ERA-based Earth rotation, polar motion and diurnal aberration. It
+explicitly omits observed celestial-pole offsets `dX`,`dY`, extra-body deflection and
+refraction. Omitted effects retain unbounded later-profile/error-budget terms. The
+high-level `iauApco13` remains a convenience/reference composition because it assumes
+WGS 84, consults compiled leap state, accepts refraction inputs, exposes no observed
+`dX`,`dY` input and discards `epv00` status.
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: an I/311 epoch/derivative scale and radial velocity
-still block eligible propagated I/311 rows if 2D retains them. Profile route, EOP/leap,
-supported-date, and observer semantics must be approved before bounded implementation;
-their operational bytes follow 2D. Numerical tolerance instead gates later scientific
-acceptance. CDS Catalogue Standard 2.0 resolves the numeric `yr` duration as 365.25
-days but not the derivative scale.
+`AUTHORITY_OR_EVIDENCE_MISSING`: only the leap/EOP product, field-quality,
+interpolation, coverage, offline, expiry, update and warning policy remains a 2C
+preimplementation blocker. Concrete source/observer/EOP/leap bytes and derived
+supported dates are 2D/2E activation data. Numerical tolerance instead gates later
+scientific acceptance.
 
-`HUMAN_REVIEW_REQUIRED`: AST-003 must approve, revise, or reject the semantic route and
-the actual pure-TypeScript implementation/library. AST-004 separately owns nonzero
-refraction and visibility policy.
-
-`EXPERIMENT_REQUIRED`: registered route, effect, epoch/motion, EOP/range,
-observer/parallax/RV, deflection, and refraction families execute only at their stated
-lifecycle gates. Shared-lineage Astropy/ERFA disagreement is a code-path comparison,
-not independent validation. Unrun later-scope experiments do not block approval of a
-profile that excludes their capabilities; production comparisons necessarily follow
-implementation.
+`EXPERIMENT_REQUIRED`: no unrun experiment is required to select this semantic route.
+Registered effect, observer/parallax/RV, EOP/range, deflection and refraction families
+run only at their postimplementation or later-profile gates. Shared-lineage
+Astropy/ERFA disagreement is implementation comparison, not stronger independent
+validation.
 
 ## Milestone 2C.3 operating-domain proposal
 
@@ -373,7 +364,7 @@ evidence none exists, and survey control is optional.
 | Catalogue rows remain immutable numerical source records; observed and refracted values are derived separately. | I/311 `ReadMe`; *Fundamental Astronomy* §§2.4, 2.9; `DATA_STRATEGY.md` | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Use TT for the selected precession-nutation model and UT1 for ERA, with pinned leap-second and EOP provenance. | IERS Eqs. (5.2), (5.14)-(5.15); SOFA time/ERA routines | `SOURCE_SUPPORTED_FACT` |
 | Retain scientific warning/error status with stage/routine/model provenance; neither silently downgrade it to success nor automatically promote it to rejection without the owning policy. | `iauUtctai`, `iauAtco13`, `iauPmsafe` preambles; Batch 01 status guards | `SOURCE_SUPPORTED_FACT` plus normative `PROJECT_DECISION` |
-| Propose a componentized SOFA `2023-10-11` CIO-family route and record every included/omitted/conditional/blocked effect while keeping Astropy/PyERFA as a reference path independent of the future TypeScript code, but not independent of shared ERFA/SOFA lineage. | SOFA `iauPmsafe`/`iauAtco13`/`iauApco13`/`iauAtciq`/`iauAtioq`; IERS Chapter 5; AST-003 | `PROJECT_DECISION`; profile-route approval and implementation mapping remain `HUMAN_REVIEW_REQUIRED` |
+| Implement the ProfileV1 route as a UFUQ-owned pure-TypeScript subset derived from exact SOFA `2023-10-11` lower-level C semantics: strict full-input `pmsafe` propagation to the J2000.0 TDB epoch interface; pinned `epv00` Earth/Sun state; IAU 2006 precession plus IAU 2000A nutation/CIO model terms; explicit `UT1-UTC`,`xp`,`yp`; observer-aware CIRS; and the geometric-only part of the local transformation. Keep `dX`,`dY`, extra-body deflection, and refraction explicitly outside V1, and keep Astropy/PyERFA as a code-independent reference path that shares ERFA/SOFA scientific lineage. | SOFA `iauPmsafe`/`iauEpv00`/`iauPnm06a`/`iauBpn2xy`/`iauS06`/`iauC2ixys`/`iauApco`/`iauAtciq`/`iauAtioq`; IERS Chapter 5; AST-003; current package audit | Normative `PROJECT_DECISION` for implementation entry; residuals, omission bounds, tolerance, and stronger-independent validation remain later gates |
 | Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`; convert `yr` using 365.25 days. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408; CDS Catalogue Standard 2.0 Section 3.2.2 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned code-independent Astropy reference while disclosing shared ERFA/SOFA lineage; add a stronger oracle later where required. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
 | Compare explicit Julian-TT/TDB/UTC, calendar-decimal-year, and Besselian guard interpretations with synthetic space-motion inputs; record time and direction deltas without inferring source meaning. | I/311/ESA epoch evidence conflict; Astropy `8.0.1` time docs; PyERFA `pmsafe` TDB contract | `EXPERIMENT_REQUIRED` |
@@ -389,8 +380,8 @@ evidence none exists, and survey control is optional.
 
 ## Required validation evidence
 
-- **Before implementation:** approve the bounded profile route/effect disposition and
-  leap/EOP policy. Carry the already normative generic `ObserverPreset`, whole-second
+- **Before implementation:** approve the remaining leap/EOP policy. Carry the now
+  normative bounded route/effect disposition, generic `ObserverPreset`, whole-second
   canonical-UTC/time-domain contract, source-neutral boundary, geometric output/exclusions,
   outcome/precedence/warning, and pending-validation contracts. Identify the 2D
   catalogue/release and observer-artifact inputs without treating I/311 as permanent or
@@ -411,8 +402,9 @@ determinism evidence, not source meaning, production approval, or independent
 validation. The 49-term ledger remains unchanged: 45 numerical terms are explicitly
 unbounded/unresolved and four entries are exact non-numerical guards.
 
-The pre-implementation gaps are now two clusters: route/effect disposition and
-production mapping; and leap/EOP product/per-field/interpolation/offline/update policy.
+The only pre-implementation gap is the leap/EOP product/per-field/interpolation/
+offline/update policy. The route/effect/production mapping is normative for
+implementation entry; its numerical verification remains postimplementation.
 Profile boundary, whole-second Z-only UTC grammar, typed time states,
 `SupportedTimeDomain` and endpoint semantics, pending-validation result state,
 geometric-only/no-refraction/no-visibility scope, fail-closed precedence, exact

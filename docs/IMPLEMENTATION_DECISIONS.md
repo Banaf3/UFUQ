@@ -126,26 +126,31 @@ Historical report/deviation/authority status remains in `governance/`.
   `J1991.25` usage as source support for the Julian representation. It does not find an
   I/311 time scale. Preserve the label/representation and make source-derived
   propagation unavailable until exact authority or named astronomy-review approval
-  supplies the scale. Milestone 2C.2 proposes a componentized SOFA `2023-10-11`
-  CIO-family semantic route: preliminary `iauPmsafe` propagation to a declared target
-  epoch, with J2000.0 as the candidate epoch input required by the selected
-  `iauAtciq`/`iauAtco13` path rather than a frame conversion; `iauApco13` plus
-  `iauAtciq` to observer-aware CIRS; an explicit
-  Earth-orientation context; and separate `iauAtioq` geometric and optional
-  `iauRefco`-based refracted evaluations. Its candidate matrix includes frame bias,
-  IAU 2006 precession with IAU 2000A nutation, annual aberration, solar deflection,
-  ERA-based Earth rotation, and diurnal aberration. `iauApco13` supplies the built-in
-  model CIP/CIO and accepts `UT1-UTC` and polar motion `xp`,`yp`; it does not apply
-  observed celestial-pole offsets `dX`,`dY`. Motion, parallax/RV, polar motion,
-  observed celestial-pole offsets, and refraction retain explicit blocked/conditional
-  states. Routine availability resolves none of the epoch/derivative-scale, radial-
-  velocity, or later acceptance-tolerance questions.
-  Astropy `8.0.1` remains a reference path independent of future TypeScript code, not
-  the production selection or a lineage-independent oracle; composed ERFA `atco13` is
-  only a same-family consistency check. The
-  actual pure-TypeScript implementation/library, epoch/derivative-scale interpretation,
-  observer/EOP/refraction policies, supported range, effect bounds, error aggregation,
-  and tolerances remain unresolved. The ScientificProfileV1 time audit makes normative
+  supplies the scale. Milestone 2C.2 first proposed a componentized SOFA
+  `2023-10-11` CIO-family route; the focused 2C.6 route audit now makes its bounded
+  production mapping normative. Production implements a UFUQ-owned pure-TypeScript
+  subset derived from exact lower-level SOFA C semantics: strict `pmsafe`-derived full
+  space motion to the J2000.0 TDB epoch interface, pinned `epv00` Earth/Sun state,
+  `pnm06a`/CIO model orientation, declared-ellipsoid observer construction, an
+  `apco`/`apcs`-derived context, `atciq`-derived ICRS-to-CIRS, and only the geometric
+  part of the `atioq`-derived local transformation. It requires approved epoch and
+  derivative scales, `mu_alpha_star`, Dec motion, positive parallax/equivalent
+  distance, finite radial velocity, leap data, `UT1-UTC`, `xp`, `yp`, and an approved
+  observer. It includes frame bias, IAU 2006 precession with IAU 2000A nutation,
+  annual aberration, solar deflection, Earth rotation, polar motion and diurnal
+  aberration. Observer velocity carries the diurnal term through the `apcs`/`atciq`-
+  derived context and the later local `diurab` term is disabled as redundant, matching
+  SOFA `apco`. Observed `dX`,`dY`, extra-body deflection and refraction are explicitly
+  outside V1 and remain unbounded rather than zero. Missing or unapproved required
+  row/operational inputs fail closed.
+  Astropy `8.0.1` remains a reference path independent of production code/dependencies,
+  not a scientifically lineage-independent oracle; the SOFA-derived production subset
+  and Astropy/PyERFA/ERFA share scientific lineage, and composed ERFA `atco13` remains
+  only a same-family consistency check. Current official package/repository/licence
+  evidence finds no third-party TypeScript package that matches the V1 model, EOP,
+  warning/status and offline boundary. ERFA or official SOFA C compiled to WebAssembly
+  is a reviewed fallback if the owned subset proves unmaintainable, not the selected
+  implementation or a stronger oracle. The ScientificProfileV1 time audit makes normative
   a whole-second Z-only restricted subset of RFC 3339 at the UTC astronomy input;
   conditional exact-date leap validation; typed UTC quasi-JD, TAI, TT, and UT1 states;
   a versioned `SupportedTimeDomain` with explicit endpoints and complete required-field
@@ -212,16 +217,20 @@ Historical report/deviation/authority status remains in `governance/`.
   only/refraction-disabled/no-visibility scope, and outcome/precedence/singularity/
   warning/pending-validation contracts normative. `GEOMETRIC_RESULT_PENDING_VALIDATION`
   is executable after the remaining gates; `APPROVED_GEOMETRIC_RESULT` remains
-  unreachable until postimplementation scientific acceptance. The profile remains
-  unresolved only for two scoped decisions: route/effect mapping and leap/EOP policy.
+  unreachable until postimplementation scientific acceptance. The route/effect/
+  production mapping is resolved for implementation entry. The profile remains
+  unresolved only for the leap/EOP product, field-quality, interpolation, coverage,
+  offline, expiry, update and warning policy.
   The concrete observer record and actual supported-time bounds are activation data,
   not additional 2C blockers.
-- **Status:** unresolved
+- **Status:** partially approved (route/effect/production mapping normative; leap/EOP
+  policy unresolved)
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:**
-  - **PRE_IMPLEMENTATION:** approve the remaining route/effect ownership and pure-
-    TypeScript mapping plus leap/EOP policy. Implement the already normative typed
+  - **PRE_IMPLEMENTATION:** approve the remaining leap/EOP policy for required leap
+    data, `UT1-UTC`,`xp`,`yp`. Implement the now normative pure-TypeScript route/effect
+    mapping and typed
     UTC/time-domain boundary, exclusions, fail-closed precedence, warnings/statuses,
     and pending-validation outcome without promoting it to scientific acceptance.
     Review Batch 01 only for its bounded synthetic claims.

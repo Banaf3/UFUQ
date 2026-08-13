@@ -9,7 +9,8 @@
   the workspace-local oracle environment.
 - Scope: time representation and scale, space-motion propagation, GCRS/CIRS/ITRS/AltAz
   frame roles, Earth-orientation data status, and preservation of ERFA warnings/errors
-  for a future independent reference implementation.
+  for a future code-independent reference implementation with shared ERFA/SOFA
+  scientific lineage disclosed.
 - Out of scope: selecting the production astronomy algorithm, approving the I/311
   epoch time scale, choosing production EOP data, or setting a tolerance.
 
@@ -134,14 +135,15 @@ combination is still required before calling the PyERFA documentation pin comple
 - treat Astropy's missing-radial-velocity zero as a library behaviour, not an approved
   I/311 scientific policy.
 
-`HUMAN_REVIEW_REQUIRED`: the astronomy reviewer must accept the exact Astropy/PyERFA
-reference route and warning mapping after the I/311 epoch scale and space-motion input
-policy are resolved.
+`HUMAN_REVIEW_REQUIRED`: before postimplementation scientific acceptance, the
+astronomy reviewer must accept the exact Astropy/PyERFA reference route, installed-
+patch evidence and warning mapping against the 2D-approved source-neutral rows. This
+does not require I/311 if 2D selects another source.
 
-## Milestone 2C.2 independent-reference route
+## Milestone 2C.2 code-independent reference route
 
-`PROJECT_DECISION`: the proposed independent route is deliberately not the production
-route:
+`PROJECT_DECISION`: the reference code/dependency route is deliberately not the
+selected UFUQ-owned TypeScript production route:
 
 1. construct ICRS `SkyCoord` with explicit source `obstime`, `pm_ra_cosdec`, `pm_dec`,
    distance/parallax, and radial velocity only after each input policy is approved;
@@ -160,11 +162,16 @@ auto-download/cache state, observer WGS 84 semantics, ephemeris, refraction inpu
 all warnings. A high-level result cannot be used to infer scientific approval or which
 production stage owns topocentric parallax or diurnal aberration.
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: the I/311 epoch/derivative scale, radial-velocity input
-policy, production EOP/range policy, and approved refraction scope still prevent
-source-derived reference truth. CDS Catalogue Standard 2.0 separately resolves the
-numeric `yr` duration as 365.25 days. The official PyERFA stable/runtime patch mismatch
-also remains.
+`AUTHORITY_OR_EVIDENCE_MISSING`: 2D source-row eligibility and the production
+leap/EOP policy/operating artifacts still prevent approved source-derived reference
+truth. I/311's epoch/derivative scale and absent radial velocity matter only if 2D
+retains it. Refraction is outside V1 rather than a route blocker. The official PyERFA
+stable/runtime patch mismatch also remains for later reference acceptance.
+
+The selected production implementation is derived from SOFA semantics while Astropy
+uses PyERFA/ERFA. The implementations and dependencies are independent, but the
+scientific lineage is shared. Their comparison is implementation verification, not
+the later stronger-independent-validation stage.
 
 ## ScientificProfileV1 time-boundary consequence
 

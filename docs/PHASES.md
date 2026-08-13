@@ -165,8 +165,16 @@ validation lifecycle are normative. `APPROVED_GEOMETRIC_RESULT` remains unreacha
 until postimplementation acceptance. Concrete earliest/latest timestamps are derived
 during 2D/2E profile activation from approved source/model/leap/per-field-EOP/
 observer/scenario intersections; they are data, not invented preimplementation
-constants. Milestone 2C remains open only for the two
-profile-scoped decisions in
+constants. The focused route audit selects a source-neutral strict full-astrometry
+branch and a UFUQ-owned pure-TypeScript subset derived from exact SOFA `2023-10-11`
+lower-level semantics. It includes model frame bias/IAU 2006 precession/IAU 2000A
+nutation, annual aberration, solar deflection, Earth rotation, polar motion and diurnal
+aberration; requires approved epoch/derivative/parallax/RV plus `UT1-UTC`,`xp`,`yp`;
+and explicitly leaves observed `dX`,`dY`, extra-body deflection and refraction outside
+V1 without setting their uncertainty to zero. Catalogue-reference astrometry is
+propagated at runtime; generated scenario directions may be derived fixtures/caches,
+not source authority. Milestone 2C remains open only for the one
+profile-scoped leap/EOP policy decision in
 `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md`; production/reference results, any stronger
 independent validation required by the claimed release boundary, error-budget
 population, and tolerance approval are later scientific-acceptance gates.
