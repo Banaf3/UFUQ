@@ -36,9 +36,10 @@ Milestone 2C.6 makes the astronomy evidence order explicit:
 - `PRE_IMPLEMENTATION` approves `ScientificProfileV1` semantics, exclusions,
   fail-closed outcomes, the source-neutral SOFA `2023-10-11`-derived pure-TypeScript
   route/effect mapping, synthetic exact guards, the pinned candidate reference
-  environment, and the comparison plan. The remaining leap/EOP policy must define
-  the operational semantics for leap data, `UT1-UTC`,`xp`,`yp`; this stage does not
-  require TypeScript residuals or a numerical tolerance.
+  environment, the final-only per-field leap/EOP policy, and the comparison plan. This
+  stage defines the operational semantics for leap data, `UT1-UTC`,`xp`,`yp`; it does
+  not require concrete 2D/2E artifact bytes, TypeScript residuals, or a numerical
+  tolerance.
 - `POST_IMPLEMENTATION` introduces TypeScript/reference fixtures, residuals,
   supported-domain partitions, implementation-error evidence, and activates
   `test:reference`. Numerical acceptance remains blocked until AST-006 supplies an
@@ -111,6 +112,19 @@ once that implementation exists.
   ordering), and prove that one EOP field cannot borrow another field's coverage or
   interpolation support. These tests begin after 2D/2E supplies the immutable artifacts;
   no placeholder date range is permitted.
+- Leap/EOP activation tests must verify exact raw and normalized bundle hashes; Bulletin
+  C consistency of the selected official machine-readable leap transport; explicit
+  expiry/validity metadata; exact-event `23:59:60Z` validation; independent final
+  source-quality, row/support, coverage and approval state for `UT1-UTC`,`xp`,`yp`;
+  UFUQ-selected four-point support and the selected versioned IERS Conventions 2010
+  ocean-tide/applicable-libration restoration, ordered after interpolation and applied
+  exactly once;
+  continuous `UT1-TAI` handling across leap boundaries; rejection of blanks, gaps,
+  duplicates, non-monotonic samples and mixed/unapproved support; and deterministic
+  offline replay. Tests must prove there is no zero, nearest-row, extrapolated,
+  preliminary, predicted, estimate, expired-for-request, hidden-cache, ambient library
+  table, automatic-download or cross-field fallback. Artifact acquisition age alone
+  must neither approve nor invalidate a historical final row.
 - Milestone 2C.4's later reference design retains separate geometric/refracted states,
   explicit atmosphere units/provenance and no implicit defaults, model/domain/warning
   capture, near/zero/below-horizon partitions, distinct geometric/refracted-apparent/

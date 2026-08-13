@@ -6,7 +6,9 @@
 - **Evidence interpretation date:** 2026-08-11
 - **AST-006 recommendation:** `FINAL_TOLERANCE_NOT_JUSTIFIED`
 - **Numerical scientific tolerance approved:** no
-- **Milestone 2C status:** `OPEN`
+- **Milestone 2C status at the 2C.5C checkpoint:** `OPEN`; superseded by the 2C.6
+  `MILESTONE_2C_READY_TO_CLOSE_FOR_IMPLEMENTATION` decision without changing any
+  numerical-bound or tolerance conclusion in this ledger
 - **Review state:** named astronomy-expert and supervisor review required
 
 This document interprets the committed synthetic Batch 01 evidence and defines the
@@ -317,5 +319,6 @@ zero.
 
 Production floating-point and reference-disagreement terms, combined error bounds,
 and all six numerical tolerance classes are postimplementation scientific-acceptance
-work. Milestone 2C remains open only for the profile decisions listed by 2C.6, not
-because production evidence does not yet exist.
+work. Milestone 2C.6 has now resolved the profile decisions needed to start bounded
+implementation; none of these postimplementation terms retroactively reopens that
+preimplementation contract.

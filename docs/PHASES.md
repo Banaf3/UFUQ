@@ -65,7 +65,9 @@ artifact/provenance schemas.
 Milestone 2C is the Scientific Behaviour Contract. Its 2026-08-03 evidence audit
 resolves documented I/311 field semantics while retaining the named time-scale gap,
 fixed UFUQ coordinate conventions, typed scientific-state separation, and
-reference-test requirements. It remains open:
+reference-test requirements. The following submilestone statements record their
+historical checkpoint status; the final 2C.6 paragraph below supersedes those interim
+open states:
 Milestone 2C.1 resolves the I/311 epoch representation as Julian from official ESA
 Gaia DR1's direct `J1991.25` use, but finds no I/311-applicable time scale. It therefore
 keeps source-derived propagation unavailable and specifies a synthetic sensitivity
@@ -92,7 +94,8 @@ per-field source-quality/availability/approval state, fail-closed structured out
 with deterministic semantic precedence, and six additional
 reference experiments. It selects no production product/hash, date/location/height
 range, stale/update threshold, field-quality approval, degraded mode, or
-tolerance. Milestone 2C remains open and source-derived execution remains blocked.
+tolerance. At the 2C.3 checkpoint Milestone 2C remained open and source-derived
+execution remained blocked.
 
 Milestone 2C.4 proposes geometric altitude only for the first vertical slice, explicit
 atmosphere provenance with no default atmosphere, separate geometric/refracted
@@ -144,7 +147,7 @@ method uses boundary-specific metrics, conservative bounded sums when dependence
 unknown, covariance/joint treatment for correlated terms, and RSS only when
 independence is justified. No required numerical term is bounded, all six tolerance
 classes remain blocked, and `FINAL_TOLERANCE_NOT_JUSTIFIED` is prepared for AST-006
-review. Milestone 2C remains open.
+review. At the 2C.5C checkpoint Milestone 2C remained open.
 
 Milestone 2C.6 defines `ScientificProfileV1` and audits the exit gate.
 The first profile is source-neutral and geometric-only: exactly one selected observer
@@ -173,23 +176,33 @@ aberration; requires approved epoch/derivative/parallax/RV plus `UT1-UTC`,`xp`,`
 and explicitly leaves observed `dX`,`dY`, extra-body deflection and refraction outside
 V1 without setting their uncertainty to zero. Catalogue-reference astrometry is
 propagated at runtime; generated scenario directions may be derived fixtures/caches,
-not source authority. Milestone 2C remains open only for the one
-profile-scoped leap/EOP policy decision in
-`spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md`; production/reference results, any stronger
+not source authority. The final 2C.6 audit makes the profile-scoped leap/EOP policy
+normative: approved leap state plus independently approved final `UT1-UTC`,`xp`,`yp`,
+complete UFUQ-selected four-point support, leap-aware `UT1-TAI`, and exactly-once
+IERS Conventions 2010 subdaily restoration after interpolation; it also requires
+immutable offline bundles, separate quality/integrity/coverage/
+validity/approval states, reviewed activation and no degraded fallback. Exact
+artifacts, hashes, restoration configuration and dates remain 2D/2E data. Milestone
+2C is ready to close for implementation; production/reference results, any stronger
 independent validation required by the claimed release boundary, error-budget
 population, and tolerance approval are later scientific-acceptance gates.
 
 Milestone 2D records the data/source/deployment-authority outcome required before real
 ProfileV1 execution. It selects the catalogue/release rather than inheriting I/311 from
 the spike, approves acquisition/licensing and row eligibility, creates the stable
-internal-star/source crosswalk and minimal allowlist, and selects the exact permitted
-operational leap/EOP artifacts. It also acquires and approves the concrete UMPSA Pekan
+internal-star/source crosswalk and minimal allowlist, and selects/acquires exact
+official final EOP and leap artifacts, Bulletin C consistency, per-field coverage/
+uncertainty, hashes, and the exact IERS interpolation/restoration source configuration
+under the 2C policy. It also acquires and approves the concrete UMPSA Pekan
 Faculty `ObserverPreset` data and provenance before real ProfileV1 execution; a JUPEM
 survey-control record is optional rather than mandatory. Unresolved redistribution
 authority does not become permission to track or deploy I/311-derived rows.
 
-Milestone 2E implements the local read-only catalogue parser, runtime validation, and
-deterministic generation after Milestones 2C and 2D. Inputs and outputs remain ignored
+Milestone 2E implements the local read-only catalogue parser, leap/EOP parsers and
+independent normalized field records, leap-aware four-point interpolation plus the
+pinned IERS Conventions 2010 restoration configuration, runtime validation,
+fail-closed offline lookup, and deterministic bundle/catalogue
+generation after Milestones 2C and 2D. Inputs and outputs remain ignored
 and local unless separate redistribution/deployment authority explicitly permits
 otherwise. Source-derived fixtures, cultural membership, and learner-facing content
 remain outside this milestone until their scientific or human-review gates are met.
@@ -203,7 +216,7 @@ A comparison failure blocks scientific
 acceptance and can force a revision; the comparison cannot be a prerequisite to the
 implementation that produces it.
 
-**Exit:** the spike defines an approved `ScientificProfileV1` implementation path,
+**Exit:** `MILESTONE_2C_READY_TO_CLOSE_FOR_IMPLEMENTATION`: the spike defines an approved `ScientificProfileV1` implementation path,
 explicit source/data handoffs, fail-closed behavior, and reproducible preimplementation
 reference/protocol evidence. It does not require production/reference residuals or a
 final numerical tolerance before production code exists; rejected spike code can be

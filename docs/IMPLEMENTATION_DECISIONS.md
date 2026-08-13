@@ -157,18 +157,25 @@ Historical report/deviation/authority status remains in `governance/`.
   coverage; no local/current-time or unlabeled-JD fallback; explicit geodetic observer
   provenance and uncertainty;
   immutable hash-addressed offline EOP/leap bundles; separately reviewed atomic
-  updates with old-bundle replay; separate source-quality, artifact/field-availability,
-  and scientific-approval states for every required EOP field; a
+  updates with prior-bundle replay; separate source-quality, artifact integrity,
+  field-coverage/interpolation support, publisher-validity, acquisition-lifecycle and
+  scientific-approval states for every required EOP field; a
   supported-domain intersection rule; and explicit non-result/result outcome families.
-  It forbids request-time download/cache fallback, zero/nearest EOP substitution, stale
-  leap data, and every unapproved field quality or degraded execution. No production
-  artifact/hash, stale rule, update cadence, observer datum/range, concrete date
-  endpoint, prediction horizon, degraded bound, or warning serialization is approved.
+  The final leap/EOP audit accepts only independently approved final Bulletin B/final-
+  derived `UT1-UTC`,`xp`,`yp`, selects Gazette 13's four-point example with complete
+  support, interpolates UT1 through continuous `UT1-TAI`, restores the IERS Conventions
+  2010 ocean-tide and applicable libration terms exactly once after interpolation, and keeps Bulletin C as
+  leap-event authority with a separately selected official IERS/IANA machine transport.
+  It forbids request-time download/cache fallback, zero/nearest/extrapolated EOP,
+  estimate/preliminary/prediction fallback, expired-for-request leap data, and every
+  unapproved field quality or degraded execution. No production artifact/hash, exact
+  restoration source/configuration, update cadence, observer datum/range, concrete date
+  endpoint, prediction horizon, degraded bound, or wire serialization is approved.
   Concrete date values are activation data derived in 2D/2E from the approved domain
   intersection; their absence does not block generic implementation. The semantic-
-  scope audit makes core deterministic failure precedence normative, while the open
-  leap/EOP policy may refine its owned field-specific sub-order and
-  stable wire codes remain under review. ScientificProfileV1 normatively emits
+  scope and leap/EOP audits make core deterministic failure precedence and field-
+  specific fail-closed dispositions normative, while stable wire codes remain under
+  review. ScientificProfileV1 normatively emits
   geometric-only output, requests no refraction or atmosphere, supplies no default
   atmosphere, keeps geometric, refracted-apparent, physical-dip, terrain, renderer,
   and learner horizon meanings distinct, emits no aggregate visibility, and retains
@@ -218,22 +225,24 @@ Historical report/deviation/authority status remains in `governance/`.
   warning/pending-validation contracts normative. `GEOMETRIC_RESULT_PENDING_VALIDATION`
   is executable after the remaining gates; `APPROVED_GEOMETRIC_RESULT` remains
   unreachable until postimplementation scientific acceptance. The route/effect/
-  production mapping is resolved for implementation entry. The profile remains
-  unresolved only for the leap/EOP product, field-quality, interpolation, coverage,
-  offline, expiry, update and warning policy.
-  The concrete observer record and actual supported-time bounds are activation data,
-  not additional 2C blockers.
-- **Status:** partially approved (route/effect/production mapping normative; leap/EOP
-  policy unresolved)
+  production mapping and final-only leap/EOP semantic policy are resolved for
+  implementation entry. Exact production EOP/leap artifacts, field evidence,
+  interpolation/restoration configuration, concrete observer record and actual
+  supported-time bounds are 2D/2E activation data, not additional 2C blockers.
+- **Status:** approved for bounded ScientificProfileV1 implementation entry; real-data
+  execution and scientific acceptance remain gated
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:**
-  - **PRE_IMPLEMENTATION:** approve the remaining leap/EOP policy for required leap
-    data, `UT1-UTC`,`xp`,`yp`. Implement the now normative pure-TypeScript route/effect
-    mapping and typed
+  - **PRE_IMPLEMENTATION:** implement the now normative pure-TypeScript route/effect/
+    final-only leap/EOP mapping and typed
     UTC/time-domain boundary, exclusions, fail-closed precedence, warnings/statuses,
     and pending-validation outcome without promoting it to scientific acceptance.
     Review Batch 01 only for its bounded synthetic claims.
+  - **2D/2E ACTIVATION:** select and approve exact official EOP/leap bytes, Bulletin C
+    consistency, per-field final support, exact IERS interpolation/restoration source
+    configuration, bundle hashes, observer/source artifacts and supported-time bounds
+    before any real ProfileV1 execution.
   - **POST_IMPLEMENTATION:** compare the TypeScript implementation with pinned
     reference fixtures across the approved domain, record residuals and statuses,
     populate `F-001`/`F-005` and other applicable ledger evidence, activate

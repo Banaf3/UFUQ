@@ -10,10 +10,11 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 |---|---|---|---|
 | 1. Numerical astronomical catalogue | Stable UFUQ `starId`; source-release crosswalk; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits; changing source releases does not change cultural identifiers |
 | 2. Observer preset data | Stable preset/site identity; exact reference point; geodetic coordinates; datum/frame/ellipsoid; typed height; applicable coordinate epoch; accuracy; provenance; source/data versions; approval | `ObserverPreset` semantics from 2C; concrete source and data approval in 2D | Exact values are acquired, reviewed, versioned and hash-bound rather than copied from a map or embedded in formulas; unknown accuracy stays explicit |
-| 3. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member UFUQ `starId` values; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication or catalogue-specific foreign keys; not limited to one named pattern |
-| 4. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
-| 5. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
-| 6. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–5 | Never hand-edit; generated header/manifest/checksum required |
+| 3. Leap/EOP operational science data | Exact official leap transport and final Bulletin B/final-derived `UT1-UTC`,`xp`,`yp` source bytes; raw source flags at their documented quantity-group granularity plus independently normalized field uncertainties/coverage; Bulletin C consistency; Gazette-example four-point/continuous-UT1 configuration; exact IERS Conventions 2010 ocean-tide/libration restoration configuration; immutable bundle/activation/replay manifests | ScientificProfileV1 semantic policy from 2C; exact artifact/configuration selection and approval in 2D; deterministic normalization/interpolation/restoration in 2E | Preserve raw bytes and hashes; keep fields independent; apply restoration exactly once; no prediction/preliminary/estimate, zero/nearest/extrapolated fallback, request-time download, or silent active-bundle replacement |
+| 4. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member UFUQ `starId` values; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication or catalogue-specific foreign keys; not limited to one named pattern |
+| 5. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
+| 6. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
+| 7. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–6 | Never hand-edit; generated header/manifest/checksum required |
 
 Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
 
@@ -28,6 +29,9 @@ Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and
   manifest, version, and checksum schema.
 - `data/manifests/` tracks provenance, licence, query, selection, and expected hashes.
 - `data/raw/` contains immutable acquired bytes locally and is ignored by default.
+- the future leap/EOP bundle location remains a versioned data/contract decision; its
+  active manifest must point to immutable raw sources and exact interpolation/
+  restoration configuration rather than discovering library caches.
 - `data/curation/patterns/`, `relationships/`, and `routes/` keep the three reviewed
   content classes visibly separate.
 - `data/generated/` contains deterministic runtime output only when licence and release
@@ -208,6 +212,18 @@ not replace V1 runtime propagation. The browser and API consume the same generat
 bytes/hash, validate schema/version/checksum before use, and refuse scenario issuance/
 loading on mismatch. Scenario and attempt records store that hash and the astronomy/
 EOP/build links needed for the qualified replay claim.
+
+The ProfileV1 leap/EOP handoff is equally deterministic. 2D selects exact official
+final EOP and leap artifacts, verifies Bulletin C consistency and integrity, records
+raw source flags at their documented quantity-group granularity plus independently
+normalized per-field quality/coverage/uncertainty, and pins the exact IERS interpolation/
+restoration source configuration. 2E parses into independent `UT1-UTC`,`xp`,`yp`
+records; performs UFUQ-selected four-point interpolation through continuous
+`UT1-TAI`, then exactly-once pinned IERS Conventions 2010 ocean-tide/applicable-
+libration restoration; generates the immutable bundle/manifest; and implements
+fail-closed runtime lookup. Profile activation derives its date endpoints only where
+all three fields have complete approved four-sample support and leap validity. Exact
+bytes, hashes and dates are not invented in 2C.
 
 ## Licensing and citation
 

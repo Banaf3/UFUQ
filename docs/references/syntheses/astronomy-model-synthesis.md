@@ -79,11 +79,13 @@ high-level `iauApco13` remains a convenience/reference composition because it as
 WGS 84, consults compiled leap state, accepts refraction inputs, exposes no observed
 `dX`,`dY` input and discards `epv00` status.
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: only the leap/EOP product, field-quality,
-interpolation, coverage, offline, expiry, update and warning policy remains a 2C
-preimplementation blocker. Concrete source/observer/EOP/leap bytes and derived
-supported dates are 2D/2E activation data. Numerical tolerance instead gates later
-scientific acceptance.
+`PROJECT_DECISION`: the final-only per-field leap/EOP quality, UFUQ-selected
+four-point interpolation, continuous `UT1-TAI`, exactly-once IERS Conventions 2010
+subdaily restoration, immutable-offline, validity/update, warning and no-degraded
+policy now closes the last 2C preimplementation blocker. Concrete
+source/observer/EOP/leap bytes, exact restoration configuration and derived supported
+dates are 2D/2E activation data. Numerical tolerance instead gates later scientific
+acceptance.
 
 `EXPERIMENT_REQUIRED`: no unrun experiment is required to select this semantic route.
 Registered effect, observer/parallax/RV, EOP/range, deflection and refraction families
@@ -91,9 +93,9 @@ run only at their postimplementation or later-profile gates. Shared-lineage
 Astropy/ERFA disagreement is implementation comparison, not stronger independent
 validation.
 
-## Milestone 2C.3 operating-domain proposal
+## Milestone 2C.3 operating-domain contract
 
-`PROJECT_DECISION`: the proposed astronomy request boundary is fail-closed and
+`PROJECT_DECISION`: the astronomy request boundary is fail-closed and
 deterministic:
 
 - the observer is a typed geodetic record with north-positive latitude, east-positive
@@ -122,15 +124,19 @@ leap-second syntax; UFUQ's whole-second Z-only subset is a normative project dec
 SOFA/Astropy define
 geodetic/east-positive/ellipsoidal observer roles for the candidate routes.
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: no production EOP or leap artifact/hash, field
-precedence/interpolation, stale rule, date endpoint, prediction horizon, height or
-location range, or tolerance exists. The missing date endpoint is activation data, not
-an unresolved generic time contract.
+`BLOCKS_2D_DATA_AUTHORITY`: no exact production EOP/leap artifact/hash, exact
+interpolation/restoration source configuration, concrete observer record, or activated
+date endpoint exists. Those are data/configuration values under the resolved final-only,
+four-point, validity/replay, and fail-closed policy, not an unresolved generic contract.
+Prediction support and broader height/location ranges are later-profile decisions;
+numerical tolerance is postimplementation.
 
-`HUMAN_REVIEW_REQUIRED`: approve the production product bundle and update cadence;
-per-field source-quality/availability/approval policy; WGS 84, longitude representative,
-height/location/polar semantics; concrete activation endpoints; and warning/outcome
-serialization. The V1 whole-second grammar and UTC boundary are already normative.
+`HUMAN_REVIEW_REQUIRED`: astronomy/data review approves the exact 2D product bundle,
+field evidence, restoration configuration, concrete observer record, and activation
+endpoints. Operations may choose an acquisition cadence later. The generic per-field
+quality/availability/approval semantics, replay policy, V1 whole-second grammar, UTC
+boundary, and scientific outcome families are already normative; stable transport/log
+serialization remains separate.
 
 `EXPERIMENT_REQUIRED`: six 2C.3 experiment families cover offline reconstruction,
 field-state partitions, degradation sensitivity, leap/time boundaries, observer
@@ -320,8 +326,8 @@ evidence none exists, and survey control is optional.
 |---|---|---|---|
 | Executable IAU routine contract | Exact SOFA routine preamble/source for the pinned issue | IERS TN36 model chapters | Record version, routine, units, statuses, and transform direction. |
 | Reference systems and Earth orientation | IERS TN36 Chapters 2 and 5 | SOFA `iauC2t06a`, `iauPnm06a`, `iauEra00` | Keep ICRS/GCRS/CIRS/TIRS/ITRS and realizations distinct. |
-| Operational EOP fields/state | IERS Bulletin A/B metadata and official `finals2000A` format | Astropy `8.0.1` IERS reference-library docs | For every field, preserve source quality, provenance, coverage, availability, scientific approval, errors, and hashes as separate dimensions; do not substitute zero/nearest rows or promote fields. |
-| Leap announcement and wire syntax | IERS Bulletin C; RFC 3339 | IANA release artifacts and Astropy `LeapSeconds` reference behaviour | Separate event authority, machine artifact, input syntax, and project validity/update policy. |
+| Operational EOP fields/state | IERS Bulletin A/B metadata and official `finals2000A` format; Gazette 13 for its Lagrangian/four-point example; C04 guidance for continuous `UT1-TAI`; TN36 Chapters 5/8 for subdaily restoration | Astropy `8.0.1` IERS reference-library docs | Preserve each field independently. V1 selects four-point full support, final-only input, continuous leap handling, and exactly-once 2010 ocean-tide/libration restoration; no zero/nearest/extrapolated promotion. Exact configuration is 2D/2E. |
+| Leap announcement and wire syntax | IERS Bulletin C; RFC 3339 | IANA release artifacts and Astropy `LeapSeconds` reference behaviour | Separate event authority, machine artifact, input syntax, publisher validity and project activation. V1 accepts only an explicit 2D-selected official IERS/IANA transport consistent with Bulletin C. |
 | First observer site identity | Official UMPSA Faculty/Pekan pages (`UMPSA-FK-PEKAN-SITE`) | JUPEM geodetic products/services as an optional 2D acquisition route | Identity is source-supported; 2D must separately acquire and approve the exact geodetic record. |
 | UTC/TAI/TT/UT1 handling | SOFA time-routine contracts plus IERS TN36 §§5.5.3 and 10.1 | Explanatory textbook material | UTC is not silently substituted for UT1 or TT. |
 | Original 1997 catalogue field semantics | ESA SP-1200 Volume 1 §§1.2 and 2.1 | I/311 `ReadMe` only for explicit cross-reference to I/239 | Use ESA definitions for original H-fields only; do not transfer them silently to I/311. |
@@ -371,17 +377,17 @@ evidence none exists, and survey control is optional.
 | Exclude refraction and aggregate scientific visibility from `ScientificProfileV1`; emit geometric-only output, fix `REFRACTION_NOT_REQUESTED`, insert no default atmosphere, preserve result-bearing below-horizon and singularity states, and retain separately typed future horizon/visibility components. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004; Batch 01 optional-state guards | Normative `PROJECT_DECISION`; later model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required, but does not block geometric V1 implementation |
 | Distinguish contract-conforming `GEOMETRIC_RESULT_PENDING_VALIDATION` from postimplementation `APPROVED_GEOMETRIC_RESULT`; preserve non-erasing precedence and scientific warnings/statuses separately from transport/logging. | SOFA status contracts; ADR-003/007; Batch 01 warning/status/state guards | Normative `PROJECT_DECISION`; exact wire/HTTP mapping and route/data-specific warning disposition remain with later owners |
 | Define a generic versioned `ObserverPreset`, accept only the UMPSA Pekan Faculty identity in V1, fail closed on missing/invalid/unsupported/unapproved data, and hand exact values/accuracy/artifact authority to 2D. | SOFA observer input contract; `UMPSA-FK-PEKAN-SITE`; `JUPEM-GEODETIC`; AST-007 | Contract/site identity `PROJECT_DECISION` plus `SOURCE_SUPPORTED_FACT`; exact record `BLOCKS_2D_DATA_AUTHORITY`; no coordinate or tolerance selected |
-| Accept only whole-second `YYYY-MM-DDTHH:mm:ssZ`; require artifact-backed exact-date validation of conditional `23:59:60Z`; carry labelled UTC quasi-JD/TAI/TT/UT1 states; prohibit local/current-time and unlabeled-JD defaults; and make endpoint semantics normative while deriving concrete bounds during 2D/2E activation. | RFC 3339 Sections 5.6-5.8; SOFA `iauDtf2d` and time-scale routines; IERS Bulletin C; AST-007 | Source syntax/conversion roles `SOURCE_SUPPORTED_FACT`; narrowed grammar/state/domain contract normative `PROJECT_DECISION`; actual bounds `BLOCKS_2D_DATA_AUTHORITY` / activation; leap/EOP policy remains `HUMAN_REVIEW_REQUIRED` |
+| Accept only whole-second `YYYY-MM-DDTHH:mm:ssZ`; require artifact-backed exact-date validation of conditional `23:59:60Z`; carry labelled UTC quasi-JD/TAI/TT/UT1 states; prohibit local/current-time and unlabeled-JD defaults; and make endpoint semantics normative while deriving concrete bounds during 2D/2E activation. | RFC 3339 Sections 5.6-5.8; SOFA `iauDtf2d` and time-scale routines; IERS Bulletin C; AST-007 | Source syntax/conversion roles `SOURCE_SUPPORTED_FACT`; narrowed grammar/state/domain contract normative `PROJECT_DECISION`; actual transport bytes and bounds `BLOCKS_2D_DATA_AUTHORITY` / activation |
 | Derive acceptance thresholds after implementation from measured production/reference disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `POST_IMPLEMENTATION_VALIDATION` plus `HUMAN_REVIEW_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
 | Register every scientific experiment before execution, disclose shared algorithm lineage, and keep synthetic executability separate from authority/approval. | ADR-007; testing-scientific-software dossier; 2C.5A protocol | `PROJECT_DECISION`; numerical acceptance remains `HUMAN_REVIEW_REQUIRED` under AST-006 |
-| Run scientific requests offline from an immutable hash-addressed EOP/leap bundle; update separately and retain old bundles for replay. | IERS product/status evidence; Astropy fallback surfaces; reproducibility contract | `PROJECT_DECISION`; product selection, cadence, and activation approval remain `HUMAN_REVIEW_REQUIRED` |
-| Reject missing/stale/out-of-range data and any field quality without explicit scientific approval; reserve degraded output until a named mode, quantitative bound, warning contract, and reviewer approval exist. | IERS field flags/product roles; Astropy warning/degraded surfaces; AST-003/006 | `PROJECT_DECISION`; degradation sensitivity is `EXPERIMENT_REQUIRED` |
+| Run scientific requests offline from one explicitly supplied immutable hash-addressed EOP/leap/configuration bundle; update through reviewed atomic activation and retain prior bundles for replay. | IERS product/status evidence; Astropy fallback surfaces; reproducibility contract | Normative `PROJECT_DECISION`; exact product/configuration selection and activation move to 2D/2E, polling cadence later |
+| Accept only independently approved final Bulletin B/final-derived `UT1-UTC`,`xp`,`yp`; select Gazette 13's four-point example/full support, use leap-aware continuous `UT1-TAI`, and restore the TN36 Chapter 5/8 ocean-tide/applicable-libration terms once after interpolation; reject missing/unapproved/out-of-range/insufficient-support, preliminary/predicted/estimate, nearest, extrapolated and degraded cases. | IERS field flags/product roles; Gazette 13; IERS C04 guide; TN36 Chapters 5/8; AST-003/006 | Normative `PROJECT_DECISION`; equivalent methods remain source-permitted but not V1-approved; source/interpolation/implementation uncertainty stays unbounded and later degradation sensitivity remains `EXPERIMENT_REQUIRED` |
 
 ## Required validation evidence
 
-- **Before implementation:** approve the remaining leap/EOP policy. Carry the now
-  normative bounded route/effect disposition, generic `ObserverPreset`, whole-second
+- **Before implementation:** carry the now normative final-only leap/EOP policy,
+  bounded route/effect disposition, generic `ObserverPreset`, whole-second
   canonical-UTC/time-domain contract, source-neutral boundary, geometric output/exclusions,
   outcome/precedence/warning, and pending-validation contracts. Identify the 2D
   catalogue/release and observer-artifact inputs without treating I/311 as permanent or
@@ -402,9 +408,10 @@ determinism evidence, not source meaning, production approval, or independent
 validation. The 49-term ledger remains unchanged: 45 numerical terms are explicitly
 unbounded/unresolved and four entries are exact non-numerical guards.
 
-The only pre-implementation gap is the leap/EOP product/per-field/interpolation/
-offline/update policy. The route/effect/production mapping is normative for
-implementation entry; its numerical verification remains postimplementation.
+No preimplementation semantic gap remains. The leap/EOP product-class/per-field/
+interpolation/offline/update policy and route/effect/production mapping are normative
+for implementation entry; exact artifacts/configuration and numerical verification
+remain 2D/2E and postimplementation respectively.
 Profile boundary, whole-second Z-only UTC grammar, typed time states,
 `SupportedTimeDomain` and endpoint semantics, pending-validation result state,
 geometric-only/no-refraction/no-visibility scope, fail-closed precedence, exact

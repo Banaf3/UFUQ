@@ -31,14 +31,15 @@
   - Chapter 4, concepts/terminology for terrestrial systems, §§4.1-4.2, printed
     pp. 31-40;
   - Chapter 5, §§5.1-5.6 and §5.9, printed pp. 43-71, with detailed extraction from
-    §§5.3-5.5;
+    §§5.3-5.5, including subdaily EOP restoration in §§5.5.1 and 5.5.3;
+  - Chapter 8, §8.2, printed pp. 123-124, for the ocean-tide EOP correction family;
   - Chapter 10, time-coordinate relationships in §10.1, printed pp. 151-153;
   - Glossary entries for ERA, epoch, GCRS, TT, TIRS, UT1, and UT1-UTC, printed
     pp. 174-178.
-- Intentionally not studied for the current phase: geopotential, station displacement,
-  antenna modelling, high-frequency tidal series, satellite equations of motion, and
-  VLBI propagation details. They are not part of the current catalogue-star horizon
-  claim.
+- Intentionally not studied for the current phase: geopotential beyond the named EOP
+  restoration dependencies, station displacement, antenna modelling, tidal series
+  outside §§5.5.1/5.5.3 and §8.2, satellite equations of motion, and VLBI propagation
+  details. They are not part of the current catalogue-star horizon claim.
 - Scope reason: Chapters 2, 4, 5, and the relevant time definitions establish the
   reference-system and Earth-orientation vocabulary beneath any rigorous topocentric
   transformation.
@@ -104,6 +105,16 @@ tie between ICRF and ITRF through polar coordinates/celestial pole offsets and
 `UT1-UTC`. A pinned model without pinned EOP inputs is not a reproducible realized
 transformation.
 
+Sections 5.5.1 and 5.5.3 state that the subdaily terms omitted from reported daily EOP
+are added after interpolation. For `xp`,`yp`, Eq. (5.11) and §5.5.1.1 require the
+Chapter 8 ocean-tide corrections plus the diurnal polar-motion libration terms of
+Table 5.1a; long-period and secular libration are already in observed polar motion and
+must not be added again. For UT1, §5.5.3.1 requires Chapter 8 ocean-tide corrections
+plus the semidiurnal UT1 libration terms of Table 5.1b. Chapter 8 identifies the
+`ORTHO_EOP`/`CNMTX` family; Chapter 5 identifies `PMSDNUT2` and `UTLIBR`. These are the
+registered 2010 baseline families, distinct from Gazette 13's older 1996 `RAY` example
+and from later non-registered working corrections.
+
 ## Time
 
 Chapter 5 §5.3.1 fixes J2000.0 at JD 2451545.0 TT and uses TT Julian centuries for
@@ -119,6 +130,7 @@ TCB, and proper time; the glossary separates uniform UTC from observed UT1.
 | Polar-motion matrix | Chapter 5, §5.4.1, Eq. (5.3), printed p. 48 | `W(t)=R3(-s') R2(xp) R1(yp)`; `xp`,`yp` are CIP coordinates in ITRS and `s'` is the TIO locator. Rotation sign/order follows the chapter's ITRS-to-GCRS convention. | Cross-check inverse/direction against SOFA's celestial-to-terrestrial matrix. |
 | CIO Earth-rotation matrix | Chapter 5, §5.4.2, Eq. (5.5), printed p. 48 | `R(t)=R3(-ERA)` for TIRS-to-CIRS in the chapter's direction. | Prevent mixing ERA with an equinox-origin path. |
 | ERA from UT1 | Chapter 5, §5.5.3, Eqs. (5.14)-(5.15), printed p. 52 | `ERA = 2pi(0.7790572732640 + 1.00273781191135448 Tu)` modulo `2pi`, where `Tu = JD(UT1)-2451545.0`; Eq. (5.15) rearranges day fractions to reduce rounding error. | Exact model reference; compare multiple two-part-JD layouts and retain the matching IERS `UT1-UTC`. |
+| Subdaily EOP restoration | Chapter 5, §§5.5.1.1-5.5.1.3 and §§5.5.3.1-5.5.3.3, printed pp. 49-53; Chapter 8, §8.2, printed pp. 123-124 | Interpolate reported daily values first; then add ocean-tide terms to `xp`,`yp`,UT1, diurnal libration to `xp`,`yp`, and semidiurnal libration to UT1. Do not re-add long-period/secular polar-motion libration already present in observations. | Pin exact baseline routine/coefficient/dependency bytes and product regularization in 2D; implement once in 2E; pass only restored instantaneous fields to astronomy-core. |
 | TT/TCG relationship | Chapter 10, §10.1, Eq. (10.1), printed p. 151 | TT differs from TCG by a fixed rate using defining constant `LG`; the chapter also states `TT = TAI + 32.184 s` as a realization relationship. | Keep scale conversions explicit; do not use TT and UTC interchangeably. |
 
 # Conventions
@@ -143,16 +155,21 @@ TCB, and proper time; the glossary separates uniform UTC from observed UT1.
   distinctly; do not use “J2000” as a combined frame, equinox, epoch, and time scale.
 - `SOURCE_REQUIRED`: use TT for precession-nutation arguments and UT1 for ERA; preserve
   the IERS data/version used to obtain `UT1-UTC` and pole coordinates.
-- `PROJECT_DECISION_REQUIRED`: select a coherent CIO-based or equinox-based production
-  path. The selected routine family and all omissions must be recorded.
+- `PROJECT_DECISION_RESOLVED_FOR_PROFILE_V1`: use the selected coherent CIO-based,
+  model-CIP-only route. Any later equinox route or observed-CPO extension requires a
+  separate decision; the selected routine family and omissions remain recorded.
 - `SOURCE_REQUIRED`: treat model CIP coordinates and observed celestial-pole offsets as
   distinct where the approved accuracy scope requires realized Earth orientation.
-- `PROJECT_DECISION_REQUIRED`: select observer datum, ellipsoid, coordinate source,
-  ellipsoidal/orthometric height policy, polar-motion policy, and supported date range.
+- `PROJECT_DECISION_RESOLVED_FOR_PROFILE_V1`: the generic `ObserverPreset`, final-only
+  polar-motion, and supported-domain semantics are fixed. Exact observer data and the
+  activated date interval remain 2D/2E data rather than open 2C semantics.
 - `EXPERIMENT_REQUIRED`: quantify the result of omitting or approximating `xp`,`yp`,
   celestial-pole offsets, or EOP terms over UFUQ's approved scenarios.
 - `SOURCE_REQUIRED`: keep official TN36 `v1.0.0` and later IERS corrections/working
   material as separate versioned inputs.
+- `SOURCE_REQUIRED`: apply the Chapter 5/8 subdaily restoration exactly once after
+  interpolation. Do not substitute Gazette 13's historical `RAY` routine for the
+  complete 2010 baseline or silently merge later working corrections.
 - `EXPERIMENT_REQUIRED`: derive UFUQ tolerances from independent outputs and an error
   budget. TN36 model figures are not learner or implementation thresholds.
 - `INFORMATIONAL_ONLY`: Chapters on station displacement, tides, and relativistic
@@ -173,9 +190,11 @@ TCB, and proper time; the glossary separates uniform UTC from observed UT1.
 - Test inverse matrices/vectors explicitly because TN36 Eq. (5.1) and SOFA
   `iauC2t06a` document opposite transform directions.
 - Malformed-input tests must reject unlabeled time scales, frame/epoch conflation,
-  stale/missing EOP, invalid latitude, and unlabelled height.
-- Stop if the IERS-data pin, offline/network policy, leap-second policy, supported date
-  range, or approximation bounds are absent.
+  unavailable/out-of-coverage/unapproved EOP, invalid latitude, and unlabelled height.
+- Real-data activation stops if the exact IERS-data pin, approved offline bundle,
+  leap-second artifact, or derived supported interval is absent. Approximation bounds
+  remain a postimplementation scientific-acceptance gate, not an implementation-entry
+  prerequisite.
 
 # Limitations
 
@@ -183,9 +202,11 @@ TCB, and proper time; the glossary separates uniform UTC from observed UT1.
   catalogue, observer, atmospheric refraction, horizon, or tolerance.
 - TN36's 2010 discussion of ICRF realizations is a historical baseline. A modern
   external frame realization or EOP product must be separately pinned if selected.
-- The full station-displacement and high-frequency EOP model was not studied because it
-  is outside the current-phase claim. Their omission cannot be called negligible
-  without a quantified experiment.
+- The subdaily EOP components required by the selected V1 input contract were studied
+  only to identify the governing 2010 families and ordering. Exact coefficient/source
+  bytes, dependencies, product regularization, later corrections, and numerical
+  uncertainty remain 2D/2E/postimplementation work. Other station-displacement and
+  tidal models remain outside the claim.
 - The document does not make WGS84 and ITRS interchangeable labels for arbitrary
   coordinates or heights.
 - The official baseline does not silently include later errata or working-version
@@ -204,8 +225,9 @@ TCB, and proper time; the glossary separates uniform UTC from observed UT1.
 - The IERS Conventions Centre working version contains identified corrections but says
   it is not the official registered edition. UFUQ must pin any correction explicitly
   rather than editing the TN36 baseline in place.
-- The relevance of high-frequency EOP terms to UFUQ's learner-scale scenarios remains
-  an `EXPERIMENT_REQUIRED` question.
+- The numerical contribution and implementation residual of the required subdaily EOP
+  restoration remain `POST_IMPLEMENTATION_VALIDATION`; the exactly-once restoration
+  semantics are no longer an open implementation-contract question.
 
 # Traceability
 
@@ -216,10 +238,10 @@ TCB, and proper time; the glossary separates uniform UTC from observed UT1.
 | ITRS/GCRS factorization | Chapter 5, §5.1, Eq. (5.1), printed p. 43 | Trace PN, Earth rotation, and polar motion separately | `SOURCE_REQUIRED` |
 | GCRS is ICRS-oriented by default | Chapter 5, §5.3.1, printed p. 45 | Label intermediate frames and axis orientation | `SOURCE_REQUIRED` |
 | J2000.0 and PN time argument | Chapter 5, §5.3.1, Eq. (5.2), printed p. 45 | Carry TT and catalogue epoch separately | `SOURCE_REQUIRED` |
-| CIP realization includes model plus observations | Chapter 5, §5.3.3, printed pp. 46-47 | Record celestial-pole-offset policy and data source | `PROJECT_DECISION_REQUIRED` |
-| CIO/equinox paths are distinct | Chapter 5, §§5.3.4-5.4, printed pp. 47-48 | Select one coherent route | `PROJECT_DECISION_REQUIRED` |
+| CIP realization includes model plus observations | Chapter 5, §5.3.3, printed pp. 46-47 | V1 selects model CIP and explicitly omits observed `dX`,`dY`; a later observed-CPO profile needs its own data policy | `PROJECT_DECISION_RESOLVED_FOR_PROFILE_V1` |
+| CIO/equinox paths are distinct | Chapter 5, §§5.3.4-5.4, printed pp. 47-48 | V1 selects one coherent CIO route; later alternatives require separate review | `PROJECT_DECISION_RESOLVED_FOR_PROFILE_V1` |
 | ERA is defined from UT1 | Chapter 5, §5.5.3, Eqs. (5.14)-(5.15), printed p. 52 | Pin `UT1-UTC`; do not substitute UTC | `SOURCE_REQUIRED` |
+| Restore omitted subdaily EOP after interpolation | Chapter 5, §§5.5.1/5.5.3, printed pp. 49-53; Chapter 8, §8.2, printed pp. 123-124 | Add the 2010 ocean-tide and applicable libration families once; 2D pins exact configuration and 2E implements it | `SOURCE_REQUIRED` plus `2D_DATA_SELECTION`/`2E_IMPLEMENTATION_CONFIGURATION` |
 | EOP ties celestial and terrestrial frames | Chapter 2, §2.2.2, printed p. 25 | Version/hash EOP data in every fixture | `SOURCE_REQUIRED` |
 | TT is distinct from TAI/TCG/UTC | Chapter 10, §10.1, printed pp. 151-153; glossary p. 178 | Use named time-scale conversions | `SOURCE_REQUIRED` |
-| Omission bounds remain unknown | Unstudied high-frequency/station terms; `SOURCE_GAPS.md` AST-SRC-004/006/007 | Spike and approved scope must measure/decide | `EXPERIMENT_REQUIRED` |
-
+| Numerical restoration and other omission bounds remain unknown | Named subdaily terms plus unstudied station/other tidal terms; `SOURCE_GAPS.md` AST-SRC-004/006/007 | Do not infer zero uncertainty from selecting a model family | `POST_IMPLEMENTATION_VALIDATION` / `EXPERIMENT_REQUIRED` |

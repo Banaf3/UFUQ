@@ -6,11 +6,10 @@
 
 **Latest focused route audit:** 2026-08-13
 
-**Milestone status:** OPEN
+**Milestone status:** READY TO CLOSE FOR BOUNDED IMPLEMENTATION
 
-**ScientificProfileV1 implementation authority:** NOT YET GRANTED; transformation
-route is normative, and only the leap/EOP scientific-policy decision in Section 18
-remains preimplementation
+**ScientificProfileV1 implementation authority:** GRANTED FOR THE BOUNDED CONTRACT;
+real-data activation and scientific acceptance remain gated
 
 The tracked source dossiers and project decisions support a stricter contract than the
 earlier draft, but they do not close the manual scientific decisions needed for
@@ -30,10 +29,10 @@ It removes the circular requirement to produce TypeScript/reference residuals be
 TypeScript implementation is permitted.
 
 The profile boundary, geometric-only/refraction-disabled/no-visibility scope,
-semantic outcome/precedence/validation-state contracts, UTC/time-domain contract, and
-transformation-route/effect/production mapping are now normative project decisions.
-Milestone 2C remains open only for the leap/EOP-policy choice, so `IMP-009` remains
-unresolved. Final numerical tolerances, production/reference results, globally
+semantic outcome/precedence/validation-state contracts, UTC/time-domain contract,
+transformation-route/effect/production mapping, and final-only immutable-offline
+leap/EOP policy are now normative project decisions. No genuine Milestone 2C
+preimplementation blocker remains. Final numerical tolerances, production/reference results, globally
 supported observers, physical refraction, and aggregate visibility are not conditions
 for starting the bounded V1 implementation; they retain their later acceptance or
 extension gates.
@@ -176,7 +175,7 @@ records and preserved statuses. The current-package audit is recorded in
 | `2C.2-S1` | `CatalogueIcrsState`: immutable normalized source-neutral ICRS astrometry carrying right ascension, declination, explicit epoch label/representation/scale, `mu_alpha_star` and Dec proper motion with derivative convention/unit, positive approved parallax/equivalent distance, approved finite radial velocity, uncertainties/covariance, quality, source-release identity, and provenance. | `ScientificProfileV1` project boundary plus the exact selected-source authority. For the bounded I/311 spike only, its `ReadMe`, Appendix G Table G.3, and ESA Gaia DR1 Section 4.2.1 support ICRS, starred-alpha motion, and the Julian `J1991.25` representation. | An eligible production state may not carry an unspecified epoch/derivative scale, missing/unapproved RV, unusable distance, or implicit zero. The I/311 instantiation retains literal `Ep=1991.25` and its unresolved scale and is ineligible unless 2D supplies all required authority/values. | Normative `PROJECT_DECISION` plus source-specific `SOURCE_SUPPORTED_FACT`; I/311 scale/RV remain 2D `AUTHORITY_OR_EVIDENCE_MISSING`. |
 | `2C.2-S2` | `PropagatedIcrsAstrometry`: ICRS catalogue astrometry propagated from an approved source TDB instant to the declared SOFA J2000.0 epoch interface `JD(TDB) 2451545.0`. The generic type records its target and never implies a frame transformation. | SOFA `iauPmsafe`; `iauAtciq` Note 1. | Requires approved source epoch/derivative scale, explicit `mu_alpha_star` adapter, positive approved distance, approved RV, and zero status. Exact pole is unsupported; no near-pole epsilon. Missing source data makes only the row ineligible. | Normative `PROJECT_DECISION`; source-specific authority remains 2D. |
 | `2C.2-S3` | `ObserverAwareCirsDirection`: transform propagated J2000.0-interface astrometry into CIRS at the observation instant using explicit observer parallax/aberration context. | SOFA `iauAtciq`-derived semantics plus the decomposed S4 context. ICRS/GCRS covers motion, parallax, solar deflection and aberration; GCRS/CIRS applies frame bias, IAU 2006 precession, IAU 2000A nutation, and the matching transformation. | Requires complete eligible astrometry and S4. Model CIP/CIO is explicit; observed `dX`,`dY` are omitted, never applied as zero or claimed corrected. | Normative `PROJECT_DECISION`. |
-| `2C.2-S4` | `EarthOrientationContext`: immutable UTC/TAI/TT/UT1, ERA, model CIP/CIO, `xp`,`yp`, TIO locator, observer position/velocity, pinned ephemeris/model, leap/EOP bundle identities, and independent required-field records. It is a dependency of S3/S5, not a hidden sidereal scalar. | IERS TN36 Eq. (5.1), Sections 5.3-5.5; SOFA `epv00`, `pnm06a`, `bpn2xy`, `s06`, `c2ixys`, `era00`, `sp00`, `gd2gce`, `pvtob`, `apcs`, and `apco`-derived semantics. | Exactly `UT1-UTC`,`xp`,`yp` are required EOP fields. Leap/EOP product, quality/interpolation/offline/update policy remains blocked; `dX`,`dY` are `NOT_REQUIRED_BY_PROFILE_V1`. | Route/field set `PROJECT_DECISION`; operational policy `AUTHORITY_OR_EVIDENCE_MISSING`. |
+| `2C.2-S4` | `EarthOrientationContext`: immutable UTC/TAI/TT/UT1, ERA, model CIP/CIO, `xp`,`yp`, TIO locator, observer position/velocity, pinned ephemeris/model, leap/EOP bundle identities, and independent required-field records. It is a dependency of S3/S5, not a hidden sidereal scalar. | IERS TN36 Eq. (5.1), Sections 5.3-5.5; SOFA `epv00`, `pnm06a`, `bpn2xy`, `s06`, `c2ixys`, `era00`, `sp00`, `gd2gce`, `pvtob`, `apcs`, and `apco`-derived semantics. | Exactly instantaneous `UT1-UTC`,`xp`,`yp` are required EOP fields. Section 8 fixes final-only quality, UFUQ-selected four-point/continuous-UT1 processing, exactly-once TN36-2010 restoration, immutable-offline/update and fail-closed policy; exact artifacts/configuration remain 2D/2E activation data. `dX`,`dY` are `NOT_REQUIRED_BY_PROFILE_V1`. | Route, field set and operational semantics are normative `PROJECT_DECISION`; exact data authority remains 2D/2E. |
 | `2C.2-S5` | `GeometricHorizontalDirection`: north-zero/east-positive azimuth state, signed geometric altitude, ENU unit vector, observation instant, observer/EOP/model identities, warnings, and pending-validation state. | Geometric portion of SOFA `iauAtioq`-derived semantics only. | Requires S3/S4. The local `diurab` term is disabled because S3 already includes observer-velocity aberration; the implementation neither reapplies it nor executes refraction math or creates atmosphere inputs. | Normative `PROJECT_DECISION`; scientific acceptance remains postimplementation. |
 | `2C.2-S6` | `RefractedHorizontalDirection`: separately typed later-profile result that can never overwrite S5. | SOFA `iauRefco`/`iauAtioq` and Astropy `AltAz` remain later reference candidates only. | Not requested or executable in V1. | `DEFERRED_LATER_PROFILE`. |
 | `2C.2-S7` | `VisibilityState`: a later-profile project-policy result that consumes geometric/refracted direction plus independently approved horizon, photometric/variability, Sun/daylight/twilight, extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner inputs. V1 does not request or emit this aggregate state. | UFUQ Astronomy Specification and AST-004; SOFA does not define learner visibility. | V1's no-aggregate rule and geometric-horizon separation are normative. Physical/terrain dip, all visibility components, aggregation, and below-horizon downstream policies remain blocked for later profiles. | `PROJECT_DECISION` |
@@ -465,10 +464,10 @@ shortening is allowed. Missing or unverified leap data returns
 instant.
 
 Milestone 2C owns this grammar, state/domain shape, endpoint and fail-closed semantics.
-The remaining 2C leap/EOP decision owns scientifically permitted product/field roles,
-quality, interpolation, offline, expiry/update, and warning/failure policy. Milestone
-2D selects and acquires concrete product families/releases and immutable bytes/hashes
-under that policy. The 2D/2E activation workflow derives and approves the actual
+The normative Section 8 policy owns scientifically permitted product/field roles,
+quality, interpolation, offline, validity/update, and warning/failure semantics.
+Milestone 2D selects and acquires concrete product families/releases and immutable
+bytes/hashes under that policy. The 2D/2E activation workflow derives and approves the actual
 earliest/latest values from the complete artifact/model/source intersection. Those
 values are activation data and are not prerequisites to implementing the generic time
 types, parser, conversions, domain check, and failure branches.
@@ -486,7 +485,7 @@ The production contract must name and hash:
 - missing, expired, predictive, and out-of-range behaviour; and
 - any separately approved degraded approximation and its measured bound.
 
-`PROJECT_DECISION` proposal: ordinary scientific execution is offline and
+Normative `PROJECT_DECISION`: ordinary scientific execution is offline and
 deterministic. It consumes an immutable prevalidated data bundle whose manifest names
 every artifact, source URL, retrieval time, version/issue, byte length, SHA-256,
   coverage, field-level source quality, availability, and scientific approval, plus
@@ -513,8 +512,10 @@ The following are `SOURCE_SUPPORTED_FACT` from official IERS product metadata an
   preliminary `xp`,`yp`,`UT1-UTC`,`dX`,`dY` values and uncertainties; and
 - Bulletin C announces a leap second or confirms no step at the next opportunity.
 
-Source flag/quality is field-specific and separate from artifact/field availability and
-UFUQ scientific approval. A required value that is blank, absent, predictive,
+Each source flag applies at the granularity defined by its product (for example, the
+`finals2000A` polar-motion flag covers the `xp`,`yp` group). Each normalized field still
+records the applicable raw flag and an independent quality disposition, separately from
+artifact/field availability and UFUQ scientific approval. A required value that is blank, absent, predictive,
 preliminary, or sourced from a different product cannot inherit a better state from
 another field. Missing `UT1-UTC`, `xp`, `yp`, `dX`, or `dY` is never zero. V1 requires
 only `UT1-UTC`,`xp`,`yp`; `dX`,`dY` remain separately known fields with a normative
@@ -538,35 +539,43 @@ and source hash. The official PyERFA `stable` API displayed `2.0.1.4`, so a
 version-matched documentation/tagged-source review or explicit reviewer acceptance
 remains `AUTHORITY_OR_EVIDENCE_MISSING` before a source-derived science protocol.
 
-### 8.3 Proposed orthogonal state and failure policy
+### 8.3 Normative orthogonal state and failure policy
 
-The following separated vocabularies are `PROJECT_DECISION` proposals. They must not
+The following separated vocabularies are a normative `PROJECT_DECISION`. They must not
 be collapsed into one status enum:
 
 ```text
-SourceFieldQuality = FINAL | PRELIMINARY | PREDICTED | IERS_ESTIMATE
-ArtifactAvailability = AVAILABLE | STALE | UNAVAILABLE
-FieldAvailability = AVAILABLE | UNAVAILABLE | OUT_OF_RANGE
+SourceFieldQuality = FINAL | PRELIMINARY | PREDICTED | IERS_ESTIMATE | UNKNOWN
+ArtifactAvailability = AVAILABLE | UNAVAILABLE | INTEGRITY_FAILURE
+FieldCoverage = COVERED | OUT_OF_RANGE | GAP | INSUFFICIENT_INTERPOLATION_SUPPORT
+PublisherValidity = VALID_FOR_REQUEST | EXPIRED_FOR_REQUEST | NOT_DECLARED | UNVERIFIED
 ScientificApproval = APPROVED | NOT_APPROVED | REVIEW_REQUIRED
 ```
 
-`SourceFieldQuality` records what the authority says about a value: a Bulletin A field
-marked `I` is retained as `IERS_ESTIMATE`, not relabelled `FINAL`; Bulletin B final and
+`SourceFieldQuality` records what the authority says about a value: the `finals2000A`
+format defines a Bulletin A field marked `I` as `IERS`, not `FINAL`; Bulletin A
+documentation separately calls the non-predicted rapid values quick-look estimates,
+which UFUQ maps to `IERS_ESTIMATE`. Bulletin B final and
 preliminary values remain distinct; predictive values remain `PREDICTED` even when
-inside file coverage. `ArtifactAvailability` records whether the selected immutable
-bytes are present, verified, and within the later approved validity/update rule.
-`FieldAvailability` records whether a required field exists and the instant is inside
-that field's own coverage/interpolation rule. `ScientificApproval` records UFUQ review
-of that exact field/product/quality/domain combination. Source quality cannot imply
-availability or approval, and availability cannot imply source quality or approval.
+inside file coverage. `ArtifactAvailability` records byte presence and integrity.
+`FieldCoverage` records whether an independently required field has the approved
+four-sample interpolation support at the requested instant. `PublisherValidity`
+preserves an artifact's declared validity/expiration semantics. `ScientificApproval`
+records UFUQ review of that exact field/product/quality/domain combination. Acquisition
+timestamp/age and active/superseded/replay lifecycle are separate evidence. No axis can
+imply another.
 
 Each required field has an independent record:
 
 ```text
 EopFieldState {
-  field, value, sourceQuality, fieldAvailability,
-  sourceProductId, artifactId, artifactHash, rowProvenance,
-  coverage, interpolationEvidence, scientificApproval
+  field, value, unit, requestedUtcInstant,
+  sourceQuality, sourceDeclaredUncertainty, artifactAvailability, fieldCoverage,
+  publisherValidity,
+  sourceProductId, sourceSeriesId, artifactIdsAndHashes,
+  sourceSampleIdsAndEpochs, rawSourceFlags,
+  interpolationEvidence, scientificApproval,
+  policyAndBundleIdentity, rawAndNormalizedStatuses
 }
 ```
 
@@ -576,27 +585,68 @@ neither inherits quality, provenance, coverage, availability, or approval from i
 partner or any other field. A mixed instant remains mixed, and every required field
 must independently be available and approved.
 
-No `IERS_ESTIMATE`, `PRELIMINARY`, or `PREDICTED` EOP use is approved by this
-milestone. Each produces a field-quality/approval non-result unless a named reviewer
-later approves that exact field, product, quality, domain, maximum horizon where
-applicable, uncertainty/error budget, warning, and endpoint rules. Expired/stale
-leap-second data, stale EOP, nearest-value use, extrapolation, zero substitution,
-automatic downloads, cached-table discovery, and implicit ERFA built-in fallback
-likewise produce non-results.
+V1 accepts only `FINAL` Bulletin B/final-derived source fields with independent
+scientific approval. A `finals2000A` artifact can contribute only independently
+verified Bulletin B final columns. Its Bulletin A flag literally means `IERS`; UFUQ
+maps the separately documented quick-look-estimate role to `IERS_ESTIMATE`.
+`IERS_ESTIMATE`, `PRELIMINARY`, `PREDICTED`, `UNKNOWN`, blank, unmapped, or unapproved
+quality produces a non-result.
+
+Gazette 13 recommends a Lagrangian interpolation/restoration procedure, shows a
+four-data-point example, and permits equivalent interpolation schemes. V1 makes the
+following four-point choice a `PROJECT_DECISION`; it is not described as an IERS
+requirement. Each required field uses four-point Lagrange interpolation from ordered support samples
+`i-1`,`i`,`i+1`,`i+2`, with every contributor finite, final, independently approved and
+part of an explicitly reviewed coherent series. The exact selected IERS-compatible
+subdaily restoration source/configuration is pinned in 2D and implemented in 2E. The
+full window is required even at a tabulated instant as a conservative V1 rule, not a
+mathematical necessity; this deliberately narrows both ends of the activated interval.
+Official IERS C04 guidance supports converting discontinuous `UT1-UTC` to continuous
+`UT1-TAI` for numerical treatment. UFUQ derives each support value as
+`UT1-TAI = (UT1-UTC) - (TAI-UTC)`, interpolates it, and reconstructs target
+`UT1-UTC = (UT1-TAI) + (TAI-UTC)` from the approved target leap state; this exact
+contract is a project decision and is not attributed to Gazette 13. A polynomial never
+crosses a UTC leap step directly. Gaps, unapproved neighbors, unrecorded source
+boundaries, insufficient support, nearest-value use, extrapolation, zero substitution,
+automatic downloads, cached-table discovery, and implicit ERFA built-in fallback are
+non-results.
+
+After interpolation, 2E restores exactly once the IERS Conventions 2010 subdaily terms
+absent from the daily series: Chapter 8 ocean-tide corrections for `xp`,`yp`, and UT1;
+Chapter 5 Table 5.1a diurnal libration corrections for `xp`,`yp`; and Table 5.1b
+semidiurnal libration corrections for UT1. Long-period and secular polar-motion
+libration already present in observations is not added again. Gazette 13's historical
+`RAY` routine is not the selected 2010 restoration. 2D pins the exact official baseline
+routine/coefficient/dependency bytes, product-regularization semantics, and any
+separately reviewed later working correction; the astronomy route consumes the
+resulting instantaneous fields and applies no hidden second restoration.
+
+Artifact acquisition age, publisher validity/expiry, field coverage, quality and
+approval are separate. Old final historical rows do not become stale solely with age;
+a new artifact can be out of range or unapproved. A leap artifact expired for the
+requested knowledge scope blocks that request. As a UFUQ project decision, expiry does
+not erase approved historical transitions used by an identified replay inside its
+recorded scope; a superseded bundle cannot assert later leap knowledge or act as a
+hidden latest-file fallback. V1 defines no universal age-based `STALE`
+scientific state or day threshold.
 
 No degraded astronomy mode is approved. A degraded outcome is reserved but
 unreachable until a named degraded mode and warning contract, `EXPERIMENT_REQUIRED`
 quantitative effect/interaction bounds, and `HUMAN_REVIEW_REQUIRED` domain, tolerances,
 and approval are recorded.
 
-### 8.4 Production stop condition
+### 8.4 Data activation and production-execution stop condition
 
-Production execution is blocked until the final data selection, coverage, update,
-offline, interpolation, per-field source-quality/availability/approval, stale/expiry,
-and failure policy is approved. No production EOP or leap-second artifact/version/hash is
-selected here. The smoke-oracle pins remain smoke-only. Out-of-range operation must
-fail explicitly unless a separately labelled degraded mode has a quantitative bound,
-mandatory warning contract, and named reviewer approval.
+The final-only quality, UFUQ-selected four-point/continuous-UT1 processing,
+exactly-once TN36-2010 restoration, offline/update,
+per-field evidence, validity/coverage and failure policy are normative for
+implementation entry. Real-data execution remains blocked until 2D/2E select, acquire,
+validate and approve exact EOP/leap artifacts, Bulletin C consistency, exact
+interpolation/restoration configuration, field support and activated bounds. No
+production artifact/version/hash is selected here; smoke-oracle pins remain smoke-only.
+Out-of-range or unapproved operation fails explicitly. Any later degraded mode still
+requires a quantitative bound, mandatory warning contract, domain/tolerance and named
+reviewer approval.
 
 ## 9. Observer contract
 
@@ -958,15 +1008,14 @@ The astronomy boundary returns a discriminated scientific outcome rather than a 
 coordinate or silently coerced fallback. The core semantic outcome families,
 result-retention rules, and pending-versus-approved lifecycle distinction below are a
 normative `PROJECT_DECISION`. They are not finalized serialized wire or HTTP codes.
-The named UTC/time subtypes are normative semantic classes. The remaining leap/EOP
-policy may add field/quality-specific refinements and later wire names without changing
-their distinctions.
+The named UTC/time/EOP subtypes and policy dispositions are normative semantic classes.
+Later wire names may refine serialization without changing their distinctions.
 
 | Outcome | Result? | Required meaning |
 |---|---:|---|
 | `INVALID_INPUT` | No | Malformed/non-finite field, invalid calendar or offset, unqualified time, structurally invalid leap-second form, latitude outside `[-90,+90]`, or structurally invalid observer. An exact-date contradiction for the structurally eligible `23:59:60Z` form is the separate `LEAP_SECOND_INSTANT_INVALID` outcome. Include field and reason; do not coerce. |
 | `REQUIRED_INPUT_MISSING` | No | A required V1 input or required field is absent. This is distinct from malformed supplied input, an identified artifact that cannot be resolved, and a state that exists but lacks scientific approval. No default is fabricated. |
-| `REQUIRED_ARTIFACT_UNAVAILABLE` | No | An identified required artifact or required artifact field is absent, unreadable, unverified, or hash-mismatched. Normative leap/time subtypes remain distinct; the EOP policy may add field/quality-specific refinements. |
+| `REQUIRED_ARTIFACT_UNAVAILABLE` | No | An identified required artifact or required artifact field is absent, unreadable, unverified, or hash-mismatched. Normative leap/time and EOP field/quality refinements below remain distinct. |
 | `UNSUPPORTED_PROFILE_DOMAIN` | No | Structurally valid inputs lie outside `ScientificProfileV1` or its later-approved date, observer, source, model, or artifact-coverage domain. `TIME_OUTSIDE_SUPPORTED_DOMAIN` is the normative time-specific class. |
 | `REQUIRED_STATE_NOT_SCIENTIFICALLY_APPROVED` | No | A required input, field quality, policy, or data state exists but is not approved for the exact profile/domain. This is distinct from an implementation result whose validation state is pending. |
 | `SCIENTIFIC_EXECUTION_FAILURE` | No | The approved numerical/algorithm route cannot complete or produces an invalid scientific state. Preserve the failing stage, warnings, and raw statuses; do not promote partial coordinates to success. |
@@ -979,17 +1028,18 @@ their distinctions.
 | `TIME_OR_EOP_STATE_NOT_APPROVED` | No | Required time/EOP data or source-quality state exists but lacks scientific approval for the exact profile/domain. |
 | `TIME_CONVERSION_WARNING` | Attached evidence only | Preserve routine/model/version plus raw and normalized status. It neither creates success nor forces rejection without the approved policy disposition. |
 | `UNSUPPORTED_DATE` | No | Retained as a possible later wire-specific refinement/legacy name for `TIME_OUTSIDE_SUPPORTED_DOMAIN`; it adds no separate scientific meaning and remains distinct from a missing artifact. |
-| `EOP_UNAVAILABLE` | No | `ArtifactAvailability` or a required field's `FieldAvailability` is `UNAVAILABLE`: the selected artifact/field is absent, unreadable, blank, unverified, or hash-mismatched. |
-| `EOP_STALE` | No | `ArtifactAvailability` is `STALE` under the later approved validity/update rule. No stale threshold is invented here, and staleness says nothing about source quality or approval. |
+| `EOP_UNAVAILABLE` | No | `ArtifactAvailability = UNAVAILABLE` or a required field is blank/absent. Hash or parser failures are the distinct integrity outcome; field range/support failures are the distinct coverage outcomes. |
+| `EOP_ARTIFACT_INTEGRITY_FAILURE` | No | Exact required bytes fail publisher or UFUQ hash/integrity/schema validation. Acquisition age, field coverage and source quality remain separate. |
 | `EOP_FIELD_QUALITY_NOT_APPROVED` | No | One or more required fields have `ScientificApproval = NOT_APPROVED` or `REVIEW_REQUIRED` for their exact `IERS_ESTIMATE`, `PRELIMINARY`, `PREDICTED`, or `FINAL` source-quality/product/domain combination. Return every blocking field and its independent quality/provenance/approval; do not promote fields from another field's quality. |
-| `EOP_OUT_OF_RANGE` | No | The instant lies outside required-field coverage/interpolation rules; nearest-value substitution is forbidden. |
+| `EOP_OUT_OF_RANGE` | No | The instant lies outside one or more required fields' coverage. Identify every field; nearest-value substitution is forbidden. |
+| `EOP_INTERPOLATION_SUPPORT_UNAVAILABLE` | No | A required field lacks the complete approved four-sample window, contains a gap/duplicate/nonmonotonic epoch or unapproved contributor, or would cross an unrecorded source boundary. No partial interpolation, alternate method, or extrapolation substitutes. |
 | `LEAP_SECOND_DATA_UNAVAILABLE` | No | The approved leap artifact is absent, unreadable, unverified, or hash-mismatched, so required UTC conversion/validation cannot be performed. |
-| `LEAP_SECOND_DATA_STALE` | No | The approved leap artifact violates its approved expiration/validity rule. It is not used with a warning-only fallback. |
+| `LEAP_SECOND_DATA_EXPIRED_FOR_REQUEST` | No | Publisher validity/expiration and the approved activation scope do not establish complete leap knowledge for the requested instant. This does not erase transitions inside an explicitly approved historical replay scope. No warning-only fallback is used. |
 | `OBSERVER_OUTSIDE_SUPPORTED_DOMAIN` | No | Structurally valid observer data uses an unapproved datum/height/location/range or unresolved polar-site semantics. |
 | `SOURCE_ASTROMETRY_UNAVAILABLE` | No | Existing epoch, motion, parallax, RV, solution-quality, or propagation blockers prevent the source state required by the route. |
 | `GEOMETRIC_RESULT_PENDING_VALIDATION` | Yes; not scientifically accepted | Geometric horizontal direction produced wholly within the profile's approved input domain and exact approved bundle/policies before postimplementation production/reference, error-budget, and tolerance acceptance is complete. Include provenance identifiers, validation state, warnings/statuses, and singular-azimuth status. This is the only executable V1 success state initially; its name is semantic, not a finalized wire code. |
 | `APPROVED_GEOMETRIC_RESULT` | Yes; reserved until scientific acceptance | The same provenance-bearing geometric result only after the applicable postimplementation production/reference partitions, error-budget evidence, operation-specific tolerance, and named review have passed. Preimplementation profile approval or successful execution alone cannot reach this state. |
-| `WARNING_BEARING_GEOMETRIC_RESULT` | Conditional | A result plus only explicitly approved warning codes. Any availability or field-quality/approval failure remains a non-result; no current stale, IERS-estimate, preliminary, predicted, missing, zero, or nearest-value case enters this family. |
+| `WARNING_BEARING_GEOMETRIC_RESULT` | Conditional | A result plus only explicitly approved warning codes. Any availability or field-quality/approval failure remains a non-result; no expired-for-request, IERS-estimate, preliminary, predicted, missing, zero, or nearest-value case enters this family. |
 | `DEGRADED_GEOMETRIC_RESULT` | Reserved | Unreachable in Milestone 2C.3. It requires a named degraded mode, quantitative bound, approved domain/tolerance, provenance, mandatory warning contract, and named reviewer approval. |
 | `REFRACTION_NOT_REQUESTED` | No refracted result; geometric result retained | Normative V1 state: the profile does not request refraction. This is neither unavailable nor invalid, supplies no atmosphere defaults, and emits no refracted coordinate. |
 | `REFRACTION_UNAVAILABLE` | No refracted result; geometric result retained | Later-profile state only: refraction was requested but required meteorology, provenance, model, or approved policy is absent. It is distinct from `REFRACTION_NOT_REQUESTED` and is unreachable in V1. |
@@ -1011,8 +1061,9 @@ numeric output was also returned.
 
 The requirement and semantic distinctions are normative `PROJECT_DECISION` records.
 Exact stable wire codes, HTTP/API serialization, logging severity, and retry behaviour
-remain separate transport/operational work. Route- or data-policy-specific warning
-dispositions remain with those still-open decisions. There is no fallback from a
+remain separate transport/operational work. Artifact-specific warning codes and any
+future allowlist remain with later data and
+acceptance owners. There is no fallback from a
 non-result to a numeric result.
 
 ### 14.1 Deterministic semantic precedence
@@ -1043,9 +1094,10 @@ stage:
    without invoking atmosphere, refraction, visibility, scene, learner, or assessment
    behavior.
 
-The remaining leap/EOP policy may refine deterministic ordering within stages 3 and 7
-for its product fields, stale/quality distinctions, warnings, and specific wire names.
-It may not move EOP failure before timestamp/domain validation or reverse the core
+The final leap/EOP policy refines deterministic ordering within stages 3 and 7 for
+field integrity, validity, coverage/support, quality, approval and warnings. Exact
+wire names remain a separate contract decision. No later refinement may move EOP
+failure before timestamp/domain validation or reverse the core
 invariant: an optional or downstream state cannot hide a required-input/artifact/
 domain/approval/execution failure, and cannot erase a valid earlier geometric state.
 
@@ -1054,8 +1106,8 @@ sets azimuth to `UNDEFINED_SINGULAR` while retaining mathematically defined alti
 and ENU. A near-singular `ILL_CONDITIONED` classification remains unavailable until a
 reviewed numerical/domain boundary exists; no arbitrary epsilon is permitted.
 
-This semantic order does not approve any currently blocked date, source, EOP policy,
-warning disposition, degraded mode, wire code, or HTTP mapping. Implementations may
+This semantic order does not approve any concrete date, source artifact, data bundle,
+degraded mode, wire code, or HTTP mapping. Implementations may
 not substitute an incidental library exception order for the contract.
 
 ## 15. Scientific error budget and comparison metrics
@@ -1282,18 +1334,18 @@ requires complete Batch regeneration before further interpretation.
 | `2C-001` | Keep catalogue, propagated, celestial-intermediate, geometric horizontal, refracted, visibility, and scene states distinct. | `PROJECT_DECISION`: Astronomy Specification, ADR-003, architecture/data strategy. | `RESOLVED_CONTRACT`. |
 | `2C-002` | Treat selected I/311 `RArad`/`DErad` as ICRS catalogue inputs in radians. | `SOURCE_SUPPORTED_FACT`: I/311 `ReadMe`, `hip2.dat` byte description. | `RESOLVED_INPUT_SEMANTICS`. |
 | `2C-003` | Interpret `Ep=1991.25` as a representation and exact propagation instant/time scale. | `SOURCE_SUPPORTED_FACT`: I/311 gives the literal label and ESA Gaia DR1 directly calls the I/311 epoch `J1991.25`. `AUTHORITY_OR_EVIDENCE_MISSING`: neither gives the I/311 time scale. | Julian representation resolved; exact instant remains blocked. Preserve the label/representation and return propagation unavailable pending authority or `HUMAN_REVIEW_REQUIRED`. |
-| `2C-004` | Interpret I/311 `pmRA` as `mu_alpha_star` and normalize explicitly. | `SOURCE_SUPPORTED_FACT`: I/311 Appendix G Table G.3; project field-name decision. | `RESOLVED_INPUT_SEMANTICS`; production motion model remains open. |
-| `2C-005` | Keep UTC, TAI, TT, and UT1 distinct with TT for precession-nutation and UT1 for Earth rotation. | `SOURCE_SUPPORTED_FACT`: SOFA routine contracts; IERS TN36 Chapters 5 and 10. | `RESOLVED_TIME_ROLES`; operational data/failure policy remains open. |
+| `2C-004` | Interpret I/311 `pmRA` as `mu_alpha_star` and normalize explicitly. | `SOURCE_SUPPORTED_FACT`: I/311 Appendix G Table G.3; project field-name decision. | `RESOLVED_INPUT_SEMANTICS`; V1 motion-route semantics are resolved, while I/311 row eligibility remains 2D-owned. |
+| `2C-005` | Keep UTC, TAI, TT, and UT1 distinct with TT for precession-nutation and UT1 for Earth rotation. | `SOURCE_SUPPORTED_FACT`: SOFA routine contracts; IERS TN36 Chapters 5 and 10. | `RESOLVED_TIME_ROLES`; Section 8 supplies the final-only operational-data/failure policy and exact artifacts remain 2D/2E-owned. |
 | `2C-006` | Use north-positive latitude, east-positive longitude, north-zero/eastward azimuth, signed altitude, and vector comparison at zenith/nadir. | `PROJECT_DECISION`: Astronomy Specification and ADR-003; SOFA supports the horizon convention. | `RESOLVED_CONVENTIONS`; exact serialization/status code remains open. |
 | `2C-007` | Define observer-preset semantics and separate them from concrete site data. | `PROJECT_DECISION`: V1 fixes the generic versioned `ObserverPreset`, north-positive geodetic latitude, east-positive `[-180 deg,+180 deg)` canonical longitude, explicit datum/frame/ellipsoid/typed height/conditional epoch/accuracy/provenance/version/approval states, the UMPSA Pekan Faculty identity, and fail-closed no-default behavior. `SOURCE_SUPPORTED_FACT`: official UMPSA material places the Faculty at Pekan campus. | `RESOLVED_CONTRACT_FOR_PROFILE_V1`; exact reference point, coordinates, height, Earth model, accuracy and artifact are `BLOCKS_2D_DATA_AUTHORITY`. Unknown accuracy remains unbounded, global/polar/multiple-location support remains later, and no Faculty-specific JUPEM control record is claimed. |
 | `2C-008` | Select the production algorithm/library, coherent CIO/equinox route, and implement-or-omit effect matrix. | The profile audit normatively selects a decomposed UFUQ-owned pure-TypeScript subset derived from SOFA `2023-10-11`, the full-input space-motion branch, model-CIP-only EOP interface, solar-only deflection, geometric-only output, and exact included/omitted/fail-closed dispositions. | `RESOLVED_FOR_PROFILE_V1`; source-row authority remains 2D and implementation residuals/omission bounds/tolerances remain postimplementation or later-profile work. |
-| `2C-009` | Select production leap-second/EOP files, coverage, source-quality approval/offline/update policy, and approximation/failure modes. | Milestone 2C.3 pins the distinct official Bulletin A/B/C roles and `finals2000A` field flags, then proposes immutable offline bundles and orthogonal source-quality/availability/approval semantics. Smoke files/hashes remain smoke-only. | `PARTIAL_PROPOSAL`; product bytes/hashes, precedence, stale/update cadence, field-quality approval, coverage, and degraded mode remain open. |
+| `2C-009` | Define the production leap-second/EOP field, quality, interpolation, coverage, validity, offline/update and failure semantics without selecting exact bytes. | Official Bulletin A/B/C roles, `finals2000A` flags, Gazette 13's example/equivalence guidance, C04 continuous-UT1 guidance, TN36-2010 restoration, and IANA transport metadata support the facts; Section 8 records UFUQ's final-only, immutable-offline, four-point/full-support, continuous-UT1, exactly-once-restoration, no-degraded `PROJECT_DECISION`. Smoke files/hashes remain smoke-only. | `RESOLVED_FOR_PROFILE_V1`; exact artifacts/hashes, exact restoration configuration and activated coverage belong to 2D/2E, while numerical uncertainty and tolerance remain postimplementation. |
 | `2C-010` | Keep geometric and refracted direction separate; select the Phase 2 refraction model/policy. | ScientificProfileV1 normatively emits geometric output only, fixes `REFRACTION_NOT_REQUESTED`, accepts no atmosphere, and inserts no defaults. SOFA/Astropy supply input and limitation evidence but do not choose a later refraction policy. | `RESOLVED_FOR_PROFILE_V1`; model, ranges, uncertainty, validity, warnings, and exposure remain later `HUMAN_REVIEW_REQUIRED`/`AUTHORITY_OR_EVIDENCE_MISSING` without blocking V1. |
 | `2C-011` | Keep direction, every horizon type, visibility components, and rendering/learner states separate; select actual behaviour. | V1 normatively makes below-geometric-horizon result-bearing, emits no aggregate visibility, and excludes physical/terrain/render/learner interpretations. No source/owner has selected later terrain, photometric, daylight, transmission, or learner policy. | `RESOLVED_FOR_PROFILE_V1`; later capability policy remains under AST-001/004/006/007. |
 | `2C-012` | Preserve structured scientific outcomes and upstream warnings; fix stable API mapping. | SOFA status contracts plus ADR-003/007. V1 now fixes core outcome classes, non-erasing precedence, exact singularity semantics, warning/status preservation, and pending-versus-approved validation states. | `RESOLVED_SEMANTIC_CONTRACT`; stable wire/HTTP mapping, logging severity, route/data-specific warning disposition, and near-singular numerical boundary remain with later owners. |
 | `2C-013` | Use per-case vector/circular metrics and a separated error budget; approve aggregation and tolerances. | Astronomy Specification/ADR-007 plus independent-measurement requirement. | Metrics resolved; budget aggregation and thresholds `BLOCKED_EXPERIMENT_AND_APPROVAL` under AST-006. |
 | `2C-014` | Establish a pinned reference path, comparison matrix, and stronger independent oracle. | The locked synthetic-only tool proves environment and production-code independence. Milestone 2C.6 distinguishes the Astropy/PyERFA reference route from the selected SOFA-derived production mapping and retains the named comparison experiments; 2C.5B executes the first same-family/structural synthetic batch. | `PARTIAL`; source-derived fixtures, a lineage-independent model path for applicable claims, production implementation, and production/reference comparison remain unstarted postimplementation work. |
-| `2C-015` | Select supported date/location/altitude range and endpoint failures. | Milestone 2C.3 defines the domain as the intersection of every approved scientific/data/observer/scenario range and fixes explicit endpoint outcomes. Sources expose individual limits but do not select UFUQ endpoints. | Exact one-preset V1 input endpoints remain `AUTHORITY_OR_EVIDENCE_MISSING`/`HUMAN_REVIEW_REQUIRED` under AST-003/AST-007. Broader/global ranges are later extensions; AST-006 owns postimplementation error bounds and numerical acceptance, not endpoint selection. |
+| `2C-015` | Select supported date/location/altitude range and endpoint failures. | Milestone 2C.3 defines the domain as the intersection of every approved scientific/data/observer/scenario range and fixes explicit endpoint outcomes. Sources expose individual limits but do not select UFUQ endpoints. | Exact one-preset V1 values and activated bounds are `BLOCKS_2D_DATA_AUTHORITY`/2D-2E activation data under the resolved AST-003/007 semantics. Broader/global ranges are later extensions; AST-006 owns postimplementation error bounds and numerical acceptance, not endpoint selection. |
 
 ### 17.1 Milestone 2C.1 authority audit
 
@@ -1316,7 +1368,7 @@ requires complete Batch regeneration before further interpretation.
 | `2C.2-002` | Use the componentized SOFA `2023-10-11` CIO-family route with typed catalogue, J2000.0-interface propagated ICRS, explicit Earth-orientation context, observer-aware CIRS, and geometric horizontal states. | `PROJECT_DECISION` | Normative implementation authority for V1; J2000.0 is an epoch interface, not a frame conversion. Refracted/visibility/scene states remain later/downstream. |
 | `2C.2-003` | Implement the selected route as a UFUQ-owned pure-TypeScript SOFA-derived subset; after code exists, prove conformance. | `PROJECT_DECISION` | Mapping is resolved; exact source/hash/licence/status/data-injection obligations are recorded. Astropy is reference-only. Conformance evidence remains postimplementation. |
 | `2C.2-004` | Cross source-to-J2000.0 TDB space motion only for a fully eligible source state. | `PROJECT_DECISION` | Generic adapter, exact-pole rejection, status preservation, positive-distance and required-RV branches are normative. I/311 remains row-ineligible until 2D resolves its source authority and missing fields. |
-| `2C.2-005` | Construct production Earth-orientation context. | `PROJECT_DECISION` plus remaining `AUTHORITY_OR_EVIDENCE_MISSING` | Route requires exactly leap state, `UT1-UTC`,`xp`,`yp`; model `dX`,`dY` corrections are omitted. Product/quality/interpolation/offline/update policy remains the sole 2C blocker. |
+| `2C.2-005` | Construct production Earth-orientation context. | `PROJECT_DECISION` | Route requires exactly leap state and instantaneous, exactly-once-restored `UT1-UTC`,`xp`,`yp`; observed `dX`,`dY` are omitted. Section 8 and the final 2C.6 audit resolve the quality/interpolation/offline/update semantics. Exact artifacts and restoration configuration remain 2D/2E activation data; numerical bounds remain postimplementation. |
 | `2C.2-006` | Include frame bias, IAU 2006 precession with IAU 2000A nutation and its matching transformation, annual aberration, ERA Earth rotation, and diurnal aberration. | `PROJECT_DECISION` | Normative semantic inclusions; implemented output remains pending validation and all numerical model/implementation terms remain unbounded. |
 | `2C.2-007` | Require positive approved parallax/equivalent distance for every V1 row. | `PROJECT_DECISION` | Zero/negative/missing/unapproved values are preserved as source evidence but row-ineligible; no infinite-distance substitute. Row quality remains 2D. |
 | `2C.2-008` | Require approved finite radial velocity for every V1 row and include perspective effects. | `PROJECT_DECISION` | Absence is never `0 km/s`; I/311 requires another approved source/crossmatch or is ineligible. |
@@ -1330,25 +1382,25 @@ requires complete Batch regeneration before further interpretation.
 
 | ID | Conclusion | Classification | Result |
 |---|---|---|---|
-| `2C.3-001` | IERS Bulletin A provides rapid `xp`,`yp`,`UT1-UTC`, predictions, and `dX`,`dY`; `finals2000A` records separate IERS/prediction flags per field. Bulletin B supplies monthly final/preliminary EOP, and Bulletin C announces leap-second decisions. | `SOURCE_SUPPORTED_FACT` | Official roles, fields, publication frequencies, flags, and source-quality distinctions are pinned; no UFUQ product or scientific approval is selected. |
+| `2C.3-001` | IERS Bulletin A provides rapid `xp`,`yp`,`UT1-UTC`, predictions, and `dX`,`dY`; `finals2000A` records separate IERS/prediction flags for the polar-motion, UT1, and nutation-offset quantity groups. Bulletin B supplies monthly final/preliminary EOP, and Bulletin C announces leap-second decisions. | `SOURCE_SUPPORTED_FACT` | Official roles, fields, publication frequencies, flags, and source-quality distinctions are pinned; no UFUQ product or scientific approval is selected. |
 | `2C.3-002` | Use exact whole-second `YYYY-MM-DDTHH:mm:ssZ` at the astronomy boundary; reject fractions, offsets/local time, Unix timestamps, bare JDs and implicit current time; keep any local/IANA resolution in a provenance-preserving upstream adapter. | `PROJECT_DECISION` | Normative V1 input boundary. Serialization resolution is not scientific accuracy, and no upstream rounding rule is inferred. |
-| `2C.3-003` | Treat `23:59:60Z` as conditional syntax and validate it only for the exact date confirmed by the approved leap artifact. | `PROJECT_DECISION` | Normative fail-closed semantics; exact production leap product/bytes/validity policy remains with 2C EOP/2D data ownership. |
+| `2C.3-003` | Treat `23:59:60Z` as conditional syntax and validate it only for the exact date confirmed by the approved leap artifact. | `PROJECT_DECISION` | Normative fail-closed and validity semantics are fixed in Section 8; exact production transport/bytes/hash and activation remain 2D-owned. |
 | `2C.3-004` | Use a versioned `ObserverPreset` with explicit geodetic latitude, east-positive longitude, reference system/realization, ellipsoid, discriminated height and conditional epoch, accuracy, provenance, version, validation, availability, and approval. | `PROJECT_DECISION` | Generic typed observer boundary and `[-180,+180)` canonical longitude are defined; no reference system, height conversion, position, or uncertainty is inferred. |
 | `2C.3-005` | Approve the selected preset's concrete reference system/ellipsoid, height representation or conversion, accuracy adequacy, and supported observer domain. | `HUMAN_REVIEW_REQUIRED` | Exact UMPSA data and activation move to 2D; broader height/location ranges and polar semantics remain a later profile concern. SOFA/Astropy behavior does not choose either policy. |
-| `2C.3-006` | Execute astronomy offline from an immutable, hash-addressed, prevalidated EOP/leap bundle and update only through a separate reviewed atomic workflow with old bundles retained. | `PROJECT_DECISION` | Proposed deterministic execution/update boundary; production artifact and operational cadence remain open. |
-| `2C.3-007` | Keep `SourceFieldQuality`, artifact/field availability, and `ScientificApproval` separate for every required EOP field; Bulletin A `I` is an IERS estimate rather than final, missing/blank is not zero, prediction/preliminary is not final, and file coverage is not the supported domain. | `PROJECT_DECISION` | Orthogonal fail-closed state model defined from official field flags/product roles plus explicit UFUQ approval; no field can promote another. |
-| `2C.3-008` | Approve a production EOP product/file, field precedence, per-field source-quality/availability/approval policy, version/hashes, interpolation, and corrections/CPO mapping. | `HUMAN_REVIEW_REQUIRED` | No selection or approval; Earth-orientation execution remains blocked. |
-| `2C.3-009` | Approve a production leap artifact/version/hash, Bulletin C cross-check, expiry/validity, and refresh cadence. | `HUMAN_REVIEW_REQUIRED` | No selection or approval; UTC conversion/validation requiring the artifact remains blocked. |
-| `2C.3-010` | Treat a source publication frequency, file age, or Astropy default as the UFUQ stale rule. | `AUTHORITY_OR_EVIDENCE_MISSING` | None supplies a project validity threshold, and stale remains distinct from IERS-estimate/final/preliminary/predicted source status. |
-| `2C.3-011` | Approve the EOP/leap stale/expiry rule and operational update cadence. | `HUMAN_REVIEW_REQUIRED` | No rule or cadence is selected. |
+| `2C.3-006` | Execute astronomy offline from one explicitly supplied immutable, hash-addressed, prevalidated EOP/leap bundle and update only through a separate reviewed atomic workflow with prior bundles retained. | `PROJECT_DECISION` | Normative deterministic execution/update boundary. Exact artifacts/configuration and activation are 2D/2E; polling cadence is later operations policy. |
+| `2C.3-007` | Keep source quality, artifact availability/integrity, field coverage/support, publisher validity, acquisition age/lifecycle, and scientific approval separate for every required EOP field; `finals2000A` `I` means `IERS`, which UFUQ maps to `IERS_ESTIMATE` using Bulletin A's quick-look-estimate role rather than to `FINAL`; missing/blank is not zero, and file coverage is not the supported domain. | `PROJECT_DECISION` | Normative orthogonal fail-closed state model; no field can promote another. |
+| `2C.3-008` | Accept only approved final Bulletin B/final-derived `UT1-UTC`,`xp`,`yp`; select Gazette 13's four-point Lagrange example with independent full support; interpolate UT1 through continuous `UT1-TAI`; then restore exactly once the IERS Conventions 2010 ocean-tide and applicable libration terms; reject quality mixing, gaps, nearest rows and extrapolation. | `PROJECT_DECISION` | Normative V1 EOP policy. Equivalent methods remain source-permitted but not V1-approved. Exact source artifacts and exact 2010 restoration configuration move to 2D/2E; numerical EOP uncertainty remains unresolved. |
+| `2C.3-009` | Keep Bulletin C as leap-event authority and require a 2D-selected official IERS/IANA machine transport with exact bytes/hash, validity metadata, Bulletin C consistency and approval. | `PROJECT_DECISION` plus `BLOCKS_2D_DATA_AUTHORITY` | Normative authority/transport boundary; no exact production artifact is selected in 2C. |
+| `2C.3-010` | Treat source publication frequency, acquisition age, file coverage, publisher expiry, source quality and scientific approval as separate. | `PROJECT_DECISION` | V1 has no age-based `STALE` scientific status or invented threshold; old final historical data may remain valid for an approved scope, while new bytes may be out of range or unapproved. |
+| `2C.3-011` | Update through candidate acquisition, integrity/schema/quality/coverage checks, active-bundle diff, review, atomic activation and retained replay; defer polling cadence. | `PROJECT_DECISION` | Normative activation lifecycle. Exact operations cadence is `REQUIRED_LATER` and cannot trigger request-time refresh. |
 | `2C.3-012` | Support only the intersection of approved catalogue, model/ephemeris, leap, per-field EOP, observer, and scenario domains. Apply later validation/tolerance approval over that domain rather than using a nonexistent tolerance to prevent its definition. | `PROJECT_DECISION` | Normative domain-composition rule; product extent alone never promotes support. |
 | `2C.3-013` | Derive earliest/latest instants or endpoint inclusion directly from one source/product. | `AUTHORITY_OR_EVIDENCE_MISSING` | Prohibited: `SupportedTimeDomain` requires explicit per-boundary disposition and a complete intersection. Concrete values move to the 2D/2E activation artifact. |
 | `2C.3-014` | Require each activated profile to state explicit earliest/latest values, inclusive/exclusive semantics, required interpolation support and adjacent outside cases. | `PROJECT_DECISION` | Normative endpoint contract. Numerical values are later activation data, not a 2C implementation blocker or a tolerance. |
-| `2C.3-015` | Return distinct invalid, unsupported-domain, required-artifact, unapproved-state, execution-failure, pending-result, attached-classification, and reserved-degraded outcomes with no non-result fallback. | `PROJECT_DECISION` | Core V1 semantic families and pending-versus-approved distinction are normative. Exact time/EOP refinements, stable serialization, and route/data warning disposition remain with their owners. |
-| `2C.3-016` | Quantify IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy over a proposed domain. | `EXPERIMENT_REQUIRED` | No bound exists; `DEGRADED_GEOMETRIC_RESULT` remains reserved and unreachable. |
-| `2C.3-017` | Approve any IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy after a named mode, quantitative bound, warning contract, and domain/tolerance evidence exist. | `HUMAN_REVIEW_REQUIRED` | None is approved. |
+| `2C.3-015` | Return distinct invalid, unsupported-domain, required-artifact, unapproved-state, execution-failure, pending-result, attached-classification, and reserved-degraded outcomes with no non-result fallback. | `PROJECT_DECISION` | Core V1 semantic families, detailed time/EOP refinements, and pending-versus-approved distinction are normative. Stable wire/HTTP serialization, logging/retry mapping, and artifact-specific warning codes remain with later owners. |
+| `2C.3-016` | Quantify IERS-estimate, predicted, preliminary, expired-for-request, zero-filled, nearest-value, extrapolated, or other degraded astronomy over a proposed domain. | `EXPERIMENT_REQUIRED` | Later-profile work only; no bound exists and `DEGRADED_GEOMETRIC_RESULT` remains reserved and unreachable. |
+| `2C.3-017` | Approve any IERS-estimate, predicted, preliminary, expired-for-request, zero-filled, nearest-value, extrapolated, or other degraded astronomy after a named mode, quantitative bound, warning contract, and domain/tolerance evidence exist. | `HUMAN_REVIEW_REQUIRED` | None is approved; all fail closed in V1. |
 | `2C.3-018` | Reconstruct independent fixtures offline with observer/time/EOP/leap provenance, separate source-quality/availability/approval states, boundary cases, warnings/outcomes, and deterministic hashes. | `PROJECT_DECISION` | Batch 01 proves the bounded synthetic offline/canonical replay transport using smoke-only artifact hashes. Scientific EOP/leap partitions and the other families remain unrun or blocked. |
-| `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Core V1 precedence and the timestamp/leap/domain/observer/source/EOP stage order are normative. The open leap/EOP policy may refine field checks within its owned stages without allowing a later state to hide an earlier failure or erase valid geometry; exact serialization remains separate. |
+| `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Core V1 precedence and the timestamp/leap/domain/observer/source/EOP stage order are normative. Section 8 fixes the field checks within the leap/EOP stages without allowing a later state to hide an earlier failure or erase valid geometry; exact serialization remains separate. |
 
 ### 17.4 Milestone 2C.4 refraction, horizon, and visibility audit
 
@@ -1364,7 +1416,7 @@ requires complete Batch regeneration before further interpretation.
 | `2C.4-008` | Keep geometric, refracted-apparent, physical-dip, terrain/obstruction, renderer, and learner horizon states distinct; treat below-geometric-horizon as a classification attached to the valid geometric direction. | `PROJECT_DECISION` | Normative V1 typed separation and non-erasing semantics; altitude, ENU, defined azimuth/exact-singular state, provenance, warnings, and statuses are retained. A near-singular or near-horizon numerical boundary remains later. |
 | `2C.4-009` | Keep astronomical horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner-eligibility visibility components independent. | `PROJECT_DECISION` | Normative V1 exclusion: no component promotes another, a rendered/geometrically located star is not scientifically visible, and V1 emits no aggregate boolean. Later component policy remains unavailable. |
 | `2C.4-010` | Supply authority and approve terrain/dip, photometric band/threshold/variability, daylight/twilight, extinction/transparency/weather/light pollution, and learner eligibility. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requested aggregate visibility returns unavailable until review under AST-001/004/006/007. |
-| `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | Normative semantic order and state retention. The remaining leap/EOP policy refines only checks within its owned stages; wire/HTTP mapping remains separate. |
+| `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | Normative semantic order and state retention. The final leap/EOP policy refines checks only within its owned stages; wire/HTTP mapping remains separate. |
 | `2C.4-012` | Approve warning-bearing or approved refracted output without exact model/version, complete input provenance, reviewed validity and supported operating domains, quantitative bound, tolerance, warning contract, and named astronomy reviewer. | `HUMAN_REVIEW_REQUIRED` | Neither branch is reachable now. |
 | `2C.4-013` | Run seven refraction/input/horizon/visibility experiment families with complete deterministic provenance. | `EXPERIMENT_REQUIRED` | Batch 01 executes only the bounded below-horizon state, no-default-atmosphere, and visibility-separation guards. Numerical model/domain families remain unrun or data/decision blocked; no authority or tolerance follows. |
 
@@ -1408,22 +1460,19 @@ requires complete Batch regeneration before further interpretation.
 ## 18. Milestone 2C.6 profile and lifecycle audit
 
 The normative profile boundary, UTC/time-domain contract, transformation route/effect
-mapping, remaining EOP candidate, category definitions, blocker tables, 49-term
+mapping, final leap/EOP policy, category definitions, blocker tables, 49-term
 disposition, resource report, and corrected roadmap are in
 `PHASE1_SCIENTIFIC_PROFILE_V1.md`.
 
 ### 18.1 Decisions that still block ScientificProfileV1 implementation
 
-Only this one profile-scoped decision remains a preimplementation blocker:
-
-1. approve exact leap/EOP product classes, artifact-selection requirements, per-field
-   quality/availability/interpolation/coverage, offline/expiry/update, and no-degraded
-   behavior.
-
-These decisions require the authority, reviewer, approval status/date, rejected
-alternatives, implementation consequence, validation consequence, and limitations
-specified by repository governance. This audit does not substitute for their named
-approval.
+No profile-scoped preimplementation decision remains. Section 8 now normatively fixes
+the required leap/EOP fields, final-only quality, independent per-field evidence,
+UFUQ-selected four-point/full-support policy, leap-aware `UT1-TAI`, exactly-once
+TN36-2010 restoration, immutable
+offline/replay/update behavior, validity/coverage distinctions, warning disposition
+and no-degraded execution. Concrete artifact selection and scientific activation
+remain 2D/2E work, not missing generic implementation semantics.
 
 The following clusters are closed as normative `PROJECT_DECISION` contracts and no
 longer appear above: the ProfileV1 boundary/typed exclusions/pending-validation state;
@@ -1510,10 +1559,10 @@ Milestone 2C does **not** require TypeScript output, production/reference residu
 final numerical tolerances, arbitrary-location support, refraction/visibility
 implementation, or numerical closure of all 49 error-budget terms.
 
-**Current outcome:** `2C_REMAINS_OPEN_WITH_EXACT_PREIMPLEMENTATION_BLOCKERS`.
+**Current outcome:** `MILESTONE_2C_READY_TO_CLOSE_FOR_IMPLEMENTATION`.
 Milestones 2C.1-2C.5C retain all source, synthetic, and error-budget evidence without
-promotion. Milestone 2C.6 removes the circular gate; the semantic-scope, time-profile,
-and transformation-route audits narrow the open set to the one leap/EOP-policy
-decision in Section 18.1. The absence of
-production code, production/reference residuals, and numerical tolerances no longer
-keeps 2C open.
+promotion. Milestone 2C.6 removes the circular gate, and the semantic-scope,
+time-profile, transformation-route, and final leap/EOP audits close the bounded
+preimplementation contract. The absence of exact 2D/2E data artifacts, production
+code, production/reference residuals, and numerical tolerances still blocks real-data
+activation or scientific acceptance at their own gates, but no longer keeps 2C open.

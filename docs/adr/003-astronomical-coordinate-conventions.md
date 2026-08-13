@@ -1,9 +1,9 @@
 # ADR-003: Astronomical coordinate and scene conventions
 
-- **Status:** Blocked only pending final leap/EOP policy
-- **Classification:** ROUTE APPROVED FOR IMPLEMENTATION ENTRY; EOP POLICY MANUAL
+- **Status:** Accepted for bounded implementation entry; activation and scientific acceptance remain gated
+- **Classification:** SCIENTIFIC_PROFILE_V1 PREIMPLEMENTATION CONTRACT COMPLETE
 - **Date:** 2026-07-20
-- **Blocker:** remaining AST-003 leap/EOP policy
+- **Blocker:** none for generic `ScientificProfileV1` implementation; 2D/2E data activation and postimplementation validation remain mandatory
 
 ## Context
 
@@ -14,8 +14,9 @@ Sky positions can look plausible while being wrong if catalogue epoch/frame, pro
 The Phase 1 Milestone 2C evidence audit in
 `../spikes/PHASE1_SCIENTIFIC_BEHAVIOUR_CONTRACT.md` confirms which items below are
 source-supported or already fixed project conventions. Successive focused audits now
-approve the ProfileV1 route, exclusions, observer/time contracts and implementation
-entry boundary. This ADR remains blocked only on the separate leap/EOP policy.
+approve the ProfileV1 route, exclusions, observer/time contracts, leap/EOP policy and
+implementation-entry boundary. Exact source and operational-data artifacts remain
+2D/2E activation inputs rather than Milestone 2C semantics.
 
 Milestone 2C.1 adds one source-supported clarification: ESA Gaia DR1 directly
 identifies the I/311 new reduction and calls its parameter epoch `J1991.25`, resolving
@@ -50,8 +51,8 @@ updates with prior bundles retained; and independent source quality, artifact/fi
 availability, provenance, coverage, and scientific approval for every required EOP
 field.
 The supported input domain is the intersection of every approved catalogue, model,
-ephemeris, leap, EOP, observer, and scenario domain. Missing, stale, out-of-range, or
-unapproved-quality data return structured non-results. Postimplementation acceptance
+ephemeris, leap, EOP, observer, and scenario domain. Missing, integrity-failed,
+expired-for-request, out-of-coverage, or unapproved-quality data return structured non-results. Postimplementation acceptance
 evaluates results over that already defined domain; a missing tolerance does not block
 pending-validation execution. One EOP field cannot promote another. No degraded result
 is approved.
@@ -146,9 +147,20 @@ Fixed now:
 - angular answers use robust vector separation or wrapped circular distance;
 - every policy and tolerance is versioned and server scoring is authoritative.
 
-Before `ScientificProfileV1` implementation, AST-003 must now approve only the leap/EOP
-product, field-quality, interpolation, coverage, offline, expiry, update and warning
-policy for required leap data, `UT1-UTC`,`xp`,`yp`. The route/effect mapping,
+AST-003 now approves the final Milestone 2C leap/EOP contract. V1 requires an explicitly
+supplied immutable approved leap state plus independently approved final `UT1-UTC` in
+seconds and `xp`,`yp` in radians. Every field retains independent source/row/support
+identity, quality, coverage, interpolation evidence, availability and approval. V1
+selects Gazette 13's four-point Lagrange example with complete support; across leap
+boundaries `UT1-UTC` is interpolated via continuous `UT1-TAI`, and the IERS Conventions
+2010 ocean-tide and applicable libration terms are restored exactly once after
+interpolation. Equivalent schemes are source-permitted but not V1-approved. Missing,
+blank, preliminary, predicted, estimated, unsupported,
+expired-for-request, integrity-failed or otherwise unapproved input fails closed. No
+zero, nearest-row, extrapolated, automatic-download, hidden-cache or library-table
+fallback exists. Bulletin C is the event authority; 2D must select the exact official
+machine-readable transport and EOP release, and 2E must build and verify the immutable
+bundle before real execution. The route/effect mapping,
 source-neutral motion/parallax/radial-velocity eligibility, observer and UTC contracts,
 geometric/no-refraction/no-visibility scope and core outcome/precedence contracts are
 normative. Actual I/311 scale, row, rights and artifact eligibility belong to 2D if
@@ -168,6 +180,10 @@ zero or as a library default.
   tolerance prevents later scientific acceptance, not pending-validation execution. A
   labelled degraded approximation is unavailable until separately quantified and
   approved.
+- Publication age is not scientific field quality: an older immutable bundle can
+  remain valid for approved historical replay, while a newly acquired bundle can be
+  unusable when field coverage, interpolation support, integrity, publisher validity
+  or UFUQ approval is absent.
 - At exact zenith/nadir azimuth is undefined while altitude/ENU remain valid. Near that
   geometry, azimuth cannot be the sole comparison/scoring quantity; no numerical
   ill-conditioned boundary is invented.

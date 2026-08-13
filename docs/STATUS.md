@@ -15,7 +15,7 @@ persistence/authentication behavior, dashboard, or deployment configuration.
 | Gate | Result | Basis |
 |---|---|---|
 | Repository scaffolding | YES | The consolidated eight-workspace TypeScript monorepo, non-npm oracle boundary, strict compiler/build setup, test discovery, dependency enforcement, lockfile, and CI are validated. |
-| Validated celestial-guidance vertical slice | NO | The source-neutral production route is specified but unimplemented. Leap/EOP policy, 2D source/observer/artifact authority, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
+| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Exact 2D source/observer/leap/EOP artifact authority, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
 | Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
 | Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
@@ -91,8 +91,10 @@ horizontal conventions, coordinate-state separation, structured-outcome requirem
 comparison metrics, and the code-independent reference protocol with shared-lineage
 disclosure. It also corrects the
 source-gap records: Astropy `8.0.1` reference-design pages and the official PyERFA
-`2.0.1.5` release/hash are pinned. The PyERFA stable API is one patch behind, and the
-production science protocol remains incomplete.
+`2.0.1.5` release/hash are pinned. The PyERFA stable API is one patch behind. At this
+earlier audit checkpoint, real-data activation and production/reference acceptance
+evidence remained incomplete; the later 2C.6 sections below separate them from the
+now-complete preimplementation specification gate.
 
 Milestone 2C.1 precisely bounds the remaining epoch gap. `SOURCE_SUPPORTED_FACT` covers
 the I/311 wording and ESA's I/311-specific `J1991.25`; `AUTHORITY_OR_EVIDENCE_MISSING`
@@ -132,7 +134,7 @@ offline EOP/leap bundles, separate reviewed atomic updates and old-bundle replay
 separate per-field source quality, availability, provenance, coverage, and scientific
 approval with any unavailable or unapproved required field blocking, supported-domain
 intersection, and explicit endpoint outcomes with deterministic semantic precedence.
-IERS-estimate, predicted, preliminary, stale,
+IERS-estimate, predicted, preliminary, expired-for-request, integrity-failed,
 zero-filled, nearest-value, extrapolated, and
 degraded execution remain unapproved. Batch 01 runs only the bounded offline canonical
 replay guard; the scientific EOP/status/degradation/time/observer/domain experiments
@@ -203,7 +205,7 @@ unbounded. All six tolerance classes are blocked with no numerical value. The AS
 recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED` pending named review and future
 evidence.
 
-Milestone 2C.6 audits the circular exit gate and defines a candidate
+Milestone 2C.6 audits the circular exit gate and defines a normative
 `ScientificProfileV1`. The first profile is one-preset, one-bounded-UTC-domain,
 source-neutral, offline, fail-closed, and geometric-only. Refraction is disabled, no
 atmosphere default exists, and no aggregate scientific visibility claim is produced.
@@ -236,19 +238,26 @@ states are row-eligibility requirements; missing values fail closed. Observed
 not zero. No current audited third-party TypeScript package matches the required
 model/data/status boundary.
 
-Milestone 2C remains **OPEN**, but only for one exact preimplementation decision
-cluster: leap/EOP product class, per-field interpolation, quality, offline, expiry,
-update and warning policy for required leap data, `UT1-UTC`,`xp`,`yp`. The whole-
-second Z-only UTC grammar, typed time states, `SupportedTimeDomain`, endpoint behavior,
-and fail-closed time outcomes are normative. Concrete earliest/latest values are
-derived and approved during 2D/2E profile activation rather than invented in 2C.
-Production code,
+The final leap/EOP audit selects final-only independently approved `UT1-UTC`,`xp`,`yp`,
+an approved leap state, Gazette 13's four-point example/full-support policy,
+leap-aware continuous-`UT1-TAI` handling, exactly-once IERS Conventions 2010
+ocean-tide/applicable-libration restoration after interpolation, immutable offline bundles, separate quality/integrity/
+coverage/publisher-validity/approval axes, reviewed activation, and no degraded
+fallback. Bulletin C remains event authority; exact official machine/EOP artifacts,
+hashes, restoration configuration and date values remain 2D/2E data.
+
+Milestone 2C is **READY TO CLOSE FOR IMPLEMENTATION** with zero genuine
+preimplementation blockers. The whole-second Z-only UTC grammar, typed time states,
+`SupportedTimeDomain`, endpoint behavior, fail-closed time outcomes and leap/EOP policy
+are normative. Concrete earliest/latest values are derived and approved during 2D/2E
+profile activation rather than invented in 2C. Production code,
 production/reference residuals, any stronger independent validation required by the
 claimed release boundary, numerical tolerance, global locations, refraction,
 visibility, and numerical closure of all 49 ledger terms
 do not keep 2C open. They retain their data, postimplementation acceptance, later-
-extension, or learner-content gates. The decision is
-`2C_REMAINS_OPEN_WITH_EXACT_PREIMPLEMENTATION_BLOCKERS`.
+extension, or learner-content gates. The decisions are
+`LEAP_EOP_POLICY_BLOCKER_CLOSED` and
+`MILESTONE_2C_READY_TO_CLOSE_FOR_IMPLEMENTATION`.
 
 ### Milestone 2B catalogue authority and provenance
 
@@ -364,19 +373,21 @@ mapping, commands, corrections, and independent post-migration verdict are in
 
 ## Authorized next work
 
-Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
-contract but remains open only for the one `ScientificProfileV1` leap/EOP decision
-listed above. The next 2C work is named astronomy-expert and supervisor review of that
-policy; another synthetic batch and AST-006 numerical approval are not
-prerequisites to starting the bounded implementation.
+Phase 1 Milestones 1, 2A, 2B, and the Milestone 2C specification gate are ready to be
+closed in the proposed documentation commit. No 2C semantic blocker remains. Another
+synthetic batch, production/reference evidence and AST-006 numerical approval are not
+prerequisites to starting the bounded implementation; they retain their later gates.
 
 After profile approval, Milestone 2D selects the actual catalogue/release and minimal
-star allowlist, records acquisition/licensing/row/crosswalk authority, approves the
-permitted operational leap/EOP artifacts, and acquires/approves the concrete UMPSA Pekan
+star allowlist, records acquisition/licensing/row/crosswalk authority, selects and
+approves exact final operational leap/EOP artifacts, Bulletin C consistency, per-field
+support/hashes and exact interpolation/restoration configuration, and acquires/approves the concrete UMPSA Pekan
 Faculty observer record. It must not inherit I/311 as a permanent source merely because
 the spike studied it or require a survey-control monument merely because one could be
-more precise. Milestone 2E then implements the parser, runtime validation, and
-deterministic generated data.
+more precise. Milestone 2E then implements catalogue/leap/EOP parsers, independent
+normalized fields, UFUQ-selected four-point/continuous-`UT1-TAI` interpolation and
+pinned TN36-2010 restoration exactly once afterward, runtime validation,
+offline fail-closed lookup, and deterministic generated data/bundles.
 
 The first bounded pure-TypeScript astronomy implementation follows 2E. Its
 production/reference comparison then activates `test:reference`; stronger independent
@@ -391,13 +402,12 @@ boundary. Neither is a circular prerequisite to implementation.
   and minimal allowlist; resolve acquisition, raw/derived handling, deployment rights,
   stable internal-star/source crosswalks, and row-level scientific eligibility. The
   local I/311 spike contract does not select a permanent source.
-- **IMP-009 / AST-003 (`BLOCKS_SCIENTIFIC_PROFILE_V1`):** approve the remaining
-  leap/EOP product/field-quality/interpolation/offline/expiry/update/warning policy.
-  The pure-TypeScript route/library mapping, effect dispositions, required row/EOP
-  field interface, generic one-preset semantics, canonical UTC/time-
-  domain semantics, geometric-only exclusions, fail-closed precedence, and pending-
-  validation outcomes are now normative. AST-006 numerical tolerance and production/
-  reference residuals are
+- **IMP-009 / AST-003 (`BLOCKS_2D_DATA_AUTHORITY` for real execution):** the route,
+  final-only leap/EOP quality/interpolation/offline/update policy, required row/EOP
+  field interface, generic one-preset and UTC/time-domain semantics, geometric-only
+  exclusions, fail-closed precedence, and pending-validation outcomes are normative.
+  2D/2E still must supply exact artifact/configuration/activation evidence. AST-006
+  numerical tolerance and production/reference residuals are
   `POST_IMPLEMENTATION_VALIDATION`.
 - **IMP-011 / AST-002:** reviewed `SkyPattern` and `GuidanceRelationship` records for
   one complete route to Al-Jady, including stable IDs, labels, membership, segments,

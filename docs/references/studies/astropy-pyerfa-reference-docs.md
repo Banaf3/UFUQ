@@ -162,9 +162,9 @@ auto-download/cache state, observer WGS 84 semantics, ephemeris, refraction inpu
 all warnings. A high-level result cannot be used to infer scientific approval or which
 production stage owns topocentric parallax or diurnal aberration.
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: 2D source-row eligibility and the production
-leap/EOP policy/operating artifacts still prevent approved source-derived reference
-truth. I/311's epoch/derivative scale and absent radial velocity matter only if 2D
+`AUTHORITY_OR_EVIDENCE_MISSING`: 2D source-row eligibility and exact production
+leap/EOP operating artifacts still prevent approved source-derived reference truth.
+The generic final-only policy is now normative. I/311's epoch/derivative scale and absent radial velocity matter only if 2D
 retains it. Refraction is outside V1 rather than a route blocker. The official PyERFA
 stable/runtime patch mismatch also remains for later reference acceptance.
 

@@ -57,7 +57,8 @@ as policy. The implementation must:
 - identify every originating SOFA file, issue, source hash, derivation, and intentional
   difference in source and the algorithm manifest;
 - reproduce the applicable SOFA licence conditions and attribution without implying
-  IAU endorsement;
+  IAU endorsement, including the explicit statement that UFUQ's implementation is
+  derived from SOFA but is neither SOFA/IAU-provided nor SOFA/IAU-endorsed software;
 - preserve every integer/warning status that the selected source routine exposes;
 - inject typed time, observer, leap, and EOP inputs rather than consulting global
   tables, current time, files, caches, or network services;
