@@ -145,19 +145,24 @@ Historical report/deviation/authority status remains in `governance/`.
   only a same-family consistency check. The
   actual pure-TypeScript implementation/library, epoch/derivative-scale interpretation,
   observer/EOP/refraction policies, supported range, effect bounds, error aggregation,
-  and tolerances remain unresolved. Milestone 2C.3 proposes as a project decision a
-  Z-only restricted subset of RFC 3339 at the UTC
-  astronomy input; explicit geodetic/ellipsoidal observer provenance and uncertainty;
+  and tolerances remain unresolved. The ScientificProfileV1 time audit makes normative
+  a whole-second Z-only restricted subset of RFC 3339 at the UTC astronomy input;
+  conditional exact-date leap validation; typed UTC quasi-JD, TAI, TT, and UT1 states;
+  a versioned `SupportedTimeDomain` with explicit endpoints and complete required-field
+  coverage; no local/current-time or unlabeled-JD fallback; explicit geodetic observer
+  provenance and uncertainty;
   immutable hash-addressed offline EOP/leap bundles; separately reviewed atomic
   updates with old-bundle replay; separate source-quality, artifact/field-availability,
   and scientific-approval states for every required EOP field; a
   supported-domain intersection rule; and explicit non-result/result outcome families.
   It forbids request-time download/cache fallback, zero/nearest EOP substitution, stale
   leap data, and every unapproved field quality or degraded execution. No production
-  artifact/hash, stale rule, update cadence, UTC precision/zone policy, observer datum/
-  range, date endpoint, prediction horizon, degraded bound, or warning serialization
-  is approved. The semantic-scope audit makes core deterministic failure precedence
-  normative, while the open UTC/leap/EOP policy may refine its owned sub-order and
+  artifact/hash, stale rule, update cadence, observer datum/range, concrete date
+  endpoint, prediction horizon, degraded bound, or warning serialization is approved.
+  Concrete date values are activation data derived in 2D/2E from the approved domain
+  intersection; their absence does not block generic implementation. The semantic-
+  scope audit makes core deterministic failure precedence normative, while the open
+  leap/EOP policy may refine its owned field-specific sub-order and
   stable wire codes remain under review. ScientificProfileV1 normatively emits
   geometric-only output, requests no refraction or atmosphere, supplies no default
   atmosphere, keeps geometric, refracted-apparent, physical-dip, terrain, renderer,
@@ -208,15 +213,16 @@ Historical report/deviation/authority status remains in `governance/`.
   warning/pending-validation contracts normative. `GEOMETRIC_RESULT_PENDING_VALIDATION`
   is executable after the remaining gates; `APPROVED_GEOMETRIC_RESULT` remains
   unreachable until postimplementation scientific acceptance. The profile remains
-  unresolved only for three scoped decisions: route/effect mapping, UTC/date domain,
-  and leap/EOP policy. The concrete observer record is 2D, not a fourth blocker.
+  unresolved only for two scoped decisions: route/effect mapping and leap/EOP policy.
+  The concrete observer record and actual supported-time bounds are activation data,
+  not additional 2C blockers.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:**
   - **PRE_IMPLEMENTATION:** approve the remaining route/effect ownership and pure-
-    TypeScript mapping, UTC/date domain, and leap/EOP policy. Implement the already
-    normative typed boundary, exclusions, fail-closed precedence, warnings/statuses,
+    TypeScript mapping plus leap/EOP policy. Implement the already normative typed
+    UTC/time-domain boundary, exclusions, fail-closed precedence, warnings/statuses,
     and pending-validation outcome without promoting it to scientific acceptance.
     Review Batch 01 only for its bounded synthetic claims.
   - **POST_IMPLEMENTATION:** compare the TypeScript implementation with pinned

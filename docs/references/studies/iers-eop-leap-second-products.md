@@ -53,7 +53,29 @@ implicit network access, install explicitly selected tables, and capture every s
 quality, availability state, and warning instead of inheriting permissive library
 defaults. Scientific approval remains a separate UFUQ decision.
 
-## Milestone 2C.3 bounded project proposal
+## ScientificProfileV1 time contract
+
+The source findings above support available representation and conversion semantics;
+they do not choose UFUQ behavior. ScientificProfileV1 therefore makes the following
+normative `PROJECT_DECISION`:
+
+- accept only whole-second `YYYY-MM-DDTHH:mm:ssZ` at the astronomy boundary;
+- treat `23:59:60Z` as structurally eligible but require the selected approved leap
+  artifact to confirm that exact positive-leap date before producing a validated UTC
+  instant;
+- reject fractions, numeric offsets, `-00:00`, local/unqualified time, Unix timestamps,
+  bare Julian Dates, and implicit current time at that boundary;
+- carry labelled UTC quasi-JD, TAI, TT, and UT1 states and all conversion provenance,
+  warnings, and statuses; and
+- require each activated profile to state explicit earliest/latest values and endpoint
+  dispositions, while deriving those concrete values only after approved artifacts and
+  all contributing domains exist.
+
+Whole-second serialization is an input-resolution choice, not a scientific accuracy,
+uncertainty, or tolerance. RFC 3339 does not require this subset; SOFA does not choose
+UFUQ's dates; Astropy output precision and defaults do not become production policy.
+
+## Remaining leap/EOP bounded project proposal
 
 The following are `PROJECT_DECISION` proposals for later approval:
 
@@ -86,7 +108,7 @@ The following are `PROJECT_DECISION` proposals for later approval:
 |---|---|---|
 | Select the production EOP family/file, exact version, hashes, field-precedence rules, and per-field source-quality/availability/approval policy. | `HUMAN_REVIEW_REQUIRED` | Astronomy review of a concrete immutable bundle and orthogonal field-state mapping. |
 | Select the production leap-second machine artifact and prove it agrees with the applicable Bulletin C history. | `HUMAN_REVIEW_REQUIRED` | Version, bytes, SHA-256, expiration/validity metadata, cross-check, and approval. |
-| Define the earliest/latest supported instants and whether endpoints are inclusive. | `AUTHORITY_OR_EVIDENCE_MISSING` | Intersection of approved source epoch/propagation, leap, EOP, ephemeris/model, observer, and scenario ranges. |
+| Instantiate the earliest/latest supported instants under the normative endpoint contract. | `BLOCKS_2D_DATA_AUTHORITY` / activation data | Deterministic intersection of approved source epoch/propagation, leap, per-field EOP/interpolation support, ephemeris/model, observer, and scenario ranges; explicit approval and boundary fixtures. |
 | Accept any IERS-estimate, preliminary, or predicted EOP value. | `HUMAN_REVIEW_REQUIRED` | Named field-by-field scope, prediction horizon where applicable, uncertainty/error budget, warning contract, and approval. |
 | Define when an EOP artifact is stale rather than merely old or predictive. | `AUTHORITY_OR_EVIDENCE_MISSING` | Approved update service level or artifact validity rule. Astropy's defaults are not UFUQ authority. |
 | Select an operational polling/update cadence. | `HUMAN_REVIEW_REQUIRED` | Operations owner and astronomy reviewer approval; source publication frequencies are evidence, not the project cadence. |
@@ -108,13 +130,15 @@ missing policy:
 - quantify nonzero-versus-zero and current-versus-stale changes separately for
   `UT1-UTC`, `xp`,`yp`, and `dX`,`dY`, including interactions;
 - test valid and invalid `23:59:60Z` inputs against a pinned leap table, adjacent UTC
-  instants, fractional seconds, malformed offsets, and `-00:00` rejection; and
+  instants, and normative rejection of fractional seconds, malformed offsets, and
+  `-00:00`; and
 - run every eventual supported endpoint and its immediate outside neighbour, plus
   observer latitude/longitude/height and polar/zenith singular partitions.
 
 ## Stop condition
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: Milestone 2C.3 does not establish production EOP or
-leap-second bytes, hashes, supported dates, observer-height range, prediction horizon,
-stale threshold, or degraded-error bound. Source-derived astronomy execution remains
-blocked wherever those inputs are required.
+`AUTHORITY_OR_EVIDENCE_MISSING`: this dossier does not establish production EOP or
+leap-second families/bytes/hashes, activated supported-date values, observer-height
+range, prediction horizon, stale threshold, or degraded-error bound. The generic UTC/
+time-domain contract is implementable, but real astronomy execution remains blocked
+where required artifacts, activated bounds, or the still-open leap/EOP policy are absent.

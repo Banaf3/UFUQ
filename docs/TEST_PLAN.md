@@ -96,6 +96,19 @@ once that implementation exists.
   cannot erase a valid result or hide an earlier required-input/artifact/domain/
   approval/execution failure. `APPROVED_GEOMETRIC_RESULT`, near-singular epsilon-based
   classification, degraded output, and every refracted result remain unreachable.
+- The normative time-boundary suite must accept only fixed-width whole-second
+  `YYYY-MM-DDTHH:mm:ssZ`; reject fractions, offsets, `-00:00`, local/unqualified time,
+  Unix timestamps, bare JDs, and implicit current time; distinguish structural
+  `23:59:60Z` eligibility from approved-artifact validation; preserve labelled UTC
+  quasi-JD/TAI/TT/UT1 states and conversion evidence; and fail closed for unavailable
+  leap data, missing required EOP fields, unapproved time data, and instants outside the
+  activated `SupportedTimeDomain`.
+- Activation tests must derive the concrete earliest/latest instants from every
+  approved contributing domain, exercise each boundary according to its explicit
+  inclusion rule plus the chronologically adjacent whole second (including leap-second
+  ordering), and prove that one EOP field cannot borrow another field's coverage or
+  interpolation support. These tests begin after 2D/2E supplies the immutable artifacts;
+  no placeholder date range is permitted.
 - Milestone 2C.4's later reference design retains separate geometric/refracted states,
   explicit atmosphere units/provenance and no implicit defaults, model/domain/warning
   capture, near/zero/below-horizon partitions, distinct geometric/refracted-apparent/

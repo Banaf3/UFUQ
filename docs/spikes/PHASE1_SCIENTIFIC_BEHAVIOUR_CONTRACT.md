@@ -26,10 +26,10 @@ authority, postimplementation validation, later extensions, and learner-facing w
 It removes the circular requirement to produce TypeScript/reference residuals before
 TypeScript implementation is permitted.
 
-The profile boundary, geometric-only/refraction-disabled/no-visibility scope, and
-semantic outcome/precedence/validation-state contracts are now normative project
-decisions. Milestone 2C remains open only for the route/effect, UTC-domain, and
-leap/EOP-policy choices, so `IMP-009` remains unresolved. Final numerical tolerances,
+The profile boundary, geometric-only/refraction-disabled/no-visibility scope,
+semantic outcome/precedence/validation-state contracts, and UTC/time-domain contract
+are now normative project decisions. Milestone 2C remains open only for the
+route/effect and leap/EOP-policy choices, so `IMP-009` remains unresolved. Final numerical tolerances,
 production/reference results, globally supported observers, physical refraction, and
 aggregate visibility are not conditions for starting the bounded V1 implementation;
 they retain their later acceptance or extension gates.
@@ -378,37 +378,84 @@ conditional syntax of second `60` at an announced positive leap second. They do 
 require UFUQ's Z-only subset, select UFUQ's accepted precision, or validate a claimed
 leap-second date.
 
-### 7.2 Proposed time-input boundary
+### 7.2 Normative time-input boundary
 
-The following are `PROJECT_DECISION` proposals. They define the boundary to review;
-they do not make source-derived execution available:
+The following are normative `PROJECT_DECISION` contracts. They define implementable
+time semantics without selecting operational leap/EOP artifacts or making
+source-derived execution available:
 
-- the astronomy boundary receives a `UtcObservationInput`, not an unqualified local
-  time, JavaScript `Date`, Unix timestamp, or scale-free Julian Date;
-- its canonical text candidate is a restricted RFC 3339 UTC form
-  `YYYY-MM-DDTHH:mm:ss[.fraction]Z`, with four-digit Gregorian year, uppercase `T` and
-  `Z`, and mandatory seconds;
-- numeric offsets and IANA-zone wall times may exist only in an upstream scenario or
-  presentation adapter. That adapter must return the resolved UTC text plus original
-  input, zone/offset, zone-data version, and ambiguity decision; unresolved folds or
-  gaps are invalid and never guessed;
-- `-00:00`, an absent offset, calendar-only input, and implicit system-local time are
-  invalid at the astronomy boundary;
-- `23:59:60Z` is only provisionally tokenizable before data validation and becomes
-  syntactically valid only when the approved pinned leap-second artifact confirms that
-  exact UTC date. It is invalid for a date known not to contain a positive leap second
-  and returns leap-data-unavailable when that validation cannot be performed;
-- the time adapter owns UTC-to-TAI-to-TT and UTC-to-UT1 conversion using the approved
-  leap/EOP bundle. Downstream transforms consume typed scales and cannot relabel UTC;
-  and
-- syntactically valid historical or future input outside the approved operating
-  domain returns `UNSUPPORTED_DATE`, not a best-effort coordinate.
+- the astronomy boundary receives exact canonical UTC text
+  `YYYY-MM-DDTHH:mm:ssZ`: four-digit year, two-digit month/day/hour/minute/second,
+  uppercase `T`/`Z`, valid Gregorian civil fields, and mandatory seconds;
+- V1 accepts whole-second instants only and no fractional suffix. This serialization
+  resolution is not scientific accuracy, uncertainty, tolerance, or permission to
+  truncate a higher-precision upstream value silently. A future version may add a
+  different explicit precision;
+- ordinary seconds are `00`-`59`. The conditional second token `60` is structurally
+  eligible only in `23:59:60Z` and reaches `ValidatedUtcInstant` only when the selected
+  approved leap artifact confirms that positive leap event on the exact UTC date;
+- numeric offsets, `-00:00`, local/IANA-zone wall times, an absent qualification,
+  calendar-only input, JavaScript `Date`, Unix/POSIX timestamps, bare or single-number
+  Julian Dates, and implicit current/system time are not astronomy-core inputs;
+- an upstream local-time adapter retains the original input, zone/offset, tzdb version,
+  ambiguity decision and any explicit quantization provenance, then supplies one exact
+  canonical UTC instant. Unresolved folds/gaps or an input requiring an unapproved
+  rounding rule fail before the astronomy boundary;
+- a future “now” feature samples an approved clock outside astronomy-core and freezes
+  the canonical UTC instant and clock provenance in an immutable `ScenarioSnapshot`;
+- the time adapter owns UTC-to-TAI-to-TT and UTC-to-UT1 conversion using selected,
+  approved leap/EOP inputs. Downstream transforms consume typed scales and cannot
+  relabel UTC; and
+- a valid instant outside the activated domain returns
+  `TIME_OUTSIDE_SUPPORTED_DOMAIN`, not a best-effort coordinate.
 
-The maximum accepted fractional precision, rounding rule, approved IANA zones and
-zone-data version, fold/gap selection, SOFA dubious-year mapping, and exact wire
-serialization remain `HUMAN_REVIEW_REQUIRED`. The earliest/latest accepted instant
-remains `AUTHORITY_OR_EVIDENCE_MISSING`; no date is approved merely because a library
-can parse it.
+The internal state sequence is `SuppliedCanonicalUtcText` -> `ValidatedUtcInstant` ->
+`UtcQuasiJulianDate` -> `TaiTwoPartJulianDate` / `TtTwoPartJulianDate` and, with the
+exact approved `UT1-UTC` field, `Ut1TwoPartJulianDate`. The internal two-part form is
+labelled by scale/representation and uses the pinned `MJD_ZERO_PLUS_OFFSET` split:
+`part1 = 2400000.5`, `part2 = MJD including the applicable day fraction`. UTC retains
+the `UTC_QUASI_JD` label because a UTC civil day may have 86399, 86400, or 86401 SI
+seconds. TAI, TT and UT1 remain distinct labelled states.
+
+Each conversion retains the source/destination states, algorithm/routine/model/version,
+leap/EOP identity and hash, exact `UT1-UTC` provenance where applicable, and raw plus
+normalized warnings/statuses. These branded two-part values are astronomy-core
+internals. An evidence/debug DTO may serialize both parts, scale, representation,
+split convention and provenance for replay, but no unlabeled numeric JD or tuple is a
+public scientific input.
+
+### 7.3 SupportedTimeDomain and lifecycle ownership
+
+Every activated profile must carry a versioned `SupportedTimeDomain` containing
+explicit canonical earliest/latest UTC values, an `INCLUSIVE` or `EXCLUSIVE`
+disposition for each endpoint, `WHOLE_SECOND` input resolution, contributing-domain
+identities, leap/EOP policy and artifact-manifest identities, required field coverage,
+interpolation-support requirements, derivation method/version, and approval.
+
+The actual interval is the intersection of all approved catalogue/source,
+propagation/model/ephemeris, leap, required EOP-field, observer, and scenario domains.
+An exact endpoint is accepted only if its disposition is inclusive and every required
+conversion, field, source-quality/approval state, artifact, and interpolation neighbour
+or support value is available and approved. The chronological immediately-adjacent
+whole-second cases, including any validated leap second, must be tested; excluded or
+outside instants return `TIME_OUTSIDE_SUPPORTED_DOMAIN`.
+
+One EOP field cannot borrow another field's coverage. A required field or interpolation
+support gap returns `EOP_FIELD_UNAVAILABLE` even if the timestamp lies between the
+declared bounds. No nearest row, extrapolation, zero, library default, or hidden range
+shortening is allowed. Missing or unverified leap data returns
+`LEAP_VALIDATION_DATA_UNAVAILABLE`; available but unapproved leap data returns
+`TIME_OR_EOP_STATE_NOT_APPROVED`. Either occurs before the code asserts a validated UTC
+instant.
+
+Milestone 2C owns this grammar, state/domain shape, endpoint and fail-closed semantics.
+The remaining 2C leap/EOP decision owns scientifically permitted product/field roles,
+quality, interpolation, offline, expiry/update, and warning/failure policy. Milestone
+2D selects and acquires concrete product families/releases and immutable bytes/hashes
+under that policy. The 2D/2E activation workflow derives and approves the actual
+earliest/latest values from the complete artifact/model/source intersection. Those
+values are activation data and are not prerequisites to implementing the generic time
+types, parser, conversions, domain check, and failure branches.
 
 ## 8. Earth-orientation and oracle-data policy
 
@@ -663,19 +710,26 @@ choices, not production approval.
 
 ### 9.1 Supported operating domain
 
-`PROJECT_DECISION` proposal: a request is supported only in the intersection of all
+Normative `PROJECT_DECISION`: a request is supported only in the intersection of all
 approved domains for catalogue propagation, selected astronomical models/ephemeris,
 leap-second conversion, every required EOP field, observer datum/location/height,
-scenario policy, and scientific tolerance. Product file coverage alone is not the
-supported domain.
+and scenario policy. Product file coverage alone is not the supported domain, and a
+scientific tolerance is a later acceptance condition rather than an input-domain
+boundary.
 
-No earliest/latest instant, future-prediction interval, altitude range, unrestricted
-global observer claim, or observer-height interval is approved. Those values remain
-`AUTHORITY_OR_EVIDENCE_MISSING` or `HUMAN_REVIEW_REQUIRED` under AST-003/AST-006/
-AST-007. When endpoints are eventually selected, their inclusive/exclusive semantics,
-leap-second endpoint representation, interpolation-neighbour requirement, and first
-outside instant must be versioned and tested. Until then, source-derived execution at
-an asserted boundary remains unavailable.
+Every activated domain explicitly records earliest/latest canonical UTC values,
+independent inclusive/exclusive endpoint dispositions, whole-second resolution,
+required interpolation support, contributing artifact/model/source identities, and
+approval. Exact endpoint execution requires complete approved field/conversion/
+neighbour coverage; an immediately outside whole-second instant is unsupported. No
+future-prediction interval, unrestricted global observer claim, or observer-height
+interval is approved here.
+
+The endpoint semantics are resolved; their numerical values are not invented. They are
+derived and approved by the 2D/2E activation workflow after concrete catalogue,
+model/ephemeris, leap, per-field EOP, observer, and scenario domains exist. Until an
+activation artifact exists, real source-derived execution at an asserted boundary is
+unavailable, but generic astronomy-core implementation is not blocked.
 
 ## 10. Horizontal-coordinate convention
 
@@ -908,17 +962,27 @@ The astronomy boundary returns a discriminated scientific outcome rather than a 
 coordinate or silently coerced fallback. The core semantic outcome families,
 result-retention rules, and pending-versus-approved lifecycle distinction below are a
 normative `PROJECT_DECISION`. They are not finalized serialized wire or HTTP codes.
-Specific UTC/leap/EOP subtypes remain refinements owned by their later policy decision.
+The named UTC/time subtypes are normative semantic classes. The remaining leap/EOP
+policy may add field/quality-specific refinements and later wire names without changing
+their distinctions.
 
 | Outcome | Result? | Required meaning |
 |---|---:|---|
-| `INVALID_INPUT` | No | Malformed/non-finite field, invalid calendar or offset, unqualified time, invalid leap-second syntax/date, latitude outside `[-90,+90]`, or structurally invalid observer. Include field and reason; do not coerce. |
+| `INVALID_INPUT` | No | Malformed/non-finite field, invalid calendar or offset, unqualified time, structurally invalid leap-second form, latitude outside `[-90,+90]`, or structurally invalid observer. An exact-date contradiction for the structurally eligible `23:59:60Z` form is the separate `LEAP_SECOND_INSTANT_INVALID` outcome. Include field and reason; do not coerce. |
 | `REQUIRED_INPUT_MISSING` | No | A required V1 input or required field is absent. This is distinct from malformed supplied input, an identified artifact that cannot be resolved, and a state that exists but lacks scientific approval. No default is fabricated. |
-| `REQUIRED_ARTIFACT_UNAVAILABLE` | No | An identified required artifact or required artifact field is absent, unreadable, unverified, or hash-mismatched. Exact leap/EOP/source subtypes are retained when the owning policy defines them. |
-| `UNSUPPORTED_PROFILE_DOMAIN` | No | Structurally valid inputs lie outside `ScientificProfileV1` or its later-approved date, observer, source, model, or artifact-coverage domain. Specific outcomes such as `UNSUPPORTED_DATE` may refine this class. |
+| `REQUIRED_ARTIFACT_UNAVAILABLE` | No | An identified required artifact or required artifact field is absent, unreadable, unverified, or hash-mismatched. Normative leap/time subtypes remain distinct; the EOP policy may add field/quality-specific refinements. |
+| `UNSUPPORTED_PROFILE_DOMAIN` | No | Structurally valid inputs lie outside `ScientificProfileV1` or its later-approved date, observer, source, model, or artifact-coverage domain. `TIME_OUTSIDE_SUPPORTED_DOMAIN` is the normative time-specific class. |
 | `REQUIRED_STATE_NOT_SCIENTIFICALLY_APPROVED` | No | A required input, field quality, policy, or data state exists but is not approved for the exact profile/domain. This is distinct from an implementation result whose validation state is pending. |
 | `SCIENTIFIC_EXECUTION_FAILURE` | No | The approved numerical/algorithm route cannot complete or produces an invalid scientific state. Preserve the failing stage, warnings, and raw statuses; do not promote partial coordinates to success. |
-| `UNSUPPORTED_DATE` | No | A valid UTC instant lies outside the approved combined operating domain. This is distinct from a missing artifact. |
+| `TIMESTAMP_SYNTAX_INVALID` | No | The supplied value does not match `YYYY-MM-DDTHH:mm:ssZ` or its Gregorian civil fields are invalid. A fractional part, offset/local form, bare number/JD, or implicit clock is rejected. |
+| `LEAP_SECOND_INSTANT_INVALID` | No | A conditional `23:59:60Z` form is contradicted by the approved leap artifact for that exact date. |
+| `LEAP_VALIDATION_DATA_UNAVAILABLE` | No | The identified required leap artifact is absent, unreadable, unverified, or hash-mismatched, so second-`60` validation or required UTC conversion cannot proceed. No ambient table substitutes. An available but scientifically unapproved artifact returns `TIME_OR_EOP_STATE_NOT_APPROVED`. |
+| `REQUIRED_TIME_SCALE_UNAVAILABLE` | No | A required labelled UTC/TAI/TT/UT1 state cannot be constructed from approved inputs. Preserve the failed conversion stage/status. |
+| `EOP_FIELD_UNAVAILABLE` | No | A required field or its approved interpolation support is unavailable/out of range at this instant. Another field's coverage cannot promote it. |
+| `TIME_OUTSIDE_SUPPORTED_DOMAIN` | No | A validated instant is at an excluded boundary or outside the activated profile's explicit earliest/latest bounds. |
+| `TIME_OR_EOP_STATE_NOT_APPROVED` | No | Required time/EOP data or source-quality state exists but lacks scientific approval for the exact profile/domain. |
+| `TIME_CONVERSION_WARNING` | Attached evidence only | Preserve routine/model/version plus raw and normalized status. It neither creates success nor forces rejection without the approved policy disposition. |
+| `UNSUPPORTED_DATE` | No | Retained as a possible later wire-specific refinement/legacy name for `TIME_OUTSIDE_SUPPORTED_DOMAIN`; it adds no separate scientific meaning and remains distinct from a missing artifact. |
 | `EOP_UNAVAILABLE` | No | `ArtifactAvailability` or a required field's `FieldAvailability` is `UNAVAILABLE`: the selected artifact/field is absent, unreadable, blank, unverified, or hash-mismatched. |
 | `EOP_STALE` | No | `ArtifactAvailability` is `STALE` under the later approved validity/update rule. No stale threshold is invented here, and staleness says nothing about source quality or approval. |
 | `EOP_FIELD_QUALITY_NOT_APPROVED` | No | One or more required fields have `ScientificApproval = NOT_APPROVED` or `REVIEW_REQUIRED` for their exact `IERS_ESTIMATE`, `PRELIMINARY`, `PREDICTED`, or `FINAL` source-quality/product/domain combination. Return every blocking field and its independent quality/provenance/approval; do not promote fields from another field's quality. |
@@ -962,27 +1026,32 @@ The following validation levels and retention rules are a normative
 blocking fields at that level remain reportable without consulting a later optional
 stage:
 
-1. validate request structure and every supplied value/representation;
+1. validate request structure and every supplied value/representation, including the
+   exact timestamp grammar and Gregorian fields;
 2. identify missing required V1 inputs;
-3. validate required artifact and required-field availability/integrity;
-4. validate the approved profile/domain boundary;
-5. validate scientific approval of every required state, field quality, datum, policy,
-   and data item;
-6. execute the approved route, preserving every warning and raw status, and return
+3. resolve and verify the selected leap artifact, validate its scientific approval,
+   validate any conditional second-`60` event, and construct `ValidatedUtcInstant`;
+4. validate the instant against the activated `SupportedTimeDomain`;
+5. validate the selected observer preset and its required artifact;
+6. validate source-astrometry availability and eligibility;
+7. validate the EOP artifact and every required field's independent availability,
+   coverage, interpolation support, quality/provenance, and scientific approval;
+8. validate scientific approval of every other required state, policy, and data item;
+9. execute the approved route, preserving every warning and raw status, and return
    `SCIENTIFIC_EXECUTION_FAILURE` rather than partial-success coordinates if the route
    cannot produce a valid geometric state;
-7. create `GEOMETRIC_RESULT_PENDING_VALIDATION` after successful execution;
-8. attach azimuth/singularity and geometric-horizon classifications without discarding
+10. create `GEOMETRIC_RESULT_PENDING_VALIDATION` after successful execution;
+11. attach azimuth/singularity and geometric-horizon classifications without discarding
    or replacing altitude, ENU, provenance, warnings, statuses, or validation state; and
-9. attach `REFRACTION_NOT_REQUESTED` and the profile-excluded visibility-stage state
+12. attach `REFRACTION_NOT_REQUESTED` and the profile-excluded visibility-stage state
    without invoking atmosphere, refraction, visibility, scene, learner, or assessment
    behavior.
 
-The later UTC/leap/EOP policy may refine deterministic precedence within levels 1-5,
-including its field ordering, stale/quality distinctions, and specific outcome names.
-It may not reverse the core invariant: an optional or downstream state cannot hide a
-required-input/artifact/domain/approval/execution failure, and cannot erase a valid
-earlier geometric state.
+The remaining leap/EOP policy may refine deterministic ordering within stages 3 and 7
+for its product fields, stale/quality distinctions, warnings, and specific wire names.
+It may not move EOP failure before timestamp/domain validation or reverse the core
+invariant: an optional or downstream state cannot hide a required-input/artifact/
+domain/approval/execution failure, and cannot erase a valid earlier geometric state.
 
 `BELOW_GEOMETRIC_HORIZON` is therefore never a terminal failure. Exact zenith or nadir
 sets azimuth to `UNDEFINED_SINGULAR` while retaining mathematically defined altitude
@@ -1266,8 +1335,8 @@ requires complete Batch regeneration before further interpretation.
 | ID | Conclusion | Classification | Result |
 |---|---|---|---|
 | `2C.3-001` | IERS Bulletin A provides rapid `xp`,`yp`,`UT1-UTC`, predictions, and `dX`,`dY`; `finals2000A` records separate IERS/prediction flags per field. Bulletin B supplies monthly final/preliminary EOP, and Bulletin C announces leap-second decisions. | `SOURCE_SUPPORTED_FACT` | Official roles, fields, publication frequencies, flags, and source-quality distinctions are pinned; no UFUQ product or scientific approval is selected. |
-| `2C.3-002` | Use a restricted RFC 3339 UTC text at the astronomy boundary and keep offset/IANA-wall-time resolution in a provenance-preserving upstream adapter. | `PROJECT_DECISION` | Candidate input boundary defined; fractional precision, IANA-zone set/version, fold/gap rules, and wire mapping require review. |
-| `2C.3-003` | Accept second `60` only for an instant validated by the approved leap artifact and reject unqualified time/`-00:00` at the astronomy boundary. | `PROJECT_DECISION` | Fail-closed candidate semantics defined; production leap bytes/hash remain missing. |
+| `2C.3-002` | Use exact whole-second `YYYY-MM-DDTHH:mm:ssZ` at the astronomy boundary; reject fractions, offsets/local time, Unix timestamps, bare JDs and implicit current time; keep any local/IANA resolution in a provenance-preserving upstream adapter. | `PROJECT_DECISION` | Normative V1 input boundary. Serialization resolution is not scientific accuracy, and no upstream rounding rule is inferred. |
+| `2C.3-003` | Treat `23:59:60Z` as conditional syntax and validate it only for the exact date confirmed by the approved leap artifact. | `PROJECT_DECISION` | Normative fail-closed semantics; exact production leap product/bytes/validity policy remains with 2C EOP/2D data ownership. |
 | `2C.3-004` | Use a versioned `ObserverPreset` with explicit geodetic latitude, east-positive longitude, reference system/realization, ellipsoid, discriminated height and conditional epoch, accuracy, provenance, version, validation, availability, and approval. | `PROJECT_DECISION` | Generic typed observer boundary and `[-180,+180)` canonical longitude are defined; no reference system, height conversion, position, or uncertainty is inferred. |
 | `2C.3-005` | Approve the selected preset's concrete reference system/ellipsoid, height representation or conversion, accuracy adequacy, and supported observer domain. | `HUMAN_REVIEW_REQUIRED` | Exact UMPSA data and activation move to 2D; broader height/location ranges and polar semantics remain a later profile concern. SOFA/Astropy behavior does not choose either policy. |
 | `2C.3-006` | Execute astronomy offline from an immutable, hash-addressed, prevalidated EOP/leap bundle and update only through a separate reviewed atomic workflow with old bundles retained. | `PROJECT_DECISION` | Proposed deterministic execution/update boundary; production artifact and operational cadence remain open. |
@@ -1276,14 +1345,14 @@ requires complete Batch regeneration before further interpretation.
 | `2C.3-009` | Approve a production leap artifact/version/hash, Bulletin C cross-check, expiry/validity, and refresh cadence. | `HUMAN_REVIEW_REQUIRED` | No selection or approval; UTC conversion/validation requiring the artifact remains blocked. |
 | `2C.3-010` | Treat a source publication frequency, file age, or Astropy default as the UFUQ stale rule. | `AUTHORITY_OR_EVIDENCE_MISSING` | None supplies a project validity threshold, and stale remains distinct from IERS-estimate/final/preliminary/predicted source status. |
 | `2C.3-011` | Approve the EOP/leap stale/expiry rule and operational update cadence. | `HUMAN_REVIEW_REQUIRED` | No rule or cadence is selected. |
-| `2C.3-012` | Support only the intersection of approved catalogue, model/ephemeris, leap, per-field EOP, observer, and scenario domains. Apply later validation/tolerance approval over that domain rather than using a nonexistent tolerance domain to prevent its definition. | `PROJECT_DECISION` | Domain-composition rule resolved; numerical endpoints and inclusivity remain unapproved. |
-| `2C.3-013` | Derive earliest/latest instants, future-prediction limit, observer locations, height/altitude limits, or endpoint inclusion directly from one source/product. | `AUTHORITY_OR_EVIDENCE_MISSING` | No authority selects the combined UFUQ operating domain. |
-| `2C.3-014` | Approve numerical operating-domain endpoints and inclusion rules after the component source/model/data/observer domains are available. | `HUMAN_REVIEW_REQUIRED` | No range is invented; source-derived execution remains unavailable at asserted boundaries. Tolerance approval later evaluates results over this domain. |
+| `2C.3-012` | Support only the intersection of approved catalogue, model/ephemeris, leap, per-field EOP, observer, and scenario domains. Apply later validation/tolerance approval over that domain rather than using a nonexistent tolerance to prevent its definition. | `PROJECT_DECISION` | Normative domain-composition rule; product extent alone never promotes support. |
+| `2C.3-013` | Derive earliest/latest instants or endpoint inclusion directly from one source/product. | `AUTHORITY_OR_EVIDENCE_MISSING` | Prohibited: `SupportedTimeDomain` requires explicit per-boundary disposition and a complete intersection. Concrete values move to the 2D/2E activation artifact. |
+| `2C.3-014` | Require each activated profile to state explicit earliest/latest values, inclusive/exclusive semantics, required interpolation support and adjacent outside cases. | `PROJECT_DECISION` | Normative endpoint contract. Numerical values are later activation data, not a 2C implementation blocker or a tolerance. |
 | `2C.3-015` | Return distinct invalid, unsupported-domain, required-artifact, unapproved-state, execution-failure, pending-result, attached-classification, and reserved-degraded outcomes with no non-result fallback. | `PROJECT_DECISION` | Core V1 semantic families and pending-versus-approved distinction are normative. Exact time/EOP refinements, stable serialization, and route/data warning disposition remain with their owners. |
 | `2C.3-016` | Quantify IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy over a proposed domain. | `EXPERIMENT_REQUIRED` | No bound exists; `DEGRADED_GEOMETRIC_RESULT` remains reserved and unreachable. |
 | `2C.3-017` | Approve any IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy after a named mode, quantitative bound, warning contract, and domain/tolerance evidence exist. | `HUMAN_REVIEW_REQUIRED` | None is approved. |
 | `2C.3-018` | Reconstruct independent fixtures offline with observer/time/EOP/leap provenance, separate source-quality/availability/approval states, boundary cases, warnings/outcomes, and deterministic hashes. | `PROJECT_DECISION` | Batch 01 proves the bounded synthetic offline/canonical replay transport using smoke-only artifact hashes. Scientific EOP/leap partitions and the other families remain unrun or blocked. |
-| `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Core V1 precedence is normative. The open UTC/leap/EOP policy may refine ordering inside required-input/artifact/domain/approval levels without allowing a later state to hide an earlier failure or erase valid geometry; exact serialization remains separate. |
+| `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Core V1 precedence and the timestamp/leap/domain/observer/source/EOP stage order are normative. The open leap/EOP policy may refine field checks within its owned stages without allowing a later state to hide an earlier failure or erase valid geometry; exact serialization remains separate. |
 
 ### 17.4 Milestone 2C.4 refraction, horizon, and visibility audit
 
@@ -1299,7 +1368,7 @@ requires complete Batch regeneration before further interpretation.
 | `2C.4-008` | Keep geometric, refracted-apparent, physical-dip, terrain/obstruction, renderer, and learner horizon states distinct; treat below-geometric-horizon as a classification attached to the valid geometric direction. | `PROJECT_DECISION` | Normative V1 typed separation and non-erasing semantics; altitude, ENU, defined azimuth/exact-singular state, provenance, warnings, and statuses are retained. A near-singular or near-horizon numerical boundary remains later. |
 | `2C.4-009` | Keep astronomical horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner-eligibility visibility components independent. | `PROJECT_DECISION` | Normative V1 exclusion: no component promotes another, a rendered/geometrically located star is not scientifically visible, and V1 emits no aggregate boolean. Later component policy remains unavailable. |
 | `2C.4-010` | Supply authority and approve terrain/dip, photometric band/threshold/variability, daylight/twilight, extinction/transparency/weather/light pollution, and learner eligibility. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requested aggregate visibility returns unavailable until review under AST-001/004/006/007. |
-| `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | Normative semantic order and state retention. Later UTC/leap/EOP policy refines only its owned sub-order; wire/HTTP mapping remains separate. |
+| `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | Normative semantic order and state retention. The remaining leap/EOP policy refines only checks within its owned stages; wire/HTTP mapping remains separate. |
 | `2C.4-012` | Approve warning-bearing or approved refracted output without exact model/version, complete input provenance, reviewed validity and supported operating domains, quantitative bound, tolerance, warning contract, and named astronomy reviewer. | `HUMAN_REVIEW_REQUIRED` | Neither branch is reachable now. |
 | `2C.4-013` | Run seven refraction/input/horizon/visibility experiment families with complete deterministic provenance. | `EXPERIMENT_REQUIRED` | Batch 01 executes only the bounded below-horizon state, no-default-atmosphere, and visibility-separation guards. Numerical model/domain families remain unrun or data/decision blocked; no authority or tolerance follows. |
 
@@ -1342,21 +1411,19 @@ requires complete Batch regeneration before further interpretation.
 
 ## 18. Milestone 2C.6 profile and lifecycle audit
 
-The normative profile boundary, remaining route/time/EOP candidates, category
+The normative profile boundary and UTC/time-domain contract, remaining route/EOP candidates, category
 definitions, blocker tables, 49-term disposition, resource report, and corrected
 roadmap are in
 `PHASE1_SCIENTIFIC_PROFILE_V1.md`.
 
 ### 18.1 Decisions that still block ScientificProfileV1 implementation
 
-Only these profile-scoped decisions remain preimplementation blockers:
+Only these two profile-scoped decisions remain preimplementation blockers:
 
 1. approve the pure-TypeScript route/library mapping and each effect's included,
    excluded, conditional, or unavailable disposition, including parallax, radial
    velocity, multiple-body deflection, and celestial-pole offsets;
-2. approve one exact UTC grammar/precision and bounded date interval with endpoint and
-   leap-second semantics;
-3. approve exact leap/EOP product classes, artifact-selection requirements, per-field
+2. approve exact leap/EOP product classes, artifact-selection requirements, per-field
    quality/availability/interpolation/coverage, offline/expiry/update, and no-degraded
    behavior.
 
@@ -1368,7 +1435,9 @@ approval.
 The following clusters are closed as normative `PROJECT_DECISION` contracts and no
 longer appear above: the ProfileV1 boundary/typed exclusions/pending-validation state;
 geometric-only/refraction-disabled/no-default/no-aggregate-visibility scope; and core
-outcomes/precedence/exact-singularity/warning-status preservation. A numerical
+outcomes/precedence/exact-singularity/warning-status preservation; plus exact
+whole-second UTC grammar, conditional leap syntax, typed scale/two-part-JD states,
+domain/endpoint semantics, and time failure classes. A numerical
 ill-conditioned-azimuth boundary remains later and is not replaced with an epsilon.
 
 ### 18.2 Work that does not block starting ScientificProfileV1
@@ -1380,6 +1449,11 @@ ill-conditioned-azimuth boundary remains later and is not replaced with an epsil
   height, datum/frame/ellipsoid, applicable coordinate epoch, accuracy, provenance,
   licence, version and immutable artifact are `BLOCKS_2D_DATA_AUTHORITY`. Their absence
   blocks real V1 execution, not the generic `ObserverPreset` implementation.
+- The concrete `SupportedTimeDomain` earliest/latest UTC values, endpoint dispositions,
+  contributing coverage and activation artifact are `BLOCKS_2D_DATA_AUTHORITY` until
+  2D/2E derive them from selected source/model/leap/EOP/observer/scenario artifacts.
+  Their absence blocks real activation, not the generic UTC/time-state/domain
+  implementation.
 - TypeScript/reference residuals, production floating-point error, supported-domain
   partitions, any stronger independent validation required by the claimed boundary,
   combined error bounds, and numerical tolerances are
@@ -1422,9 +1496,11 @@ Milestone 2C closes for `ScientificProfileV1` implementation when:
    missing-value branches are explicit;
 3. the profile-scoped transformation route, effect ownership, and production mapping
    are normative;
-4. the generic preset-observer contract and selected UMPSA site identity, one UTC/date
-   domain, leap/EOP input policy, and offline/fail-closed rules are normative, while the
-   exact observer record is explicitly handed to 2D;
+4. the generic preset-observer contract and selected UMPSA site identity, canonical UTC
+   grammar, typed time states, `SupportedTimeDomain` and endpoint semantics, leap/EOP
+   input policy, and offline/fail-closed rules are normative, while the exact observer
+   record and concrete earliest/latest instants are explicitly handed to 2D/2E
+   activation;
 5. geometric output, below-horizon classification, singularity behavior,
    warning/status precedence, and pending-validation status are normative;
 6. source acquisition, rights, row eligibility, crosswalk, and artifact decisions are
@@ -1442,6 +1518,7 @@ implementation, or numerical closure of all 49 error-budget terms.
 **Current outcome:** `2C_REMAINS_OPEN_WITH_EXACT_PREIMPLEMENTATION_BLOCKERS`.
 Milestones 2C.1-2C.5C retain all source, synthetic, and error-budget evidence without
 promotion. Milestone 2C.6 removes the circular gate, and this semantic-scope audit
-narrows the open set to the three profile decisions in Section 18.1. The absence of
+plus the time-profile audit narrows the open set to the two profile decisions in
+Section 18.1. The absence of
 production code, production/reference residuals, and numerical tolerances no longer
 keeps 2C open.

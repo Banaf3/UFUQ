@@ -14,7 +14,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 | Catalogue reference epoch | Carry I/311's literal `Ep=1991.25` label separately from frame/equinox and observation time. ESA Gaia DR1 directly identifies I/311 and calls its parameter epoch `J1991.25`, so the representation is Julian. Neither record states the I/311 time scale; do not transfer the original catalogue's `J1991.25(TT)` or let an Astropy default decide it. Source-derived propagation remains unavailable pending exact authority or named astronomy-review approval. | Julian representation `SOURCE_SUPPORTED_FACT`; time scale `AUTHORITY_OR_EVIDENCE_MISSING` / `HUMAN_REVIEW_REQUIRED`; sensitivity `EXPERIMENT_REQUIRED` |
 | Space motion | I/311 Appendix G Table G.3 defines source `pmRA` as `mu_alpha_star = (d alpha / dt) cos(delta)` in mas/yr. Normalize it as `properMotionRaCosDecMilliarcsecondsPerYear` and map directly to Astropy `pm_ra_cosdec` after unit conversion; do not apply a second cosine. CDS Catalogue Standard 2.0 defines `yr` as exactly 365.25 days. The proposed SOFA `iauPmsafe` adapter requires pole-guarded conversion to coordinate rate `dRA/dt`. Preserve parallax, `pmDE`, uncertainties, weights, solution family, and required supplemental acceleration/VIM evidence. Source epoch/derivative scale, parallax/distance, radial velocity, polar guard, warnings, range, and omission bounds remain open. | Component/rate unit `SOURCE_SUPPORTED_FACT`; propagation `AUTHORITY_OR_EVIDENCE_MISSING` / `HUMAN_REVIEW_REQUIRED` / `EXPERIMENT_REQUIRED` under AST-003 |
 | Apparent-place effects | Milestone 2C.2 proposes a componentized SOFA `2023-10-11` CIO-family semantic route: preliminary source-to-declared-target-epoch propagation, `iauApco13`/`iauAtciq` observer-aware CIRS, an explicit Earth-orientation context, and `iauAtioq` geometric/optional refracted outputs. J2000.0 is the candidate target epoch required by the selected SOFA celestial interface; it is not a frame conversion. Candidate semantic inclusions are frame bias, IAU 2006 precession with IAU 2000A nutation, annual aberration, solar deflection, ERA-based Earth rotation, and diurnal aberration. ScientificProfileV1 must still approve its route/mapping and motion, parallax/RV, EOP/polar-motion, and observed-CPO dispositions. Source-row eligibility belongs to 2D; geometric-only/no-refraction is already normative; broader effects are later; omission bounds and tolerances are postimplementation acceptance work. | PROPOSED ROUTE/EFFECT MATRIX REQUIRES AST-003 REVIEW; V1 GEOMETRIC EXCLUSION RESOLVED |
-| Time input | Milestone 2C.3 makes a `PROJECT_DECISION` proposal to narrow RFC 3339 to `YYYY-MM-DDTHH:mm:ss[.fraction]Z` at the UTC astronomy boundary; RFC 3339 itself also permits numeric offsets. Offset/IANA wall-time resolution stays upstream with original input, zone-data version, and ambiguity decision retained; unqualified time and `-00:00` are invalid. Second `60` is only syntactically valid after the approved leap artifact confirms that exact UTC date. Precision, zones, folds/gaps, and production artifact remain open. | `PROJECT_DECISION` proposal; `HUMAN_REVIEW_REQUIRED` / `AUTHORITY_OR_EVIDENCE_MISSING` |
+| Time input | ScientificProfileV1 normatively narrows RFC 3339 to whole-second `YYYY-MM-DDTHH:mm:ssZ`: fixed-width valid Gregorian fields, uppercase `T`/`Z`, no fraction, numeric offset, `-00:00`, wall time, Unix timestamp, bare JD, or implicit current time. Second `60` is structurally eligible only as `23:59:60Z` and becomes a validated UTC instant only when the approved leap artifact confirms that exact positive-leap date. Whole-second serialization is not scientific accuracy or permission to truncate. Local/IANA time and “now” resolve upstream into an immutable UTC `ScenarioSnapshot` with provenance. | RFC 3339/SOFA/IERS roles `SOURCE_SUPPORTED_FACT`; narrowed grammar/state boundary normative `PROJECT_DECISION`; concrete leap artifact remains 2D and leap/EOP policy remains AST-003/007 |
 | Earth time/orientation | UTC is external; TAI/TT/UT1 remain typed internally. Milestone 2C.3 proposes request-time offline execution from immutable hash-addressed EOP/leap bundles, separate reviewed atomic updates, old-bundle replay, and explicit non-results. EOP source quality, artifact/field availability, and scientific approval are separate dimensions for each of `UT1-UTC`, `xp`, `yp`, and any selected `dX`, `dY`; no field promotes another. No production product/hash, stale rule, source-quality acceptance, date range, or degraded mode is approved. UTC≈UT1 and zero/nearest EOP are forbidden. | `PROJECT_DECISION` proposal; production selection `HUMAN_REVIEW_REQUIRED` / `AUTHORITY_OR_EVIDENCE_MISSING` under AST-003/006/007 |
 | Observer Earth model | `ObserverPreset` requires a stable ID/site identity; finite north-positive geodetic latitude; east-positive longitude canonically in `[-180 deg,+180 deg)`; explicit datum/frame/realization, ellipsoid, typed height/reference surface, conditional coordinate epoch, accuracy state, provenance, data/artifact version, availability, validation, and approval. V1 selects only `umpsa-pekan-faculty-of-computing`, identifying Faculty of Computing, UMPSA Pekan Campus, Pahang, Malaysia. No browser geolocation, `(0,0)`, WGS 84, zero height, map pin, height conversion, or zero uncertainty is inferred. | Contract/site identity `PROJECT_DECISION` for 2C; exact values/source/accuracy/artifact `BLOCKS_2D_DATA_AUTHORITY`; polar/multiple/global domains remain later |
 | Longitude | Degrees east are positive; west is negative. Latitude north is positive. | CLARIFIED |
@@ -35,7 +35,7 @@ This specification separates fixed conventions from unresolved domain choices. N
 
 The candidate in `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md` narrows real V1 execution to
 one selected preset identity instantiated by a 2D-approved observer artifact, one
-bounded explicit-UTC domain, one
+bounded explicit-UTC domain carried by a versioned `SupportedTimeDomain`, one
 2D-approved minimal star artifact, an explicit source-neutral astrometric input, an
 approved route/effect disposition, immutable offline leap/EOP inputs, and geometric
 horizontal output. Refraction and aggregate visibility are disabled. Internal types
@@ -82,9 +82,15 @@ and log severity.
 Every public value carries units and convention in its type or field name. Distinct
 conceptual types prevent accidental double propagation or frame mixing:
 
-- `UtcObservationInput{canonicalUtcText,originalInput,sourceZoneOrOffset,
-  zoneDataVersion,ambiguityDecision,precision,leapValidationStatus}` plus typed
-  `UtcInstant`, `TaiInstant`, `TtInstant`, and `Ut1Instant` values;
+- `SuppliedCanonicalUtcText{canonicalUtcText,parsedGregorianFields}` followed only
+  after artifact-backed validation by
+  `ValidatedUtcInstant{canonicalUtcText,leapArtifactIdentity,validationStatus}`;
+- internal `UtcQuasiJulianDate`, `TaiTwoPartJulianDate`, `TtTwoPartJulianDate`, and
+  `Ut1TwoPartJulianDate` values, each labelled by scale and the
+  `MJD_ZERO_PLUS_OFFSET` split; UT1 additionally retains exact `UT1-UTC` field and EOP
+  provenance;
+- `TimeConversionEvidence{sourceState,destinationState,routineAndVersion,
+  leapAndEopIdentities,warnings,statuses}`;
 - `ObserverPreset{schemaVersion,presetId,siteIdentity,referencePointDescription,
   geodeticLatitude,geodeticLongitude,referenceSystem,referenceEllipsoidId,
   coordinateReferenceEpoch,height,heightConversion,coordinateAccuracy,provenance,
@@ -139,8 +145,12 @@ specification.
 
 The normative core outcome taxonomy separates invalid input, missing required input,
 unavailable required artifacts, unsupported profile/domain, required state/data
-without scientific approval, and scientific execution failure. Milestone 2C.3's
-specific date/leap/EOP outcomes remain refinements owned by the still-open policy.
+without scientific approval, and scientific execution failure. Time refinements are
+`TIMESTAMP_SYNTAX_INVALID`, `LEAP_SECOND_INSTANT_INVALID`,
+`LEAP_VALIDATION_DATA_UNAVAILABLE`, `REQUIRED_TIME_SCALE_UNAVAILABLE`,
+`EOP_FIELD_UNAVAILABLE`, `TIME_OUTSIDE_SUPPORTED_DOMAIN`,
+`TIME_OR_EOP_STATE_NOT_APPROVED`, and `TIME_CONVERSION_WARNING`; the still-open EOP
+policy controls the field/quality-specific dispositions, not this taxonomy.
 Semantic evaluation proceeds through supplied-value validation, missing inputs,
 artifact availability/integrity, domain, approval, scientific execution, result
 creation, attached classifications, and excluded optional-stage states. Exact wire

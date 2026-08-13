@@ -166,6 +166,19 @@ source-derived reference truth. CDS Catalogue Standard 2.0 separately resolves t
 numeric `yr` duration as 365.25 days. The official PyERFA stable/runtime patch mismatch
 also remains.
 
+## ScientificProfileV1 time-boundary consequence
+
+Astropy's documented two-part JD storage and explicit scale conversions are
+`SOURCE_SUPPORTED_FACT` for the reference path. They do not select UFUQ input syntax,
+precision, operating dates, leap/EOP artifacts, or production behavior.
+
+ScientificProfileV1 makes a separate normative `PROJECT_DECISION`: accept only whole-
+second `YYYY-MM-DDTHH:mm:ssZ`; conditionally validate `23:59:60Z` against the selected
+approved leap artifact; carry labelled UTC quasi-JD/TAI/TT/UT1 states and conversion
+evidence; and reject implicit network/cache/table discovery. Exact supported-date
+values are 2D/2E activation data. Astropy `Time.precision`, permissive input formats,
+automatic IERS behavior, and ambient ERFA leap state are not production policy.
+
 ## Required sensitivity experiment
 
 `EXPERIMENT_REQUIRED`: use only synthetic astrometry to compare the following named

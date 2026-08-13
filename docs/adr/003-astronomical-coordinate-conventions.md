@@ -102,6 +102,13 @@ visibility components, scene/learner/scoring correctness, and any numerical
 ill-conditioned-azimuth boundary remain later capabilities rather than zero-error V1
 terms.
 
+The time audit also adopts a normative whole-second Z-only UTC input grammar,
+conditional artifact-backed leap-second validation, explicit UTC quasi-JD/TAI/TT/UT1
+states, and a versioned `SupportedTimeDomain` with explicit endpoint dispositions and
+complete required-field coverage. Exact earliest/latest timestamp values are derived
+from approved artifacts during 2D/2E activation; neither RFC 3339 nor SOFA selects
+them, and generic astronomy-core implementation does not require them first.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
@@ -112,6 +119,8 @@ Fixed now:
 - V1 requests no refraction, creates no atmosphere, and emits no aggregate visibility;
 - scientific warnings and raw statuses remain provenance-bearing evidence;
 - successful execution is pending validation rather than scientific approval;
+- the core accepts no local/current time, numeric offset, fractional input, Unix
+  timestamp, or unlabeled Julian Date;
 - Three coordinates are `+X east`, `+Y up`, `-Z north`;
 - Qibla baseline is the initial spherical great-circle bearing clockwise from True North;
 - angular answers use robust vector separation or wrapped circular distance;
@@ -121,8 +130,9 @@ Before `ScientificProfileV1` implementation, AST-003 must approve, revise, or re
 the profile's semantic route and actual pure-TypeScript algorithm/library mapping. It
 must give every effect an explicit included, excluded, conditional, or unavailable
 disposition; approve source-neutral motion/parallax/radial-velocity branches, one
-preset-observer contract and selected site identity, one UTC/date domain, leap/EOP
-field and offline policy. The geometric/no-refraction/no-visibility and core
+preset-observer contract and selected site identity, and leap/EOP field,
+interpolation, quality, offline and update policy. The UTC grammar/time-domain,
+geometric/no-refraction/no-visibility and core
 outcome/precedence contracts are already normative. Actual I/311 scale, row, rights,
 and artifact eligibility belong to 2D if that source is retained; the generic engine
 accepts no unspecified scale.

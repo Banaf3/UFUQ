@@ -156,11 +156,16 @@ aggregate visibility. Internal observer types remain multi-location capable. The
 removes the circular requirement for TypeScript/reference residuals and numerical
 tolerances before the TypeScript implementation exists. The selected V1 identity is
 `umpsa-pekan-faculty-of-computing`; 2D, not 2C, owns its exact reference point,
-coordinates, Earth model, typed height, accuracy and immutable data record. Milestone
-The profile boundary, geometric/refraction/visibility exclusions, core outcomes,
+coordinates, Earth model, typed height, accuracy and immutable data record. The
+profile boundary, whole-second Z-only UTC grammar, typed UTC/TAI/TT/UT1 states,
+versioned time-domain/endpoint semantics, geometric/refraction/visibility exclusions,
+core outcomes,
 precedence, exact singularity behavior, warning/status preservation, and pending-
 validation lifecycle are normative. `APPROVED_GEOMETRIC_RESULT` remains unreachable
-until postimplementation acceptance. Milestone 2C remains open only for the three
+until postimplementation acceptance. Concrete earliest/latest timestamps are derived
+during 2D/2E profile activation from approved source/model/leap/per-field-EOP/
+observer/scenario intersections; they are data, not invented preimplementation
+constants. Milestone 2C remains open only for the two
 profile-scoped decisions in
 `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md`; production/reference results, any stronger
 independent validation required by the claimed release boundary, error-budget

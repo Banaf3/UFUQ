@@ -127,17 +127,19 @@ official `finals2000A` format distinguishes IERS/prediction status for polar mot
 `UT1-UTC`, and `dX`,`dY`. Bulletin B distinguishes final and preliminary values.
 Bulletin C announces leap-second decisions but is not itself the selected production
 machine-readable leap artifact. RFC 3339 defines the broader timestamp and conditional
-leap-second syntax; UFUQ's Z-only subset is a project proposal. SOFA/Astropy define
+leap-second syntax; UFUQ's whole-second Z-only subset is a normative project decision.
+SOFA/Astropy define
 geodetic/east-positive/ellipsoidal observer roles for the candidate routes.
 
 `AUTHORITY_OR_EVIDENCE_MISSING`: no production EOP or leap artifact/hash, field
 precedence/interpolation, stale rule, date endpoint, prediction horizon, height or
-location range, precision, or tolerance exists.
+location range, or tolerance exists. The missing date endpoint is activation data, not
+an unresolved generic time contract.
 
 `HUMAN_REVIEW_REQUIRED`: approve the production product bundle and update cadence;
 per-field source-quality/availability/approval policy; WGS 84, longitude representative,
-height/location/polar semantics; UTC precision/zone adapter; endpoints; and warning/
-outcome serialization.
+height/location/polar semantics; concrete activation endpoints; and warning/outcome
+serialization. The V1 whole-second grammar and UTC boundary are already normative.
 
 `EXPERIMENT_REQUIRED`: six 2C.3 experiment families cover offline reconstruction,
 field-state partitions, degradation sensitivity, leap/time boundaries, observer
@@ -378,6 +380,7 @@ evidence none exists, and survey control is optional.
 | Exclude refraction and aggregate scientific visibility from `ScientificProfileV1`; emit geometric-only output, fix `REFRACTION_NOT_REQUESTED`, insert no default atmosphere, preserve result-bearing below-horizon and singularity states, and retain separately typed future horizon/visibility components. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004; Batch 01 optional-state guards | Normative `PROJECT_DECISION`; later model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required, but does not block geometric V1 implementation |
 | Distinguish contract-conforming `GEOMETRIC_RESULT_PENDING_VALIDATION` from postimplementation `APPROVED_GEOMETRIC_RESULT`; preserve non-erasing precedence and scientific warnings/statuses separately from transport/logging. | SOFA status contracts; ADR-003/007; Batch 01 warning/status/state guards | Normative `PROJECT_DECISION`; exact wire/HTTP mapping and route/data-specific warning disposition remain with later owners |
 | Define a generic versioned `ObserverPreset`, accept only the UMPSA Pekan Faculty identity in V1, fail closed on missing/invalid/unsupported/unapproved data, and hand exact values/accuracy/artifact authority to 2D. | SOFA observer input contract; `UMPSA-FK-PEKAN-SITE`; `JUPEM-GEODETIC`; AST-007 | Contract/site identity `PROJECT_DECISION` plus `SOURCE_SUPPORTED_FACT`; exact record `BLOCKS_2D_DATA_AUTHORITY`; no coordinate or tolerance selected |
+| Accept only whole-second `YYYY-MM-DDTHH:mm:ssZ`; require artifact-backed exact-date validation of conditional `23:59:60Z`; carry labelled UTC quasi-JD/TAI/TT/UT1 states; prohibit local/current-time and unlabeled-JD defaults; and make endpoint semantics normative while deriving concrete bounds during 2D/2E activation. | RFC 3339 Sections 5.6-5.8; SOFA `iauDtf2d` and time-scale routines; IERS Bulletin C; AST-007 | Source syntax/conversion roles `SOURCE_SUPPORTED_FACT`; narrowed grammar/state/domain contract normative `PROJECT_DECISION`; actual bounds `BLOCKS_2D_DATA_AUTHORITY` / activation; leap/EOP policy remains `HUMAN_REVIEW_REQUIRED` |
 | Derive acceptance thresholds after implementation from measured production/reference disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `POST_IMPLEMENTATION_VALIDATION` plus `HUMAN_REVIEW_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
 | Register every scientific experiment before execution, disclose shared algorithm lineage, and keep synthetic executability separate from authority/approval. | ADR-007; testing-scientific-software dossier; 2C.5A protocol | `PROJECT_DECISION`; numerical acceptance remains `HUMAN_REVIEW_REQUIRED` under AST-006 |
@@ -386,9 +389,9 @@ evidence none exists, and survey control is optional.
 
 ## Required validation evidence
 
-- **Before implementation:** approve the bounded profile route/effect disposition,
-  UTC/date contract, and leap/EOP policy. Carry the already normative generic
-  `ObserverPreset`, source-neutral boundary, geometric output/exclusions,
+- **Before implementation:** approve the bounded profile route/effect disposition and
+  leap/EOP policy. Carry the already normative generic `ObserverPreset`, whole-second
+  canonical-UTC/time-domain contract, source-neutral boundary, geometric output/exclusions,
   outcome/precedence/warning, and pending-validation contracts. Identify the 2D
   catalogue/release and observer-artifact inputs without treating I/311 as permanent or
   requiring numerical observer values in 2C.
@@ -408,11 +411,13 @@ determinism evidence, not source meaning, production approval, or independent
 validation. The 49-term ledger remains unchanged: 45 numerical terms are explicitly
 unbounded/unresolved and four entries are exact non-numerical guards.
 
-The pre-implementation gaps are now three clusters: route/effect disposition and
-production mapping; UTC/date grammar, precision and endpoints; and leap/EOP product/
-per-field/offline policy. Profile boundary, pending-validation result state, geometric-
-only/no-refraction/no-visibility scope, fail-closed precedence, exact singularity
-semantics, and warning/status preservation are normative.
+The pre-implementation gaps are now two clusters: route/effect disposition and
+production mapping; and leap/EOP product/per-field/interpolation/offline/update policy.
+Profile boundary, whole-second Z-only UTC grammar, typed time states,
+`SupportedTimeDomain` and endpoint semantics, pending-validation result state,
+geometric-only/no-refraction/no-visibility scope, fail-closed precedence, exact
+singularity semantics, and warning/status preservation are normative. Concrete time
+bounds remain 2D/2E activation data, not preimplementation constants.
 Catalogue selection, rights, acquisition, and normalized-row authority move to 2D/2E.
 Production/reference disagreement, implementation error, and numerical tolerances wait
 until the TypeScript path exists. Refraction, aggregate visibility, degraded operation,

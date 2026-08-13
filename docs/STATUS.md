@@ -124,8 +124,9 @@ Milestone 2C.3 records `SOURCE_SUPPORTED_FACT` from the distinct official Bullet
 rapid-estimate/prediction, Bulletin B final/preliminary, Bulletin C announcement, and
 `finals2000A` field-flag roles for `xp`,`yp`,`UT1-UTC`,`dX`,`dY`; Bulletin C is not a
 selected machine-readable production leap artifact. RFC 3339 supplies the broader
-timestamp/leap syntax. Its `PROJECT_DECISION` proposal uses a Z-only restricted UTC
-boundary, explicit
+timestamp/leap syntax. ScientificProfileV1's normative `PROJECT_DECISION` uses a
+whole-second Z-only restricted UTC boundary, typed time states, explicit domain/
+endpoint semantics, and explicit
 geodetic/ellipsoidal observer provenance and uncertainty, immutable hash-addressed
 offline EOP/leap bundles, separate reviewed atomic updates and old-bundle replay,
 separate per-field source quality, availability, provenance, coverage, and scientific
@@ -226,9 +227,12 @@ precedence, exact zenith/nadir singularity, and warning/status preservation.
 `APPROVED_GEOMETRIC_RESULT` remains unreachable until postimplementation acceptance.
 No numerical ill-conditioned-azimuth boundary is invented.
 
-Milestone 2C remains **OPEN**, but only for three exact preimplementation decision
-clusters: the pure-TypeScript route and effect dispositions; one exact UTC grammar/
-precision and date interval; and leap/EOP product-class and field/offline policy.
+Milestone 2C remains **OPEN**, but only for two exact preimplementation decision
+clusters: the pure-TypeScript route and effect dispositions; and leap/EOP product-
+class, field, interpolation, quality, offline, expiry, and update policy. The whole-
+second Z-only UTC grammar, typed time states, `SupportedTimeDomain`, endpoint behavior,
+and fail-closed time outcomes are normative. Concrete earliest/latest values are
+derived and approved during 2D/2E profile activation rather than invented in 2C.
 Production code,
 production/reference residuals, any stronger independent validation required by the
 claimed release boundary, numerical tolerance, global locations, refraction,
@@ -352,9 +356,9 @@ mapping, commands, corrections, and independent post-migration verdict are in
 ## Authorized next work
 
 Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
-contract but remains open only for the three `ScientificProfileV1` decision clusters
+contract but remains open only for the two `ScientificProfileV1` decision clusters
 listed above. The next 2C work is named astronomy-expert and supervisor review of those
-route/time/EOP choices; another synthetic batch and AST-006 numerical approval are not
+route and leap/EOP choices; another synthetic batch and AST-006 numerical approval are not
 prerequisites to starting the bounded implementation.
 
 After profile approval, Milestone 2D selects the actual catalogue/release and minimal
@@ -379,17 +383,19 @@ boundary. Neither is a circular prerequisite to implementation.
   stable internal-star/source crosswalks, and row-level scientific eligibility. The
   local I/311 spike contract does not select a permanent source.
 - **IMP-009 / AST-003 (`BLOCKS_SCIENTIFIC_PROFILE_V1`):** approve the candidate
-  pure-TypeScript route/library mapping and effect dispositions, one bounded UTC
-  domain, and leap/EOP field/offline policy. Generic one-preset semantics, geometric-
-  only exclusions, fail-closed precedence, and pending-validation outcomes are now
-  normative. AST-006 numerical tolerance and production/reference residuals are
+  pure-TypeScript route/library mapping and effect dispositions, and leap/EOP field/
+  interpolation/offline policy. Generic one-preset semantics, canonical UTC/time-
+  domain semantics, geometric-only exclusions, fail-closed precedence, and pending-
+  validation outcomes are now normative. AST-006 numerical tolerance and production/
+  reference residuals are
   `POST_IMPLEMENTATION_VALIDATION`.
 - **IMP-011 / AST-002:** reviewed `SkyPattern` and `GuidanceRelationship` records for
   one complete route to Al-Jady, including stable IDs, labels, membership, segments,
   instructional geometry/explanation, and review/verification status.
-- **IMP-012 / AST-007:** the observer contract/site identity is fixed by 2C; its sourced
-  numerical record is `BLOCKS_2D_DATA_AUTHORITY`, while the time-domain semantics remain
-  preimplementation. Expected learner answers and learner/scoring tolerances remain
+- **IMP-012 / AST-007:** the observer contract/site identity and time-domain semantics
+  are fixed by 2C. The sourced observer record and concrete profile activation bounds
+  are `BLOCKS_2D_DATA_AUTHORITY` / 2D-2E activation work. Expected learner answers and
+  learner/scoring tolerances remain
   downstream; scientific tolerance remains postimplementation.
 
 BKT parameters/cues do not block the Phase 2 minimal slice because adaptation begins in
