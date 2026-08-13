@@ -8,9 +8,11 @@
   `iauRefco`, `iauAtioq`, and `iauHd2ae`.
 - Independent-reference documentation: official Astropy `8.0.1` `AltAz`
   documentation retrieved on 2026-08-03.
-- This dossier records source behaviour and bounds. It does not approve a UFUQ
-  atmosphere, refraction validity range, horizon rule, visibility rule, warning,
-  or tolerance.
+- This dossier records source behaviour and authority limits. The separately tracked
+  UFUQ project decision now normatively excludes refraction and aggregate visibility
+  from V1 and fixes geometric-state separation; this dossier does not approve an
+  atmosphere, refraction model/range, physical/terrain horizon, visibility component
+  rule, model-specific warning disposition, or tolerance for a later profile.
 
 ## Pinned official documentation
 
@@ -30,13 +32,13 @@
 | Astropy documents its ERFA-based model as inaccurate below about 5 degrees and warns that near/below altitude 0 degrees results or round trips can become meaningless or highly discrepant. | `SOURCE_SUPPORTED_FACT` | About 5 degrees is an experiment partition and warning boundary from the reference documentation, not an approved UFUQ validity threshold or tolerance. |
 | Neither SOFA nor Astropy defines UFUQ's physical-dip/terrain horizon, photometric visibility, daylight/twilight, atmospheric extinction/transparency, cloud/weather, light pollution, screen visibility, or learner-facing eligibility. | `SOURCE_SUPPORTED_FACT` | These states require separate project policy and evidence. |
 
-## Proposed UFUQ semantic boundary
+## UFUQ semantic boundary
 
 | Conclusion | Classification | Status |
 |---|---|---|
-| Keep `GeometricHorizontalDirection` and `RefractedHorizontalDirection` distinct; refraction never mutates or relabels the geometric state. | `PROJECT_DECISION` | Proposed for review; preserves the 2C.2 typed route. |
-| Use geometric altitude only for the first vertical slice and prohibit scene adapters from applying refraction. | `PROJECT_DECISION` | Proposed, not executable while upstream astronomy inputs remain blocked; AST-004 approval is still required. |
-| Do not approve a default atmosphere. A requested refracted result with missing required meteorology returns `REFRACTION_UNAVAILABLE`; it does not use Astropy or SOFA convenience defaults. | `PROJECT_DECISION` | Fail-closed proposal requiring AST-004 approval. |
+| Keep `GeometricHorizontalDirection` and `RefractedHorizontalDirection` distinct; refraction never mutates or relabels the geometric state. | `PROJECT_DECISION` | Normative typed separation for V1; later refraction remains a separate reviewed stage. |
+| Use geometric altitude only for the first vertical slice and prohibit scene adapters from applying refraction. | `PROJECT_DECISION` | Normative V1 exclusion; upstream route/time/EOP blockers remain separate. |
+| Do not approve a default atmosphere. V1 requests no refraction and reaches `REFRACTION_NOT_REQUESTED`; a later requested refracted result with missing required meteorology returns `REFRACTION_UNAVAILABLE` rather than using Astropy or SOFA convenience defaults. | `PROJECT_DECISION` | Normative no-default and state-separation rule; later model/input/domain approval remains open. |
 | Treat below-geometric-horizon as a non-terminal classification attached to an approved geometric direction, not an astronomy failure, apparent-horizon result, or visibility decision. | `PROJECT_DECISION` | Preserve signed altitude, defined azimuth/singularity, direction, scientific provenance, warnings, and statuses; exact equality/tolerance and learner/render consequences remain open. |
 | Geometric horizon means the astronomical local horizontal plane at geometric altitude zero before refraction. Keep it distinct from a model-dependent refracted-apparent-altitude-zero state, physical sea/Earth-curvature/observer-height dip, terrain/buildings, renderer clipping, and learner cues. | `PROJECT_DECISION` | `RefractedApparentHorizonState` means only apparent altitude zero under a named approved model/policy; no physical-dip, terrain, or learner policy is selected. |
 | Keep astronomical horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric-extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner-eligibility states as nine independent visibility components. | `PROJECT_DECISION` | No component promotes another and no aggregate visible/not-visible boolean is approved. |
@@ -50,7 +52,7 @@
 | Whether measured or derived meteorology is acceptable, including measurement location/time, uncertainty, height transfer, and lapse assumptions. | `HUMAN_REVIEW_REQUIRED` | Approve provenance and uncertainty requirements. |
 | Near-horizon and below-horizon validity, extrapolation, warnings, and any apparent-horizon definition. | `HUMAN_REVIEW_REQUIRED` | Review experiment evidence and approve a model-specific domain and warning contract. |
 | Terrain/dip, extinction, transparency, light pollution, daylight/twilight, magnitude/variability, and learner eligibility. | `AUTHORITY_OR_EVIDENCE_MISSING` | Supply primary authority or explicitly bounded project policy, then obtain domain/education review. |
-| Exact warning codes, wire/HTTP serialization, and result precedence mapping. | `HUMAN_REVIEW_REQUIRED` | Approve after semantic outcomes and AST-006 tolerances are stable. |
+| Exact later-refraction warning allowlist and wire/HTTP serialization. | `HUMAN_REVIEW_REQUIRED` | Core scientific precedence and warning preservation are normative; approve model-specific warning disposition before enabling refraction and map transport separately. |
 | Reachability of an approved or warning-bearing refracted result. | `HUMAN_REVIEW_REQUIRED` | Requires exact model/version, complete meteorology/provenance, reviewed model and combined operating domains, warning policy/allowlist, quantitative bound, scientific tolerance, and named astronomy-review approval. |
 
 ## Required experiments

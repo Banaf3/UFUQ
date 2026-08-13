@@ -156,12 +156,13 @@ Historical report/deviation/authority status remains in `governance/`.
   leap data, and every unapproved field quality or degraded execution. No production
   artifact/hash, stale rule, update cadence, UTC precision/zone policy, observer datum/
   range, date endpoint, prediction horizon, degraded bound, or warning serialization
-  is approved. Deterministic semantic failure precedence is proposed, while stable wire
-  codes remain under review. Milestone 2C.4 proposes geometric-only output for the
-  first vertical slice; a separate explicit atmosphere/refraction state with no
-  default atmosphere; distinct geometric, refracted-apparent, physical-dip, terrain,
-  renderer, and learner horizon states; nine independent visibility components; and
-  optional-stage outcomes that retain earlier valid scientific states, including all
+  is approved. The semantic-scope audit makes core deterministic failure precedence
+  normative, while the open UTC/leap/EOP policy may refine its owned sub-order and
+  stable wire codes remain under review. ScientificProfileV1 normatively emits
+  geometric-only output, requests no refraction or atmosphere, supplies no default
+  atmosphere, keeps geometric, refracted-apparent, physical-dip, terrain, renderer,
+  and learner horizon meanings distinct, emits no aggregate visibility, and retains
+  earlier valid scientific states through later classifications, including all
   geometric coordinates, provenance, warnings, and statuses. SOFA/Astropy input/
   default/low-altitude behavior is evidence, not UFUQ policy. The model, input ranges/provenance,
   near/below-horizon domain, warnings, physical dip, terrain, photometric/daylight,
@@ -193,7 +194,7 @@ Historical report/deviation/authority status remains in `governance/`.
   Every required numerical term remains unbounded, RSS remains prohibited without
   justified independence, all six tolerance classes are blocked, and the review
   recommendation is `FINAL_TOLERANCE_NOT_JUSTIFIED`. No hashed Batch input changed.
-  Milestone 2C.6 defines the candidate `ScientificProfileV1` and separates lifecycle
+  Milestone 2C.6 defines `ScientificProfileV1` and separates lifecycle
   gates. V1 is one-preset, one-bounded-UTC-domain, source-neutral, offline,
   fail-closed, geometric-only, refraction-disabled, and without aggregate visibility.
   Its generic `ObserverPreset` contract and the UMPSA Pekan Faculty site identity are
@@ -202,17 +203,22 @@ Historical report/deviation/authority status remains in `governance/`.
   moves to 2D if retained. Production/reference residuals,
   any stronger independent validation required by the claimed release boundary,
   numerical error-budget population, and tolerance approval follow implementation and
-  do not precede it. The profile remains unresolved only until its six scoped route/
-  input/exclusion/outcome decisions are approved; the concrete observer record is not a
-  seventh preimplementation blocker.
+  do not precede it. The semantic-scope audit makes the profile boundary, geometric-
+  only/refraction-disabled/no-visibility scope, and outcome/precedence/singularity/
+  warning/pending-validation contracts normative. `GEOMETRIC_RESULT_PENDING_VALIDATION`
+  is executable after the remaining gates; `APPROVED_GEOMETRIC_RESULT` remains
+  unreachable until postimplementation scientific acceptance. The profile remains
+  unresolved only for three scoped decisions: route/effect mapping, UTC/date domain,
+  and leap/EOP policy. The concrete observer record is 2D, not a fourth blocker.
 - **Status:** unresolved
 - **What code it affects:** Astronomy-core transformations, scenario inputs,
   reference fixtures, errors, and scientific tolerances.
 - **Validation required:**
-  - **PRE_IMPLEMENTATION:** approve `ScientificProfileV1`, its semantic route/effect
-    ownership, pure-TypeScript mapping, typed inputs, explicit exclusions, and
-    fail-closed/pending-validation outcomes. Review Batch 01 only for its bounded
-    synthetic claims.
+  - **PRE_IMPLEMENTATION:** approve the remaining route/effect ownership and pure-
+    TypeScript mapping, UTC/date domain, and leap/EOP policy. Implement the already
+    normative typed boundary, exclusions, fail-closed precedence, warnings/statuses,
+    and pending-validation outcome without promoting it to scientific acceptance.
+    Review Batch 01 only for its bounded synthetic claims.
   - **POST_IMPLEMENTATION:** compare the TypeScript implementation with pinned
     reference fixtures across the approved domain, record residuals and statuses,
     populate `F-001`/`F-005` and other applicable ledger evidence, activate

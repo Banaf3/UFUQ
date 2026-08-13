@@ -88,17 +88,21 @@ once that implementation exists.
   is not called stronger independent validation. Comparison code in `tests/reference`
   imports `astronomy-core`; differences are recorded, not hidden behind an invented
   tolerance.
-- Milestone 2C.4 reference design requires separate geometric/refracted states,
+- The normative ScientificProfileV1 semantic suite must prove geometric output retains
+  signed altitude, normalized ENU, defined azimuth or exact singular state, provenance,
+  warnings/statuses, and pending-validation state; below-horizon remains result-bearing;
+  refraction is `NOT_REQUESTED`; no atmosphere/default/refracted coordinate exists; no
+  aggregate visibility or learner eligibility is inferred; and later classifications
+  cannot erase a valid result or hide an earlier required-input/artifact/domain/
+  approval/execution failure. `APPROVED_GEOMETRIC_RESULT`, near-singular epsilon-based
+  classification, degraded output, and every refracted result remain unreachable.
+- Milestone 2C.4's later reference design retains separate geometric/refracted states,
   explicit atmosphere units/provenance and no implicit defaults, model/domain/warning
   capture, near/zero/below-horizon partitions, distinct geometric/refracted-apparent/
-  physical-dip/terrain/renderer/learner horizon states, nine independent visibility
-  components, and multi-fault precedence that retains earlier valid scientific states,
-  coordinates, provenance, warnings, and statuses. Tests distinguish not-requested,
-  unavailable, invalid, outside-domain, warning-bearing, and approved-refraction
-  branches without making currently reserved branches reachable. Its seven experiment
-  families run only when a later refraction/visibility profile opens their scientific
-  policy and input-data gates. Only cases that compare production code with the
-  reference tool depend on `test:reference` activation.
+  physical-dip/terrain/renderer/learner horizon states, and nine independent visibility
+  components. Its seven experiment families run only when a later refraction/visibility
+  profile opens their scientific policy and input-data gates. Only cases that compare
+  production code with the reference tool depend on `test:reference` activation.
 - Milestone 2C.5A freezes 24 experiment records in a human protocol and machine
   registry with separate fixture/result schemas. A runnable synthetic record must use
   explicit synthetic inputs, locked offline dependencies, declared ERFA/SOFA lineage,

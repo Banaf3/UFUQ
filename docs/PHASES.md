@@ -101,10 +101,11 @@ optional-stage outcome precedence that retains the valid geometric result, and s
 experiment families. Official
 SOFA/Astropy documentation supports the candidate input and limitation inventory but
 does not approve a model, input/altitude range, near/below-horizon rule, terrain,
-visibility, warning, learner-eligibility policy, or tolerance. AST-004/006/007 review
-remains required for those later capabilities. Approval of geometric-only output,
-disabled refraction, no atmosphere defaults, and no aggregate visibility is the only
-AST-004 subset relevant to `ScientificProfileV1`.
+visibility, warning, learner-eligibility policy, or tolerance. The later semantic-scope
+audit makes geometric-only output, disabled refraction, no atmosphere defaults, no
+aggregate visibility, result-bearing below-horizon classification, and non-erasing
+optional-stage precedence normative for V1. AST-004/006/007 review remains required
+only for the later capabilities and numerical boundaries.
 
 Milestone 2C.5A freezes the scientific experiment protocol before numerical execution.
 It records 24 stable experiment IDs with permitted/prohibited claims, exact input and
@@ -145,7 +146,7 @@ independence is justified. No required numerical term is bounded, all six tolera
 classes remain blocked, and `FINAL_TOLERANCE_NOT_JUSTIFIED` is prepared for AST-006
 review. Milestone 2C remains open.
 
-Milestone 2C.6 defines the candidate `ScientificProfileV1` and audits the exit gate.
+Milestone 2C.6 defines `ScientificProfileV1` and audits the exit gate.
 The first profile is source-neutral and geometric-only: exactly one selected observer
 preset identity under a generic fail-closed contract, one bounded explicit-UTC domain,
 one minimal 2D-approved star artifact,
@@ -156,7 +157,11 @@ removes the circular requirement for TypeScript/reference residuals and numerica
 tolerances before the TypeScript implementation exists. The selected V1 identity is
 `umpsa-pekan-faculty-of-computing`; 2D, not 2C, owns its exact reference point,
 coordinates, Earth model, typed height, accuracy and immutable data record. Milestone
-2C remains open only for the six profile-scoped decisions in
+The profile boundary, geometric/refraction/visibility exclusions, core outcomes,
+precedence, exact singularity behavior, warning/status preservation, and pending-
+validation lifecycle are normative. `APPROVED_GEOMETRIC_RESULT` remains unreachable
+until postimplementation acceptance. Milestone 2C remains open only for the three
+profile-scoped decisions in
 `spikes/PHASE1_SCIENTIFIC_PROFILE_V1.md`; production/reference results, any stronger
 independent validation required by the claimed release boundary, error-budget
 population, and tolerance approval are later scientific-acceptance gates.

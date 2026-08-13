@@ -286,13 +286,23 @@ altitude/azimuth tolerance.
 ## Milestone 2C.6 implementation-entry interpretation
 
 `PROJECT_DECISION`: Milestone 2C is the pre-implementation scientific-behaviour gate,
-not the end-to-end implementation-validation gate. The candidate
+not the end-to-end implementation-validation gate. The
 `ScientificProfileV1` deliberately limits the first production slice to one selected
 preset identity under a generic fail-closed `ObserverPreset` contract, one approved
 bounded UTC domain, the minimum 2D-approved numerical astrometry allowlist, explicit
 offline leap/EOP inputs, and geometric topocentric horizontal output. Refraction,
 aggregate visibility, arbitrary locations, and downstream learner tolerances are
 excluded rather than assigned zero uncertainty.
+
+The profile boundary/output/outcome subset is normative: geometric horizontal output
+retains signed altitude, normalized ENU, azimuth when defined, exact singularity state,
+provenance, warnings/statuses, and pending scientific-validation state. Below-horizon
+is an attached geometric classification. V1 requests no refraction, accepts no
+atmosphere/default, emits no aggregate visibility, and never promotes geometry to
+scene, learner, or assessment correctness. Core failures precede result creation;
+later classifications and optional-stage-not-requested states cannot erase a valid
+geometric result. `APPROVED_GEOMETRIC_RESULT` remains unreachable until
+postimplementation acceptance, and no near-singular numerical boundary is invented.
 
 Only unresolved semantics required to construct that bounded profile block 2C. Its
 catalogue choice, release rights, raw-byte acquisition, and normalized artifact belong
@@ -360,12 +370,13 @@ evidence none exists, and survey control is optional.
 | Every public/fixture value states frame, epoch/time scale, units, and convention. | SOFA routine contracts; IERS Chapters 2 and 5; ADR-003 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Catalogue rows remain immutable numerical source records; observed and refracted values are derived separately. | I/311 `ReadMe`; *Fundamental Astronomy* §§2.4, 2.9; `DATA_STRATEGY.md` | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Use TT for the selected precession-nutation model and UT1 for ERA, with pinned leap-second and EOP provenance. | IERS Eqs. (5.2), (5.14)-(5.15); SOFA time/ERA routines | `SOURCE_SUPPORTED_FACT` |
-| Retain SOFA warning/error status, including dubious date and motion warnings. | `iauUtctai`, `iauAtco13`, `iauPmsafe` preambles | `SOURCE_SUPPORTED_FACT` |
+| Retain scientific warning/error status with stage/routine/model provenance; neither silently downgrade it to success nor automatically promote it to rejection without the owning policy. | `iauUtctai`, `iauAtco13`, `iauPmsafe` preambles; Batch 01 status guards | `SOURCE_SUPPORTED_FACT` plus normative `PROJECT_DECISION` |
 | Propose a componentized SOFA `2023-10-11` CIO-family route and record every included/omitted/conditional/blocked effect while keeping Astropy/PyERFA as a reference path independent of the future TypeScript code, but not independent of shared ERFA/SOFA lineage. | SOFA `iauPmsafe`/`iauAtco13`/`iauApco13`/`iauAtciq`/`iauAtioq`; IERS Chapter 5; AST-003 | `PROJECT_DECISION`; profile-route approval and implementation mapping remain `HUMAN_REVIEW_REQUIRED` |
 | Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`; convert `yr` using 365.25 days. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408; CDS Catalogue Standard 2.0 Section 3.2.2 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned code-independent Astropy reference while disclosing shared ERFA/SOFA lineage; add a stronger oracle later where required. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
 | Compare explicit Julian-TT/TDB/UTC, calendar-decimal-year, and Besselian guard interpretations with synthetic space-motion inputs; record time and direction deltas without inferring source meaning. | I/311/ESA epoch evidence conflict; Astropy `8.0.1` time docs; PyERFA `pmsafe` TDB contract | `EXPERIMENT_REQUIRED` |
-| Exclude refraction and aggregate scientific visibility from `ScientificProfileV1`; emit geometric-only first-slice output, insert no default atmosphere, and preserve separate typed horizon/visibility states for later profiles. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004 | `PROJECT_DECISION`; later model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required, but does not block geometric V1 implementation |
+| Exclude refraction and aggregate scientific visibility from `ScientificProfileV1`; emit geometric-only output, fix `REFRACTION_NOT_REQUESTED`, insert no default atmosphere, preserve result-bearing below-horizon and singularity states, and retain separately typed future horizon/visibility components. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004; Batch 01 optional-state guards | Normative `PROJECT_DECISION`; later model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required, but does not block geometric V1 implementation |
+| Distinguish contract-conforming `GEOMETRIC_RESULT_PENDING_VALIDATION` from postimplementation `APPROVED_GEOMETRIC_RESULT`; preserve non-erasing precedence and scientific warnings/statuses separately from transport/logging. | SOFA status contracts; ADR-003/007; Batch 01 warning/status/state guards | Normative `PROJECT_DECISION`; exact wire/HTTP mapping and route/data-specific warning disposition remain with later owners |
 | Define a generic versioned `ObserverPreset`, accept only the UMPSA Pekan Faculty identity in V1, fail closed on missing/invalid/unsupported/unapproved data, and hand exact values/accuracy/artifact authority to 2D. | SOFA observer input contract; `UMPSA-FK-PEKAN-SITE`; `JUPEM-GEODETIC`; AST-007 | Contract/site identity `PROJECT_DECISION` plus `SOURCE_SUPPORTED_FACT`; exact record `BLOCKS_2D_DATA_AUTHORITY`; no coordinate or tolerance selected |
 | Derive acceptance thresholds after implementation from measured production/reference disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `POST_IMPLEMENTATION_VALIDATION` plus `HUMAN_REVIEW_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
@@ -376,10 +387,11 @@ evidence none exists, and survey control is optional.
 ## Required validation evidence
 
 - **Before implementation:** approve the bounded profile route/effect disposition,
-  generic `ObserverPreset` contract and UMPSA site identity, UTC/date contract,
-  leap/EOP artifact policy, geometric output/outcomes, and a source-neutral normalized
-  astrometry contract. Identify the 2D catalogue/release and observer-artifact inputs
-  without treating I/311 as permanent or requiring numerical observer values in 2C.
+  UTC/date contract, and leap/EOP policy. Carry the already normative generic
+  `ObserverPreset`, source-neutral boundary, geometric output/exclusions,
+  outcome/precedence/warning, and pending-validation contracts. Identify the 2D
+  catalogue/release and observer-artifact inputs without treating I/311 as permanent or
+  requiring numerical observer values in 2C.
 - **After implementation:** compare the TypeScript implementation with pinned
   reference fixtures across the approved date, observer, astrometry, EOP, and endpoint
   partitions; record great-circle, component, wrapped-angle, warning, and status
@@ -396,10 +408,11 @@ determinism evidence, not source meaning, production approval, or independent
 validation. The 49-term ledger remains unchanged: 45 numerical terms are explicitly
 unbounded/unresolved and four entries are exact non-numerical guards.
 
-The pre-implementation gaps are now narrower than the full open-question inventory:
-the profile boundary and pending-validation result state; its route/effect disposition;
-UTC/date endpoints; immutable leap/EOP product and per-field
-policy; geometric-only output; and fail-closed outcomes/warnings still require review.
+The pre-implementation gaps are now three clusters: route/effect disposition and
+production mapping; UTC/date grammar, precision and endpoints; and leap/EOP product/
+per-field/offline policy. Profile boundary, pending-validation result state, geometric-
+only/no-refraction/no-visibility scope, fail-closed precedence, exact singularity
+semantics, and warning/status preservation are normative.
 Catalogue selection, rights, acquisition, and normalized-row authority move to 2D/2E.
 Production/reference disagreement, implementation error, and numerical tolerances wait
 until the TypeScript path exists. Refraction, aggregate visibility, degraded operation,

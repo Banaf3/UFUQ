@@ -218,12 +218,18 @@ applicable coordinate epoch, accuracy, provenance, version and immutable record 
 to 2D. Their absence blocks real V1 execution, not 2C closure or generic astronomy-core
 work. A JUPEM survey-control record is optional, not mandatory.
 
-Milestone 2C remains **OPEN**, but only for six exact preimplementation decision
-clusters: approval of the profile boundary/pending-validation state; the pure-TypeScript
-route and effect dispositions; one exact UTC grammar/precision and date interval;
-leap/EOP product-class and field/offline policy;
-geometric-only/refraction-disabled/no-visibility scope; and fail-closed outcome,
-precedence, singularity, and warning/status semantics. Production code,
+The semantic-scope audit makes three clusters normative: the profile boundary/typed
+exclusions/pending-validation state; geometric-only/refraction-disabled/no-atmosphere-
+default/no-aggregate-visibility scope; and fail-closed outcomes, non-erasing
+precedence, exact zenith/nadir singularity, and warning/status preservation.
+`GEOMETRIC_RESULT_PENDING_VALIDATION` is the initial executable success state;
+`APPROVED_GEOMETRIC_RESULT` remains unreachable until postimplementation acceptance.
+No numerical ill-conditioned-azimuth boundary is invented.
+
+Milestone 2C remains **OPEN**, but only for three exact preimplementation decision
+clusters: the pure-TypeScript route and effect dispositions; one exact UTC grammar/
+precision and date interval; and leap/EOP product-class and field/offline policy.
+Production code,
 production/reference residuals, any stronger independent validation required by the
 claimed release boundary, numerical tolerance, global locations, refraction,
 visibility, and numerical closure of all 49 ledger terms
@@ -346,10 +352,10 @@ mapping, commands, corrections, and independent post-migration verdict are in
 ## Authorized next work
 
 Phase 1 Milestones 1, 2A, and 2B are complete. Milestone 2C has an evidence-audited
-contract but remains open only for the six `ScientificProfileV1` decision clusters
-listed above. The next 2C work is named astronomy-expert and supervisor review of that
-candidate; another synthetic batch and AST-006 numerical approval are not prerequisites
-to starting the bounded implementation.
+contract but remains open only for the three `ScientificProfileV1` decision clusters
+listed above. The next 2C work is named astronomy-expert and supervisor review of those
+route/time/EOP choices; another synthetic batch and AST-006 numerical approval are not
+prerequisites to starting the bounded implementation.
 
 After profile approval, Milestone 2D selects the actual catalogue/release and minimal
 star allowlist, records acquisition/licensing/row/crosswalk authority, approves the
@@ -373,10 +379,10 @@ boundary. Neither is a circular prerequisite to implementation.
   stable internal-star/source crosswalks, and row-level scientific eligibility. The
   local I/311 spike contract does not select a permanent source.
 - **IMP-009 / AST-003 (`BLOCKS_SCIENTIFIC_PROFILE_V1`):** approve the candidate
-  profile, pure-TypeScript route/library mapping, effect dispositions, generic
-  one-preset observer semantics, one bounded UTC domain, leap/EOP field and offline
-  policy, geometric-only exclusions, and fail-closed/pending-validation outcomes.
-  AST-006 numerical tolerance and production/reference residuals are
+  pure-TypeScript route/library mapping and effect dispositions, one bounded UTC
+  domain, and leap/EOP field/offline policy. Generic one-preset semantics, geometric-
+  only exclusions, fail-closed precedence, and pending-validation outcomes are now
+  normative. AST-006 numerical tolerance and production/reference residuals are
   `POST_IMPLEMENTATION_VALIDATION`.
 - **IMP-011 / AST-002:** reviewed `SkyPattern` and `GuidanceRelationship` records for
   one complete route to Al-Jady, including stable IDs, labels, membership, segments,

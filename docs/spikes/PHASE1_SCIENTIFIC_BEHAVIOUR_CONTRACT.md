@@ -26,11 +26,13 @@ authority, postimplementation validation, later extensions, and learner-facing w
 It removes the circular requirement to produce TypeScript/reference residuals before
 TypeScript implementation is permitted.
 
-No astronomy reviewer or owner approval is recorded for the remaining profile-scoped
-choices. Milestone 2C therefore remains open and `IMP-009` remains unresolved. Final
-numerical tolerances, production/reference results, globally supported observers,
-refraction, and aggregate visibility are not conditions for starting the bounded V1
-implementation; they retain their later acceptance or extension gates.
+The profile boundary, geometric-only/refraction-disabled/no-visibility scope, and
+semantic outcome/precedence/validation-state contracts are now normative project
+decisions. Milestone 2C remains open only for the route/effect, UTC-domain, and
+leap/EOP-policy choices, so `IMP-009` remains unresolved. Final numerical tolerances,
+production/reference results, globally supported observers, physical refraction, and
+aggregate visibility are not conditions for starting the bounded V1 implementation;
+they retain their later acceptance or extension gates.
 
 This document does not authorize catalogue parsing, source-derived tracked artifacts,
 learner-facing cultural claims, or deployment.
@@ -172,7 +174,7 @@ approved production library. That implementation choice is not made here.
 | `2C.2-S4` | `EarthOrientationContext`: an immutable context carrying UTC, TAI, TT, UT1, ERA, polar motion `xp`,`yp`, TIO locator, a separately typed celestial-pole-offset policy/status, leap/EOP bundle IDs and hashes, artifact availability, and independent field records for source quality, availability, provenance, coverage, and scientific approval. It is consumed with the CIRS direction rather than hidden in a sidereal-time scalar. | IERS TN36 Eq. (5.1) factorization and Sections 5.3-5.5; official IERS product/status documentation; SOFA `iauApco13`, `iauEra00`, `iauSp00`, `iauPom00`, and `iauC2t06a` as component checks. `iauApco13` can consume `UT1-UTC`,`xp`,`yp`; it cannot consume observed `dX`,`dY`. | Production leap-second/EOP products, separately pinned later corrections/working material if selected, field precedence/interpolation, stale/update and source-quality approval policy, celestial-pole-offset route, and supported dates. **Blocked**; missing values are not zero, and model CIP/CIO is not relabelled as observed-offset-corrected. | `AUTHORITY_OR_EVIDENCE_MISSING` |
 | `2C.2-S5` | `GeometricHorizontalDirection`: north-zero/east-positive azimuth, signed geometric altitude, ENU unit vector, observation instant, observer policy, EOP policy, singular-azimuth status, and warnings. | Candidate SOFA `iauAtioq` using the explicit model-only `iauApco13` context with refraction coefficients set to zero; `iauAtco13` is a composed cross-check, not the production API. A later reviewed decomposed context is required if observed celestial-pole offsets are included. | Approved geodetic datum/ellipsoid, ellipsoidal-height semantics/range, EOP context, celestial-pole-offset disposition, and stable status mapping. Route shape is proposed; execution remains blocked by those inputs. | `PROJECT_DECISION` |
 | `2C.2-S6` | `RefractedHorizontalDirection`: optional result derived from the same pre-refraction CIRS/geometric evidence and labelled with model, meteorology, wavelength, and validity status. It never overwrites S5. | Candidate SOFA `iauRefco` coefficients consumed by a separate `iauAtioq` evaluation; Astropy `AltAz` is reference-only. | Pressure, temperature, humidity, wavelength, supported altitude/environment range, and unavailable/failure policy. **Conditional** and not approved. | `HUMAN_REVIEW_REQUIRED` |
-| `2C.2-S7` | `VisibilityState`: a separate project-policy result that consumes geometric/refracted direction plus independently approved horizon, photometric/variability, Sun/daylight/twilight, extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner inputs. | UFUQ Astronomy Specification and AST-004; SOFA does not define learner visibility. | Horizon equality, physical/terrain dip, all visibility components, aggregation, and below-horizon downstream policies remain blocked. | `PROJECT_DECISION` |
+| `2C.2-S7` | `VisibilityState`: a later-profile project-policy result that consumes geometric/refracted direction plus independently approved horizon, photometric/variability, Sun/daylight/twilight, extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner inputs. V1 does not request or emit this aggregate state. | UFUQ Astronomy Specification and AST-004; SOFA does not define learner visibility. | V1's no-aggregate rule and geometric-horizon separation are normative. Physical/terrain dip, all visibility components, aggregation, and below-horizon downstream policies remain blocked for later profiles. | `PROJECT_DECISION` |
 | `2C.2-S8` | `SceneDirection`: a presentation adapter from a valid direction state into the fixed ENU-to-Three axes. It carries the source state/policy ID and pending-or-approved validation state, and makes no visibility or scientific-correction claim. | UFUQ ADR-003/IMP-010. | Valid upstream direction only; rendering cannot fill an unavailable astronomy result or promote pending evidence to approval. | `PROJECT_DECISION` |
 
 The Stage S3 name is deliberately observer-aware. In the proposed `iauApco13` plus
@@ -709,7 +711,7 @@ stable status code remain part of the unresolved API/numerical contract.
 
 ## 11. Geometric and refracted states
 
-The following boundaries are `PROJECT_DECISION` proposals:
+The following boundaries are normative `PROJECT_DECISION` contracts for V1:
 
 - `GeometricHorizontalDirection` and `RefractedHorizontalDirection` are distinct,
   immutable scientific states;
@@ -718,8 +720,9 @@ The following boundaries are `PROJECT_DECISION` proposals:
 - scene code consumes an approved scientific state and must not apply refraction,
   atmosphere defaults, or apparent-horizon corrections.
 
-The first-slice choice still requires `HUMAN_REVIEW_REQUIRED` approval under AST-004
-and does not make the blocked upstream route executable.
+The first-slice exclusion is resolved under AST-004 for V1. It does not approve a
+refraction model, atmosphere input, or later extension, and it does not make the
+blocked upstream route executable.
 
 ### 11.1 Refraction input contract
 
@@ -788,8 +791,9 @@ The following separation is a `PROJECT_DECISION`:
 
 - `GeometricHorizonState` compares signed geometric altitude with the astronomical
   local horizontal plane at geometric altitude zero in the approved observer/frame
-  convention, before atmospheric refraction. It retains `ABOVE`, `ON`, `BELOW`, or
-  `INDETERMINATE_WITHIN_TOLERANCE` plus the tolerance/policy identifier;
+  convention, before atmospheric refraction. V1 retains exact `ABOVE`, `ON`, or
+  `BELOW`; `INDETERMINATE_WITHIN_TOLERANCE` is a reserved later-profile state that is
+  unreachable until a reviewed tolerance/policy exists;
 - `RefractedApparentHorizonState` means only a model-dependent classification of an
   approved refracted direction relative to apparent altitude zero under the named
   refraction model/policy. It never changes the geometric classification and is not a
@@ -809,10 +813,12 @@ provenance, upstream warnings, and statuses. It is not an apparent-horizon answe
 visible sea or Earth-curvature horizon, observer-height dip, terrain/building decision,
 visibility claim, scene clipping command, or learner-eligibility rule.
 
-`AUTHORITY_OR_EVIDENCE_MISSING`: the equality tolerance at zero, physical-horizon
-reference surface/dip model, apparent-horizon boundary, terrain/building/obstruction
-data, and corresponding uncertainty are absent. `HUMAN_REVIEW_REQUIRED`: AST-004/006
-must approve those policies and the treatment of singular/uncertain cases.
+`AUTHORITY_OR_EVIDENCE_MISSING`: no numerical near-horizon tolerance is selected, and
+the physical-horizon reference surface/dip model, apparent-horizon boundary, terrain/
+building/obstruction data, and corresponding uncertainty are absent. Exact V1 sign
+classification needs no invented tolerance. `HUMAN_REVIEW_REQUIRED`: AST-004/006 must
+approve any later indeterminate band, physical/apparent/terrain policy, and treatment
+of uncertain cases.
 
 ### 12.2 Visibility state model
 
@@ -898,14 +904,20 @@ AST-006 error budget.
 
 ## 14. Structured outcomes
 
-The API must return a discriminated scientific outcome rather than a bare coordinate
-or silently coerced fallback. The following semantic outcome families are a
-`PROJECT_DECISION` proposal. Their exact serialized schema and HTTP mapping remain
-`HUMAN_REVIEW_REQUIRED`:
+The astronomy boundary returns a discriminated scientific outcome rather than a bare
+coordinate or silently coerced fallback. The core semantic outcome families,
+result-retention rules, and pending-versus-approved lifecycle distinction below are a
+normative `PROJECT_DECISION`. They are not finalized serialized wire or HTTP codes.
+Specific UTC/leap/EOP subtypes remain refinements owned by their later policy decision.
 
 | Outcome | Result? | Required meaning |
 |---|---:|---|
 | `INVALID_INPUT` | No | Malformed/non-finite field, invalid calendar or offset, unqualified time, invalid leap-second syntax/date, latitude outside `[-90,+90]`, or structurally invalid observer. Include field and reason; do not coerce. |
+| `REQUIRED_INPUT_MISSING` | No | A required V1 input or required field is absent. This is distinct from malformed supplied input, an identified artifact that cannot be resolved, and a state that exists but lacks scientific approval. No default is fabricated. |
+| `REQUIRED_ARTIFACT_UNAVAILABLE` | No | An identified required artifact or required artifact field is absent, unreadable, unverified, or hash-mismatched. Exact leap/EOP/source subtypes are retained when the owning policy defines them. |
+| `UNSUPPORTED_PROFILE_DOMAIN` | No | Structurally valid inputs lie outside `ScientificProfileV1` or its later-approved date, observer, source, model, or artifact-coverage domain. Specific outcomes such as `UNSUPPORTED_DATE` may refine this class. |
+| `REQUIRED_STATE_NOT_SCIENTIFICALLY_APPROVED` | No | A required input, field quality, policy, or data state exists but is not approved for the exact profile/domain. This is distinct from an implementation result whose validation state is pending. |
+| `SCIENTIFIC_EXECUTION_FAILURE` | No | The approved numerical/algorithm route cannot complete or produces an invalid scientific state. Preserve the failing stage, warnings, and raw statuses; do not promote partial coordinates to success. |
 | `UNSUPPORTED_DATE` | No | A valid UTC instant lies outside the approved combined operating domain. This is distinct from a missing artifact. |
 | `EOP_UNAVAILABLE` | No | `ArtifactAvailability` or a required field's `FieldAvailability` is `UNAVAILABLE`: the selected artifact/field is absent, unreadable, blank, unverified, or hash-mismatched. |
 | `EOP_STALE` | No | `ArtifactAvailability` is `STALE` under the later approved validity/update rule. No stale threshold is invented here, and staleness says nothing about source quality or approval. |
@@ -919,80 +931,67 @@ or silently coerced fallback. The following semantic outcome families are a
 | `APPROVED_GEOMETRIC_RESULT` | Yes; reserved until scientific acceptance | The same provenance-bearing geometric result only after the applicable postimplementation production/reference partitions, error-budget evidence, operation-specific tolerance, and named review have passed. Preimplementation profile approval or successful execution alone cannot reach this state. |
 | `WARNING_BEARING_GEOMETRIC_RESULT` | Conditional | A result plus only explicitly approved warning codes. Any availability or field-quality/approval failure remains a non-result; no current stale, IERS-estimate, preliminary, predicted, missing, zero, or nearest-value case enters this family. |
 | `DEGRADED_GEOMETRIC_RESULT` | Reserved | Unreachable in Milestone 2C.3. It requires a named degraded mode, quantitative bound, approved domain/tolerance, provenance, mandatory warning contract, and named reviewer approval. |
-| `REFRACTION_NOT_REQUESTED` | No refracted result; geometric result retained | The caller/policy did not request refraction. This is neither unavailable nor invalid and supplies no atmosphere defaults. |
-| `REFRACTION_UNAVAILABLE` | No refracted result; geometric result retained | Refraction was requested but required meteorology, provenance, model, or approved policy is absent. This does not invalidate the geometric direction; library defaults are forbidden. |
+| `REFRACTION_NOT_REQUESTED` | No refracted result; geometric result retained | Normative V1 state: the profile does not request refraction. This is neither unavailable nor invalid, supplies no atmosphere defaults, and emits no refracted coordinate. |
+| `REFRACTION_UNAVAILABLE` | No refracted result; geometric result retained | Later-profile state only: refraction was requested but required meteorology, provenance, model, or approved policy is absent. It is distinct from `REFRACTION_NOT_REQUESTED` and is unreachable in V1. |
 | `REFRACTION_INPUT_INVALID` | No refracted result; geometric result retained | A supplied refraction-input field is malformed, non-finite, has invalid units, or violates a source-defined input interval such as relative humidity outside `[0,1]`. It does not reclassify core astronomy/observer input. |
 | `REFRACTION_OUTSIDE_VALID_DOMAIN` | No refracted result; geometric result retained | Structurally valid atmosphere/direction inputs lie outside an explicitly reviewed model-specific environment or altitude domain. No domain can be inferred from a library guard, and no extrapolated value is substituted. |
 | `WARNING_BEARING_REFRACTED_RESULT` | Reserved | Valid, fully provenance-bearing refraction inputs produced a model warning. This result remains unreachable until the exact model/version, model-specific validity and combined supported operating domains, warning allowlist and severity mapping, quantitative bound, scientific tolerance, and named astronomy-review approval exist. |
 | `APPROVED_REFRACTED_RESULT` | Conditional result | A separate refracted direction produced from a valid geometric result only after approval of the exact model/version, complete meteorological inputs and provenance, model-specific validity domain, warning policy, scientific tolerance, combined supported operating domain, postimplementation validation, and named astronomy reviewer. It never overwrites the geometric result. It is not currently reachable. |
-| `BELOW_GEOMETRIC_HORIZON` | Classification attached to geometric result | A valid geometric direction, at its retained pending or approved validation state, is below the astronomical local horizontal plane at geometric altitude zero. Preserve the same direction, signed altitude, azimuth when defined, singularity state, scientific provenance, upstream warnings, and statuses; do not infer apparent, physical-dip, terrain/building, photometric, screen, or learner visibility. Exact equality/tolerance remains under review. |
-| `VISIBILITY_POLICY_UNAVAILABLE` | No aggregate visibility result; scientific direction retained | One or more requested visibility components or their aggregation policy is absent or unapproved. Report components independently; do not convert rendering into scientific visibility. |
+| `BELOW_GEOMETRIC_HORIZON` | Classification attached to geometric result | A valid geometric direction, at its retained pending or approved validation state, has negative signed geometric altitude relative to the astronomical local horizontal plane. Preserve the same direction, signed altitude, azimuth when defined, singularity state, scientific provenance, upstream warnings, and statuses; do not infer apparent, physical-dip, terrain/building, photometric, screen, or learner visibility. No numerical near-boundary tolerance is selected. |
+| `VISIBILITY_POLICY_UNAVAILABLE` | No aggregate visibility result; scientific direction retained | Later-profile state only: one or more requested visibility components or their aggregation policy is absent or unapproved. V1 does not request aggregate visibility and emits no aggregate boolean. Report future components independently; do not convert rendering into scientific visibility. |
 
-The semantic families above are a `PROJECT_DECISION` proposal. The refracted,
-below-horizon, and visibility families retain their AST-004/006 blockers; adding a
-name does not approve or make a branch executable.
+The V1 core families, `REFRACTION_NOT_REQUESTED`, and result-bearing
+`BELOW_GEOMETRIC_HORIZON` are normative. Refracted-result, aggregate-visibility, and
+degraded families remain unreachable later-profile extension points; retaining their
+types does not approve or execute those capabilities.
 
 Upstream SOFA, Astropy, PyERFA, and IERS warnings/errors used by the approved path must
 be retained in evidence and deliberately mapped. They must not be discarded because a
 numeric output was also returned.
 
-The requirement and semantic distinctions are `PROJECT_DECISION`. Exact stable wire
-codes, severity, HTTP/API serialization, warning allowlist, and retry behaviour remain
-`HUMAN_REVIEW_REQUIRED`. There is no fallback from a non-result to a numeric result.
+The requirement and semantic distinctions are normative `PROJECT_DECISION` records.
+Exact stable wire codes, HTTP/API serialization, logging severity, and retry behaviour
+remain separate transport/operational work. Route- or data-policy-specific warning
+dispositions remain with those still-open decisions. There is no fallback from a
+non-result to a numeric result.
 
 ### 14.1 Deterministic semantic precedence
 
-The validation order is a `PROJECT_DECISION` proposal; exact wire codes remain
-`HUMAN_REVIEW_REQUIRED`. Evaluation stops at the first numbered failure level, while
-all blocking fields at that level are reported in canonical field order
-`UT1-UTC`, `xp`, `yp`, `dX`, `dY`:
+The following validation levels and retention rules are a normative
+`PROJECT_DECISION`. Evaluation stops at the first failing required level; multiple
+blocking fields at that level remain reportable without consulting a later optional
+stage:
 
-1. validate core request structure, finite astronomy/observer numeric values,
-   calendar/offset form, and structurally valid observer fields; return `INVALID_INPUT`
-   before consulting EOP, refraction, or visibility policy;
-2. validate the selected leap artifact and UTC text. For second `60`, unavailable
-   takes precedence over stale leap data and returns the corresponding leap-data
-   non-result; available data that
-   disproves that exact UTC leap date returns `INVALID_INPUT`;
-3. after a canonical UTC instant exists, apply the approved combined date domain and
-   return `UNSUPPORTED_DATE` before request-specific observer/source/EOP evaluation;
-4. apply the approved observer domain, then source-astrometry readiness;
-5. evaluate the selected EOP artifact's availability: unavailable before stale;
-6. evaluate each required EOP field's availability: unavailable before out of range,
-   retaining every blocking field independently; and
-7. evaluate each available field's `SourceFieldQuality` and `ScientificApproval`, then
-   map only explicitly approved warnings before producing a geometric direction whose
-   validation state is explicitly pending or, only after the later acceptance gate,
-   approved;
-8. classify the geometric horizon without discarding or replacing the direction.
-   Attach `BELOW_GEOMETRIC_HORIZON` when applicable while retaining altitude, defined
-   azimuth/singularity, direction, provenance, upstream warnings, and statuses; the
-   classification does not stop optional-stage evaluation or silently choose
-   refraction, visibility, clipping, or learner eligibility;
-9. record `REFRACTION_NOT_REQUESTED` when the optional stage was not requested.
-   Otherwise validate supplied meteorology before testing policy/model availability
-   and then the approved model-specific domain. Map invalid supplied fields to
-   `REFRACTION_INPUT_INVALID`, absent required input/policy to
-   `REFRACTION_UNAVAILABLE`, and valid inputs outside the approved domain to
-   `REFRACTION_OUTSIDE_VALID_DOMAIN`. A model warning maps only to the reserved
-   `WARNING_BEARING_REFRACTED_RESULT`; an `APPROVED_REFRACTED_RESULT` is reachable only
-   after every approval listed in its outcome definition; and
-10. evaluate requested visibility components independently after the scientific
-    direction and horizon states. Missing or unapproved policy returns
-    `VISIBILITY_POLICY_UNAVAILABLE` without hiding the earlier geometric/refracted
-    result. Screen presentation and learner eligibility are evaluated last.
+1. validate request structure and every supplied value/representation;
+2. identify missing required V1 inputs;
+3. validate required artifact and required-field availability/integrity;
+4. validate the approved profile/domain boundary;
+5. validate scientific approval of every required state, field quality, datum, policy,
+   and data item;
+6. execute the approved route, preserving every warning and raw status, and return
+   `SCIENTIFIC_EXECUTION_FAILURE` rather than partial-success coordinates if the route
+   cannot produce a valid geometric state;
+7. create `GEOMETRIC_RESULT_PENDING_VALIDATION` after successful execution;
+8. attach azimuth/singularity and geometric-horizon classifications without discarding
+   or replacing altitude, ENU, provenance, warnings, statuses, or validation state; and
+9. attach `REFRACTION_NOT_REQUESTED` and the profile-excluded visibility-stage state
+   without invoking atmosphere, refraction, visibility, scene, learner, or assessment
+   behavior.
 
-At levels 8-10, the earlier valid geometric result and its validation state are
-retained rather than replaced by a later optional-stage non-result. A core invalid timestamp therefore cannot be
-reported first as missing meteorology; missing EOP cannot be hidden by below-horizon or
-visibility state; and a refraction failure cannot erase the geometric classification.
-Where more than one atmosphere field is invalid, report all fields at that level in a
-canonical order to be approved with the wire contract.
+The later UTC/leap/EOP policy may refine deterministic precedence within levels 1-5,
+including its field ordering, stale/quality distinctions, and specific outcome names.
+It may not reverse the core invariant: an optional or downstream state cannot hide a
+required-input/artifact/domain/approval/execution failure, and cannot erase a valid
+earlier geometric state.
 
-This order does not approve the provisional outcome names or any currently blocked
-date, observer, source, EOP, warning, or degraded branch. If review rejects this order,
-the unresolved precedence itself blocks endpoint serialization and combined-fault
-fixtures; no implementation may choose an incidental library exception order.
+`BELOW_GEOMETRIC_HORIZON` is therefore never a terminal failure. Exact zenith or nadir
+sets azimuth to `UNDEFINED_SINGULAR` while retaining mathematically defined altitude
+and ENU. A near-singular `ILL_CONDITIONED` classification remains unavailable until a
+reviewed numerical/domain boundary exists; no arbitrary epsilon is permitted.
+
+This semantic order does not approve any currently blocked route, date, source, EOP,
+warning disposition, degraded mode, wire code, or HTTP mapping. Implementations may
+not substitute an incidental library exception order for the contract.
 
 ## 15. Scientific error budget and comparison metrics
 
@@ -1221,12 +1220,12 @@ requires complete Batch regeneration before further interpretation.
 | `2C-004` | Interpret I/311 `pmRA` as `mu_alpha_star` and normalize explicitly. | `SOURCE_SUPPORTED_FACT`: I/311 Appendix G Table G.3; project field-name decision. | `RESOLVED_INPUT_SEMANTICS`; production motion model remains open. |
 | `2C-005` | Keep UTC, TAI, TT, and UT1 distinct with TT for precession-nutation and UT1 for Earth rotation. | `SOURCE_SUPPORTED_FACT`: SOFA routine contracts; IERS TN36 Chapters 5 and 10. | `RESOLVED_TIME_ROLES`; operational data/failure policy remains open. |
 | `2C-006` | Use north-positive latitude, east-positive longitude, north-zero/eastward azimuth, signed altitude, and vector comparison at zenith/nadir. | `PROJECT_DECISION`: Astronomy Specification and ADR-003; SOFA supports the horizon convention. | `RESOLVED_CONVENTIONS`; exact serialization/status code remains open. |
-| `2C-007` | Define observer-preset semantics and separate them from concrete site data. | `PROJECT_DECISION`: V1 fixes the generic versioned `ObserverPreset`, north-positive geodetic latitude, east-positive `[-180 deg,+180 deg)` canonical longitude, explicit datum/frame/ellipsoid/typed height/conditional epoch/accuracy/provenance/version/approval states, the UMPSA Pekan Faculty identity, and fail-closed no-default behavior. `SOURCE_SUPPORTED_FACT`: official UMPSA material places the Faculty at Pekan campus. | `RESOLVED_CONTRACT_FOR_PROFILE_REVIEW`; exact reference point, coordinates, height, Earth model, accuracy and artifact are `BLOCKS_2D_DATA_AUTHORITY`. Unknown accuracy remains unbounded, global/polar/multiple-location support remains later, and no Faculty-specific JUPEM control record is claimed. |
+| `2C-007` | Define observer-preset semantics and separate them from concrete site data. | `PROJECT_DECISION`: V1 fixes the generic versioned `ObserverPreset`, north-positive geodetic latitude, east-positive `[-180 deg,+180 deg)` canonical longitude, explicit datum/frame/ellipsoid/typed height/conditional epoch/accuracy/provenance/version/approval states, the UMPSA Pekan Faculty identity, and fail-closed no-default behavior. `SOURCE_SUPPORTED_FACT`: official UMPSA material places the Faculty at Pekan campus. | `RESOLVED_CONTRACT_FOR_PROFILE_V1`; exact reference point, coordinates, height, Earth model, accuracy and artifact are `BLOCKS_2D_DATA_AUTHORITY`. Unknown accuracy remains unbounded, global/polar/multiple-location support remains later, and no Faculty-specific JUPEM control record is claimed. |
 | `2C-008` | Select the production algorithm/library, coherent CIO/equinox route, and implement-or-omit effect matrix. | Milestone 2C.2 proposes a componentized SOFA `2023-10-11` CIO-family semantic route and classifies every effect. It does not approve the future TypeScript algorithm/library, blocked inputs, omission bounds, or tolerances. | `PARTIAL_PROPOSAL`; AST-003 profile review remains preimplementation, while experiments run only at their registered lifecycle stages. |
 | `2C-009` | Select production leap-second/EOP files, coverage, source-quality approval/offline/update policy, and approximation/failure modes. | Milestone 2C.3 pins the distinct official Bulletin A/B/C roles and `finals2000A` field flags, then proposes immutable offline bundles and orthogonal source-quality/availability/approval semantics. Smoke files/hashes remain smoke-only. | `PARTIAL_PROPOSAL`; product bytes/hashes, precedence, stale/update cadence, field-quality approval, coverage, and degraded mode remain open. |
-| `2C-010` | Keep geometric and refracted direction separate; select the Phase 2 refraction model/policy. | Milestone 2C.4 proposes geometric-only first-slice semantics, an explicit atmosphere record, no defaults, and optional refraction non-results. SOFA/Astropy supply input and limitation evidence but do not choose UFUQ policy. | Separation/default prohibition proposed; model, ranges, uncertainty, validity, warnings, and exposure remain `HUMAN_REVIEW_REQUIRED`/`AUTHORITY_OR_EVIDENCE_MISSING` under AST-004/006. |
-| `2C-011` | Keep direction, every horizon type, visibility components, and rendering/learner states separate; select actual behaviour. | Milestone 2C.4 defines distinct typed states and makes below-geometric-horizon result-bearing. No source/owner has selected terrain, photometric, daylight, transmission, or learner policy. | Separation proposed; policy remains blocked under AST-001/004/006/007. |
-| `2C-012` | Preserve structured scientific outcomes and upstream warnings; fix stable API mapping. | SOFA status contracts plus ADR-003/007. Milestones 2C.3-2C.4 propose core, geometric, refraction, horizon, visibility, warning, and reserved-degraded families with staged precedence. | Semantic families `PARTIAL_PROPOSAL`; stable wire/HTTP mapping and warning allowlists require review. |
+| `2C-010` | Keep geometric and refracted direction separate; select the Phase 2 refraction model/policy. | ScientificProfileV1 normatively emits geometric output only, fixes `REFRACTION_NOT_REQUESTED`, accepts no atmosphere, and inserts no defaults. SOFA/Astropy supply input and limitation evidence but do not choose a later refraction policy. | `RESOLVED_FOR_PROFILE_V1`; model, ranges, uncertainty, validity, warnings, and exposure remain later `HUMAN_REVIEW_REQUIRED`/`AUTHORITY_OR_EVIDENCE_MISSING` without blocking V1. |
+| `2C-011` | Keep direction, every horizon type, visibility components, and rendering/learner states separate; select actual behaviour. | V1 normatively makes below-geometric-horizon result-bearing, emits no aggregate visibility, and excludes physical/terrain/render/learner interpretations. No source/owner has selected later terrain, photometric, daylight, transmission, or learner policy. | `RESOLVED_FOR_PROFILE_V1`; later capability policy remains under AST-001/004/006/007. |
+| `2C-012` | Preserve structured scientific outcomes and upstream warnings; fix stable API mapping. | SOFA status contracts plus ADR-003/007. V1 now fixes core outcome classes, non-erasing precedence, exact singularity semantics, warning/status preservation, and pending-versus-approved validation states. | `RESOLVED_SEMANTIC_CONTRACT`; stable wire/HTTP mapping, logging severity, route/data-specific warning disposition, and near-singular numerical boundary remain with later owners. |
 | `2C-013` | Use per-case vector/circular metrics and a separated error budget; approve aggregation and tolerances. | Astronomy Specification/ADR-007 plus independent-measurement requirement. | Metrics resolved; budget aggregation and thresholds `BLOCKED_EXPERIMENT_AND_APPROVAL` under AST-006. |
 | `2C-014` | Establish a pinned reference path, comparison matrix, and stronger independent oracle. | The locked synthetic-only tool proves environment and production-code independence. Milestone 2C.2 distinguishes the Astropy/PyERFA reference route from the SOFA-based production candidate and names the comparison experiments; 2C.5B executes the first same-family/structural synthetic batch. | `PARTIAL`; source-derived fixtures, a lineage-independent model path for applicable claims, production implementation, and production/reference comparison remain unstarted postimplementation work. |
 | `2C-015` | Select supported date/location/altitude range and endpoint failures. | Milestone 2C.3 defines the domain as the intersection of every approved scientific/data/observer/scenario range and fixes explicit endpoint outcomes. Sources expose individual limits but do not select UFUQ endpoints. | Exact one-preset V1 input endpoints remain `AUTHORITY_OR_EVIDENCE_MISSING`/`HUMAN_REVIEW_REQUIRED` under AST-003/AST-007. Broader/global ranges are later extensions; AST-006 owns postimplementation error bounds and numerical acceptance, not endpoint selection. |
@@ -1257,7 +1256,7 @@ requires complete Batch regeneration before further interpretation.
 | `2C.2-007` | Apply parallax only through an approved usable-distance policy and return unavailable or an explicitly reviewed infinite-distance branch otherwise. | `HUMAN_REVIEW_REQUIRED` | Negative/low-significance parallax, covariance, selected-row, and omission-bound decisions remain open. |
 | `2C.2-008` | Supply radial velocity or treat perspective acceleration as an approved omission/unavailable branch. | `AUTHORITY_OR_EVIDENCE_MISSING` | I/311 supplies no RV field and no supplemental source/crossmatch policy or omission bound is approved. |
 | `2C.2-009` | Bound solar-only versus multiple-body light deflection and every other candidate omission across the approved domain. | `EXPERIMENT_REQUIRED` | Ablation/interaction and elongation studies specified; no result or threshold exists. |
-| `2C.2-010` | Keep pressure-zero geometric output normative as a separate state and expose nonzero refraction only under an approved input/range policy. | `HUMAN_REVIEW_REQUIRED` | AST-004 approval and low-altitude experiment remain open. |
+| `2C.2-010` | Keep geometric output normative as a separate state, request no V1 refraction or atmosphere input, and expose nonzero refraction only under a separately approved later-profile input/range policy. | `PROJECT_DECISION` | V1 exclusion resolved. Low-altitude/refraction experiments and model/domain approval remain later and cannot establish a default or tolerance. |
 | `2C.2-011` | Use Astropy/PyERFA only for the code-independent reference route, with explicit policies and structured warnings; use composed ERFA `atco13` only as a same-family consistency check. | `PROJECT_DECISION` | Reference/production code boundary fixed; Batch 01 executes same-family componentized/composed and bounded motion guards, not lineage-independent scientific validation. |
 | `2C.2-012` | Run route-equivalence, production/reference, stronger-independent, effect-ablation, epoch/motion, EOP/range, observer/motion, deflection, and refraction experiments at their registered lifecycle gates. | `EXPERIMENT_REQUIRED` | Batch 01 executes the bounded route-equivalence case and five synthetic convention guards. Production/reference work follows implementation; stronger-independent work is separately lineage-audited where required; refraction work follows a later-scope decision. None can determine a missing source meaning or tolerance. |
 | `2C.2-013` | Interpret the I/311/VizieR proper-motion unit `yr` as exactly 365.25 days for numeric conversion to SOFA radians per Julian year. | `SOURCE_SUPPORTED_FACT` | Resolved by CDS Catalogue Standard 2.0 Section 3.2.2; this does not resolve the I/311 epoch/derivative time scale. |
@@ -1280,11 +1279,11 @@ requires complete Batch regeneration before further interpretation.
 | `2C.3-012` | Support only the intersection of approved catalogue, model/ephemeris, leap, per-field EOP, observer, and scenario domains. Apply later validation/tolerance approval over that domain rather than using a nonexistent tolerance domain to prevent its definition. | `PROJECT_DECISION` | Domain-composition rule resolved; numerical endpoints and inclusivity remain unapproved. |
 | `2C.3-013` | Derive earliest/latest instants, future-prediction limit, observer locations, height/altitude limits, or endpoint inclusion directly from one source/product. | `AUTHORITY_OR_EVIDENCE_MISSING` | No authority selects the combined UFUQ operating domain. |
 | `2C.3-014` | Approve numerical operating-domain endpoints and inclusion rules after the component source/model/data/observer domains are available. | `HUMAN_REVIEW_REQUIRED` | No range is invented; source-derived execution remains unavailable at asserted boundaries. Tolerance approval later evaluates results over this domain. |
-| `2C.3-015` | Return distinct invalid, unsupported-date, EOP/leap status, observer-domain, approved-result, warning-result, and reserved-degraded outcomes with no non-result fallback. | `PROJECT_DECISION` | Semantic outcome families proposed; exact stable serialization/warning allowlist requires review. |
+| `2C.3-015` | Return distinct invalid, unsupported-domain, required-artifact, unapproved-state, execution-failure, pending-result, attached-classification, and reserved-degraded outcomes with no non-result fallback. | `PROJECT_DECISION` | Core V1 semantic families and pending-versus-approved distinction are normative. Exact time/EOP refinements, stable serialization, and route/data warning disposition remain with their owners. |
 | `2C.3-016` | Quantify IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy over a proposed domain. | `EXPERIMENT_REQUIRED` | No bound exists; `DEGRADED_GEOMETRIC_RESULT` remains reserved and unreachable. |
 | `2C.3-017` | Approve any IERS-estimate, predicted, preliminary, stale, zero-filled, nearest-value, extrapolated, or other degraded astronomy after a named mode, quantitative bound, warning contract, and domain/tolerance evidence exist. | `HUMAN_REVIEW_REQUIRED` | None is approved. |
 | `2C.3-018` | Reconstruct independent fixtures offline with observer/time/EOP/leap provenance, separate source-quality/availability/approval states, boundary cases, warnings/outcomes, and deterministic hashes. | `PROJECT_DECISION` | Batch 01 proves the bounded synthetic offline/canonical replay transport using smoke-only artifact hashes. Scientific EOP/leap partitions and the other families remain unrun or blocked. |
-| `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Structural input precedes leap-backed UTC validation, combined date, observer, source, EOP artifact, EOP field availability, and field-quality/approval checks; exact serialization remains `HUMAN_REVIEW_REQUIRED`. |
+| `2C.3-019` | Apply deterministic semantic failure precedence before stable wire-code selection. | `PROJECT_DECISION` | Core V1 precedence is normative. The open UTC/leap/EOP policy may refine ordering inside required-input/artifact/domain/approval levels without allowing a later state to hide an earlier failure or erase valid geometry; exact serialization remains separate. |
 
 ### 17.4 Milestone 2C.4 refraction, horizon, and visibility audit
 
@@ -1292,15 +1291,15 @@ requires complete Batch regeneration before further interpretation.
 |---|---|---|---|
 | `2C.4-001` | SOFA `iauRefco` accepts pressure, temperature, relative humidity, and wavelength for its compact model; `iauAtioq` consumes coefficients and contains a low-altitude numerical guard. | `SOURCE_SUPPORTED_FACT` | Inputs/routine behavior are pinned; the guard is not validity evidence. |
 | `2C.4-002` | Astropy `AltAz` uses nonzero pressure for refraction, documents its library defaults, and reports limited/unreliable behavior below about 5 degrees and near/below zero altitude. | `SOURCE_SUPPORTED_FACT` | Reference behavior is pinned; library defaults and limitation prose do not become UFUQ policy or tolerance. |
-| `2C.4-003` | Use geometric altitude only for the first vertical slice, keep refracted direction optional and immutable, and prohibit scene-adapter refraction. | `PROJECT_DECISION` | Proposed semantic boundary; AST-004 approval and all upstream blockers remain. `APPROVED_REFRACTED_RESULT` is unreachable pending every recorded model/input/domain/warning/tolerance/operating-domain/reviewer gate. |
-| `2C.4-004` | Require explicit atmosphere observations with units, time/location applicability, provenance, uncertainty, measured/derived status, and any height/lapse derivation. | `PROJECT_DECISION` | Typed input boundary proposed; allowed ranges and provenance sufficiency require review. |
-| `2C.4-005` | Approve no default atmosphere; missing required meteorology yields `REFRACTION_UNAVAILABLE`, while invalid supplied data yields `REFRACTION_INPUT_INVALID`. | `PROJECT_DECISION` | Fail-closed proposal; exact serialization remains open. |
+| `2C.4-003` | Use geometric altitude only for the first vertical slice, keep refracted direction optional and immutable, and prohibit scene-adapter refraction. | `PROJECT_DECISION` | Normative for V1: refraction is not requested and `APPROVED_REFRACTED_RESULT` is unreachable. A later profile requires every recorded model/input/domain/warning/tolerance/operating-domain/reviewer gate. |
+| `2C.4-004` | Require explicit atmosphere observations with units, time/location applicability, provenance, uncertainty, measured/derived status, and any height/lapse derivation. | `PROJECT_DECISION` | Later-profile typed input boundary retained; V1 accepts no atmosphere input. Allowed ranges and provenance sufficiency remain later review. |
+| `2C.4-005` | Approve no default atmosphere; missing required meteorology yields `REFRACTION_UNAVAILABLE`, while invalid supplied data yields `REFRACTION_INPUT_INVALID`. | `PROJECT_DECISION` | Normative no-default rule. V1 instead reaches only `REFRACTION_NOT_REQUESTED`; requested-stage outcomes belong to a later profile and exact serialization remains open. |
 | `2C.4-006` | Select exact refraction model/version, input and altitude domain, height/lapse handling, uncertainty, extrapolation, warnings, and below-horizon disposition. | `HUMAN_REVIEW_REQUIRED` | No selection; nonzero refracted output remains unreachable. |
 | `2C.4-007` | Infer accepted pressure, temperature, wavelength, height, or altitude limits from SOFA routine signatures, a numerical guard, or Astropy's about-5-degree statement. | `AUTHORITY_OR_EVIDENCE_MISSING` | No UFUQ range or tolerance is invented. |
-| `2C.4-008` | Keep geometric, refracted-apparent, physical-dip, terrain/obstruction, renderer, and learner horizon states distinct; treat below-geometric-horizon as a classification attached to the valid geometric direction. | `PROJECT_DECISION` | Typed separation and non-erasing result semantics proposed; altitude, defined azimuth/singularity, provenance, warnings, and statuses are retained. Equality/tolerance and downstream policy remain open. |
-| `2C.4-009` | Keep astronomical horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner-eligibility visibility components independent. | `PROJECT_DECISION` | No component promotes another; a rendered star is not scientifically visible and no aggregate boolean is approved. |
+| `2C.4-008` | Keep geometric, refracted-apparent, physical-dip, terrain/obstruction, renderer, and learner horizon states distinct; treat below-geometric-horizon as a classification attached to the valid geometric direction. | `PROJECT_DECISION` | Normative V1 typed separation and non-erasing semantics; altitude, ENU, defined azimuth/exact-singular state, provenance, warnings, and statuses are retained. A near-singular or near-horizon numerical boundary remains later. |
+| `2C.4-009` | Keep astronomical horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen, and learner-eligibility visibility components independent. | `PROJECT_DECISION` | Normative V1 exclusion: no component promotes another, a rendered/geometrically located star is not scientifically visible, and V1 emits no aggregate boolean. Later component policy remains unavailable. |
 | `2C.4-010` | Supply authority and approve terrain/dip, photometric band/threshold/variability, daylight/twilight, extinction/transparency/weather/light pollution, and learner eligibility. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requested aggregate visibility returns unavailable until review under AST-001/004/006/007. |
-| `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | The detailed 2C.3 order is preserved; exact wire/HTTP mapping and canonical field order require review. |
+| `2C.4-011` | Extend outcome precedence so core scientific failures precede geometric calculation, attached horizon classification, optional refraction, visibility, rendering, and learner policy; retain earlier valid states. | `PROJECT_DECISION` | Normative semantic order and state retention. Later UTC/leap/EOP policy refines only its owned sub-order; wire/HTTP mapping remains separate. |
 | `2C.4-012` | Approve warning-bearing or approved refracted output without exact model/version, complete input provenance, reviewed validity and supported operating domains, quantitative bound, tolerance, warning contract, and named astronomy reviewer. | `HUMAN_REVIEW_REQUIRED` | Neither branch is reachable now. |
 | `2C.4-013` | Run seven refraction/input/horizon/visibility experiment families with complete deterministic provenance. | `EXPERIMENT_REQUIRED` | Batch 01 executes only the bounded below-horizon state, no-default-atmosphere, and visibility-separation guards. Numerical model/domain families remain unrun or data/decision blocked; no authority or tolerance follows. |
 
@@ -1343,34 +1342,34 @@ requires complete Batch regeneration before further interpretation.
 
 ## 18. Milestone 2C.6 profile and lifecycle audit
 
-The complete candidate, category definitions, blocker tables, 49-term disposition,
-resource report, and corrected roadmap are in
+The normative profile boundary, remaining route/time/EOP candidates, category
+definitions, blocker tables, 49-term disposition, resource report, and corrected
+roadmap are in
 `PHASE1_SCIENTIFIC_PROFILE_V1.md`.
 
 ### 18.1 Decisions that still block ScientificProfileV1 implementation
 
 Only these profile-scoped decisions remain preimplementation blockers:
 
-1. approve the `ScientificProfileV1` boundary, typed states, exclusions, and explicit
-   pending-validation result status;
-2. approve the pure-TypeScript route/library mapping and each effect's included,
+1. approve the pure-TypeScript route/library mapping and each effect's included,
    excluded, conditional, or unavailable disposition, including parallax, radial
    velocity, multiple-body deflection, and celestial-pole offsets;
-3. approve one exact UTC grammar/precision and bounded date interval with endpoint and
+2. approve one exact UTC grammar/precision and bounded date interval with endpoint and
    leap-second semantics;
-4. approve exact leap/EOP product classes, artifact-selection requirements, per-field
+3. approve exact leap/EOP product classes, artifact-selection requirements, per-field
    quality/availability/interpolation/coverage, offline/expiry/update, and no-degraded
-   behavior;
-5. make geometric-only output, disabled refraction, no atmosphere defaults, and no
-   aggregate visibility normative; and
-6. approve fail-closed semantic outcomes, precedence, singularity, warning/status
-   preservation, and the distinction between executable and scientifically accepted
-   output.
+   behavior.
 
 These decisions require the authority, reviewer, approval status/date, rejected
 alternatives, implementation consequence, validation consequence, and limitations
-specified by repository governance. This audit proposes them; it does not substitute
-for named approval.
+specified by repository governance. This audit does not substitute for their named
+approval.
+
+The following clusters are closed as normative `PROJECT_DECISION` contracts and no
+longer appear above: the ProfileV1 boundary/typed exclusions/pending-validation state;
+geometric-only/refraction-disabled/no-default/no-aggregate-visibility scope; and core
+outcomes/precedence/exact-singularity/warning-status preservation. A numerical
+ill-conditioned-azimuth boundary remains later and is not replaced with an epsilon.
 
 ### 18.2 Work that does not block starting ScientificProfileV1
 
@@ -1385,9 +1384,9 @@ for named approval.
   partitions, any stronger independent validation required by the claimed boundary,
   combined error bounds, and numerical tolerances are
   `POST_IMPLEMENTATION_VALIDATION`.
-- Multiple/global observer support, refraction, apparent/physical/terrain horizons,
-  visibility aggregation, weather, extinction, and light pollution are
-  `BLOCKS_LATER_EXTENSION` because the candidate V1 excludes them.
+- Multiple/global observer support, physical refraction, apparent/physical/terrain
+  horizons, visibility aggregation, weather, extinction, and light pollution are
+  `BLOCKS_LATER_EXTENSION` because normative V1 excludes them.
 - Arabic/Najdi claims, cultural membership/relationships, routes, learner eligibility,
   interaction, and scoring are `BLOCKS_LEARNER_FACING_CONTENT`.
 - Qibla target authority and unrelated later sources are
@@ -1442,6 +1441,7 @@ implementation, or numerical closure of all 49 error-budget terms.
 
 **Current outcome:** `2C_REMAINS_OPEN_WITH_EXACT_PREIMPLEMENTATION_BLOCKERS`.
 Milestones 2C.1-2C.5C retain all source, synthetic, and error-budget evidence without
-promotion. Milestone 2C.6 removes the circular gate and narrows the open set to the
-six profile decisions in Section 18.1. The absence of production code,
-production/reference residuals, and numerical tolerances no longer keeps 2C open.
+promotion. Milestone 2C.6 removes the circular gate, and this semantic-scope audit
+narrows the open set to the three profile decisions in Section 18.1. The absence of
+production code, production/reference residuals, and numerical tolerances no longer
+keeps 2C open.

@@ -78,7 +78,7 @@ optional-state guards while retaining all numerical outputs as
 consistency, not independent validation. These results change none of this ADR's
 source, production, EOP, observer, refraction, domain, tolerance, or approval blockers.
 
-Milestone 2C.6 proposes `ScientificProfileV1`: one selected observer-preset identity
+Milestone 2C.6 defines `ScientificProfileV1`: one selected observer-preset identity
 under a generic fail-closed contract, one bounded explicit-UTC domain, a 2D-approved
 minimal source-neutral star artifact, one normative pure-TypeScript route/effect
 disposition, immutable offline leap/EOP inputs, fail-closed geometric output, disabled
@@ -91,12 +91,27 @@ a 2D eligibility question if retained;
 production/reference residuals, any stronger independent validation required by the
 claimed boundary, numerical bounds, and tolerances follow implementation.
 
+The semantic-scope audit adopts the V1 boundary/output/outcome subset as normative:
+geometric output only; no refraction request or atmosphere input/default; no aggregate
+visibility; result-bearing below-geometric-horizon classification; exact zenith/nadir
+azimuth singularity with altitude/ENU retained; non-erasing failure/partial-result
+precedence; preserved scientific warnings/statuses; and
+`GEOMETRIC_RESULT_PENDING_VALIDATION` distinct from the initially unreachable
+`APPROVED_GEOMETRIC_RESULT`. Physical refraction, apparent/physical/terrain horizons,
+visibility components, scene/learner/scoring correctness, and any numerical
+ill-conditioned-azimuth boundary remain later capabilities rather than zero-error V1
+terms.
+
 Fixed now:
 
 - latitude north and longitude east are positive;
 - hour angle is west-positive `LST-RA`;
 - azimuth is clockwise from True North (`N=0°, E=90°`);
 - domain horizontal direction is east/north/up;
+- V1 output is geometric only and below-horizon remains a valid result classification;
+- V1 requests no refraction, creates no atmosphere, and emits no aggregate visibility;
+- scientific warnings and raw statuses remain provenance-bearing evidence;
+- successful execution is pending validation rather than scientific approval;
 - Three coordinates are `+X east`, `+Y up`, `-Z north`;
 - Qibla baseline is the initial spherical great-circle bearing clockwise from True North;
 - angular answers use robust vector separation or wrapped circular distance;
@@ -107,10 +122,10 @@ the profile's semantic route and actual pure-TypeScript algorithm/library mappin
 must give every effect an explicit included, excluded, conditional, or unavailable
 disposition; approve source-neutral motion/parallax/radial-velocity branches, one
 preset-observer contract and selected site identity, one UTC/date domain, leap/EOP
-field and offline policy, geometric-only/no-refraction/no-visibility scope, and
-fail-closed warning/status semantics. Actual I/311 scale, row, rights, and artifact
-eligibility belong to 2D if that source is retained; the generic engine accepts no
-unspecified scale.
+field and offline policy. The geometric/no-refraction/no-visibility and core
+outcome/precedence contracts are already normative. Actual I/311 scale, row, rights,
+and artifact eligibility belong to 2D if that source is retained; the generic engine
+accepts no unspecified scale.
 
 Quantified production disagreement, omission bounds, final numerical error budgets,
 and scientific/reference tolerances are postimplementation acceptance gates. Full
@@ -125,7 +140,9 @@ zero or as a library default.
   tolerance prevents later scientific acceptance, not pending-validation execution. A
   labelled degraded approximation is unavailable until separately quantified and
   approved.
-- Near zenith, azimuth cannot be used as the scoring oracle; direction vectors are required.
+- At exact zenith/nadir azimuth is undefined while altitude/ENU remain valid. Near that
+  geometry, azimuth cannot be the sole comparison/scoring quantity; no numerical
+  ill-conditioned boundary is invented.
 - Polaris remains a star cue distinct from terrestrial True North.
 
 ## Alternatives rejected
