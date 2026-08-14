@@ -41,9 +41,9 @@ data/
   generated/              deterministic deployable JSON, if licence permits
 tools/
   catalogue/              npm workspace; internal acquisition/transform/verify modules
-  astronomy-reference/    non-npm independent Python/Astropy fixture producer
+  astronomy-reference/    non-npm code-independent Python/Astropy reference producer
 tests/
-  reference/              independent astronomy fixtures/generator metadata
+  reference/              production/reference fixtures and lineage metadata
   integration/            API and real-MySQL tests when persistence exists
   e2e/                    browser journeys and visual baselines
   performance/            frozen scene and benchmark definitions
@@ -97,8 +97,9 @@ Rules:
    boundaries. They do not own domain entities, database rows, React props, cultural
    source records, or application services.
 9. Runtime applications/packages never import tools. `tools/catalogue` may import only
-   `catalogue-schema`; the independent Python oracle never imports production astronomy
-   and communicates only through versioned JSON fixtures consumed by reference tests.
+   `catalogue-schema`; the code-independent Python reference tool never imports
+   production astronomy and communicates only through versioned JSON fixtures consumed
+   by reference tests. Its shared ERFA/SOFA lineage is recorded separately.
 
 ## Responsibilities
 
@@ -108,12 +109,12 @@ Rules:
 | 3D scene adapter | Camera, star meshes/buffers, labels/segments, raycaster, resize, conversion from domain vector to Three vector | Sidereal/Qibla formulae, BKT, persistence |
 | API inbound/composition | HTTP/session adaptation, schema validation, composition, response shaping | Domain decisions or SQL embedded in controllers |
 | API use cases/ports | Authz, scenario issuance, submission orchestration, server scoring, transaction and session ports | UI, rendering, or concrete database/framework code |
-| Astronomy core | Explicit time/frame transformations, horizontal/vector conversion, Qibla/angle functions | Catalogue I/O, Three objects, API/database |
+| Astronomy core | Explicit time/frame transformations, typed observer inputs, horizontal/vector conversion, Qibla/angle functions | Catalogue I/O, Three objects, API/database, or a hard-coded global observer |
 | Assessment core | Typed answer validation and scoring against versioned target/tolerance | UI effects, SQL, BKT persistence |
 | Tutoring core: BKT | Observation posterior, learning transition, parameter constraints | Hint UI, database, educational claims |
 | Tutoring core: observations/policy | Observation semantics and scaffold transition from approved evidence/policy version | Assessment scoring, rendering implementation, mutable persistence |
 | Persistence adapter | Transactions, locking, constraints, idempotency, queries | Domain formulas |
-| Catalogue tool | CDS I/311 source retrieval for the Phase 1 local spike, provenance, normalization, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output | Alternate/dual-catalogue infrastructure, runtime user data, or hardcoded lesson branching |
+| Catalogue tool | Source-manifest retrieval selected by 2D, provenance, normalization into stable UFUQ `starId` records/source crosswalks, `SkyPattern`/`GuidanceRelationship`/`LessonRoute` curation merge, schema/checksum output; an I/311 adapter is only the Phase 1 local spike | Runtime user data, cultural records keyed directly to external catalogues, or hardcoded lesson branching |
 
 ## Container view
 
@@ -126,7 +127,7 @@ flowchart LR
   API --> DB[(MySQL / InnoDB)]
   PIPE[Offline catalogue pipeline] -->|same reviewed artifact/hash| WEB
   PIPE -->|same reviewed artifact/hash| API
-  ORACLE[Independent Astropy/USNO fixture process] -->|fixed test fixtures only| TESTS[Test suites]
+  ORACLE[Pinned reference and future independent-oracle fixture processes] -->|fixed test fixtures only| TESTS[Test suites]
   TESTS --> WEB
   TESTS --> API
 ```
@@ -153,12 +154,14 @@ Banat Na'sh-specific state machine. Three generic content concepts are validated
 
 | Concept | Required content |
 |---|---|
-| `SkyPattern` | Stable ID; names and cultural labels; member star catalogue IDs; line segments keyed by catalogue ID; cultural-review status and content version |
+| `SkyPattern` | Stable ID; names and cultural labels; member UFUQ `starId` values; line segments keyed by `starId`; cultural-review status and content version |
 | `GuidanceRelationship` | Stable ID; source pattern or star; target pattern, star, or direction; relationship type; instructional line/vector; explanation; applicable scenarios; verification status and version |
 | `LessonRoute` | Stable ID; ordered learning steps referencing guidance relationships; prerequisite skills; allowed alternative guidance paths; scaffold-configuration reference; route version/status |
 
-Pattern members and relationship geometry reference stable catalogue IDs; they never
-duplicate astronomical coordinates. Direction targets such as True North and Qibla are
+Pattern members and relationship geometry reference stable UFUQ `starId` values; the
+numerical catalogue owns the external source-release crosswalk and coordinates. Cultural
+records never duplicate astronomical coordinates or depend directly on an external
+catalogue identifier. Direction targets such as True North and Qibla are
 typed direction references, not fake stars or patterns. Exact names, helper patterns,
 memberships, segments, relationships, explanations, and geometry remain provisional
 until their applicable cultural/scientific/educational reviews are recorded.
@@ -312,7 +315,7 @@ tests. DEV-002–005 govern improved types and attempt semantics.
 |---|---|---|---|
 | API request/response | Contract version + canonical request fingerprint | Exact replay for supported duplicate; explicit rejection outside support | Technical window in Phase 3 plan |
 | Scenario | Immutable scenario ID + generator/build version | No migration after issue; expire/reissue on incompatibility | Operational retention under SEC-001 |
-| Catalogue/curation | I/311 source identity + schema/version + content hashes | Exact hash must be available to score/replay | AST-001 fields/licence/tracking and DEP-001 storage |
+| Catalogue/curation | Approved source-release identity + UFUQ crosswalk/schema/version + content hashes | Exact hash must be available to score/replay | AST-001 fields/licence/tracking and DEP-001 storage |
 | Astronomy/EOP/tolerance | Algorithm/policy/EOP hashes | Exact historical implementation or retained immutable result/fixture | AST-003/006 and DEP-001 |
 | BKT/scaffold | Model/policy versions + mastery revisions | No in-place edits; migration creates an audited chain | BKT-002/003 and SEC-001 |
 | Software/database | Commit/build manifest + migration version | Rollback only when data/contract compatible | Applicable phase plan and deployment decision |
@@ -364,5 +367,5 @@ Pin an Active or Maintenance LTS Node.js release in each implementation/release 
 | ORM/domain model shared indiscriminately with UI | Couples persistence to pure science and learning rules. |
 | Full catalogue queried at runtime | Conflicts with small deterministic JSON and harms reproducibility/performance. |
 | Manual coordinate transcription | Untraceable and error-prone. |
-| Astropy inside production runtime | Breaks the proposed TypeScript boundary; use it independently for reference fixtures. |
+| Astropy inside production runtime | Breaks the proposed TypeScript boundary; use it as a code-independent reference-fixture tool while disclosing shared ERFA/SOFA lineage. |
 | Start with extensive auth/admin work | Does not first prove the core research contribution; the active phase order keeps this work in Phase 4. |

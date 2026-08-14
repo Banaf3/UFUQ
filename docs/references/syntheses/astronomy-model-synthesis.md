@@ -5,12 +5,18 @@
 This synthesis compares the current-phase astronomy sources:
 
 1. exact routines and contracts in IAU SOFA issue `2023-10-11`;
-2. the official IERS Conventions (2010) TN36 baseline, with later updates kept separate;
+2. the official registered IERS Conventions (2010) TN36 baseline, with later corrected
+   chapters/non-registered working versions and separately linked non-official
+   supporting documentation kept distinct;
 3. the official ESA 1997 guide for original-catalogue semantics;
 4. official Hipparcos I/311 metadata, Appendix G field tables, and van Leeuwen's
    validation study;
-5. *Fundamental Astronomy* as explanatory support; and
-6. the *Explanatory Supplement* only as an unresolved explanatory source because the
+5. official IERS Bulletin A/B/C product metadata and `finals2000A` format/status
+   documentation;
+6. RFC 3339 and the IANA tzdb release archive for timestamp/leap transport semantics;
+7. CDS *Standards for Astronomical Catalogues* Version 2.0 for the VizieR `yr` unit;
+8. *Fundamental Astronomy* as explanatory support; and
+9. the *Explanatory Supplement* only as an unresolved explanatory source because the
    local candidate is text-unavailable and completeness/provenance are unverified.
 
 Project documents choose UFUQ behavior. None of these sources chooses the production
@@ -38,18 +44,298 @@ factorizes terrestrial/celestial orientation into polar motion, Earth rotation, 
 celestial pole motion. *Fundamental Astronomy* Chapter 2 explains the catalogue,
 mean/apparent, and observer-local distinctions but is not the implementation authority.
 
+## Milestone 2C.2 route, finalized for ProfileV1 implementation entry
+
+`PROJECT_DECISION`: the source-neutral componentized SOFA `2023-10-11` CIO-family
+route is normative; it is not an Astropy production call:
+
+```text
+CatalogueIcrsState
+-> PropagatedIcrsAstrometry at the J2000.0 TDB epoch interface
+-> ObserverAwareCirsDirection under an explicit EarthOrientationContext
+-> GeometricHorizontalDirection
+```
+
+Production is a UFUQ-owned pure-TypeScript subset derived from exact lower-level SOFA
+C semantics. It uses the strict full-input `pmsafe` branch, pinned `epv00` Earth/Sun
+state, IAU 2006 precession with IAU 2000A nutation and matching CIO transformation,
+declared-ellipsoid observer construction, explicit leap/`UT1-UTC`/`xp`/`yp` inputs,
+observer-aware `atciq` semantics, and only the geometric portion of the local
+transformation. The J2000.0 target is an epoch interface, not an ICRS frame conversion.
+Observer velocity carries diurnal aberration through the `apcs`/`atciq`-derived
+context; matching SOFA `apco`, the later local `diurab` term is disabled as redundant.
+
+Every eligible source-neutral row requires approved epoch and derivative scales,
+`mu_alpha_star`, Dec proper motion, positive approved parallax/equivalent distance, and
+approved finite radial velocity. Missing or unapproved values make only the row
+ineligible and never become zero. I/311's unresolved scale and absent RV therefore
+remain 2D source-eligibility gaps if 2D retains it; they do not block generic code.
+
+V1 includes frame bias, IAU 2006 precession, IAU 2000A nutation, annual aberration,
+solar deflection, ERA-based Earth rotation, polar motion and diurnal aberration. It
+explicitly omits observed celestial-pole offsets `dX`,`dY`, extra-body deflection and
+refraction. Omitted effects retain unbounded later-profile/error-budget terms. The
+high-level `iauApco13` remains a convenience/reference composition because it assumes
+WGS 84, consults compiled leap state, accepts refraction inputs, exposes no observed
+`dX`,`dY` input and discards `epv00` status.
+
+`PROJECT_DECISION`: the final-only per-field leap/EOP quality, UFUQ-selected
+four-point interpolation, continuous `UT1-TAI`, exactly-once IERS Conventions 2010
+subdaily restoration, immutable-offline, validity/update, warning and no-degraded
+policy now closes the last 2C preimplementation blocker. Concrete
+source/observer/EOP/leap bytes, exact restoration configuration and derived supported
+dates are 2D/2E activation data. Numerical tolerance instead gates later scientific
+acceptance.
+
+`EXPERIMENT_REQUIRED`: no unrun experiment is required to select this semantic route.
+Registered effect, observer/parallax/RV, EOP/range, deflection and refraction families
+run only at their postimplementation or later-profile gates. Shared-lineage
+Astropy/ERFA disagreement is implementation comparison, not stronger independent
+validation.
+
+## Milestone 2C.3 operating-domain contract
+
+`PROJECT_DECISION`: the astronomy request boundary is fail-closed and
+deterministic:
+
+- the observer is a typed geodetic record with north-positive latitude, east-positive
+  longitude, explicit normalization, datum/ellipsoid, ellipsoidal height, provenance,
+  uncertainty, and validation status;
+- the astronomy time uses a UFUQ-selected Z-only restricted subset of RFC 3339.
+  Offset/IANA-zone wall time is resolved upstream with original input and zone-data
+  provenance retained;
+- UTC-to-TAI/TT/UT1 conversion and leap validation consume an immutable approved data
+  bundle; request-time networking, cache discovery, in-place refresh, nearest-value
+  substitution, and zero EOP defaults are prohibited;
+- source quality, artifact/field availability, provenance, coverage, and scientific
+  approval are separate dimensions for every required EOP field; one field cannot
+  promote another, and any unavailable or unapproved required field blocks; and
+- supported execution is the intersection of every approved catalogue, model,
+  ephemeris, leap, EOP-field, observer, and scenario domain. Postimplementation
+  scientific acceptance evaluates results over that defined domain; an unavailable
+  tolerance does not prevent pending-validation execution.
+
+`SOURCE_SUPPORTED_FACT`: IERS Bulletin A supplies rapid and predictive EOP and the
+official `finals2000A` format distinguishes IERS/prediction status for polar motion,
+`UT1-UTC`, and `dX`,`dY`. Bulletin B distinguishes final and preliminary values.
+Bulletin C announces leap-second decisions but is not itself the selected production
+machine-readable leap artifact. RFC 3339 defines the broader timestamp and conditional
+leap-second syntax; UFUQ's whole-second Z-only subset is a normative project decision.
+SOFA/Astropy define
+geodetic/east-positive/ellipsoidal observer roles for the candidate routes.
+
+`BLOCKS_2D_DATA_AUTHORITY`: no exact production EOP/leap artifact/hash, exact
+interpolation/restoration source configuration, concrete observer record, or activated
+date endpoint exists. Those are data/configuration values under the resolved final-only,
+four-point, validity/replay, and fail-closed policy, not an unresolved generic contract.
+Prediction support and broader height/location ranges are later-profile decisions;
+numerical tolerance is postimplementation.
+
+`HUMAN_REVIEW_REQUIRED`: astronomy/data review approves the exact 2D product bundle,
+field evidence, restoration configuration, concrete observer record, and activation
+endpoints. Operations may choose an acquisition cadence later. The generic per-field
+quality/availability/approval semantics, replay policy, V1 whole-second grammar, UTC
+boundary, and scientific outcome families are already normative; stable transport/log
+serialization remains separate.
+
+`EXPERIMENT_REQUIRED`: six 2C.3 experiment families cover offline reconstruction,
+field-state partitions, degradation sensitivity, leap/time boundaries, observer
+partitions, and future domain endpoints. No degraded result is currently approved.
+
+## Milestone 2C.4 refraction, horizon, and visibility proposal
+
+`SOURCE_SUPPORTED_FACT`: SOFA `iauRefco` defines a compact refraction-coefficient
+model using pressure, temperature, relative humidity, and wavelength; `iauAtioq`
+consumes coefficients and contains a low-altitude numerical guard. Astropy `8.0.1`
+`AltAz` uses nonzero pressure to request refraction, documents library defaults, and
+documents inaccurate or unstable behavior in its low-altitude region. None defines
+UFUQ terrain, photometric, daylight, transmission, screen, or learner visibility.
+
+`PROJECT_DECISION`: propose geometric altitude only for the first vertical slice.
+Optional refraction produces a separate immutable result from an explicit
+provenance-bearing `AtmosphereObservation`; no default atmosphere is approved, and the
+scene adapter applies no refraction. Keep geometric, refracted-apparent, physical-dip,
+terrain/obstruction, renderer, and learner horizons distinct. Geometric horizon means
+the astronomical local horizontal plane at geometric altitude zero; refracted apparent
+horizon means only apparent altitude zero under a named model/policy. Keep astronomical
+horizon, photometric/variability, Sun-altitude/daylight/twilight, atmospheric-
+extinction/transparency, cloud/weather, terrain/obstruction, light-pollution, screen,
+and learner-eligibility visibility components independent. No component promotes
+another. Below-geometric-horizon is a non-terminal classification attached to the
+valid geometric direction, not a scientific failure or visibility/rendering decision;
+it retains coordinates, provenance, warnings, and statuses. Optional-stage failures
+retain earlier valid states.
+
+`AUTHORITY_OR_EVIDENCE_MISSING`: there is no approved refraction model/input or
+altitude range, height/lapse policy, physical-dip/terrain profile, photometric/
+daylight/extinction/transparency/cloud/weather/light-pollution rule, visibility
+aggregation, warning allowlist, or learner eligibility. Astropy defaults and its
+about-5-degree limitation cannot fill those gaps.
+
+`HUMAN_REVIEW_REQUIRED`: AST-001/004/006/007 must approve or reject the first-slice,
+model/domain, atmosphere provenance/uncertainty, near/below-horizon, physical-dip/
+terrain, visibility, outcome, warning, and learner-facing policies.
+`APPROVED_REFRACTED_RESULT` and `WARNING_BEARING_REFRACTED_RESULT` remain unreachable
+until the exact model/version, complete meteorology/provenance, reviewed validity and
+combined supported operating domains, warning policy/allowlist, scientific tolerance,
+and named astronomy-review approval exist.
+
+`EXPERIMENT_REQUIRED`: seven experiment families cover model comparison, meteorology
+sensitivity, near-horizon numerics, geometric/apparent horizon, below-horizon behavior,
+default-atmosphere consequences, and visibility separation with deterministic
+provenance.
+
+## Milestone 2C.5A experiment-protocol proposal
+
+`PROJECT_DECISION`: freeze 24 stable experiment records before execution. Each record
+separates current executability from what its result may establish and explicitly
+records input class, model/library/routines/version, frames/times/units/conventions,
+EOP/leap/meteorology/observer/ephemeris needs, partitions, comparison lineage, metrics,
+repetitions, hashes, output schema, acceptance basis, reviewer gate, and follow-up
+decision. The machine registry classifies 17 records as runnable with synthetic inputs
+only, five as project-decision blocked, one as required-data blocked, and one as
+deferred until production exists.
+
+`SOURCE_SUPPORTED_FACT`: the pinned documentation establishes the exact library and
+routine behaviour available for experiments. It does not change source or production
+authority. Astropy high-level coordinates use ERFA, and PyERFA directly exposes ERFA;
+their applicable results therefore share the ERFA/SOFA model lineage even though both
+remain code-independent from future UFUQ TypeScript production code.
+
+`EXPERIMENT_REQUIRED`: the proposed five-group 2C.5B batch covers epoch-label guards,
+same-family route/convention consistency, motion/cosine/status guards, deterministic
+replay, and optional-state/no-default/visibility separation. No body or result is added
+by 2C.5A.
+
+`HUMAN_REVIEW_REQUIRED`: AST-003/004/006/007 review is required before a result changes
+production policy. The 2C.5C review-draft ledger supplies no threshold; until AST-006
+approves bounded terms and an operation-specific threshold, numerical results remain
+`MEASURED_NO_ACCEPTANCE` and only exact supported invariants may pass or fail.
+Synthetic execution cannot establish I/311 meaning, production approval,
+supported domains, degraded modes, omission bounds, refraction/visibility policy, or a
+tolerance.
+
+## Milestone 2C.5B Batch 01 execution
+
+`PROJECT_DECISION`: execute only the nine registered Batch 01 synthetic scopes through
+a fixed allowlist. PyERFA `2.0.1.5` becomes a direct dependency of this reference tool
+because the runner imports `erfa`; no package release changes. Nine fixtures and nine
+results retain complete canonical/hash/runtime/source-prohibition evidence, every
+handler runs twice in an offline fresh-cache context, and the complete command is
+replayed in two independent OS processes in the same pre-synchronized locked
+environment. This does not establish clean-environment dependency reconstruction.
+
+The three epoch-label fixtures and every affected Astropy `Time` constructor use an
+explicit synthetic ITRS-geocentre `[0,0,0] m` TT/TDB conversion reference location.
+Each case also initializes the exact pinned smoke-only leap artifact used by that
+conversion, including isolated single-ID execution. The schema rejects absence or a
+nonzero replacement. This is controlled synthetic
+provenance, not I/311 authority, a physical observer, or a production observer policy.
+All results and hashes created before this correction were excluded; the final evidence
+set is the complete runner-regenerated and replayed nine-result inventory.
+
+`SOURCE_SUPPORTED_FACT`: raw `pmsafe` status `1` and the wrapper `ErfaWarning` are
+preserved together. The componentized `apco13`/`atciq`/`atioq` branch and composed
+`atco13` branch share ERFA/SOFA lineage, so agreement is same-family consistency only.
+
+`EXPERIMENT_REQUIRED`: all 9/9 bounded Batch 01 experiments complete, yielding 24 passing exact checks with no
+failures; six measurement-only checks cover 27 measurement records, all
+`MEASURED_NO_ACCEPTANCE`. It exercises TT/TDB/UTC labels, calendar decimal year,
+Besselian rejection, composed/decomposed routing, omitted/double-cosine mutations,
+declared target epoch, JD splits, warning/status preservation, replay, below-horizon
+non-erasure, no-default atmosphere, and visibility-component independence. Broader
+effect/data/model/domain experiment partitions remain unrun or blocked.
+
+`HUMAN_REVIEW_REQUIRED`: no measurement may become acceptance, source meaning,
+production selection, omission bound, domain, refraction/visibility policy, degraded
+mode, error budget, or tolerance without the existing AST-003/004/006/007 gates.
+
+## Milestone 2C.5C error-budget interpretation
+
+`EXACT_CONTRACT_INVARIANT`: the 24 Batch passes retire only their bounded synthetic
+mutation, status, provenance, replay, and optional-state failure classes. They do not
+bound physical/model/source uncertainty or prove the future production route.
+
+`MEASURED_SYNTHETIC_SENSITIVITY`: all 27 serialized values, including same-family
+zeros, are retained individually. Ten epoch/calendar records may inform a future
+candidate sensitivity bound after source/domain/motion policy is resolved. Same-family
+route values, rejected-Besselian diagnostics, deliberate cosine mutations, JD/warning
+diagnostics, replay bytes/hashes, and structural coordinate retention currently make
+no numerical error-budget contribution.
+
+`CANDIDATE_TOLERANCE_PROPOSAL`: the candidate method separates source/catalogue,
+propagation/model, Earth-orientation/time, observer, atmosphere/refraction, and
+numerical implementation layers. Scene/render and learner/assessment layers remain
+outside astronomy accuracy. It uses boundary-specific vector/component/time/observer
+metrics, conservative bounded sums when dependence is unknown, covariance or joint
+models for correlated/systematic terms, asymmetric bounds where required, and RSS
+only with justified independent zero-mean random terms.
+
+`FINAL_TOLERANCE_NOT_JUSTIFIED`: all required numerical terms remain unbounded and no
+production/reference disagreement or independent end-to-end validation exists. All
+six scientific, implementation, scenario, scene, learner-interaction, and assessment
+tolerance classes remain blocked. Postimplementation ProfileV1 scientific acceptance
+requires multiple dates, its one approved preset data record plus uncertainty/domain
+boundaries, motion/parallax/RV cases, EOP boundaries, horizon cases, and supported-
+domain endpoints. Multiple observers and
+latitude/longitude/height partitions become mandatory before a later tolerance is
+generalized beyond that preset. No one-location evidence is promoted to a global
+altitude/azimuth tolerance.
+
+## Milestone 2C.6 implementation-entry interpretation
+
+`PROJECT_DECISION`: Milestone 2C is the pre-implementation scientific-behaviour gate,
+not the end-to-end implementation-validation gate. The
+`ScientificProfileV1` deliberately limits the first production slice to one selected
+preset identity under a generic fail-closed `ObserverPreset` contract, one approved
+bounded UTC domain, the minimum 2D-approved numerical astrometry allowlist, explicit
+offline leap/EOP inputs, and geometric topocentric horizontal output. Refraction,
+aggregate visibility, arbitrary locations, and downstream learner tolerances are
+excluded rather than assigned zero uncertainty.
+
+The profile boundary/output/outcome subset is normative: geometric horizontal output
+retains signed altitude, normalized ENU, azimuth when defined, exact singularity state,
+provenance, warnings/statuses, and pending scientific-validation state. Below-horizon
+is an attached geometric classification. V1 requests no refraction, accepts no
+atmosphere/default, emits no aggregate visibility, and never promotes geometry to
+scene, learner, or assessment correctness. Core failures precede result creation;
+later classifications and optional-stage-not-requested states cannot erase a valid
+geometric result. `APPROVED_GEOMETRIC_RESULT` remains unreachable until
+postimplementation acceptance, and no near-singular numerical boundary is invented.
+
+Only unresolved semantics required to construct that bounded profile block 2C. Its
+catalogue choice, release rights, raw-byte acquisition, and normalized artifact belong
+to 2D/2E. TypeScript-versus-reference residuals, implementation-error measurement,
+supported-domain comparison partitions, and numerical tolerance approval are
+post-implementation obligations. A stronger oracle such as USNO NOVAS is a later
+independence candidate; agreement among SOFA, ERFA, PyERFA, and Astropy paths that
+share ERFA/SOFA lineage remains same-family evidence.
+
+`SOURCE_SUPPORTED_FACT`: official UMPSA material places the Faculty of Computing at the
+Pekan campus. `PROJECT_DECISION`: V1 assigns that identity stable ID
+`umpsa-pekan-faculty-of-computing` and fixes the observer contract semantics.
+`AUTHORITY_OR_EVIDENCE_MISSING`: its exact reference point, coordinates, Earth model,
+height and accuracy. Those values and their artifact/provenance are 2D data, not a 2C
+implementation-contract prerequisite. JUPEM documents candidate geodetic services, but
+this public-web audit did not establish a Faculty-specific control record; that is not
+evidence none exists, and survey control is optional.
+
 ## Authority by topic
 
 | Topic | Highest authority | Supporting source | UFUQ consequence |
 |---|---|---|---|
 | Executable IAU routine contract | Exact SOFA routine preamble/source for the pinned issue | IERS TN36 model chapters | Record version, routine, units, statuses, and transform direction. |
 | Reference systems and Earth orientation | IERS TN36 Chapters 2 and 5 | SOFA `iauC2t06a`, `iauPnm06a`, `iauEra00` | Keep ICRS/GCRS/CIRS/TIRS/ITRS and realizations distinct. |
+| Operational EOP fields/state | IERS Bulletin A/B metadata and official `finals2000A` format; Gazette 13 for its Lagrangian/four-point example; C04 guidance for continuous `UT1-TAI`; TN36 Chapters 5/8 for subdaily restoration | Astropy `8.0.1` IERS reference-library docs | Preserve each field independently. V1 selects four-point full support, final-only input, continuous leap handling, and exactly-once 2010 ocean-tide/libration restoration; no zero/nearest/extrapolated promotion. Exact configuration is 2D/2E. |
+| Leap announcement and wire syntax | IERS Bulletin C; RFC 3339 | IANA release artifacts and Astropy `LeapSeconds` reference behaviour | Separate event authority, machine artifact, input syntax, publisher validity and project activation. V1 accepts only an explicit 2D-selected official IERS/IANA transport consistent with Bulletin C. |
+| First observer site identity | Official UMPSA Faculty/Pekan pages (`UMPSA-FK-PEKAN-SITE`) | JUPEM geodetic products/services as an optional 2D acquisition route | Identity is source-supported; 2D must separately acquire and approve the exact geodetic record. |
 | UTC/TAI/TT/UT1 handling | SOFA time-routine contracts plus IERS TN36 §§5.5.3 and 10.1 | Explanatory textbook material | UTC is not silently substituted for UT1 or TT. |
 | Original 1997 catalogue field semantics | ESA SP-1200 Volume 1 §§1.2 and 2.1 | I/311 `ReadMe` only for explicit cross-reference to I/239 | Use ESA definitions for original H-fields only; do not transfer them silently to I/311. |
 | I/311 catalogue field semantics | I/311 `ReadMe` plus Appendix G Tables G.2–G.7 | ESA 1997 for original-catalogue comparison and van Leeuwen 2007 for quality context | Carry units, frame, epoch, solution type, quality, uncertainty, and supplement semantics per field. |
+| Catalogue `yr` unit duration | CDS Catalogue Standard 2.0 Section 3.2.2 | SOFA `iauPmsafe` Julian-year rate contract | Convert I/311 numeric rates using 365.25 days per `yr`; keep the derivative/epoch scale separate. |
 | Catalogue error behavior | I/311 row metadata plus van Leeuwen §§2-5 | None | Do not use one global Hipparcos accuracy constant. |
 | General explanation | *Fundamental Astronomy*, Chapter 2 | Verified official overview of the Explanatory Supplement | Explanatory formulae cannot set a current model or tolerance. |
-| Numerical expected results | Pinned independent oracle fixtures plus cross-checks | SOFA/IERS algorithms and catalogue metadata | No dossier result is itself a production acceptance tolerance. |
+| Numerical expected results | Pinned code-independent reference fixtures, plus a later lineage-independent oracle where required | SOFA/IERS algorithms and catalogue metadata | No dossier result is itself a production acceptance tolerance. |
 
 ## Agreements
 
@@ -72,8 +358,8 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Transform direction | IERS Eq. (5.1) presents ITRS to GCRS; SOFA `iauC2t06a` returns celestial to terrestrial | Test direction and inversion; do not copy matrix order by appearance. |
 | CIO and equinox procedures | IERS TN36 documents both | Choose one coherent route; never mix ERA/CIO and incompatible sidereal/equinox quantities. |
 | Hipparcos RA proper-motion component | I/311 Appendix G Table G.3, printed p. 407, labels the byte-52 value `mu_alpha_star`; Tables G.5–G.6, printed p. 408, use starred-alpha acceleration components | `CONFIRMED_FOR_I311`; normalize source `pmRA` to `properMotionRaCosDecMilliarcsecondsPerYear` and map it directly to Astropy `pm_ra_cosdec` after unit conversion. Keep omitted/double-cosine high-declination tests. |
-| I/311 epoch instant | ESA 1997 §1.2.6 Eq. (1.2.3) gives original `J1991.25(TT)` exactly; I/311 gives only `Ep=1991.25` | `PROJECT_DECISION_REQUIRED`; the original statement is strong support but is not silently transferred to the new reduction. |
-| Official baseline versus corrections | TN36 is the registered 2010 baseline; working corrections are separate | Pin and hash corrections separately; never edit the baseline in place. |
+| I/311 epoch representation and instant | I/311 gives only `Ep=1991.25`; ESA Gaia DR1 Section 4.2.1 directly identifies the I/311 new reduction and calls its parameter epoch `J1991.25`; ESA 1997 Section 1.2.6 gives the original catalogue `J1991.25(TT)` exactly | Julian representation is `SOURCE_SUPPORTED_FACT`. I/311-applicable time scale/exact instant is `AUTHORITY_OR_EVIDENCE_MISSING`; preserve the label and block source-derived propagation pending authority or `HUMAN_REVIEW_REQUIRED`. |
+| Official baseline versus later material | TN36 is the official registered 2010 baseline; later corrected chapters/working versions are non-definitive and not officially approved as a registered edition, while separately linked supporting documentation is outside the official distribution and its review process | Pin and hash every selected later item separately; never edit the baseline in place or promote working/supporting material to official TN36. |
 | Explanatory Supplement usability | Correct title/edition signals but no reliable text layer and conflicting extent | `SOURCE_UNUSABLE` for detailed current claims. |
 
 ## Candidate UFUQ rules
@@ -83,32 +369,59 @@ mean/apparent, and observer-local distinctions but is not the implementation aut
 | Every public/fixture value states frame, epoch/time scale, units, and convention. | SOFA routine contracts; IERS Chapters 2 and 5; ADR-003 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Catalogue rows remain immutable numerical source records; observed and refracted values are derived separately. | I/311 `ReadMe`; *Fundamental Astronomy* §§2.4, 2.9; `DATA_STRATEGY.md` | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
 | Use TT for the selected precession-nutation model and UT1 for ERA, with pinned leap-second and EOP provenance. | IERS Eqs. (5.2), (5.14)-(5.15); SOFA time/ERA routines | `SOURCE_SUPPORTED_FACT` |
-| Retain SOFA warning/error status, including dubious date and motion warnings. | `iauUtctai`, `iauAtco13`, `iauPmsafe` preambles | `SOURCE_SUPPORTED_FACT` |
-| Select one named catalogue-to-observed pipeline and record every included/omitted effect. | SOFA `iauApco13`/`iauAtco13`; IERS Chapter 5; AST-003 | `PROJECT_DECISION_REQUIRED` |
-| Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
-| Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned independent oracle. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
-| Choose geometric/refraction and horizon/visibility behavior explicitly. | SOFA `iauRefco`/`iauAtioq`; AST-004 | `PROJECT_DECISION_REQUIRED` |
-| Derive acceptance thresholds from measured independent disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `EXPERIMENT_REQUIRED` |
+| Retain scientific warning/error status with stage/routine/model provenance; neither silently downgrade it to success nor automatically promote it to rejection without the owning policy. | `iauUtctai`, `iauAtco13`, `iauPmsafe` preambles; Batch 01 status guards | `SOURCE_SUPPORTED_FACT` plus normative `PROJECT_DECISION` |
+| Implement the ProfileV1 route as a UFUQ-owned pure-TypeScript subset derived from exact SOFA `2023-10-11` lower-level C semantics: strict full-input `pmsafe` propagation to the J2000.0 TDB epoch interface; pinned `epv00` Earth/Sun state; IAU 2006 precession plus IAU 2000A nutation/CIO model terms; explicit `UT1-UTC`,`xp`,`yp`; observer-aware CIRS; and the geometric-only part of the local transformation. Keep `dX`,`dY`, extra-body deflection, and refraction explicitly outside V1, and keep Astropy/PyERFA as a code-independent reference path that shares ERFA/SOFA scientific lineage. | SOFA `iauPmsafe`/`iauEpv00`/`iauPnm06a`/`iauBpn2xy`/`iauS06`/`iauC2ixys`/`iauApco`/`iauAtciq`/`iauAtioq`; IERS Chapter 5; AST-003; current package audit | Normative `PROJECT_DECISION` for implementation entry; residuals, omission bounds, tolerance, and stronger-independent validation remain later gates |
+| Preserve raw I/311 `pmRA` and expose it only as the explicitly named `mu_alpha_star` normalized component; do not apply or remove another cosine factor when supplying Astropy `pm_ra_cosdec`; convert `yr` using 365.25 days. | I/311 Appendix G Table G.3, printed p. 407; Tables G.5–G.6, printed p. 408; CDS Catalogue Standard 2.0 Section 3.2.2 | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` |
+| Test RA proper-motion normalization with high-declination, epoch-1991.25, omitted-cosine, and double-cosine cases against the pinned code-independent Astropy reference while disclosing shared ERFA/SOFA lineage; add a stronger oracle later where required. | ESA 1997 §1.5.4 Eq. (1.5.21) p. 94; ADR-007 | `EXPERIMENT_REQUIRED` |
+| Compare explicit Julian-TT/TDB/UTC, calendar-decimal-year, and Besselian guard interpretations with synthetic space-motion inputs; record time and direction deltas without inferring source meaning. | I/311/ESA epoch evidence conflict; Astropy `8.0.1` time docs; PyERFA `pmsafe` TDB contract | `EXPERIMENT_REQUIRED` |
+| Exclude refraction and aggregate scientific visibility from `ScientificProfileV1`; emit geometric-only output, fix `REFRACTION_NOT_REQUESTED`, insert no default atmosphere, preserve result-bearing below-horizon and singularity states, and retain separately typed future horizon/visibility components. | SOFA `iauRefco`/`iauAtioq`/`iauHd2ae`; Astropy `8.0.1` `AltAz`; AST-004; Batch 01 optional-state guards | Normative `PROJECT_DECISION`; later model/range/physical-dip/terrain/visibility/warning/tolerance approval remains required, but does not block geometric V1 implementation |
+| Distinguish contract-conforming `GEOMETRIC_RESULT_PENDING_VALIDATION` from postimplementation `APPROVED_GEOMETRIC_RESULT`; preserve non-erasing precedence and scientific warnings/statuses separately from transport/logging. | SOFA status contracts; ADR-003/007; Batch 01 warning/status/state guards | Normative `PROJECT_DECISION`; exact wire/HTTP mapping and route/data-specific warning disposition remain with later owners |
+| Define a generic versioned `ObserverPreset`, accept only the UMPSA Pekan Faculty identity in V1, fail closed on missing/invalid/unsupported/unapproved data, and hand exact values/accuracy/artifact authority to 2D. | SOFA observer input contract; `UMPSA-FK-PEKAN-SITE`; `JUPEM-GEODETIC`; AST-007 | Contract/site identity `PROJECT_DECISION` plus `SOURCE_SUPPORTED_FACT`; exact record `BLOCKS_2D_DATA_AUTHORITY`; no coordinate or tolerance selected |
+| Accept only whole-second `YYYY-MM-DDTHH:mm:ssZ`; require artifact-backed exact-date validation of conditional `23:59:60Z`; carry labelled UTC quasi-JD/TAI/TT/UT1 states; prohibit local/current-time and unlabeled-JD defaults; and make endpoint semantics normative while deriving concrete bounds during 2D/2E activation. | RFC 3339 Sections 5.6-5.8; SOFA `iauDtf2d` and time-scale routines; IERS Bulletin C; AST-007 | Source syntax/conversion roles `SOURCE_SUPPORTED_FACT`; narrowed grammar/state/domain contract normative `PROJECT_DECISION`; actual transport bytes and bounds `BLOCKS_2D_DATA_AUTHORITY` / activation |
+| Derive acceptance thresholds after implementation from measured production/reference disagreement and an error budget; never copy model accuracy prose. | SOFA accuracy notes; van Leeuwen limitations; ADR-007/AST-006 | `POST_IMPLEMENTATION_VALIDATION` plus `HUMAN_REVIEW_REQUIRED` |
 | The Python/Astropy oracle remains pinned and imports no production UFUQ package. | ADR-007 and scientific-testing synthesis | `PROJECT_DECISION` |
+| Register every scientific experiment before execution, disclose shared algorithm lineage, and keep synthetic executability separate from authority/approval. | ADR-007; testing-scientific-software dossier; 2C.5A protocol | `PROJECT_DECISION`; numerical acceptance remains `HUMAN_REVIEW_REQUIRED` under AST-006 |
+| Run scientific requests offline from one explicitly supplied immutable hash-addressed EOP/leap/configuration bundle; update through reviewed atomic activation and retain prior bundles for replay. | IERS product/status evidence; Astropy fallback surfaces; reproducibility contract | Normative `PROJECT_DECISION`; exact product/configuration selection and activation move to 2D/2E, polling cadence later |
+| Accept only independently approved final Bulletin B/final-derived `UT1-UTC`,`xp`,`yp`; select Gazette 13's four-point example/full support, use leap-aware continuous `UT1-TAI`, and restore the TN36 Chapter 5/8 ocean-tide/applicable-libration terms once after interpolation; reject missing/unapproved/out-of-range/insufficient-support, preliminary/predicted/estimate, nearest, extrapolated and degraded cases. | IERS field flags/product roles; Gazette 13; IERS C04 guide; TN36 Chapters 5/8; AST-003/006 | Normative `PROJECT_DECISION`; equivalent methods remain source-permitted but not V1-approved; source/interpolation/implementation uncertainty stays unbounded and later degradation sensitivity remains `EXPERIMENT_REQUIRED` |
 
 ## Required validation evidence
 
-- Exact catalogue release/file hashes and selected field/quality semantics. I/311
-  `pmRA` is resolved; the epoch time-scale mapping for propagation remains open.
-- A versioned manifest naming SOFA/IERS models, Astropy/PyERFA/IERS-data, leap-second
-  and EOP data, network/offline state, observer datum/height, refraction, and supported
-  range.
-- Neutral fixtures containing all inputs and expected outputs with units/conventions.
-- Cases for epoch identity/motion, nonzero EOP, alternative Julian-date splits, UTC
-  boundaries, meridian/east/west, wrap, horizon, zenith/nadir, invalid inputs, and
-  high-declination omitted/double-cosine proper-motion cases.
-- Great-circle and wrapped-angle residuals, component/status differences, and a
-  per-case error budget.
-- An import/code-sharing audit proving oracle independence.
+- **Before implementation:** carry the now normative final-only leap/EOP policy,
+  bounded route/effect disposition, generic `ObserverPreset`, whole-second
+  canonical-UTC/time-domain contract, source-neutral boundary, geometric output/exclusions,
+  outcome/precedence/warning, and pending-validation contracts. Identify the 2D
+  catalogue/release and observer-artifact inputs without treating I/311 as permanent or
+  requiring numerical observer values in 2C.
+- **After implementation:** compare the TypeScript implementation with pinned
+  reference fixtures across the approved date, observer, astrometry, EOP, and endpoint
+  partitions; record great-circle, component, wrapped-angle, warning, and status
+  residuals without selecting a tolerance by convenience.
+- **Stronger independent validation:** audit code and algorithm lineage and evaluate
+  NOVAS or another genuinely independent positional-astronomy path. Same-family
+  SOFA/ERFA wrapper agreement does not meet this evidence class.
 
 ## Unresolved gaps
 
-The pinned oracle environment exists, but the production algorithm, offline/network EOP
-policy, refraction policy, supported range, leap-second policy, epoch time-scale mapping,
-source-derived comparison cases, and numerical tolerances remain open. I/311 `pmRA`
-semantics are no longer an open item.
+The pinned synthetic-only reference environment exists, including exact Astropy,
+PyERFA, IERS-data, and packaged IERS file hashes. Batch 01 adds bounded guard and
+determinism evidence, not source meaning, production approval, or independent
+validation. The 49-term ledger remains unchanged: 45 numerical terms are explicitly
+unbounded/unresolved and four entries are exact non-numerical guards.
+
+No preimplementation semantic gap remains. The leap/EOP product-class/per-field/
+interpolation/offline/update policy and route/effect/production mapping are normative
+for implementation entry; exact artifacts/configuration and numerical verification
+remain 2D/2E and postimplementation respectively.
+Profile boundary, whole-second Z-only UTC grammar, typed time states,
+`SupportedTimeDomain` and endpoint semantics, pending-validation result state,
+geometric-only/no-refraction/no-visibility scope, fail-closed precedence, exact
+singularity semantics, and warning/status preservation are normative. Concrete time
+bounds remain 2D/2E activation data, not preimplementation constants.
+Catalogue selection, rights, acquisition, and normalized-row authority move to 2D/2E.
+Production/reference disagreement, implementation error, and numerical tolerances wait
+until the TypeScript path exists. Refraction, aggregate visibility, degraded operation,
+global/arbitrary observer support, including a planned later `Riyadh, Saudi Arabia`
+preset, and broader dates/effects remain later extensions. The exact UMPSA observer
+record is 2D data required before real V1 execution, not a seventh 2C blocker.
+No unresolved term is set to zero. I/311 epoch/derivative semantics remain unresolved
+but block V1 only if 2D selects I/311 astrometry whose propagation requires them.

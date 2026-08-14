@@ -15,8 +15,10 @@ Use the five-class separation and deterministic pipeline in `../DATA_STRATEGY.md
 Phase 1 onward. Acquire numerical data from one approved catalogue/table/version using
 a pinned script/query and manifest, including exact subset/uncertainty/quality rules.
 Join separately reviewed generic `SkyPattern` records, `GuidanceRelationship` edges,
-and `LessonRoute`/educational metadata by stable IDs. `SkyPattern` owns names/labels,
-member catalogue IDs, segments, and cultural status; `GuidanceRelationship` owns a
+and `LessonRoute`/educational metadata by stable internal IDs. A numerical star record
+owns `starId` plus versioned external source/release identifiers in a crosswalk.
+`SkyPattern` owns names/labels, member `starId` values, segments, and cultural status;
+`GuidanceRelationship` owns a
 typed source/target, instructional geometry/explanation, applicable scenarios, and
 verification status; `LessonRoute` owns ordered steps, prerequisites, alternatives, and
 the scaffold-configuration reference. Validate schemas/review status and emit
@@ -38,8 +40,11 @@ Al-Jady→True North→Qibla direction steps. The server may select a route only
 stars required by its resolved patterns/relationships are available in the approved
 scenario.
 
-CDS I/311, *Hipparcos, the New Reduction*, is the sole catalogue source approved for
-the Phase 1 local technical spike. Use the corrected author-replacement files dated
+CDS I/311, *Hipparcos, the New Reduction*, is the sole catalogue source studied for
+the Phase 1 local technical spike. This is not a permanent UFUQ source selection.
+Milestone 2D must approve the actual catalogue/release, rights, crosswalk, row
+eligibility, and minimal allowlist before 2E source-derived generation. If 2D retains
+I/311, use the corrected author-replacement files dated
 2008-09-16, `hip2.dat` as the main table, and an exact required supplement for selected
 3/7/9-parameter or VIM solutions. Retain every main-table field and preserve raw
 solution, multiplicity, uncertainty, weight, quality, variability, and photometric
@@ -59,9 +64,11 @@ all raw and source-derived bytes stay ignored/local and are blocked from Git and
 deployment until explicit clarification is recorded. ESA's licence for the original
 1997 catalogue is not inherited by I/311.
 
-**Migration record (2026-07-26):** previous candidate: CDS I/239; current Phase 1
-source: CDS I/311. UFUQ obtained, studied, and prepared I/311 and does not require two
-Hipparcos pipelines.
+**Spike migration record (2026-07-26):** previous candidate: CDS I/239; current local
+spike source: CDS I/311. UFUQ obtained, studied, and prepared I/311 and does not require
+two Hipparcos spike pipelines. This history does not prevent a reviewed Gaia or other
+release from coexisting with or replacing astrometric records through the internal
+`starId` crosswalk.
 
 ## Consequences
 
@@ -72,6 +79,8 @@ Hipparcos pipelines.
   partial or misleading lesson.
 - A scenario/attempt can record one catalogue hash for replay.
 - The pipeline may need local/private raw data if redistribution is not permitted.
+- Stable internal IDs prevent cultural records from depending on copied coordinates or
+  one catalogue's identifier namespace.
 - Identifier crosswalks do not establish historical membership, pattern edges,
   directional use, or lesson approval.
 - Manual expert and licence gates are real schedule dependencies.
@@ -87,7 +96,8 @@ Hipparcos pipelines.
 
 ## Validation
 
-Deterministic rebuild and SHA-256, schema/range/unit checks, pattern/relationship/route
-referential integrity, required-star availability filtering, alternative-path
+Deterministic rebuild and SHA-256, schema/range/unit checks, unique internal `starId`
+and source-release crosswalk checks, pattern/relationship/route referential integrity,
+required-star availability filtering, alternative-path
 composition, zero unapproved learner-facing curation, scientific/cultural sample
 review, reference astronomy rerun, visual review, and licence/artifact scan.

@@ -26,8 +26,11 @@ locations and limitations are in:
   normalized name and map directly to Astropy `pm_ra_cosdec` after unit conversion.
 - `VAN-LEEUWEN-2007-VALIDATION` — use the article's methods/results for new-reduction
   error characteristics, not for byte layout.
-- `ASTROPY-DOCS-PIN`, `PYERFA-PIN`, and `ASTROPY-IERS-DATA-PIN` — currently unresolved
-  required source pins. No oracle result is reference evidence until these are closed.
+- `ASTROPY-DOCS-PIN`, `PYERFA-PIN`, and `ASTROPY-IERS-DATA-PIN` — the runtime
+  Astropy/PyERFA/IERS-data versions and packaged IERS file hashes are pinned for the
+  synthetic-only smoke oracle. The exact official Astropy/PyERFA documentation record
+  and production science-data policy remain unresolved. Smoke output is not
+  source-derived reference evidence.
 - `EXSUP-3E` — explanatory support only. The local candidate has no usable text layer
   and cannot support page/chapter citations.
 - `FUND-ASTRO-6E` — explanatory support; it cannot override SOFA, IERS, catalogue

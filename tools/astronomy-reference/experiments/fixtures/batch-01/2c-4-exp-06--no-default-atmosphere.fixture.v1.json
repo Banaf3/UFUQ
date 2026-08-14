@@ -1,0 +1,120 @@
+{
+  "caseId": "no-default-atmosphere",
+  "conventions": {
+    "coordinateConventions": [
+      "NO_IMPLICIT_ATMOSPHERE",
+      "OPTIONAL_STAGE_NON_ERASURE"
+    ],
+    "epochRepresentationsAndScales": [
+      "SYNTHETIC_OBSERVATION_INSTANT_METADATA_ONLY"
+    ],
+    "frames": [
+      "GEOMETRIC_HORIZONTAL",
+      "OPTIONAL_REFRACTION_STATE"
+    ],
+    "units": [
+      "REQUEST_BOOLEAN",
+      "MISSING_SENTINEL"
+    ]
+  },
+  "dependencyManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+  "expectedChecks": [
+    {
+      "basis": "Requested refraction without meteorology returns unavailable.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "missing-meteorology-produces-unavailable",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "No pressure, temperature, humidity, wavelength, or lapse defaults are supplied.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "no-atmosphere-default-inserted",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Not-requested and requested-but-unavailable are distinct states.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "not-requested-distinct-from-unavailable",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    }
+  ],
+  "experimentId": "2C.4-EXP-06",
+  "fixtureId": "2C.4-EXP-06:no-default-atmosphere",
+  "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+  "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+  "inputs": {
+    "missingMeteorology": {
+      "coordinateConvention": "NO_DEFAULT_SUBSTITUTION",
+      "frame": "OBSERVER_LOCAL",
+      "inputIntent": "DELIBERATELY_MISSING",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "REQUESTED_METEOROLOGY_ABSENCE",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "MISSING_SENTINEL",
+      "value": "MISSING"
+    },
+    "notRequestedBranchRequested": {
+      "coordinateConvention": "EXPLICIT_REQUEST",
+      "frame": "OPTIONAL_REFRACTION_STATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "REFRACTION_REQUEST_FLAG",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "BOOLEAN",
+      "value": false
+    },
+    "requestedMissingBranchRequested": {
+      "coordinateConvention": "EXPLICIT_REQUEST",
+      "frame": "OPTIONAL_REFRACTION_STATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "REFRACTION_REQUEST_FLAG",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "BOOLEAN",
+      "value": true
+    }
+  },
+  "parameterPartition": [
+    "NO_DEFAULT_ATMOSPHERE_GUARD"
+  ],
+  "protocolVersion": "2C.5A-v1",
+  "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+  "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+  "requiredArtifactStates": {
+    "earthOrientation": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "ephemeris": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "leapSeconds": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "meteorology": {
+      "references": [
+        "inputs.missingMeteorology"
+      ],
+      "requirement": "SYNTHETIC_EXPLICIT"
+    },
+    "observer": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    }
+  },
+  "schemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+  "scientificQuestion": "What changes under Astropy library defaults, and does the UFUQ protocol prohibit their silent use?",
+  "sourceProhibitions": {
+    "catalogueSourceBytesAbsent": true,
+    "hipSourceDerivedValuesAbsent": true,
+    "i311EpochResolutionClaimAbsent": true,
+    "i311RowsAbsent": true,
+    "productionGeneratedValuesAbsent": true
+  },
+  "usedArtifactHashes": []
+}

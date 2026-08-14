@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ufuq:astronomy-experiment-fixture:v1",
+  "title": "UFUQ astronomy experiment fixture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "protocolVersion",
+    "registryVersion",
+    "experimentId",
+    "fixtureId",
+    "caseId",
+    "inputClassification",
+    "sourceProhibitions",
+    "scientificQuestion",
+    "conventions",
+    "requiredArtifactStates",
+    "parameterPartition",
+    "inputs",
+    "dependencyManifestSha256",
+    "registrySha256",
+    "fixtureSchemaSha256",
+    "usedArtifactHashes",
+    "expectedChecks"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ufuq.astronomy-experiment-fixture.v1"
+    },
+    "protocolVersion": { "const": "2C.5A-v1" },
+    "registryVersion": {
+      "const": "ufuq.astronomy-experiment-registry.v1"
+    },
+    "experimentId": {
+      "$ref": "#/$defs/runnableExperimentId"
+    },
+    "fixtureId": {
+      "type": "string",
+      "pattern": "^2C\\.[1-4]-EXP-[0-9]{2}:[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "caseId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "inputClassification": {
+      "const": "SYNTHETIC_EXPERIMENT_INPUT"
+    },
+    "sourceProhibitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "i311RowsAbsent",
+        "hipSourceDerivedValuesAbsent",
+        "catalogueSourceBytesAbsent",
+        "productionGeneratedValuesAbsent",
+        "i311EpochResolutionClaimAbsent"
+      ],
+      "properties": {
+        "i311RowsAbsent": { "const": true },
+        "hipSourceDerivedValuesAbsent": { "const": true },
+        "catalogueSourceBytesAbsent": { "const": true },
+        "productionGeneratedValuesAbsent": { "const": true },
+        "i311EpochResolutionClaimAbsent": { "const": true }
+      }
+    },
+    "scientificQuestion": { "type": "string", "minLength": 1 },
+    "conventions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frames", "epochRepresentationsAndScales", "units", "coordinateConventions"],
+      "properties": {
+        "frames": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "epochRepresentationsAndScales": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "coordinateConventions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "requiredArtifactStates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["earthOrientation", "leapSeconds", "meteorology", "observer", "ephemeris"],
+      "properties": {
+        "earthOrientation": { "$ref": "#/$defs/artifactState" },
+        "leapSeconds": { "$ref": "#/$defs/artifactState" },
+        "meteorology": { "$ref": "#/$defs/artifactState" },
+        "observer": { "$ref": "#/$defs/artifactState" },
+        "ephemeris": { "$ref": "#/$defs/artifactState" }
+      }
+    },
+    "parameterPartition": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Intentional experiment-specific extension point. Every property is a closed synthetic input record with explicit provenance and conventions.",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z][A-Za-z0-9]*$"
+      },
+      "additionalProperties": { "$ref": "#/$defs/syntheticInput" }
+    },
+    "dependencyManifestSha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "registrySha256": { "$ref": "#/$defs/sha256" },
+    "fixtureSchemaSha256": { "$ref": "#/$defs/sha256" },
+    "usedArtifactHashes": {
+      "type": "array",
+      "description": "Only artifacts actually used by this fixture appear here; a purely synthetic fixture may use an empty array.",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hashRecord" }
+    },
+    "expectedChecks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["checkId", "kind", "basis", "basisClassification", "thresholdStatus"],
+        "properties": {
+          "checkId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "kind": {
+            "enum": ["EXACT_INVARIANT", "MEASUREMENT_ONLY"]
+          },
+          "basis": { "type": "string", "minLength": 1 },
+          "basisClassification": {
+            "enum": ["SOURCE_SUPPORTED_FACT", "PROJECT_DECISION", "MEASUREMENT_PROTOCOL"]
+          },
+          "thresholdStatus": {
+            "enum": ["NOT_APPLICABLE_EXACT_INVARIANT", "UNAPPROVED_MEASUREMENT_ONLY"]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "kind": { "const": "EXACT_INVARIANT" } },
+              "required": ["kind"]
+            },
+            "then": {
+              "properties": {
+                "basisClassification": {
+                  "enum": ["SOURCE_SUPPORTED_FACT", "PROJECT_DECISION"]
+                },
+                "thresholdStatus": {
+                  "const": "NOT_APPLICABLE_EXACT_INVARIANT"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "basisClassification": {
+                  "const": "MEASUREMENT_PROTOCOL"
+                },
+                "thresholdStatus": {
+                  "const": "UNAPPROVED_MEASUREMENT_ONLY"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "experimentId": {
+            "enum": ["2C.1-EXP-01", "2C.1-EXP-02", "2C.1-EXP-03"]
+          }
+        },
+        "required": ["experimentId"]
+      },
+      "then": {
+        "properties": {
+          "conventions": {
+            "properties": {
+              "frames": { "contains": { "const": "ITRS_GEOCENTRIC" } },
+              "units": { "contains": { "const": "METRE" } },
+              "coordinateConventions": {
+                "contains": {
+                  "const": "CARTESIAN_XYZ_AT_EARTH_CENTRE"
+                }
+              }
+            }
+          },
+          "inputs": {
+            "required": ["tdbConversionLocationGeocentricMetres"],
+            "properties": {
+              "tdbConversionLocationGeocentricMetres": {
+                "allOf": [
+                  { "$ref": "#/$defs/syntheticInput" },
+                  {
+                    "properties": {
+                      "semanticRole": {
+                        "const": "TDB_MINUS_TT_REFERENCE_LOCATION"
+                      },
+                      "inputIntent": { "const": "VALID_VALUE" },
+                      "value": {
+                        "type": "array",
+                        "prefixItems": [{ "const": 0 }, { "const": 0 }, { "const": 0 }],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "unit": { "const": "METRE" },
+                      "frame": { "const": "ITRS_GEOCENTRIC" },
+                      "timeScale": { "const": "NOT_APPLICABLE" },
+                      "coordinateConvention": {
+                        "const": "CARTESIAN_XYZ_AT_EARTH_CENTRE"
+                      },
+                      "provenance": { "const": "SYNTHETIC_EXPLICIT" }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "requiredArtifactStates": {
+            "properties": {
+              "leapSeconds": {
+                "properties": {
+                  "requirement": {
+                    "const": "PINNED_EXTERNAL_SMOKE_ONLY"
+                  },
+                  "references": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "const": "astropy-iers-data/Leap_Second.dat"
+                      }
+                    ],
+                    "items": false,
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              "observer": {
+                "properties": {
+                  "requirement": { "const": "SYNTHETIC_EXPLICIT" },
+                  "references": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "const": "inputs.tdbConversionLocationGeocentricMetres"
+                      }
+                    ],
+                    "items": false,
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "runnableExperimentId": {
+      "enum": [
+        "2C.1-EXP-01",
+        "2C.1-EXP-02",
+        "2C.1-EXP-03",
+        "2C.2-EXP-01",
+        "2C.2-EXP-03",
+        "2C.2-EXP-04",
+        "2C.2-EXP-06",
+        "2C.3-EXP-01",
+        "2C.3-EXP-02",
+        "2C.3-EXP-04",
+        "2C.3-EXP-05",
+        "2C.4-EXP-02",
+        "2C.4-EXP-03",
+        "2C.4-EXP-04",
+        "2C.4-EXP-05",
+        "2C.4-EXP-06",
+        "2C.4-EXP-07"
+      ]
+    },
+    "syntheticInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semanticRole",
+        "inputIntent",
+        "value",
+        "unit",
+        "frame",
+        "timeScale",
+        "coordinateConvention",
+        "provenance"
+      ],
+      "properties": {
+        "semanticRole": { "type": "string", "minLength": 1 },
+        "inputIntent": {
+          "enum": ["VALID_VALUE", "DELIBERATELY_INVALID_TOKEN", "DELIBERATELY_MISSING"]
+        },
+        "value": { "$ref": "#/$defs/syntheticValue" },
+        "unit": { "type": "string", "minLength": 1 },
+        "frame": { "type": "string", "minLength": 1 },
+        "timeScale": { "type": "string", "minLength": 1 },
+        "coordinateConvention": { "type": "string", "minLength": 1 },
+        "provenance": { "const": "SYNTHETIC_EXPLICIT" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "inputIntent": { "const": "VALID_VALUE" } },
+            "required": ["inputIntent"]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "not": {
+                  "enum": ["NaN", "Infinity", "+Infinity", "-Infinity", "MISSING"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "inputIntent": { "const": "DELIBERATELY_MISSING" }
+            },
+            "required": ["inputIntent"]
+          },
+          "then": {
+            "properties": { "value": { "const": "MISSING" } }
+          }
+        }
+      ]
+    },
+    "syntheticValue": {
+      "oneOf": [
+        { "type": "number" },
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        { "type": "boolean" },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "number" }
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "boolean" }
+        }
+      ]
+    },
+    "artifactState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement", "references"],
+      "properties": {
+        "requirement": {
+          "enum": ["NOT_REQUIRED", "SYNTHETIC_EXPLICIT", "PINNED_EXTERNAL_SMOKE_ONLY"]
+        },
+        "references": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "requirement": { "const": "NOT_REQUIRED" } },
+            "required": ["requirement"]
+          },
+          "then": {
+            "properties": { "references": { "maxItems": 0 } }
+          },
+          "else": {
+            "properties": { "references": { "minItems": 1 } }
+          }
+        }
+      ]
+    },
+    "hashRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "artifactId", "version", "classification", "sha256"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "artifactId": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "classification": {
+          "enum": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"]
+        },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

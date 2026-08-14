@@ -33,19 +33,22 @@ no placeholder is presented as domain truth.
 ## Phase 1: astronomy and data technical spike
 
 **Goal:** retire uncertainty about catalogue acquisition, typed coordinate flow,
-candidate astronomy libraries, independent reference generation, and runtime data
+candidate astronomy libraries, code-independent reference generation with explicit
+lineage, and runtime data
 shape.
 
 **Read additionally:** `ASTRONOMY_SPEC.md`, `DATA_STRATEGY.md`, ADR-003/004/007. Load
 formal science governance only when preparing approval evidence.
 
 **Implement:** a bounded CDS I/311 acquisition/normalization experiment inside the
-existing catalogue-tool boundary, with no alternate-catalogue abstraction;
+existing catalogue-tool boundary, while keeping its output behind stable internal
+identifiers rather than treating that spike source as the permanent catalogue;
 source/manifest/schema prototypes, including generic `SkyPattern`,
 `GuidanceRelationship`, and `LessonRoute` schemas;
 typed catalogue/propagated/horizontal/scene values; small synthetic or clearly labelled
-candidate fixtures; an independently pinned Python/Astropy fixture producer and
-comparison harness under `tests/reference`; deterministic serialization/checksum
+candidate fixtures; a pinned Python/Astropy reference producer that is code-independent
+of future TypeScript but discloses shared ERFA/SOFA lineage, and a comparison harness
+under `tests/reference`; deterministic serialization/checksum
 experiment. The reference suite becomes mandatory when the first production/reference
 comparison is introduced.
 
@@ -59,22 +62,165 @@ complete source-field preservation, confirmed starred-alpha `pmRA`, an exact 19-
 technical review allowlist, fail-closed row/supplement policies, and versioned
 artifact/provenance schemas.
 
-Milestone 2C is reserved for the Scientific Behaviour Contract.
+Milestone 2C is the Scientific Behaviour Contract. Its 2026-08-03 evidence audit
+resolves documented I/311 field semantics while retaining the named time-scale gap,
+fixed UFUQ coordinate conventions, typed scientific-state separation, and
+reference-test requirements. The following submilestone statements record their
+historical checkpoint status; the final 2C.6 paragraph below supersedes those interim
+open states:
+Milestone 2C.1 resolves the I/311 epoch representation as Julian from official ESA
+Gaia DR1's direct `J1991.25` use, but finds no I/311-applicable time scale. It therefore
+keeps source-derived propagation unavailable and specifies a synthetic sensitivity
+experiment plus human-review gate. Astropy `8.0.1` reference-design documentation is
+pinned; the PyERFA stable-doc/runtime patch mismatch remains recorded. Milestone 2C.2
+proposes a componentized SOFA `2023-10-11` CIO-family semantic route, a fully classified
+candidate-included/conditional/blocked effect matrix, a separate Astropy/PyERFA
+reference path, and eight experiment families. `Included` describes the proposed
+semantic model only, not approved executable behaviour. CDS Catalogue Standard 2.0
+resolves the 365.25-day
+proper-motion `yr`, but the proposal does not approve the future TypeScript
+implementation or close the epoch/derivative-scale, observer,
+EOP/celestial-pole-offset, refraction/visibility, supported-range, error-budget, or
+tolerance questions. Milestone 2C.6 classifies which questions actually gate a bounded
+implementation and which belong to data authority, postimplementation validation, or
+later extensions.
 
-Milestone 2D records the catalogue source/deployment-authority outcome required before
-source-derived processing. It must explicitly resolve local processing authority and
-the permitted handling of generated data; unresolved redistribution authority does not
-become permission to track or deploy I/311-derived rows.
+Milestone 2C.3 pins the distinct official IERS Bulletin A/B/C roles and `finals2000A`
+field-flag semantics and proposes the supported-domain boundary: a UFUQ-selected Z-only
+RFC 3339 UTC subset, explicit
+geodetic/ellipsoidal observer provenance, immutable hash-addressed offline EOP/leap
+bundles, separately reviewed atomic updates with deterministic replay, independent
+per-field source-quality/availability/approval state, fail-closed structured outcomes
+with deterministic semantic precedence, and six additional
+reference experiments. It selects no production product/hash, date/location/height
+range, stale/update threshold, field-quality approval, degraded mode, or
+tolerance. At the 2C.3 checkpoint Milestone 2C remained open and source-derived
+execution remained blocked.
 
-Milestone 2E implements the local read-only catalogue parser, runtime validation, and
-deterministic generation after Milestones 2C and 2D. Inputs and outputs remain ignored
+Milestone 2C.4 proposes geometric altitude only for the first vertical slice, explicit
+atmosphere provenance with no default atmosphere, separate geometric/refracted
+direction states, six distinct horizon states, nine independent visibility components,
+optional-stage outcome precedence that retains the valid geometric result, and seven
+experiment families. Official
+SOFA/Astropy documentation supports the candidate input and limitation inventory but
+does not approve a model, input/altitude range, near/below-horizon rule, terrain,
+visibility, warning, learner-eligibility policy, or tolerance. The later semantic-scope
+audit makes geometric-only output, disabled refraction, no atmosphere defaults, no
+aggregate visibility, result-bearing below-horizon classification, and non-erasing
+optional-stage precedence normative for V1. AST-004/006/007 review remains required
+only for the later capabilities and numerical boundaries.
+
+Milestone 2C.5A freezes the scientific experiment protocol before numerical execution.
+It records 24 stable experiment IDs with permitted/prohibited claims, exact input and
+dependency requirements, shared-lineage disclosure, metrics, deterministic replay and
+hash rules, result/acceptance semantics, reviewer gates, and follow-up decisions. A
+machine registry plus separate fixture/result schemas support later deterministic
+execution without widening the existing smoke fixture. Seventeen records can run now
+only with explicit synthetic inputs; five await project decisions, one awaits a
+required independent data/model path, and one awaits production. The proposed
+five-group 2C.5B batch runs no source-derived input and cannot create authority,
+production approval, a domain, an error budget, or a tolerance. No experiment body or
+result is added by 2C.5A, `test:reference` remains inactive, and Milestone 2C remains
+open.
+
+Milestone 2C.5B completes 9/9 experiments in the five-group synthetic Batch 01 scope.
+The non-production Python runner promotes the already locked PyERFA `2.0.1.5` package
+to a direct dependency, rejects non-Batch/source/production inputs and partition drift,
+consumes nine fixed canonical schema-validated fixtures, and emits nine canonical
+results with complete hashes and two-repetition manifests. Twenty-four exact
+contract/status/determinism checks pass and none fail; six measurement-only checks
+cover 27 measurement records, all `MEASURED_NO_ACCEPTANCE`. Componentized versus
+composed ERFA evidence is explicitly same-family consistency, not independent
+scientific validation. No production code is compared, so `test:reference` remains
+inactive. The evidence changes no source meaning, data eligibility, implementation
+selection, operating-domain, or tolerance state.
+
+Milestone 2C.5C interprets the committed Batch 01 evidence without changing or
+rerunning its hashed inputs. A human framework and machine-checkable AST-006 ledger
+inventory all 27 measurement records, all 24 passing exact checks, and 49 source,
+model, Earth-orientation/time, observer, atmosphere, implementation, scene, and
+learner terms. Of those ledger terms, 45 retain an unbounded numerical-bound state
+and four are exact non-numerical aggregate guards, distinct from the 24 Batch checks.
+Exact guards retire only bounded synthetic mutation/state-contract
+classes; measured values, including zeros, remain without acceptance. The candidate
+method uses boundary-specific metrics, conservative bounded sums when dependence is
+unknown, covariance/joint treatment for correlated terms, and RSS only when
+independence is justified. No required numerical term is bounded, all six tolerance
+classes remain blocked, and `FINAL_TOLERANCE_NOT_JUSTIFIED` is prepared for AST-006
+review. At the 2C.5C checkpoint Milestone 2C remained open.
+
+Milestone 2C.6 defines `ScientificProfileV1` and audits the exit gate.
+The first profile is source-neutral and geometric-only: exactly one selected observer
+preset identity under a generic fail-closed contract, one bounded explicit-UTC domain,
+one minimal 2D-approved star artifact,
+explicit normalized ICRS epoch/motion semantics, an approved route/effect disposition,
+immutable offline leap/EOP inputs, fail-closed outcomes, disabled refraction, and no
+aggregate visibility. Internal observer types remain multi-location capable. The audit
+removes the circular requirement for TypeScript/reference residuals and numerical
+tolerances before the TypeScript implementation exists. The selected V1 identity is
+`umpsa-pekan-faculty-of-computing`; 2D, not 2C, owns its exact reference point,
+coordinates, Earth model, typed height, accuracy and immutable data record. The
+profile boundary, whole-second Z-only UTC grammar, typed UTC/TAI/TT/UT1 states,
+versioned time-domain/endpoint semantics, geometric/refraction/visibility exclusions,
+core outcomes,
+precedence, exact singularity behavior, warning/status preservation, and pending-
+validation lifecycle are normative. `APPROVED_GEOMETRIC_RESULT` remains unreachable
+until postimplementation acceptance. Concrete earliest/latest timestamps are derived
+during 2D/2E profile activation from approved source/model/leap/per-field-EOP/
+observer/scenario intersections; they are data, not invented preimplementation
+constants. The focused route audit selects a source-neutral strict full-astrometry
+branch and a UFUQ-owned pure-TypeScript subset derived from exact SOFA `2023-10-11`
+lower-level semantics. It includes model frame bias/IAU 2006 precession/IAU 2000A
+nutation, annual aberration, solar deflection, Earth rotation, polar motion and diurnal
+aberration; requires approved epoch/derivative/parallax/RV plus `UT1-UTC`,`xp`,`yp`;
+and explicitly leaves observed `dX`,`dY`, extra-body deflection and refraction outside
+V1 without setting their uncertainty to zero. Catalogue-reference astrometry is
+propagated at runtime; generated scenario directions may be derived fixtures/caches,
+not source authority. The final 2C.6 audit makes the profile-scoped leap/EOP policy
+normative: approved leap state plus independently approved final `UT1-UTC`,`xp`,`yp`,
+complete UFUQ-selected four-point support, leap-aware `UT1-TAI`, and exactly-once
+IERS Conventions 2010 subdaily restoration after interpolation; it also requires
+immutable offline bundles, separate quality/integrity/coverage/
+validity/approval states, reviewed activation and no degraded fallback. Exact
+artifacts, hashes, restoration configuration and dates remain 2D/2E data. Milestone
+2C is ready to close for implementation; production/reference results, any stronger
+independent validation required by the claimed release boundary, error-budget
+population, and tolerance approval are later scientific-acceptance gates.
+
+Milestone 2D records the data/source/deployment-authority outcome required before real
+ProfileV1 execution. It selects the catalogue/release rather than inheriting I/311 from
+the spike, approves acquisition/licensing and row eligibility, creates the stable
+internal-star/source crosswalk and minimal allowlist, and selects/acquires exact
+official final EOP and leap artifacts, Bulletin C consistency, per-field coverage/
+uncertainty, hashes, and the exact IERS interpolation/restoration source configuration
+under the 2C policy. It also acquires and approves the concrete UMPSA Pekan
+Faculty `ObserverPreset` data and provenance before real ProfileV1 execution; a JUPEM
+survey-control record is optional rather than mandatory. Unresolved redistribution
+authority does not become permission to track or deploy I/311-derived rows.
+
+Milestone 2E implements the local read-only catalogue parser, leap/EOP parsers and
+independent normalized field records, leap-aware four-point interpolation plus the
+pinned IERS Conventions 2010 restoration configuration, runtime validation,
+fail-closed offline lookup, and deterministic bundle/catalogue
+generation after Milestones 2C and 2D. Inputs and outputs remain ignored
 and local unless separate redistribution/deployment authority explicitly permits
 otherwise. Source-derived fixtures, cultural membership, and learner-facing content
 remain outside this milestone until their scientific or human-review gates are met.
 
-**Exit:** the spike identifies a viable implementation path and produces reproducible
-comparison evidence; rejected spike code can be removed without changing application
-contracts.
+The corrected dependency order is 2C.6 profile approval -> 2D data/source authority ->
+2E parser and deterministic data -> first bounded production astronomy implementation
+-> production/reference comparison and `test:reference` activation -> any stronger
+independent-oracle validation required by the claimed release boundary -> numerical
+tolerance approval when justified -> later location/refraction/visibility extensions.
+A comparison failure blocks scientific
+acceptance and can force a revision; the comparison cannot be a prerequisite to the
+implementation that produces it.
+
+**Exit:** `MILESTONE_2C_READY_TO_CLOSE_FOR_IMPLEMENTATION`: the spike defines an approved `ScientificProfileV1` implementation path,
+explicit source/data handoffs, fail-closed behavior, and reproducible preimplementation
+reference/protocol evidence. It does not require production/reference residuals or a
+final numerical tolerance before production code exists; rejected spike code can be
+removed without changing application contracts.
 
 ## Phase 2: minimal celestial-guidance vertical slice
 
@@ -84,11 +230,17 @@ response, server scoring, and feedback. The route may use a reviewed helper patt
 Banat Na'sh or Dhat al-Kursi; it is selected from data rather than hardcoded. Persistence
 and BKT adaptation are not required yet.
 
-**Entry decisions:** IMP-008, IMP-009, IMP-011, and IMP-012 must be resolved for the
-selected slice; IMP-018 already fixes the generic structure. Only the patterns,
-relationships, route steps, scenario, scientific pipeline, and tolerances actually used
-by this slice need approval. Other helper paths and later lesson, participant, account,
-or deployment decisions remain deferred.
+**Entry decisions:** the generic `ObserverPreset` types, validators, no-default branches,
+and observer-generic astronomy interfaces do not require the UMPSA numerical values.
+Real ProfileV1 execution and data-backed fixtures require the selected 2D/2E numerical
+artifacts, approved profile semantics, and preset observer/time inputs under
+IMP-008/009 and the astronomy-input part of IMP-012. IMP-011 and the learner/
+scoring part of IMP-012 gate only integration into a learner-facing lesson; missing
+cultural evidence does not block the astronomy engine. IMP-018 already fixes the
+generic structure. A final scientific or learner tolerance is not an
+implementation-entry requirement. It remains mandatory before the corresponding
+postimplementation scientific or scoring acceptance claim. Other helper paths and
+later lesson, participant, account, or deployment decisions remain deferred.
 
 **Implement:** approved minimal generated dataset; reviewed `SkyPattern` and
 `GuidanceRelationship` records; one `LessonRoute` with ordered steps and allowed
@@ -97,10 +249,13 @@ availability; astronomy transformation; scene adapter; one interaction/answer fo
 API scoring; accessible non-pointer control appropriate to this slice; reference and
 browser evidence.
 
-**Exit:** a clean local run reproduces the data and route hashes and independent
-expected result; removing a required star makes the route ineligible; the browser never
-owns route eligibility, target, tolerance, or correctness; boundary and raycast tests
-pass; the slice is explicitly limited to its approved content and scenario.
+**Exit:** a clean local run reproduces the data and route hashes; the production route
+has postimplementation pinned-reference results, any stronger-independent evidence
+required by the approved release gate, and reviewed operation-specific acceptance;
+removing a required
+star makes the route ineligible; the browser never owns route eligibility, target,
+tolerance, or correctness; boundary and raycast tests pass; the slice is explicitly
+limited to its approved content and scenario.
 
 ## Phase 3: assessments and BKT adaptation
 

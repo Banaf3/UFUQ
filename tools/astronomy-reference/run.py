@@ -12,10 +12,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from ufuq_astronomy_reference import (  # noqa: E402
+    ProtocolValidationError,
     build_environment_manifest,
     canonical_bytes,
     generate_fixture,
+    run_batch01,
     sha256_bytes,
+    validate_batch01_artifacts,
 )
 
 
@@ -85,12 +88,28 @@ def main() -> None:
         default=PROJECT_ROOT / "fixtures" / "synthetic-output.v1.sha256",
     )
 
+    subcommands.add_parser(
+        "batch-01",
+        help="Execute only the fixed Milestone 2C.5B synthetic Batch 01 allowlist.",
+    )
+    subcommands.add_parser(
+        "validate-batch-01",
+        help="Validate all committed Batch 01 fixtures, results, and hashes.",
+    )
+
     args = parser.parse_args()
     if args.command == "environment":
         _environment(args.output)
-    else:
+    elif args.command == "fixture":
         _fixture(args.input, args.environment, args.output, args.hash_output)
+    elif args.command == "batch-01":
+        run_batch01()
+    else:
+        validate_batch01_artifacts()
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ProtocolValidationError as error:
+        raise SystemExit(f"Batch protocol validation failed: {error}") from error

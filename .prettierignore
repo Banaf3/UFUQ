@@ -17,3 +17,5 @@ README.md
 package-lock.json
 tools/astronomy-reference/environment-manifest.json
 tools/astronomy-reference/fixtures/synthetic-output.v1.json
+tools/astronomy-reference/experiments/fixtures/batch-01/
+tools/astronomy-reference/experiments/results/batch-01/

@@ -44,6 +44,15 @@ UV_VERSION = "0.11.32"
 DIRECT_CONSTRAINTS = {
     "astropy": ">=8.0.1,<9",
     "astropy-iers-data": ">=0.2026.7.20.15.31.18,<0.2027",
+    "pyerfa": "==2.0.1.5",
+}
+DIRECT_DEPENDENCY_REASONS = {
+    "astropy": "Imported by the smoke oracle and Batch 01 epoch experiments",
+    "astropy-iers-data": (
+        "Imported directly so exact smoke-only EOP and leap-second resources "
+        "are evidenced"
+    ),
+    "pyerfa": "Imported as erfa by the Batch 01 same-family experiment runner",
 }
 RUNTIME_DISTRIBUTIONS = (
     "astropy",
@@ -222,11 +231,7 @@ def build_environment_manifest(project_root: Path) -> dict[str, Any]:
             {
                 "name": name,
                 "constraint": constraint,
-                "reason": (
-                    "Imported by the oracle"
-                    if name == "astropy"
-                    else "Imported directly so exact EOP/leap-second resources are evidenced"
-                ),
+                "reason": DIRECT_DEPENDENCY_REASONS[name],
             }
             for name, constraint in DIRECT_CONSTRAINTS.items()
         ],

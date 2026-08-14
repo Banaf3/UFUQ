@@ -1,0 +1,268 @@
+{
+  "canonicalContentSha256": "bfa80bb1a6f5c06fb487fc5c1d9a18605c91799fbcf445752faa4e4b5a8d47f0",
+  "caseId": "synthetic-convention-guards",
+  "checks": [
+    {
+      "basis": "The propagated state retains ICRS and explicitly declares J2000.0 TDB as an epoch interface.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "declared-target-epoch-label-preserved",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "The deliberately injected double-cosine adapter mode is rejected structurally.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "double-cosine-mutation-rejected",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "Cosine, JD-split, and wrapper residuals are recorded without thresholds.",
+      "basisClassification": "MEASUREMENT_PROTOCOL",
+      "checkId": "guard-consequences-measured-without-acceptance",
+      "kind": "MEASUREMENT_ONLY",
+      "numericalThreshold": null,
+      "status": "MEASURED_NO_ACCEPTANCE"
+    },
+    {
+      "basis": "The deliberately injected omitted-cosine adapter mode is rejected structurally.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "omitted-cosine-mutation-rejected",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "Raw pmsafe status 1 and the public-wrapper ErfaWarning were both retained.",
+      "basisClassification": "SOURCE_SUPPORTED_FACT",
+      "checkId": "pmsafe-warning-status-preserved",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    },
+    {
+      "basis": "All declared two-part splits encode the same exact binary-rational source and target JDs.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "two-part-jd-declarations-equivalent",
+      "kind": "EXACT_INVARIANT",
+      "numericalThreshold": null,
+      "status": "PASS"
+    }
+  ],
+  "decisionLimits": [
+    "Synthetic evidence does not establish the source meaning of I/311 Ep=1991.25.",
+    "Same-family ERFA/SOFA agreement is not independent scientific validation.",
+    "No Batch 01 result approves a TypeScript production implementation or policy.",
+    "No numerical measurement has an AST-006 acceptance threshold."
+  ],
+  "errorBudgetStatus": "NOT_ESTABLISHED_AST_006_OPEN",
+  "executionManifest": {
+    "cachePolicy": "FRESH_ISOLATED_CACHE_NO_DISCOVERY",
+    "canonicalSerialization": "UFUQ_CANONICAL_JSON_V1",
+    "caseId": "synthetic-convention-guards",
+    "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+    "experimentId": "2C.2-EXP-04",
+    "externalArtifactProvenance": [],
+    "fixtureId": "2C.2-EXP-04:synthetic-convention-guards",
+    "fixtureSchemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+    "hashes": {
+      "environmentManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+      "fixtureByteLength": 10751,
+      "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+      "fixtureSha256": "250d17cb42b48c2b2cc74a11b88630baa634d21d22ee1851e124cb51e3130802",
+      "lockfileSha256": "6d37face85f513ee66e6677ced1f72b0cdf6f9ec5d904ce7cc0ce9e8eaa0abc1",
+      "protocolDocumentSha256": "c6e8f2e12b847cfb4b718b2b6b3c30ac0b2ae94f5e0451b1ecaef4ae70548b81",
+      "registrySchemaSha256": "f85a60a50474c7d68e68903750e87bc47b0bcbb4e402faf321d3f3748928288b",
+      "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+      "resultSchemaSha256": "688edef0f17c7901753414968fde9257a063d34ad418c5b53297caf5846efd22"
+    },
+    "manifestVersion": "ufuq.astronomy-experiment-execution-manifest.v1",
+    "networkPolicy": "OFFLINE_AUTO_DOWNLOAD_DISABLED",
+    "protocolVersion": "2C.5A-v1",
+    "recordOrdering": "REGISTRY_ID_GROUP_MEMBER_INPUT_KEY_MEASUREMENT_ID_STATUS_SEQUENCE_CHECK_ID",
+    "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+    "repetitionCount": 2,
+    "resultSchemaVersion": "ufuq.astronomy-experiment-result.v1",
+    "runner": {
+      "argv": [
+        "run.py",
+        "batch-01"
+      ],
+      "entryPoint": "run.py",
+      "runnerId": "ufuq-astronomy-batch-01",
+      "runnerVersion": "2C.5B-BATCH-01-v1",
+      "sourceFiles": [
+        {
+          "path": "run.py",
+          "sha256": "d15d2ba82a538a038aa4585dd26b953e13562d1afd6b86d0d1bf05e6645be5ad"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/__init__.py",
+          "sha256": "143a40dbb3b12bee6625b1c0c35ab9f0ab261736924940d4938ca0e1cd4f1b0a"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/batch01.py",
+          "sha256": "86fd7c9ed07384bc179a565d59e57bb6c1e7a8518dd3a1d9a2a60b5e01683cac"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/experiment_protocol.py",
+          "sha256": "95e533d971465e22342c0ee5746d6c36383c1f4e0f10fea19c6ff5da4cbc0b14"
+        },
+        {
+          "path": "src/ufuq_astronomy_reference/oracle.py",
+          "sha256": "7bfea6dee40925ee14e9e5e73fb24443f48601cb3df92ba9822d6b5a60a85de8"
+        }
+      ],
+      "workingDirectory": "tools/astronomy-reference"
+    },
+    "runtimeContext": {
+      "architecture": "AMD64",
+      "operatingSystem": "Windows",
+      "operatingSystemVersion": "10.0.26200",
+      "pythonImplementation": "CPython"
+    },
+    "softwareRuntime": {
+      "astropyIersDataVersion": "0.2026.7.20.15.31.18",
+      "astropyVersion": "8.0.1",
+      "directlyImportedPackages": [
+        "astropy",
+        "astropy_iers_data",
+        "erfa"
+      ],
+      "erfaVersion": "2.0.1",
+      "pyerfaDependencyKind": "DIRECT",
+      "pyerfaVersion": "2.0.1.5",
+      "pythonVersion": "3.14.6",
+      "sofaIssue": "20231011",
+      "uvVersion": "0.11.32"
+    }
+  },
+  "executionOutcome": {
+    "reasons": [],
+    "state": "COMPLETED"
+  },
+  "experimentId": "2C.2-EXP-04",
+  "fixtureId": "2C.2-EXP-04:synthetic-convention-guards",
+  "measurements": [
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "double-cosine-propagated-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 0.002018722526328022
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "jd-split-1-coordinate-residuals",
+      "metric": "COMPONENT_RESIDUAL",
+      "unit": "MIXED_PMSAFE_OUTPUT_UNITS",
+      "value": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "jd-split-2-coordinate-residuals",
+      "metric": "COMPONENT_RESIDUAL",
+      "unit": "MIXED_PMSAFE_OUTPUT_UNITS",
+      "value": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "omitted-cosine-propagated-separation",
+      "metric": "GREAT_CIRCLE_ANGULAR_SEPARATION",
+      "unit": "RADIAN",
+      "value": 0.0003505483020686592
+    },
+    {
+      "acceptanceStatus": "MEASURED_NO_ACCEPTANCE",
+      "measurementId": "warning-wrapper-vs-raw-residuals",
+      "metric": "COMPONENT_RESIDUAL",
+      "unit": "MIXED_PMSAFE_OUTPUT_UNITS",
+      "value": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "resultClassification": "SYNTHETIC_EXPERIMENT_EVIDENCE_ONLY",
+  "schemaVersion": "ufuq.astronomy-experiment-result.v1",
+  "structuredStatuses": [
+    {
+      "code": "PMSAFE_CORRECT_RATE_STATUS_0",
+      "message": "The correct starred-alpha conversion raw status 0 was retained.",
+      "sequenceIndex": 0,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE"
+    },
+    {
+      "code": "PMSAFE_OMITTED_COSINE_STATUS_0",
+      "message": "The omitted-cosine diagnostic raw status 0 was retained.",
+      "sequenceIndex": 1,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE"
+    },
+    {
+      "code": "PMSAFE_DOUBLE_COSINE_STATUS_0",
+      "message": "The double-cosine diagnostic raw status 0 was retained.",
+      "sequenceIndex": 2,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE"
+    },
+    {
+      "code": "PMSAFE_WARNING_STATUS_1",
+      "message": "Raw warning-producing pmsafe status 1 was retained.",
+      "sequenceIndex": 3,
+      "severity": "WARNING",
+      "source": "ERFA_PMSAFE"
+    },
+    {
+      "code": "PMSAFE_SPLIT_0_STATUS_0",
+      "message": "Two-part-JD split 0 raw status 0 was retained.",
+      "sequenceIndex": 4,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE_SPLIT"
+    },
+    {
+      "code": "PMSAFE_SPLIT_1_STATUS_0",
+      "message": "Two-part-JD split 1 raw status 0 was retained.",
+      "sequenceIndex": 5,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE_SPLIT"
+    },
+    {
+      "code": "PMSAFE_SPLIT_2_STATUS_0",
+      "message": "Two-part-JD split 2 raw status 0 was retained.",
+      "sequenceIndex": 6,
+      "severity": "INFO",
+      "source": "ERFA_PMSAFE_SPLIT"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "ErfaWarning",
+      "message": "ERFA function \"pmsafe\" yielded 1 of \"distance overridden (Note 6)\"",
+      "sequenceIndex": 0,
+      "severity": "WARNING",
+      "source": "PYTHON_WARNING"
+    }
+  ]
+}

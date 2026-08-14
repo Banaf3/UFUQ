@@ -8,11 +8,13 @@ Scientific measurements, cultural interpretation, visual relationships, pedagogy
 
 | Class | Contents | Authority | Repository policy |
 |---|---|---|---|
-| 1. Numerical astronomical catalogue | Stable source ID; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits |
-| 2. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member catalogue IDs; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication; not limited to one named pattern |
-| 3. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
-| 4. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
-| 5. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–4 | Never hand-edit; generated header/manifest/checksum required |
+| 1. Numerical astronomical catalogue | Stable UFUQ `starId`; source-release crosswalk; catalogue astrometry and reference epoch; the approved space-motion, photometric, uncertainty/covariance and quality fields or a reviewed omission rationale | Approved catalogue/table/version AST-001 | Acquisition output is immutable; commit only if licence permits; changing source releases does not change cultural identifiers |
+| 2. Observer preset data | Stable preset/site identity; exact reference point; geodetic coordinates; datum/frame/ellipsoid; typed height; applicable coordinate epoch; accuracy; provenance; source/data versions; approval | `ObserverPreset` semantics from 2C; concrete source and data approval in 2D | Exact values are acquired, reviewed, versioned and hash-bound rather than copied from a map or embedded in formulas; unknown accuracy stays explicit |
+| 3. Leap/EOP operational science data | Exact official leap transport and final Bulletin B/final-derived `UT1-UTC`,`xp`,`yp` source bytes; raw source flags at their documented quantity-group granularity plus independently normalized field uncertainties/coverage; Bulletin C consistency; Gazette-example four-point/continuous-UT1 configuration; exact IERS Conventions 2010 ocean-tide/libration restoration configuration; immutable bundle/activation/replay manifests | ScientificProfileV1 semantic policy from 2C; exact artifact/configuration selection and approval in 2D; deterministic normalization/interpolation/restoration in 2E | Preserve raw bytes and hashes; keep fields independent; apply restoration exactly once; no prediction/preliminary/estimate, zero/nearest/extrapolated fallback, request-time download, or silent active-bundle replacement |
+| 4. `SkyPattern` curation | Stable pattern ID; names/cultural labels; member UFUQ `starId` values; ordered line-segment endpoint IDs; citations; cultural-review status/version | Ilm al-Falak/cultural expert AST-002 or the applicable reviewed-content record | Human-reviewed YAML/JSON; no coordinate duplication or catalogue-specific foreign keys; not limited to one named pattern |
+| 5. `GuidanceRelationship` curation | Stable relationship ID; source pattern/star; target pattern/star/direction; type; instructional line/vector; explanation; applicable scenarios; citations; verification status/version | Applicable cultural, astronomy, and education reviewers | Human-reviewed and referentially validated; exact helper relationships remain provisional |
+| 6. `LessonRoute` and educational metadata | Ordered relationship/learning steps; prerequisite skills; allowed alternative paths; scaffold-configuration reference; KC/task/cue/misconception metadata; route status/version | Supervisor/learning expert plus the underlying content authorities | Versioned reviewed content separate from scientific rows; no hardcoded Banat Na'sh-first flow |
+| 7. Generated runtime JSON | Minimal joined projection needed by browser: normalized numeric fields, approved labels/edges/metadata, schema and versions | Deterministic build from 1–6 | Never hand-edit; generated header/manifest/checksum required |
 
 Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and is not part of the catalogue pipeline.
 
@@ -27,6 +29,9 @@ Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and
   manifest, version, and checksum schema.
 - `data/manifests/` tracks provenance, licence, query, selection, and expected hashes.
 - `data/raw/` contains immutable acquired bytes locally and is ignored by default.
+- the future leap/EOP bundle location remains a versioned data/contract decision; its
+  active manifest must point to immutable raw sources and exact interpolation/
+  restoration configuration rather than discovering library caches.
 - `data/curation/patterns/`, `relationships/`, and `routes/` keep the three reviewed
   content classes visibly separate.
 - `data/generated/` contains deterministic runtime output only when licence and release
@@ -40,9 +45,9 @@ Operational learner data is governed by `governance/SECURITY_AND_PRIVACY.md` and
 system can reuse reviewed patterns and edges in more than one lesson without embedding
 cultural claims in code.
 
-- A `SkyPattern` contains its stable ID, names and cultural labels, member star
-  catalogue IDs, line segments, and cultural-review status. Coordinates remain solely
-  in the numerical catalogue.
+- A `SkyPattern` contains its stable ID, names and cultural labels, member UFUQ
+  `starId` values, line segments, and cultural-review status. Coordinates and external
+  catalogue identifiers remain solely in the numerical catalogue/crosswalk.
 - A `GuidanceRelationship` connects a source pattern or star to a target pattern, star,
   or typed direction. It records its relationship type, instructional line/vector,
   explanation, applicable scenarios, and verification status.
@@ -56,7 +61,7 @@ generic capability only. No helper constellation, mapping, segment, explanation,
 relationship is approved by this structural clarification.
 
 For each scenario, the server resolves a selected route alternative and derives the
-union of required catalogue-star IDs from all referenced patterns, star endpoints, and
+union of required UFUQ `starId` values from all referenced patterns, star endpoints, and
 instructional geometry. A route is eligible only when every required star is available
 under that approved scenario and all content/reference/review constraints pass. Missing
 stars make the whole route ineligible; the build/runtime must not silently remove a
@@ -73,8 +78,13 @@ containing:
 - retrieval timestamp in UTC, retrieval tool/version, source citation, licence URL/text identifier, and redistribution determination;
 - raw byte SHA-256, normalized table SHA-256, expected row count, and approved reviewer/date.
 
-CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the approved sole source for the
-Phase 1 local technical spike. Use the corrected author-replacement files recorded on
+CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the selected source for the
+Phase 1 local technical spike only; it is not thereby UFUQ's permanent production
+catalogue. Milestone 2D must approve the first deployed source release, its rights, and
+its mapping into stable UFUQ `starId` values. The source-release crosswalk must permit a
+reviewed source such as Gaia to coexist with or replace individual astrometric records
+without rewriting cultural records. For the existing I/311 spike, use the corrected
+author-replacement files recorded on
 2008-09-16, with `hip2.dat` as the main table and an exact matching supplement when a
 selected `Sn` family requires it. The Phase 1 field, missing/duplicate, solution,
 multiplicity, candidate-selection, schema, sorting, and checksum policies are fixed in
@@ -82,6 +92,32 @@ multiplicity, candidate-selection, schema, sorting, and checksum policies are fi
 partial and raw/derived redistribution is unresolved, so source-derived output stays
 ignored and local. Do not add catalogue rows to Git or deployment storage; the existing
 data-scaffold guard is intentionally unchanged.
+
+### Observer-preset handoff
+
+Milestone 2C owns the generic `ObserverPreset` field semantics, explicit units and
+reference systems, east-positive longitude convention, typed height/epoch/accuracy
+states, default prohibitions, and fail-closed outcomes. It selects only the identity
+`umpsa-pekan-faculty-of-computing` for `ScientificProfileV1`; it does not supply that
+site's numerical coordinates.
+
+Milestone 2D acquires and approves the exact Faculty reference point, latitude,
+longitude, height, datum/frame/ellipsoid, applicable coordinate epoch, accuracy,
+source record or official service response, acquisition identity/date, licence/use
+conditions, data version, and immutable manifest/hash where appropriate. An official
+reproducible UMPSA institutional or Malaysian-government geographic record is an
+eligible candidate for 2D review when it supplies every required semantic field and
+documented accuracy. Its source class alone does not establish scientific adequacy. A
+JUPEM survey-control record is optional, not mandatory, and cannot be substituted for
+the intended Faculty point merely because it is more precise. Missing provenance,
+browser geolocation, implicit `(0,0)`, hidden map coordinates, assumed WGS 84, zero
+height, silent orthometric-to-ellipsoidal conversion, and unknown accuracy encoded as
+zero are prohibited.
+
+No user acquisition is required to implement the generic contract. The concrete record
+is required before 2D can approve the preset and before real ProfileV1 execution. A
+future `Riyadh, Saudi Arabia` preset uses the same contract but belongs to a later
+multi-location profile and has no data-acquisition requirement now.
 
 I/311 `pmRA` is source-defined in Appendix G Table G.3 as `mu_alpha_star`; normalize it
 as `properMotionRaCosDecMilliarcsecondsPerYear` and do not apply or remove another
@@ -125,15 +161,16 @@ a hand-made Phase 1 fixture with a different provenance mechanism.
 
 Schemas reject unknown required semantics and at least verify:
 
-- unique, non-empty stable source IDs;
-- exactly one main row for every selected HIP and no unrequested row in the selected
-  artifact; a required 3/7/9-parameter or VIM supplement resolves exactly once;
+- unique, non-empty UFUQ `starId` values and unique source-release crosswalk keys;
+- for the I/311 spike, exactly one main row for every selected HIP and no unrequested
+  row in the selected artifact; a required 3/7/9-parameter or VIM supplement resolves
+  exactly once;
 - finite required astrometric/photometric/uncertainty values and their documented ranges/units; every omitted uncertainty/covariance or space-motion field has an approved error-bound rationale;
 - explicit frame/epoch/catalogue version; no mixed frames or epochs in one unlabelled artifact;
 - approved handling of missing/flagged astrometry;
 - Unicode NFC for Arabic and transliteration text;
 - `SkyPattern` records with unique stable IDs, citations, reviewer/date/status, member
-  IDs that resolve to selected catalogue rows, and segment endpoints that resolve to
+  UFUQ `starId` values that resolve to selected numerical rows, and segment endpoints that resolve to
   members; no self/duplicate edge unless explicitly justified;
 - `GuidanceRelationship` source/target/geometry references resolve to typed
   pattern/star/direction records and carry applicable-scenario plus verification status;
@@ -153,8 +190,8 @@ acquisition, a checksum differs, or a coordinate appears only in curation.
 Generated JSON is a build artifact with a companion manifest containing input
 versions/hashes, schema version, generator version/Git commit, selection evidence,
 licence/citation notices, artifact byte length/count, and artifact SHA-256. The v1
-canonical form is UTF-8 without BOM, NFC, lexicographic object-key order, numeric HIP
-record order, schema-defined order for other arrays, finite shortest-round-trip JSON
+canonical form is UTF-8 without BOM, NFC, lexicographic object-key order, stable
+`starId` record order, schema-defined order for other arrays, finite shortest-round-trip JSON
 numbers with negative zero normalized to zero, and one trailing LF. Volatile
 retrieval/review timestamps and machine paths stay outside the canonical payload. Two
 builds from identical approved inputs and tool versions must produce identical bytes.
@@ -162,11 +199,31 @@ It is committed only after explicit redistribution approval; otherwise it remain
 ignored local or authorized access-controlled storage. Code review changes
 source/curation inputs or transformer logic, never generated rows alone.
 
-AST-003 decides whether runtime rows carry catalogue-reference astrometry for runtime
-propagation, precomputed scenario-time directions, or both. The browser and API consume
-the same generated bytes/hash, validate schema/version/checksum before use, and refuse
-scenario issuance/loading on mismatch. Scenario and attempt records store that hash and
-the astronomy/EOP/build links needed for the qualified replay claim.
+AST-003 selects catalogue-reference astrometry propagated at runtime for
+`ScientificProfileV1`. Each eligible runtime row therefore carries source-neutral ICRS
+RA/Dec; approved epoch representation/scale; `mu_alpha_star` and Dec proper motion with
+duration/derivative-scale semantics; positive approved parallax or equivalent distance;
+approved finite radial velocity; units, uncertainties/covariance, quality and approval;
+source-release/crosswalk/licence provenance; and schema/profile/data hashes. Missing or
+unapproved required fields make the row ineligible and never become zero or library
+defaults. Precomputed scenario-time directions may later be derived fixtures/caches
+with complete input/profile/model/EOP hashes, but are not catalogue authority and do
+not replace V1 runtime propagation. The browser and API consume the same generated
+bytes/hash, validate schema/version/checksum before use, and refuse scenario issuance/
+loading on mismatch. Scenario and attempt records store that hash and the astronomy/
+EOP/build links needed for the qualified replay claim.
+
+The ProfileV1 leap/EOP handoff is equally deterministic. 2D selects exact official
+final EOP and leap artifacts, verifies Bulletin C consistency and integrity, records
+raw source flags at their documented quantity-group granularity plus independently
+normalized per-field quality/coverage/uncertainty, and pins the exact IERS interpolation/
+restoration source configuration. 2E parses into independent `UT1-UTC`,`xp`,`yp`
+records; performs UFUQ-selected four-point interpolation through continuous
+`UT1-TAI`, then exactly-once pinned IERS Conventions 2010 ocean-tide/applicable-
+libration restoration; generates the immutable bundle/manifest; and implements
+fail-closed runtime lookup. Profile activation derives its date endpoints only where
+all three fields have complete approved four-sample support and leap validity. Exact
+bytes, hashes and dates are not invented in 2C.
 
 ## Licensing and citation
 

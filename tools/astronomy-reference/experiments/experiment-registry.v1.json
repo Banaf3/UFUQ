@@ -1,0 +1,995 @@
+{
+  "schemaVersion": "ufuq.astronomy-experiment-registry.v1",
+  "protocolVersion": "2C.5A-v1",
+  "protocolDocument": "docs/spikes/PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md",
+  "fixtureSchema": "ufuq.astronomy-experiment-fixture.v1",
+  "resultSchema": "ufuq.astronomy-experiment-result.v1",
+  "errorBudgetStatus": "NOT_ESTABLISHED_AST_006_OPEN",
+  "classificationVocabulary": [
+    "RUNNABLE_SYNTHETIC_NOW",
+    "BLOCKED_BY_SOURCE_AUTHORITY",
+    "BLOCKED_BY_PROJECT_DECISION",
+    "BLOCKED_BY_REVIEW",
+    "BLOCKED_BY_REQUIRED_DATA",
+    "DEFERRED_TO_PRODUCTION_IMPLEMENTATION"
+  ],
+  "firstBatch": {
+    "batchId": "2C.5B-BATCH-01",
+    "status": "PROPOSED_SYNTHETIC_EXECUTION_ONLY",
+    "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+    "prohibitedInputClasses": ["SOURCE_DERIVED", "PRODUCTION_GENERATED"],
+    "prohibitedSourceMaterial": [
+      "I311_CATALOGUE_ROWS",
+      "HIP_SOURCE_DERIVED_VALUES",
+      "CATALOGUE_SOURCE_BYTES"
+    ],
+    "prohibitedClaims": [
+      "I311_EPOCH_TIME_SCALE_RESOLVED",
+      "PRODUCTION_APPROVAL",
+      "INDEPENDENT_SCIENTIFIC_VALIDATION_FROM_SHARED_LINEAGE",
+      "SCIENTIFIC_TOLERANCE_ACCEPTED"
+    ],
+    "executionGroups": [
+      {
+        "groupId": "EPOCH_LABEL_GUARDS",
+        "members": [
+          {
+            "experimentId": "2C.1-EXP-01",
+            "scopeId": "2C.1-EXP-01-BATCH01-SYNTHETIC",
+            "includedPartitions": ["TT_TDB_UTC_LABEL_SENSITIVITY"]
+          },
+          {
+            "experimentId": "2C.1-EXP-02",
+            "scopeId": "2C.1-EXP-02-BATCH01-SYNTHETIC",
+            "includedPartitions": ["CALENDAR_DECIMAL_YEAR_VS_JULIAN_EPOCH"]
+          },
+          {
+            "experimentId": "2C.1-EXP-03",
+            "scopeId": "2C.1-EXP-03-BATCH01-SYNTHETIC",
+            "includedPartitions": ["BESSELIAN_REJECTION_GUARD"]
+          }
+        ]
+      },
+      {
+        "groupId": "ROUTE_AND_CONVENTION_CONSISTENCY",
+        "members": [
+          {
+            "experimentId": "2C.2-EXP-01",
+            "scopeId": "2C.2-EXP-01-BATCH01-SYNTHETIC",
+            "includedPartitions": ["DECOMPOSED_VS_COMPOSED_IDENTICAL_SYNTHETIC_INPUTS"]
+          }
+        ]
+      },
+      {
+        "groupId": "MOTION_CONVENTION_GUARDS",
+        "members": [
+          {
+            "experimentId": "2C.2-EXP-04",
+            "scopeId": "2C.2-EXP-04-BATCH01-SYNTHETIC-CONVENTION-GUARDS",
+            "includedPartitions": [
+              "OMITTED_COSINE_GUARD",
+              "DOUBLE_COSINE_GUARD",
+              "DECLARED_TARGET_EPOCH_LABEL_GUARD",
+              "TWO_PART_JD_SPLIT_INVARIANT",
+              "WARNING_STATUS_PRESERVATION"
+            ]
+          }
+        ]
+      },
+      {
+        "groupId": "DETERMINISTIC_REPLAY",
+        "members": [
+          {
+            "experimentId": "2C.3-EXP-01",
+            "scopeId": "2C.3-EXP-01-BATCH01-SYNTHETIC",
+            "includedPartitions": ["TWO_RUN_CANONICAL_REPLAY", "FRESH_ISOLATED_ENVIRONMENT_REPLAY"]
+          }
+        ]
+      },
+      {
+        "groupId": "OPTIONAL_STATE_GUARDS",
+        "members": [
+          {
+            "experimentId": "2C.4-EXP-05",
+            "scopeId": "2C.4-EXP-05-BATCH01-SYNTHETIC",
+            "includedPartitions": ["BELOW_HORIZON_GEOMETRIC_STATE_PRESERVATION"]
+          },
+          {
+            "experimentId": "2C.4-EXP-06",
+            "scopeId": "2C.4-EXP-06-BATCH01-SYNTHETIC",
+            "includedPartitions": ["NO_DEFAULT_ATMOSPHERE_GUARD"]
+          },
+          {
+            "experimentId": "2C.4-EXP-07",
+            "scopeId": "2C.4-EXP-07-BATCH01-SYNTHETIC",
+            "includedPartitions": ["VISIBILITY_COMPONENT_INDEPENDENCE"]
+          }
+        ]
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "experimentId": "2C.1-EXP-01",
+      "title": "Julian TT/TDB/UTC epoch-label sensitivity",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c1",
+      "scientificQuestion": "How do explicit TT, TDB, and UTC labels on the same synthetic Julian epoch change the represented instant and propagated direction?",
+      "mayEstablish": ["Measure scale sensitivity and warning/status differences."],
+      "cannotEstablish": ["Establish the I/311 time scale, approve TT, or set a tolerance."],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 Time/apply_space_motion",
+        "PyERFA 2.0.1.5 pmsafe",
+        "smoke-only pinned leap artifact"
+      ],
+      "requiredInputPolicy": "Explicit ICRS, jyear scale, two-part TDB JD, mas per Julian year, parallax/RV, pinned smoke-only leap artifact, and synthetic ITRS geocentre [0,0,0] m as the TT/TDB conversion reference; no EOP, physical/topocentric or production observer, meteorology, or ephemeris.",
+      "parameterPartitions": [
+        "TT/TDB/UTC labels",
+        "zero/high motion",
+        "high declination",
+        "parallax/RV branches",
+        "alternative JD splits"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_BYTES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 and AST-006 approval before measurements inform an epoch policy.",
+      "followUpDecisions": [
+        "Bound candidate epoch-label consequences without deciding source meaning."
+      ],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.1-EXP-02",
+      "title": "Calendar decimal-year comparison",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c1",
+      "scientificQuestion": "How does calendar decimal year differ from a Julian epoch under otherwise identical synthetic motion?",
+      "mayEstablish": ["Measure instant, elapsed-time, and direction differences."],
+      "cannotEstablish": ["Make decimalyear an I/311 interpretation or define acceptance."],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 TimeDecimalYear/TimeJulianEpoch/apply_space_motion",
+        "smoke-only pinned leap artifact consumed by TT/TDB conversion"
+      ],
+      "requiredInputPolicy": "Explicit representation and scale, ICRS, motion units, target instant, parallax/RV, pinned smoke-only leap artifact, and synthetic ITRS geocentre [0,0,0] m as the TT/TDB conversion reference; no physical/topocentric observer or production data policy.",
+      "parameterPartitions": [
+        "leap/non-leap calendar years",
+        "zero/high motion",
+        "identical target instants"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "MEASUREMENT_ONLY",
+      "reviewerApproval": "AST-003 and AST-006 approval before measurements inform an epoch policy.",
+      "followUpDecisions": ["Reject or bound the calendar-year alternative."],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.1-EXP-03",
+      "title": "Besselian rejection guard",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c1",
+      "scientificQuestion": "Does the protocol prevent Besselian byear from being treated as an I/311 candidate?",
+      "mayEstablish": [
+        "Establish an exact candidate-set rejection guard and record diagnostic differences."
+      ],
+      "cannotEstablish": ["Infer catalogue intent from numerical separation."],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 TimeBesselianEpoch/TimeJulianEpoch",
+        "smoke-only pinned leap artifact consumed by TT/TDB conversion"
+      ],
+      "requiredInputPolicy": "Explicit diagnostic TT scale, pinned smoke-only leap artifact, and synthetic ITRS geocentre [0,0,0] m as the TT/TDB conversion reference; byear is labelled rejected, never a source candidate, and no physical/topocentric observer or production data policy follows.",
+      "parameterPartitions": ["ordinary/high motion", "deliberately mislabelled fixture"],
+      "comparisonLineage": "STRUCTURAL_INVARIANT",
+      "metrics": [
+        "COMPONENT_RESIDUALS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_BYTES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 approval before the guard becomes part of a production epoch adapter.",
+      "followUpDecisions": ["Freeze the rejection path for unsupported epoch representations."],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.2-EXP-01",
+      "title": "Componentized-route equivalence",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "Is the decomposed ERFA route internally consistent with composed atco13 for identical explicit synthetic inputs?",
+      "mayEstablish": ["Detect wiring, unit, convention, status, and intermediate-state faults."],
+      "cannotEstablish": [
+        "Provide independent scientific validation or approve the production route."
+      ],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "PyERFA 2.0.1.5 pmsafe/apco13/atciq/atioq/atco13",
+        "ERFA 2.0.1",
+        "SOFA 20231011",
+        "smoke-only pinned leap artifact"
+      ],
+      "requiredInputPolicy": "Explicit UTC/TT/UT1, synthetic dut1/xp/yp, WGS84 candidate observer, pressure-zero atmosphere, ICRS and azimuth conventions.",
+      "parameterPartitions": [
+        "cardinal/wrap",
+        "meridian/east/west",
+        "horizon/zenith",
+        "nonzero EOP",
+        "alternative JD splits",
+        "motion branches"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "WRAPPED_AZIMUTH_DIFFERENCE",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 and AST-006 approval before results inform route selection.",
+      "followUpDecisions": ["Identify stage ownership and route-wiring defects."],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.2-EXP-02",
+      "title": "Independent-reference disagreement",
+      "currentClassification": "DEFERRED_TO_PRODUCTION_IMPLEMENTATION",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "How does future production disagree with the independent Astropy reference path?",
+      "mayEstablish": [
+        "Measure implementation disagreement and warning/status mismatches after production exists."
+      ],
+      "cannotEstablish": [
+        "Exist before production, make Astropy production code, or set acceptance."
+      ],
+      "inputClasses": ["PRODUCTION_GENERATED", "SYNTHETIC"],
+      "referenceDependencies": [
+        "future production TypeScript astronomy",
+        "Astropy 8.0.1 SkyCoord/CIRS/AltAz"
+      ],
+      "requiredInputPolicy": "Matched explicit frame/time/EOP/observer/motion/refraction policies and production-import audit.",
+      "parameterPartitions": ["approved domain and scientific boundary partitions"],
+      "comparisonLineage": "PRODUCTION_COMPARISON_REQUIRED",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "WRAPPED_AZIMUTH_DIFFERENCE",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-003 and AST-006 approval; first comparison activates test:reference.",
+      "followUpDecisions": [
+        "Approve or reject production/reference agreement after an error budget."
+      ],
+      "blockers": [
+        "No production TypeScript astronomy implementation or production-generated outputs exist."
+      ],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.2-EXP-03",
+      "title": "Effect ablation and interaction",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "What changes when each candidate effect and selected interactions are toggled in controlled SOFA-family probes?",
+      "mayEstablish": ["Measure local sensitivities and detect double application."],
+      "cannotEstablish": [
+        "Approve inclusion/omission or sum local deltas into a total error bound."
+      ],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": [
+        "PyERFA 2.0.1.5 direct astrometry/time/observer/refraction routines",
+        "SOFA 20231011"
+      ],
+      "requiredInputPolicy": "Every effect input is explicit synthetic data with named frame, time scale, unit, stage, and zero/nonzero state.",
+      "parameterPartitions": [
+        "one-at-a-time effects",
+        "sign/order faults",
+        "pairwise interactions",
+        "risk-selected multi-effect interactions"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "WRAPPED_AZIMUTH_DIFFERENCE",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "MEASUREMENT_ONLY",
+      "reviewerApproval": "AST-003, AST-004, and AST-006 approval before results inform effect policy.",
+      "followUpDecisions": ["Prioritize deeper omission and interaction evidence."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.2-EXP-04",
+      "title": "Epoch and motion boundary",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "Do synthetic epoch/target boundaries, starred-alpha conversion, pole guards, JD splits, and warning propagation behave as declared?",
+      "mayEstablish": [
+        "Detect omitted/double-cosine faults and status loss; measure candidate-label sensitivity."
+      ],
+      "cannotEstablish": ["Authorize I/311 propagation or resolve its time scale."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 time/space motion",
+        "PyERFA 2.0.1.5 pmsafe",
+        "SOFA 20231011"
+      ],
+      "requiredInputPolicy": "Explicit ICRS, source and target epoch labels/scales, TDB JDs, mas per Julian year, parallax/RV; Batch 01 excludes source rows.",
+      "parameterPartitions": [
+        "2C.1 labels",
+        "candidate J2000 target",
+        "high declination",
+        "near pole",
+        "alternative JD splits",
+        "warning-producing cases"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_BYTES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 and AST-006 approval before guards inform production.",
+      "followUpDecisions": ["Approve adapter guards after the source epoch policy exists."],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.2-EXP-05",
+      "title": "Earth-orientation and range sensitivity",
+      "currentClassification": "BLOCKED_BY_PROJECT_DECISION",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "What is the sensitivity to EOP field quality/availability, corrections, degradation, and candidate range endpoints?",
+      "mayEstablish": ["Later bound EOP policy choices over a proposed domain."],
+      "cannotEstablish": [
+        "Turn product coverage or arbitrary perturbations into a supported domain."
+      ],
+      "inputClasses": ["EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "selected EOP/leap products",
+        "candidate CPO-capable route",
+        "SOFA 20231011"
+      ],
+      "requiredInputPolicy": "Requires per-field product/quality/provenance/approval, interpolation, stale/degraded definition, and proposed endpoints.",
+      "parameterPartitions": [
+        "each EOP field",
+        "quality/availability states",
+        "interactions",
+        "UTC/leap boundaries",
+        "range endpoints"
+      ],
+      "comparisonLineage": "POLICY_SENSITIVITY_NO_INDEPENDENT_COMPARISON",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "WRAPPED_AZIMUTH_DIFFERENCE",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-003, AST-006, and AST-007 approval.",
+      "followUpDecisions": [
+        "Select field policies, supported domain, and any bounded degradation."
+      ],
+      "blockers": [
+        "No candidate product policy, field-quality disposition, degradation definition, or numerical endpoints are approved."
+      ],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.2-EXP-06",
+      "title": "Observer, parallax, and velocity sensitivity",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "How sensitive are synthetic results to observer position, parallax, and radial velocity, and can double application be detected?",
+      "mayEstablish": ["Measure controlled branches and detect topocentric/diurnal duplication."],
+      "cannotEstablish": ["Select an observer, distance, RV, or omission policy."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 coordinate frames",
+        "PyERFA 2.0.1.5 astrometry/observer routines"
+      ],
+      "requiredInputPolicy": "Explicit synthetic ICRS, parallax/distance, RV, observer, time, and EOP values; no source rows.",
+      "parameterPartitions": [
+        "geocentre/site/height",
+        "positive/zero/negative parallax",
+        "missing/zero/nonzero/high RV",
+        "single/double application"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 and AST-006 approval before results inform input or omission policy.",
+      "followUpDecisions": ["Bound candidate observer/parallax/RV alternatives."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.2-EXP-07",
+      "title": "Solar and optional multi-body deflection",
+      "currentClassification": "BLOCKED_BY_PROJECT_DECISION",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "Is solar-only deflection adequate over a proposed domain, or are named additional bodies required?",
+      "mayEstablish": ["Later measure solar and multi-body differences with pinned ephemerides."],
+      "cannotEstablish": [
+        "Complete a multi-body comparison without an independent pinned model/data path."
+      ],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "SOFA 20231011 ldsun/ldn/atciqn",
+        "unselected multi-body ephemeris and body constants"
+      ],
+      "requiredInputPolicy": "Requires named bodies, ephemeris/version/hash, limiter conventions, dates, and proposed domain.",
+      "parameterPartitions": [
+        "solar elongation",
+        "dates",
+        "each candidate body",
+        "aberration interactions"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-003 and AST-006 approval after model/data pinning.",
+      "followUpDecisions": ["Select solar-only scope or named additional bodies."],
+      "blockers": [
+        "The additional-body scope is not selected; no independently pinned multi-body model/ephemeris and body-input manifest exists."
+      ],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.2-EXP-08",
+      "title": "Refraction validity boundary",
+      "currentClassification": "BLOCKED_BY_PROJECT_DECISION",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c2",
+      "scientificQuestion": "Where is a proposed refraction route scientifically valid and what warning/non-result boundary should apply?",
+      "mayEstablish": ["Later test a reviewed model-specific domain."],
+      "cannotEstablish": ["Derive a UFUQ floor from library prose or a numerical guard."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": [
+        "selected refraction model/version",
+        "Astropy 8.0.1 AltAz",
+        "PyERFA 2.0.1.5 refco/atioq"
+      ],
+      "requiredInputPolicy": "Requires approved atmosphere provenance/ranges, altitude domain, observer policy, warnings, and explicit meteorology.",
+      "parameterPartitions": [
+        "pressure-zero identity",
+        "controlled atmosphere",
+        "5-degree documentation partition",
+        "zero/below horizon",
+        "invalid/unavailable inputs"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-004 and AST-006 approval.",
+      "followUpDecisions": ["Approve or reject a model-specific validity and warning contract."],
+      "blockers": ["No refraction model/domain/floor or accepted warning policy is selected."],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.3-EXP-01",
+      "title": "Offline deterministic reconstruction",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c3",
+      "scientificQuestion": "Can the named synthetic bundle, fixtures, warnings, and results be reconstructed offline byte-for-byte?",
+      "mayEstablish": ["Establish deterministic protocol and artifact replay."],
+      "cannotEstablish": [
+        "Approve smoke artifacts for production or prove air-gapped acquisition."
+      ],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "locked astronomy-reference environment",
+        "pinned astropy-iers-data smoke files"
+      ],
+      "requiredInputPolicy": "Network and auto-download disabled, fresh cache, exact environment/artifact hashes, no production imports.",
+      "parameterPartitions": [
+        "two local runs",
+        "fresh isolated synchronized environment",
+        "missing/hash-mismatch negative cases"
+      ],
+      "comparisonLineage": "STRUCTURAL_INVARIANT",
+      "metrics": ["WARNINGS", "STRUCTURED_STATUSES", "DETERMINISTIC_BYTES", "DETERMINISTIC_SHA256"],
+      "determinismProfile": "FRESH_ENVIRONMENT_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_ONLY",
+      "reviewerApproval": "ADR-007 review before replay evidence is used for release claims.",
+      "followUpDecisions": [
+        "Approve the deterministic experiment transport, not production science data."
+      ],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.3-EXP-02",
+      "title": "EOP state partitions",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c3",
+      "scientificQuestion": "Does every EOP field retain independent quality, availability, provenance, coverage, and approval without substitution or promotion?",
+      "mayEstablish": ["Establish exact structural and status-preservation invariants."],
+      "cannotEstablish": ["Approve field quality or calculate accepted astronomy."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["versioned experiment fixture/result schemas"],
+      "requiredInputPolicy": "Synthetic status records for UT1-UTC, xp, yp, dX, and dY; no numerical EOP default.",
+      "parameterPartitions": [
+        "mixed quality",
+        "missing/blank/stale/out-of-range/hash mismatch",
+        "one-field changes",
+        "zero/nearest fault injection"
+      ],
+      "comparisonLineage": "STRUCTURAL_INVARIANT",
+      "metrics": ["STRUCTURED_STATUSES", "DETERMINISTIC_BYTES", "DETERMINISTIC_SHA256"],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_ONLY",
+      "reviewerApproval": "AST-003 and AST-007 approval before a production EOP state schema is selected.",
+      "followUpDecisions": ["Approve or revise orthogonal per-field state handling."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.3-EXP-03",
+      "title": "EOP degradation sensitivity",
+      "currentClassification": "BLOCKED_BY_PROJECT_DECISION",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c3",
+      "scientificQuestion": "What are the consequences of named degraded EOP modes over a proposed domain?",
+      "mayEstablish": ["Later quantify candidate degradation modes."],
+      "cannotEstablish": [
+        "Define stale, prediction acceptance, zero fill, or a domain by arbitrary inputs."
+      ],
+      "inputClasses": ["EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": ["selected EOP product and candidate degraded-mode definitions"],
+      "requiredInputPolicy": "Requires per-field modes, freshness rule, candidate range, observers, and perturbation partitions.",
+      "parameterPartitions": ["each EOP field", "mode interactions", "candidate range endpoints"],
+      "comparisonLineage": "POLICY_SENSITIVITY_NO_INDEPENDENT_COMPARISON",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "WRAPPED_AZIMUTH_DIFFERENCE",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-003, AST-006, and AST-007 approval.",
+      "followUpDecisions": ["Quantify and then approve or reject named degraded modes."],
+      "blockers": [
+        "No degradation mode, stale rule, prediction policy, or candidate operating domain is defined."
+      ],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.3-EXP-04",
+      "title": "Leap and timestamp boundaries",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c3",
+      "scientificQuestion": "Does the locked reference path preserve syntax, conversions, warnings, and errors at timestamp boundaries?",
+      "mayEstablish": ["Establish reference-library and protocol status behaviour."],
+      "cannotEstablish": [
+        "Select production grammar, precision, leap artifact, expiry, or date range."
+      ],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "Astropy 8.0.1 Time/LeapSeconds",
+        "PyERFA 2.0.1.5 dtf2d/time routines",
+        "smoke-only pinned leap artifact"
+      ],
+      "requiredInputPolicy": "Explicit timestamp strings and artifact state; no automatic table discovery or production validity inference.",
+      "parameterPartitions": [
+        "valid/invalid second 60",
+        "adjacent instants",
+        "fractions",
+        "malformed offsets",
+        "-00:00",
+        "missing/expired simulations"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_BYTES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 and AST-007 approval before production grammar/status mapping.",
+      "followUpDecisions": ["Approve later UTC grammar, artifact, and outcome mapping."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.3-EXP-05",
+      "title": "Observer partitions",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c3",
+      "scientificQuestion": "Do structural observer guards, sign conventions, singularity states, and provenance fields behave explicitly?",
+      "mayEstablish": [
+        "Establish exact input/convention invariants and reference-library behaviour."
+      ],
+      "cannotEstablish": ["Approve WGS84, normalization, poles, locations, or height ranges."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["Astropy 8.0.1 EarthLocation", "PyERFA 2.0.1.5 eform/gd2gc"],
+      "requiredInputPolicy": "Explicit candidate datum, geodetic latitude, east-positive longitude, ellipsoidal-height label, provenance, and no defaults.",
+      "parameterPartitions": [
+        "latitude endpoints/outside",
+        "longitude equivalents",
+        "poles",
+        "zenith/nadir",
+        "varied heights",
+        "orthometric/non-finite rejection"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": ["COMPONENT_RESIDUALS", "WARNINGS", "STRUCTURED_STATUSES", "DETERMINISTIC_SHA256"],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-003 and AST-007 approval before selecting an observer domain.",
+      "followUpDecisions": ["Select observer normalization, datum, range, and singularity policy."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.3-EXP-06",
+      "title": "Operating-domain endpoints and outcome precedence",
+      "currentClassification": "BLOCKED_BY_PROJECT_DECISION",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c3",
+      "scientificQuestion": "Do exact supported-domain endpoints and multi-fault precedence produce approved outcomes?",
+      "mayEstablish": ["Later establish endpoint and precedence conformance."],
+      "cannotEstablish": [
+        "Run without numerical endpoints, inclusion rules, and component-domain artifacts."
+      ],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "approved catalogue/model/EOP/leap/observer/tolerance domain manifests"
+      ],
+      "requiredInputPolicy": "Requires exact endpoints, interpolation neighbours, future horizon, observer limits, and stable semantic outcome mapping.",
+      "parameterPartitions": [
+        "each endpoint",
+        "smallest outside neighbour",
+        "future horizon",
+        "location/height boundaries",
+        "multi-fault combinations"
+      ],
+      "comparisonLineage": "POLICY_SENSITIVITY_NO_INDEPENDENT_COMPARISON",
+      "metrics": ["WARNINGS", "STRUCTURED_STATUSES", "DETERMINISTIC_BYTES", "DETERMINISTIC_SHA256"],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-003, AST-006, and AST-007 approval.",
+      "followUpDecisions": ["Approve supported-domain endpoints and outcome precedence."],
+      "blockers": [
+        "Numerical endpoints, inclusion rules, interpolation neighbours, and observer/future limits are unapproved."
+      ],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.4-EXP-01",
+      "title": "Refraction-model comparison",
+      "currentClassification": "BLOCKED_BY_REQUIRED_DATA",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "How do independently specified primary-authority refraction models disagree under identical inputs?",
+      "mayEstablish": ["Later measure independent model disagreement."],
+      "cannotEstablish": ["Compare models while only the pinned ERFA/SOFA family is available."],
+      "inputClasses": ["SYNTHETIC", "EXTERNAL_AUTHORITATIVE_ARTIFACT"],
+      "referenceDependencies": [
+        "SOFA 20231011 refraction model",
+        "unselected second primary-authority model and implementation"
+      ],
+      "requiredInputPolicy": "Requires a second model source/version/domain, independent code/data path, and matched coefficient/input conventions.",
+      "parameterPartitions": [
+        "atmosphere grid",
+        "altitude grid",
+        "warnings",
+        "documented model domains"
+      ],
+      "comparisonLineage": "INDEPENDENT_MODEL_REQUIRED",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "NOT_RUNNABLE",
+      "reviewerApproval": "AST-004 and AST-006 approval after model/data pinning.",
+      "followUpDecisions": ["Select or reject a refraction model after independent comparison."],
+      "blockers": [
+        "No second named primary-authority model and independently pinned implementation/data path exists."
+      ],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.4-EXP-02",
+      "title": "Meteorology sensitivity",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "How does the pinned SOFA-family refraction output respond to explicit synthetic meteorology?",
+      "mayEstablish": ["Measure local and interaction sensitivity."],
+      "cannotEstablish": ["Approve a range, default, uncertainty model, or tolerance."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["PyERFA 2.0.1.5 refco/atioq", "SOFA 20231011"],
+      "requiredInputPolicy": "Explicit pressure hPa, temperature C, humidity fraction, wavelength micrometres, geometric direction, and pressure-zero control.",
+      "parameterPartitions": [
+        "one-at-a-time changes",
+        "joint changes",
+        "uncertainty candidates",
+        "measured/derived labels"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "COMPONENT_RESIDUALS",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "MEASUREMENT_ONLY",
+      "reviewerApproval": "AST-004 and AST-006 approval before results inform a model domain.",
+      "followUpDecisions": ["Design an authority-backed atmosphere/domain proposal."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.4-EXP-03",
+      "title": "Near-horizon numerical sensitivity",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "What numerical behaviour and warnings occur around documented low-altitude partitions?",
+      "mayEstablish": ["Measure reference-library sensitivity and path disagreement."],
+      "cannotEstablish": ["Establish a UFUQ validity threshold or below-horizon applicability."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["Astropy 8.0.1 AltAz", "PyERFA 2.0.1.5 refco/atioq"],
+      "requiredInputPolicy": "Explicit atmosphere and geometric direction; documented library partitions are labels, not accepted domains.",
+      "parameterPartitions": [
+        "above/around/below 5-degree documentation region",
+        "around zero",
+        "negative altitude",
+        "forward/reverse paths"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "MEASUREMENT_ONLY",
+      "reviewerApproval": "AST-004 and AST-006 approval before results inform validity policy.",
+      "followUpDecisions": ["Prioritize model/domain and warning-policy review."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.4-EXP-04",
+      "title": "Geometric versus model-apparent horizon",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "Where does a named reference model place apparent altitude zero relative to geometric altitude zero?",
+      "mayEstablish": ["Measure a model-specific crossing while retaining both states."],
+      "cannotEstablish": [
+        "Instantiate an approved UFUQ apparent horizon or introduce terrain/dip/learner semantics."
+      ],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["PyERFA 2.0.1.5 refco/atioq", "SOFA 20231011"],
+      "requiredInputPolicy": "One named reference model, explicit atmosphere, geometric direction sweep, north-zero/east-positive azimuth.",
+      "parameterPartitions": [
+        "pressure-zero identity",
+        "explicit atmospheres",
+        "crossing brackets",
+        "azimuth partitions"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-004 and AST-006 approval before defining an apparent-horizon state.",
+      "followUpDecisions": ["Design a later model-specific horizon policy."],
+      "blockers": [],
+      "firstBatch": false
+    },
+    {
+      "experimentId": "2C.4-EXP-05",
+      "title": "Below-horizon behaviour",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "Does below-horizon probing preserve the valid geometric direction and earlier warnings/statuses?",
+      "mayEstablish": [
+        "Establish exact non-erasure/precedence invariants and measure library behaviour."
+      ],
+      "cannotEstablish": ["Approve refracted output below the horizon."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": [
+        "versioned experiment state schemas",
+        "PyERFA 2.0.1.5 candidate refraction routines when requested"
+      ],
+      "requiredInputPolicy": "Explicit geometric direction, requested/not-requested state, complete or missing meteorology, and no defaults.",
+      "parameterPartitions": [
+        "small/large negative altitude",
+        "numerical guard",
+        "not requested",
+        "unavailable/invalid",
+        "later visibility failure"
+      ],
+      "comparisonLineage": "STRUCTURAL_INVARIANT",
+      "metrics": [
+        "ALTITUDE_DIFFERENCE",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_BYTES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-004 and AST-007 approval before production outcome semantics.",
+      "followUpDecisions": ["Approve or revise non-erasing optional-stage precedence."],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.4-EXP-06",
+      "title": "Default-atmosphere consequences",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "What changes under Astropy library defaults, and does the UFUQ protocol prohibit their silent use?",
+      "mayEstablish": [
+        "Measure default consequences and establish exact no-default/status guards."
+      ],
+      "cannotEstablish": ["Approve any atmosphere default."],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["Astropy 8.0.1 AltAz", "PyERFA 2.0.1.5 refco/atioq"],
+      "requiredInputPolicy": "Compare documented library defaults only as labelled behaviour against fully explicit inputs and UFUQ missing-input rejection.",
+      "parameterPartitions": [
+        "each omitted field",
+        "all explicit defaults",
+        "pressure zero",
+        "missing requested input",
+        "malformed input"
+      ],
+      "comparisonLineage": "SAME_ERFA_SOFA_FAMILY",
+      "metrics": [
+        "GREAT_CIRCLE_ANGULAR_SEPARATION",
+        "ALTITUDE_DIFFERENCE",
+        "WARNINGS",
+        "STRUCTURED_STATUSES",
+        "DETERMINISTIC_BYTES",
+        "DETERMINISTIC_SHA256"
+      ],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_AND_MEASUREMENT",
+      "reviewerApproval": "AST-004 approval before retaining the no-default production rule.",
+      "followUpDecisions": ["Demonstrate consequences while keeping defaults unapproved."],
+      "blockers": [],
+      "firstBatch": true
+    },
+    {
+      "experimentId": "2C.4-EXP-07",
+      "title": "Visibility-policy separation",
+      "currentClassification": "RUNNABLE_SYNTHETIC_NOW",
+      "protocolRecord": "PHASE1_SCIENTIFIC_EXPERIMENT_PROTOCOL.md#milestone-2c4",
+      "scientificQuestion": "Can each visibility component change independently without promoting another or erasing coordinates?",
+      "mayEstablish": ["Establish structural independence and state-preservation invariants."],
+      "cannotEstablish": [
+        "Establish scientific visibility, an aggregate boolean, screen policy, or learner eligibility."
+      ],
+      "inputClasses": ["SYNTHETIC"],
+      "referenceDependencies": ["versioned experiment fixture/result schemas"],
+      "requiredInputPolicy": "Nine independent synthetic component/status records; no astronomy, terrain, weather, or photometric defaults.",
+      "parameterPartitions": [
+        "each component alone",
+        "pairwise changes",
+        "multi-fault precedence",
+        "promotion/erasure fault injection"
+      ],
+      "comparisonLineage": "STRUCTURAL_INVARIANT",
+      "metrics": ["STRUCTURED_STATUSES", "DETERMINISTIC_BYTES", "DETERMINISTIC_SHA256"],
+      "determinismProfile": "TWO_RUN_CANONICAL_REPLAY",
+      "hashProfile": "ENVIRONMENT_REGISTRY_SCHEMA_FIXTURE_RESULT_SOURCE_AND_ARTIFACTS",
+      "acceptanceMode": "EXACT_INVARIANT_ONLY",
+      "reviewerApproval": "AST-004 and AST-007 approval before a production visibility-state schema.",
+      "followUpDecisions": [
+        "Approve or revise component separation without approving aggregation."
+      ],
+      "blockers": [],
+      "firstBatch": true
+    }
+  ]
+}

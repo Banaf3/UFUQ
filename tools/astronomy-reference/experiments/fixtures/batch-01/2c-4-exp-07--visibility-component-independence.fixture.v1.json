@@ -1,0 +1,149 @@
+{
+  "caseId": "visibility-component-independence",
+  "conventions": {
+    "coordinateConventions": [
+      "NINE_COMPONENT_VISIBILITY_MODEL",
+      "NO_AGGREGATE_VISIBLE_BOOLEAN",
+      "OPTIONAL_STAGE_NON_ERASURE"
+    ],
+    "epochRepresentationsAndScales": [
+      "SYNTHETIC_OBSERVATION_INSTANT_METADATA_ONLY"
+    ],
+    "frames": [
+      "GEOMETRIC_HORIZONTAL",
+      "VISIBILITY_COMPONENT_STATE"
+    ],
+    "units": [
+      "DEGREE",
+      "COMPONENT_TOKEN"
+    ]
+  },
+  "dependencyManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+  "expectedChecks": [
+    {
+      "basis": "No component or renderer state produces an aggregate visibility claim.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "aggregate-visibility-claim-absent",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Visibility-policy unavailability retains geometric coordinates.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "geometric-state-retained-through-visibility-failure",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "The contract declares exactly nine independently keyed components.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "nine-visibility-components-independent",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    }
+  ],
+  "experimentId": "2C.4-EXP-07",
+  "fixtureId": "2C.4-EXP-07:visibility-component-independence",
+  "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+  "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+  "inputs": {
+    "geometricAltitudeDeg": {
+      "coordinateConvention": "ZERO_IS_LOCAL_HORIZONTAL_PLANE",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SIGNED_GEOMETRIC_ALTITUDE",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "DEGREE",
+      "value": 15
+    },
+    "geometricAzimuthDeg": {
+      "coordinateConvention": "NORTH_ZERO_EAST_NINETY",
+      "frame": "GEOMETRIC_HORIZONTAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "GEOMETRIC_AZIMUTH",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "DEGREE",
+      "value": 45
+    },
+    "requiredIndependentVisibilityComponents": {
+      "coordinateConvention": "NO_COMPONENT_PROMOTION",
+      "frame": "VISIBILITY_COMPONENT_STATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "REQUIRED_VISIBILITY_COMPONENT_SET",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "COMPONENT_TOKEN",
+      "value": [
+        "ASTRONOMICAL_HORIZON",
+        "PHOTOMETRY_VARIABILITY",
+        "SUN_DAYLIGHT_TWILIGHT",
+        "ATMOSPHERIC_EXTINCTION_TRANSPARENCY",
+        "CLOUD_WEATHER",
+        "TERRAIN_OBSTRUCTION",
+        "LIGHT_POLLUTION",
+        "SCREEN_PRESENTATION",
+        "LEARNER_ELIGIBILITY"
+      ]
+    },
+    "visibilityComponentNames": {
+      "coordinateConvention": "ARRAY_ORDER_SEMANTIC",
+      "frame": "VISIBILITY_COMPONENT_STATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "VISIBILITY_COMPONENT_INPUT_ORDER",
+      "timeScale": "SYNTHETIC_OBSERVATION_INSTANT",
+      "unit": "COMPONENT_TOKEN",
+      "value": [
+        "ASTRONOMICAL_HORIZON",
+        "PHOTOMETRY_VARIABILITY",
+        "SUN_DAYLIGHT_TWILIGHT",
+        "ATMOSPHERIC_EXTINCTION_TRANSPARENCY",
+        "CLOUD_WEATHER",
+        "TERRAIN_OBSTRUCTION",
+        "LIGHT_POLLUTION",
+        "SCREEN_PRESENTATION",
+        "LEARNER_ELIGIBILITY"
+      ]
+    }
+  },
+  "parameterPartition": [
+    "VISIBILITY_COMPONENT_INDEPENDENCE"
+  ],
+  "protocolVersion": "2C.5A-v1",
+  "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+  "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+  "requiredArtifactStates": {
+    "earthOrientation": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "ephemeris": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "leapSeconds": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "meteorology": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "observer": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    }
+  },
+  "schemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+  "scientificQuestion": "Can each visibility component change independently without promoting another or erasing coordinates?",
+  "sourceProhibitions": {
+    "catalogueSourceBytesAbsent": true,
+    "hipSourceDerivedValuesAbsent": true,
+    "i311EpochResolutionClaimAbsent": true,
+    "i311RowsAbsent": true,
+    "productionGeneratedValuesAbsent": true
+  },
+  "usedArtifactHashes": []
+}

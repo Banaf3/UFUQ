@@ -1,0 +1,356 @@
+{
+  "caseId": "decomposed-vs-composed-route",
+  "conventions": {
+    "coordinateConventions": [
+      "LONGITUDE_EAST_POSITIVE",
+      "AZIMUTH_NORTH_THROUGH_EAST",
+      "PRESSURE_ZERO_GEOMETRIC"
+    ],
+    "epochRepresentationsAndScales": [
+      "SOURCE_JYEAR_TDB",
+      "TARGET_J2000_TDB",
+      "OBSERVATION_UTC_WITH_SYNTHETIC_UT1_MINUS_UTC"
+    ],
+    "frames": [
+      "ICRS",
+      "CIRS",
+      "OBSERVED_HORIZONTAL"
+    ],
+    "units": [
+      "RADIAN",
+      "SECOND",
+      "METRE",
+      "HECTOPASCAL",
+      "DEGREE_CELSIUS",
+      "MICROMETRE"
+    ]
+  },
+  "dependencyManifestSha256": "2742dc8fb7e66ac8b2180af18fbe59d99bc41df0ee9290e032282a94ae9efb0d",
+  "expectedChecks": [
+    {
+      "basis": "Both branches receive pressure zero.",
+      "basisClassification": "PROJECT_DECISION",
+      "checkId": "geometric-pressure-zero-preserved",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Every numerical route residual lacks an AST-006 threshold.",
+      "basisClassification": "MEASUREMENT_PROTOCOL",
+      "checkId": "route-residuals-measured-without-acceptance",
+      "kind": "MEASUREMENT_ONLY",
+      "thresholdStatus": "UNAPPROVED_MEASUREMENT_ONLY"
+    },
+    {
+      "basis": "atco13 is the composed form of the same ERFA/SOFA family stages.",
+      "basisClassification": "SOURCE_SUPPORTED_FACT",
+      "checkId": "same-family-lineage-preserved",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    },
+    {
+      "basis": "Raw status-returning routine outputs must remain recorded.",
+      "basisClassification": "SOURCE_SUPPORTED_FACT",
+      "checkId": "sofa-statuses-preserved",
+      "kind": "EXACT_INVARIANT",
+      "thresholdStatus": "NOT_APPLICABLE_EXACT_INVARIANT"
+    }
+  ],
+  "experimentId": "2C.2-EXP-01",
+  "fixtureId": "2C.2-EXP-01:decomposed-vs-composed-route",
+  "fixtureSchemaSha256": "d62ffc34d36014cd972d6a091d4b17d9a28a3de0a642f9ed68499078d5cc295b",
+  "inputClassification": "SYNTHETIC_EXPERIMENT_INPUT",
+  "inputs": {
+    "declinationDeg": {
+      "coordinateConvention": "POSITIVE_NORTH",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_DECLINATION",
+      "timeScale": "SOURCE_EPOCH_TDB",
+      "unit": "DEGREE",
+      "value": 30
+    },
+    "dut1Seconds": {
+      "coordinateConvention": "UT1_MINUS_UTC",
+      "frame": "EARTH_ORIENTATION",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UT1_MINUS_UTC",
+      "timeScale": "UTC_TO_UT1",
+      "unit": "SECOND",
+      "value": 0.123
+    },
+    "ellipsoidalHeightM": {
+      "coordinateConvention": "ELLIPSOIDAL_HEIGHT",
+      "frame": "WGS84_CANDIDATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_OBSERVER_HEIGHT",
+      "timeScale": "NOT_APPLICABLE",
+      "unit": "METRE",
+      "value": 100
+    },
+    "geodeticLatitudeDeg": {
+      "coordinateConvention": "POSITIVE_NORTH",
+      "frame": "WGS84_CANDIDATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_OBSERVER_LATITUDE",
+      "timeScale": "NOT_APPLICABLE",
+      "unit": "DEGREE",
+      "value": 5
+    },
+    "longitudeEastRad": {
+      "coordinateConvention": "EAST_POSITIVE",
+      "frame": "WGS84_CANDIDATE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_OBSERVER_LONGITUDE",
+      "timeScale": "NOT_APPLICABLE",
+      "unit": "RADIAN",
+      "value": 1.8
+    },
+    "observationDay": {
+      "coordinateConvention": "GREGORIAN",
+      "frame": "NOT_APPLICABLE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UTC_DAY",
+      "timeScale": "UTC",
+      "unit": "CALENDAR_DAY",
+      "value": 15
+    },
+    "observationHour": {
+      "coordinateConvention": "ZERO_TO_TWENTY_THREE",
+      "frame": "NOT_APPLICABLE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UTC_HOUR",
+      "timeScale": "UTC",
+      "unit": "HOUR",
+      "value": 6
+    },
+    "observationMinute": {
+      "coordinateConvention": "ZERO_TO_FIFTY_NINE",
+      "frame": "NOT_APPLICABLE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UTC_MINUTE",
+      "timeScale": "UTC",
+      "unit": "MINUTE",
+      "value": 30
+    },
+    "observationMonth": {
+      "coordinateConvention": "GREGORIAN",
+      "frame": "NOT_APPLICABLE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UTC_MONTH",
+      "timeScale": "UTC",
+      "unit": "CALENDAR_MONTH",
+      "value": 1
+    },
+    "observationSecond": {
+      "coordinateConvention": "ZERO_TO_FIFTY_NINE",
+      "frame": "NOT_APPLICABLE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UTC_SECOND",
+      "timeScale": "UTC",
+      "unit": "SECOND",
+      "value": 0
+    },
+    "observationYear": {
+      "coordinateConvention": "GREGORIAN",
+      "frame": "NOT_APPLICABLE",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_UTC_YEAR",
+      "timeScale": "UTC",
+      "unit": "CALENDAR_YEAR",
+      "value": 2025
+    },
+    "parallaxArcsec": {
+      "coordinateConvention": "POSITIVE_PARALLAX",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_PARALLAX",
+      "timeScale": "SOURCE_EPOCH_TDB",
+      "unit": "ARCSECOND",
+      "value": 1
+    },
+    "polarMotionXRad": {
+      "coordinateConvention": "SOFA_XP",
+      "frame": "ITRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_POLAR_MOTION_X",
+      "timeScale": "UTC_SAMPLE",
+      "unit": "RADIAN",
+      "value": 1e-6
+    },
+    "polarMotionYRad": {
+      "coordinateConvention": "SOFA_YP",
+      "frame": "ITRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_POLAR_MOTION_Y",
+      "timeScale": "UTC_SAMPLE",
+      "unit": "RADIAN",
+      "value": -2e-6
+    },
+    "pressureHpa": {
+      "coordinateConvention": "PRESSURE_ZERO_NO_REFRACTION",
+      "frame": "OBSERVER_LOCAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "EXPLICIT_GEOMETRIC_PRESSURE",
+      "timeScale": "OBSERVATION_UTC",
+      "unit": "HECTOPASCAL",
+      "value": 0
+    },
+    "properMotionDecMasPerYear": {
+      "coordinateConvention": "POSITIVE_NORTH",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_DECLINATION_RATE",
+      "timeScale": "TDB_JULIAN_YEAR_RATE_CANDIDATE",
+      "unit": "MAS_PER_JULIAN_YEAR",
+      "value": -50
+    },
+    "properMotionRaCosDecMasPerYear": {
+      "coordinateConvention": "MU_ALPHA_STAR",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_STARRED_ALPHA_RATE",
+      "timeScale": "TDB_JULIAN_YEAR_RATE_CANDIDATE",
+      "unit": "MAS_PER_JULIAN_YEAR",
+      "value": 100
+    },
+    "radialVelocityKmPerSecond": {
+      "coordinateConvention": "POSITIVE_RECEDING",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_RADIAL_VELOCITY",
+      "timeScale": "SOURCE_EPOCH_TDB",
+      "unit": "KM_PER_SECOND",
+      "value": 20
+    },
+    "relativeHumidityFraction": {
+      "coordinateConvention": "ZERO_TO_ONE",
+      "frame": "OBSERVER_LOCAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "EXPLICIT_UNUSED_HUMIDITY_WITH_PRESSURE_ZERO",
+      "timeScale": "OBSERVATION_UTC",
+      "unit": "FRACTION",
+      "value": 0.5
+    },
+    "rightAscensionRad": {
+      "coordinateConvention": "EASTWARD",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_RIGHT_ASCENSION",
+      "timeScale": "SOURCE_EPOCH_TDB",
+      "unit": "RADIAN",
+      "value": 0.7
+    },
+    "sourceEpochNumericLabel": {
+      "coordinateConvention": "JYEAR_LABEL",
+      "frame": "ICRS",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "SYNTHETIC_SOURCE_EPOCH",
+      "timeScale": "TDB",
+      "unit": "JULIAN_EPOCH_NUMBER",
+      "value": 1991.25
+    },
+    "temperatureC": {
+      "coordinateConvention": "GROUND_TEMPERATURE",
+      "frame": "OBSERVER_LOCAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "EXPLICIT_UNUSED_TEMPERATURE_WITH_PRESSURE_ZERO",
+      "timeScale": "OBSERVATION_UTC",
+      "unit": "DEGREE_CELSIUS",
+      "value": 10
+    },
+    "wavelengthMicrometre": {
+      "coordinateConvention": "OBSERVATION_WAVELENGTH",
+      "frame": "OBSERVER_LOCAL",
+      "inputIntent": "VALID_VALUE",
+      "provenance": "SYNTHETIC_EXPLICIT",
+      "semanticRole": "EXPLICIT_UNUSED_WAVELENGTH_WITH_PRESSURE_ZERO",
+      "timeScale": "OBSERVATION_UTC",
+      "unit": "MICROMETRE",
+      "value": 0.55
+    }
+  },
+  "parameterPartition": [
+    "DECOMPOSED_VS_COMPOSED_IDENTICAL_SYNTHETIC_INPUTS"
+  ],
+  "protocolVersion": "2C.5A-v1",
+  "registrySha256": "0edd875fdb54a525db0e3eb074230bdb8f0ba69952eb5507472ae9072abdff6a",
+  "registryVersion": "ufuq.astronomy-experiment-registry.v1",
+  "requiredArtifactStates": {
+    "earthOrientation": {
+      "references": [
+        "inputs.dut1Seconds",
+        "inputs.polarMotionXRad",
+        "inputs.polarMotionYRad"
+      ],
+      "requirement": "SYNTHETIC_EXPLICIT"
+    },
+    "ephemeris": {
+      "references": [],
+      "requirement": "NOT_REQUIRED"
+    },
+    "leapSeconds": {
+      "references": [
+        "astropy-iers-data/Leap_Second.dat"
+      ],
+      "requirement": "PINNED_EXTERNAL_SMOKE_ONLY"
+    },
+    "meteorology": {
+      "references": [
+        "inputs.pressureHpa",
+        "inputs.temperatureC",
+        "inputs.relativeHumidityFraction",
+        "inputs.wavelengthMicrometre"
+      ],
+      "requirement": "SYNTHETIC_EXPLICIT"
+    },
+    "observer": {
+      "references": [
+        "inputs.geodeticLatitudeDeg",
+        "inputs.longitudeEastRad",
+        "inputs.ellipsoidalHeightM"
+      ],
+      "requirement": "SYNTHETIC_EXPLICIT"
+    }
+  },
+  "schemaVersion": "ufuq.astronomy-experiment-fixture.v1",
+  "scientificQuestion": "Is the decomposed ERFA route internally consistent with composed atco13 for identical explicit synthetic inputs?",
+  "sourceProhibitions": {
+    "catalogueSourceBytesAbsent": true,
+    "hipSourceDerivedValuesAbsent": true,
+    "i311EpochResolutionClaimAbsent": true,
+    "i311RowsAbsent": true,
+    "productionGeneratedValuesAbsent": true
+  },
+  "usedArtifactHashes": [
+    {
+      "artifactId": "astropy-iers-data/Leap_Second.dat",
+      "classification": "EXTERNAL_AUTHORITATIVE_ARTIFACT",
+      "role": "LEAP_SECONDS",
+      "sha256": "6cb6f5d4b819f2e568e25db4b0b26d89dedf031fdffb18bc94d40f4e94e268d7",
+      "version": "0.2026.7.20.15.31.18"
+    }
+  ]
+}
