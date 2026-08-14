@@ -611,7 +611,14 @@ class ErrorBudgetLedgerTests(unittest.TestCase):
             self.assertEqual(self.human_document.count(row_prefix), 1)
 
         self.assertIn("`FINAL_TOLERANCE_NOT_JUSTIFIED`", self.human_document)
-        self.assertIn("Milestone 2C status:** `OPEN`", self.human_document)
+        self.assertIn(
+            "Milestone 2C status at the 2C.5C checkpoint:** `OPEN`",
+            self.human_document,
+        )
+        self.assertIn(
+            "`MILESTONE_2C_READY_TO_CLOSE_FOR_IMPLEMENTATION`",
+            self.human_document,
+        )
 
     def test_no_tolerance_is_approved_or_numerically_populated(self) -> None:
         self.assertEqual(
