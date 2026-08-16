@@ -48,7 +48,7 @@ supplies their available options. Library defaults never become profile policy.
 | Profile identity | Every request and result carries `ScientificProfileV1` plus the exact algorithm/model/ephemeris, source-artifact, observer-preset, leap, EOP, and policy identities, versions, and hashes. | `PROJECT_DECISION`; normative. This audit fixes the model/route family; implementation manifests and 2D/2E artifacts supply their exact source/build/data hashes before execution. |
 | Observer | Exactly one preset ID is accepted: `umpsa-pekan-faculty-of-computing`, identifying **Faculty of Computing, UMPSA Pekan Campus, Pahang, Malaysia**. The generic `ObserverPreset` contract below fixes coordinate, Earth-model, height, accuracy, provenance, version, approval, and fail-closed semantics. Any other preset or arbitrary coordinate is outside V1; internal astronomy types remain observer-generic. | Contract semantics and site identity are the 2C project decision. Exact values and the approved immutable record are a 2D data handoff before real V1 execution. |
 | Time input | The astronomy boundary accepts only explicit canonical UTC text `YYYY-MM-DDTHH:mm:ssZ`, at whole-second resolution, with uppercase `T`/`Z` and no fractional part, offset, local time, Unix timestamp, bare JD, or current-time default. Second `60` is a conditional token that becomes a validated instant only for `23:59:60Z` on an exact date confirmed by the approved leap artifact. | `PROJECT_DECISION`; normative grammar/state contract. RFC 3339 and SOFA supply broader syntax/conversion facts but do not choose UFUQ's subset, precision, or dates. |
-| Catalogue/data | The runtime artifact contains only the minimal approved numerical ProfileV1 star allowlist selected in 2D. Cultural records reference stable internal `starId` values; a versioned crosswalk maps each `starId` to one or more source-release identifiers. A catalogue may be replaced or coexist without copying coordinates into cultural records. I/311 is the Phase 1 spike source, not the permanent catalogue by default. | Source/release, rights, row eligibility, allowlist, and artifact authority belong to 2D. |
+| Catalogue/data | The runtime artifact contains only the minimal approved numerical ProfileV1 star allowlist selected in 2D. Cultural records reference stable internal `starId` values; a versioned crosswalk maps each `starId` to component-scoped source-release records and independent per-field authorities. I/311 is the Phase 1 spike source, not the permanent catalogue. The 2D.1 audit prefers Gaia DR3 version 1.1; its preliminary bounded screen found 8/19 technical matches and five finite-RV candidates but no Polaris match, yet retained no reproducible query/result manifest. No row is approved pending immutable acquisition, component/systematics/quality review, scale-aware TCB-to-TDB mapping, an exact Polaris fallback and exact derived-artifact rights interpretation. | Source/release, rights, row eligibility, allowlist, and artifact authority belong to 2D; current result `CATALOGUE_AUTHORITY_BLOCKED`. |
 | Normalized astrometry | Every eligible row supplies a source-neutral typed ICRS state with right ascension, declination, an approved source epoch representation/scale, proper-motion derivative convention and duration unit, explicit `mu_alpha_star` and Dec components, a positive approved parallax or equivalent distance converted with provenance, an approved radial velocity, uncertainties/covariance, quality state, units, and provenance. `UNSPECIFIED` epoch/derivative scale, zero/negative/missing/unapproved parallax, missing/unapproved radial velocity, implicit zero, or a library default is V1-ineligible. | The source-neutral eligibility semantics are a normative `PROJECT_DECISION`; concrete source values/quality/crossmatches belong to 2D. |
 | Propagation/model route | The normative typed dependency graph is `CatalogueIcrsState` -> target-epoch `PropagatedIcrsAstrometry`; typed time/observer/leap/EOP/model inputs -> `EarthOrientationContext`; both feed `ObserverAwareCirsDirection`, then `GeometricHorizontalDirection`. The propagation target is the SOFA J2000.0 epoch interface (`JD(TDB) 2451545.0`), not a frame conversion or a claim about a source epoch. | Normative `PROJECT_DECISION`: a UFUQ-owned pure-TypeScript subset derived from pinned SOFA `2023-10-11`, with explicit status/data injection and licence attribution. Implementation output remains pending validation. |
 | Earth orientation | V1 requires approved leap state plus independently approved `FINAL` `UT1-UTC`, `xp`, and `yp` field states. It selects four-point Lagrange interpolation based on Gazette 13's published example, continuous `UT1-TAI` handling across leaps, and exactly-once IERS Conventions 2010 subdaily restoration; it also requires immutable offline bundles and fail-closed quality/support rules. The route consumes the resulting instantaneous fields. It uses model CIP/CIO from IAU 2006 precession with IAU 2000A nutation and the matching transformation; observed `dX`,`dY` offsets and LOD are not requested, not supplied as zero, and not hidden library inputs. | `PROJECT_DECISION`; normative for implementation entry. Exact artifact families/releases/bytes/hashes and exact official interpolation/restoration source configuration are 2D data authority before real execution. |
@@ -1042,11 +1042,16 @@ is claimed here.
 
 ## Catalogue and cultural boundaries
 
-Milestone 2D selects the actual catalogue/release, acquisition and deployment rights,
-row quality/uncertainty, minimal star allowlist, crosswalk, and artifact provenance.
-I/311 remains a studied spike candidate only. A future reviewed Gaia release can
-coexist with or replace individual astrometric records through the internal `starId`
-crosswalk without changing cultural claims or copying coordinates into them.
+Milestone 2D selects and activates the actual catalogue/release, acquisition and
+deployment rights, row quality/uncertainty, minimal star allowlist, crosswalk, and
+artifact provenance. Its 2D.1 release-level audit prefers fixed Gaia DR3 version 1.1,
+but its bounded official TAP screen approves no source row. Immutable acquisition,
+component identity, scale-aware TCB-to-TDB parameter/covariance mapping, parallax
+systematics, applicable covariance, RV, quality, and the Polaris fallback remain open.
+I/311 remains a studied spike only.
+Reviewed source records may coexist or be replaced through the internal `starId` and
+per-field authority model without changing cultural claims or copying coordinates into
+them.
 
 Missing Najdi/regional evidence does not block astronomy-core. No content may be
 labelled `NAJDI_TRADITION` without claim-level regional evidence and named human
@@ -1069,14 +1074,15 @@ eligibility remain separate E-category gates.
 | IERS Bulletin A/B/C and `finals2000A` documentation | `OFFICIAL_WEB_SUFFICIENT` | Defines products/fields/quality roles. UFUQ's final-only decision is a project policy; exact bytes and dates remain 2D. |
 | IANA versioned leap artifacts | `OFFICIAL_WEB_SUFFICIENT` | Eligible machine-transport family with publisher validity metadata; IERS Bulletin C remains event authority and 2D selects exact bytes. |
 | CDS I/311 ReadMe/Appendix G/unit standard and ESA I/311 epoch page | `ALREADY_AVAILABLE_AND_SUFFICIENT` | Sufficient for known fields and Julian representation, not time scale, rights, row suitability, or permanent source selection. |
-| ESA Gaia release documentation/archive | `OFFICIAL_WEB_SUFFICIENT` | Sufficient for 2D candidate evaluation; no Gaia release or subset is selected here. |
+| ESA Gaia DR3 release documentation/archive and bounded TAP screen | `OFFICIAL_WEB_SUFFICIENT` for release semantics and preliminary screening only | Sufficient to prefer version 1.1 and preliminarily report 8/19 matches, five finite-RV candidates and no Polaris match. It does not approve a row or derived-artifact rights: exact query/result authority, immutable acquisition, scientific review and rights interpretation remain 2D work. |
+| Exact Gaia TCB-to-TDB stellar-parameter/covariance adapter and Polaris fallback | `HUMAN_REVIEW_REQUIRED` | IAU/Gaia/primary-source web evidence is sufficient to bound the decision, but named astronomy/data review must approve the exact mappings and field authorities. No new PDF is needed. |
 | Official UMPSA Faculty/Pekan site-identity pages | `OFFICIAL_WEB_SUFFICIENT` | Establish the selected Faculty-at-Pekan identity only; they supply no approved geodetic value or accuracy. |
 | JUPEM geodetic product/service documentation | `OFFICIAL_WEB_SUFFICIENT` | Establishes available GPS-control, coordinate-transformation, geoid and GNSS/RINEX services. It does not prove a Faculty-specific control record exists or make survey control mandatory. |
 | Exact UMPSA observer-preset data record | `USER_ACTION_REQUIRED_BEFORE_2D` | Required before 2D can approve the concrete preset and before real V1 execution, not before 2C closes or generic astronomy-core is written. |
 | JUPEM survey-control record for the Faculty site | `NOT_NEEDED` | Optional evidence if site-matched and proportionate; no control monument is a profile requirement. |
 | Future `Riyadh, Saudi Arabia` preset record | `REQUIRED_LATER` | Uses the same generic contract in a later multi-location profile; no coordinates are needed now. |
-| I/311 epoch/derivative-scale authority | `USER_ACTION_REQUIRED_BEFORE_2D` | Conditional before 2D can approve propagated I/311 data; it does not prevent 2D from starting or evaluating another source. |
-| I/311 raw/derived deployment permission | `USER_ACTION_REQUIRED_BEFORE_2D` | Conditional before 2D can approve deployment of I/311-derived records; it does not prevent 2D from starting. |
+| I/311 epoch/derivative-scale authority | `REQUIRED_LATER` only if I/311 is reconsidered | The 2D.1 preferred path does not select I/311, so no clarification is needed for Gaia evaluation. |
+| I/311 raw/derived deployment permission | `REQUIRED_LATER` only if I/311 is reconsidered | The 2D.1 preferred path does not deploy I/311-derived records. |
 | Per-row catalogue acquisition, quality, uncertainty, and covariance evidence | `HUMAN_REVIEW_REQUIRED` | 2D scientific/data review; no new general astronomy book required. |
 | Exact production leap/EOP artifacts and activation record | `REQUIRED_LATER` | 2D selects/acquires official bytes, hashes, exact interpolation/restoration configuration and review evidence before real execution. No user download is needed to close 2C or start generic implementation. |
 | USNO NOVAS 3.1 software and official guides | `REQUIRED_LATER` | Candidate stronger independent oracle after production exists. |
@@ -1088,12 +1094,10 @@ eligibility remain separate E-category gates.
 | WCAG 2.2 / WAI-ARIA APG | `OFFICIAL_WEB_SUFFICIENT` | Later UI/accessibility work, not a 2C science resource. |
 | Restricted local FYP report | `NOT_NEEDED` | It is not external scientific authority and remains private. |
 
-**Immediate user-action answer:** no. The first site identity, production route and
-leap/EOP semantic policy are selected, and the 2C contract can close without numerical
-observer data, production data downloads, or an installed third-party astronomy
-package. No coordinate/EOP/leap download, new astronomy standards PDF, positional-
-astronomy manual, replacement SOFA/IERS document, npm package, Riyadh record, or NOVAS
-package is needed now.
+**Current lifecycle update:** no user action was needed to close 2C. Milestone 2D.1 has
+completed a small ephemeral official Gaia DR3 screen and now requires immutable
+acquisition plus scientific review; it does not require a bulk catalogue, new astronomy
+PDF/manual, installed third-party astronomy package, Riyadh record, or NOVAS package.
 
 ### USER_ACTION_REQUIRED_BEFORE_2D: exact UMPSA observer record
 
@@ -1123,7 +1127,7 @@ package is needed now.
   retained with its source identity, acquisition date, version, and hash where
   appropriate.
 
-### USER_ACTION_REQUIRED_BEFORE_2D: I/311 time-scale clarification
+### REQUIRED_LATER only if I/311 is reconsidered: time-scale clarification
 
 This action is conditional before 2D can approve propagated I/311 data; it does not
 prevent 2D from beginning or choosing another source.
@@ -1148,7 +1152,7 @@ prevent 2D from beginning or choosing another source.
 - **Web substitution:** only an official I/311-applicable statement; original-1997 TT
   wording is not sufficient.
 
-### USER_ACTION_REQUIRED_BEFORE_2D: I/311 deployment rights
+### REQUIRED_LATER only if I/311 is reconsidered: deployment rights
 
 This action is conditional before 2D can approve deployment of I/311-derived data; it
 does not prevent 2D from beginning or choosing another source.

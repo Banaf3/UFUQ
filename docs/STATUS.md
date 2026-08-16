@@ -1,6 +1,6 @@
 # Implementation status
 
-**Assessment date:** 2026-08-13
+**Assessment date:** 2026-08-16
 
 The consolidated Phase 0 repository scaffold is validated. It contains health-only web
 and API applications, eight npm workspaces, pure empty/type-placeholder production
@@ -15,7 +15,7 @@ persistence/authentication behavior, dashboard, or deployment configuration.
 | Gate | Result | Basis |
 |---|---|---|
 | Repository scaffolding | YES | The consolidated eight-workspace TypeScript monorepo, non-npm oracle boundary, strict compiler/build setup, test discovery, dependency enforcement, lockfile, and CI are validated. |
-| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Exact 2D source/observer/leap/EOP artifact authority, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
+| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Milestone 2D.1 prefers Gaia DR3; its preliminary bounded screen found a possible small subset but no Polaris match and is not reproducible authority until retained with its exact query/result manifest. Catalogue authority remains blocked on immutable acquisition, scale-aware TCB-to-TDB mapping, row review, a Polaris fallback and derived-artifact rights interpretation; exact observer/leap/EOP artifacts, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
 | Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
 | Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
@@ -276,6 +276,36 @@ raw/derived redistribution remains unresolved. The HIP list is a retrieval and r
 candidate only; all Arabic forms, memberships, pattern edges, relationships, teaching
 roles, and row-level scientific suitability still require the recorded human reviews.
 
+### Milestone 2D.1 production catalogue authority
+
+The decision is `CATALOGUE_AUTHORITY_BLOCKED`. ESA Gaia DR3 version 1.1,
+`gaiadr3.gaia_source`, is the preferred single-source-first candidate because its
+official schema supplies ICRS astrometry at `J2016.0` in TCB, starred-alpha and
+declination motion, parallax, uncertainty/correlation and quality fields, and subset
+radial velocity. ESA's credit page says Gaia data are open/free to use with credit,
+while the DOI dataset record separately declares CC BY-NC 3.0 IGO distribution terms.
+UFUQ does not choose their exact application to a derived artifact by assumption:
+local analysis and attribution are established, derived-output deployment and public
+Git tracking require a rights interpretation, noncommercial FYP use remains a
+candidate pending exact licence application, and commercial reuse is not approved.
+Raw/query-derived material remains ignored and local. This evidence selects the next
+candidate audit; it does not approve any source row.
+
+The bounded official TAP screen preliminarily found 8/19 technical HIP matches; all eight had
+positive raw parallax, five had finite RV/error, and `HIP 11767` had no match. It
+retained no exact ADQL/query text, release/table-bound response or canonical extracted
+response, acquisition timestamp, hashes, or query-result manifest; it is therefore not
+reproducible 2D authority and approved no row. Immutable acquisition plus
+astronomy/data review must still resolve physical components, parallax systematics,
+applicable astrometric covariance, separate RV uncertainty, the explicitly unknown
+astrometry-RV cross-covariance omission, finite scientifically suitable RV, and the
+scale-aware TCB-to-TDB parameter/covariance adapter. ESA Hipparcos 1997 is the smallest
+Polaris astrometry fallback candidate but lacks RV; one primary systemic-RV authority
+and crosswalk remain unapproved. I/311 retains its epoch-scale, RV, row, and
+redistribution blockers; PCRV/XHIP are evidence bridges only. No row, generated
+artifact, parser, or runtime JSON was created. See
+`spikes/PHASE1_PRODUCTION_CATALOGUE_AUTHORITY.md`.
+
 ### Milestone 2A modern synthetic-only retry
 
 The earlier exact candidate set remains recorded as a failed experiment: Astropy 7.2.2
@@ -378,8 +408,10 @@ closed in the proposed documentation commit. No 2C semantic blocker remains. Ano
 synthetic batch, production/reference evidence and AST-006 numerical approval are not
 prerequisites to starting the bounded implementation; they retain their later gates.
 
-After profile approval, Milestone 2D selects the actual catalogue/release and minimal
-star allowlist, records acquisition/licensing/row/crosswalk authority, selects and
+After profile approval, Milestone 2D.1 has identified Gaia DR3 version 1.1 as the
+preferred single-source-first candidate, but must still acquire the bounded official
+query and approve its physical-component, row, minimal-route, licensing, and crosswalk
+authority before activating any catalogue. Milestone 2D also selects and
 approves exact final operational leap/EOP artifacts, Bulletin C consistency, per-field
 support/hashes and exact interpolation/restoration configuration, and acquires/approves the concrete UMPSA Pekan
 Faculty observer record. It must not inherit I/311 as a permanent source merely because
@@ -398,10 +430,15 @@ boundary. Neither is a circular prerequisite to implementation.
 
 ## Decisions that block the validated vertical slice
 
-- **IMP-008 / AST-001 (`BLOCKS_2D_DATA_AUTHORITY`):** select the real catalogue/release
-  and minimal allowlist; resolve acquisition, raw/derived handling, deployment rights,
-  stable internal-star/source crosswalks, and row-level scientific eligibility. The
-  local I/311 spike contract does not select a permanent source.
+- **IMP-008 / AST-001 (`BLOCKS_2D_DATA_AUTHORITY`):** Gaia DR3 version 1.1 is the
+  preferred candidate, not active authority. Retain and hash the bounded official
+  screen's exact query/response evidence and manifest; approve physical-component identity, positive-parallax systematics,
+  applicable astrometric covariance, separate RV uncertainty, the explicit unknown
+  joint-covariance omission, scale-aware TCB-to-TDB mapping, finite suitable RV,
+  quality, raw/derived handling, exact derived-artifact rights interpretation, stable internal-star/per-field-
+  source crosswalks, and the minimal eligible route. Approve an exact direct-Hipparcos-
+  plus-primary-systemic-RV Polaris fallback or make that route ineligible. The local
+  I/311 spike contract does not select a permanent source.
 - **IMP-009 / AST-003 (`BLOCKS_2D_DATA_AUTHORITY` for real execution):** the route,
   final-only leap/EOP quality/interpolation/offline/update policy, required row/EOP
   field interface, generic one-preset and UTC/time-domain semantics, geometric-only

@@ -80,10 +80,26 @@ containing:
 
 CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the selected source for the
 Phase 1 local technical spike only; it is not thereby UFUQ's permanent production
-catalogue. Milestone 2D must approve the first deployed source release, its rights, and
-its mapping into stable UFUQ `starId` values. The source-release crosswalk must permit a
-reviewed source such as Gaia to coexist with or replace individual astrometric records
-without rewriting cultural records. For the existing I/311 spike, use the corrected
+catalogue. Milestone 2D.1 identifies ESA Gaia DR3 version 1.1
+`gaiadr3.gaia_source` as the preferred single-source-first candidate, but production
+catalogue authority remains blocked. A bounded official TAP screen preliminarily found
+eight of the 19 technical HIP candidates, including five with finite RV/error, but
+approved no row. It retained no exact ADQL/query text, release/table response or
+canonical extraction, acquisition timestamp, hashes, or query-result manifest and is
+not reproducible 2D authority. Physical-component,
+positive-parallax/systematics, applicable astrometric-covariance, separate-RV-
+uncertainty, scale-aware TCB-to-TDB mapping, quality, and rights evidence remain
+mandatory. Missing astrometry-RV cross-covariance is `UNKNOWN_NOT_PROVIDED`, never
+zero; after an explicit omission disposition it does not alone block a row, while its
+error-budget effect stays unbounded. `HIP 11767` has no official DR3 Hipparcos-2
+crossmatch row, so no nearby source may silently substitute it. The source-release
+crosswalk must permit Gaia DR3, ESA
+Hipparcos 1997, or another separately approved record to coexist without rewriting
+cultural records, while preserving independent per-field authority. A blanket mixed
+catalogue is prohibited; introduce a supplement only for a specifically required
+Gaia-ineligible star after its own science, crossmatch, and deployment approval.
+
+For the existing I/311 spike, use the corrected
 author-replacement files recorded on
 2008-09-16, with `hip2.dat` as the main table and an exact matching supplement when a
 selected `Sn` family requires it. The Phase 1 field, missing/duplicate, solution,
@@ -92,6 +108,20 @@ multiplicity, candidate-selection, schema, sorting, and checksum policies are fi
 partial and raw/derived redistribution is unresolved, so source-derived output stays
 ignored and local. Do not add catalogue rows to Git or deployment storage; the existing
 data-scaffold guard is intentionally unchanged.
+
+The stable crosswalk is not a two-column alias table. It records an opaque UFUQ
+`starId` and `SYSTEM`/`COMPONENT` scope; each source family/release/table/row/component;
+the acquisition/query manifest and hashes; separately versioned identity/crossmatch
+assertions; per-field native and normalized semantics, uncertainty/covariance,
+quality, provenance, and approval. Multiple candidate records may coexist, but a
+ProfileV1 data release selects exactly one approved active authority per required
+field. Ambiguous mates, split/merged sources, component mismatch, missing RV, and
+authority conflicts fail closed. The complete 2D.1 decision and query stop rule are in
+`spikes/PHASE1_PRODUCTION_CATALOGUE_AUTHORITY.md`.
+
+External catalogue identifiers are lossless source keys. Gaia `source_id` and
+`solution_id`, and any other identifier wider than JavaScript's exact integer range,
+are serialized as opaque decimal strings rather than JSON numbers.
 
 ### Observer-preset handoff
 
@@ -238,6 +268,19 @@ reduction by inference. Until CDS/data-origin clarification is recorded, classif
 I/311 as `LOCAL_USE_ONLY` and every source-derived Git/deployment output as
 `REDISTRIBUTION_UNRESOLVED` with `BLOCK_TRACKING_AND_DEPLOYMENT`. A public URL is not
 permission to copy.
+
+Gaia's official DR3 credit page says the data are open and free to use with
+ESA/Gaia/DPAC credit; the version 1.1 DOI dataset record separately declares CC BY-NC
+3.0 IGO for ESA Space Science Archive data. Preserve both statements without choosing
+their application to UFUQ's exact normalized/derived artifact by assumption.
+`LOCAL_ANALYSIS_ALLOWED = YES` and `ATTRIBUTION_REQUIRED = YES`.
+`GENERATED_DERIVED_OUTPUT_DEPLOYMENT` and `PUBLIC_GIT_TRACKING` are
+`RIGHTS_INTERPRETATION_REQUIRED`; `NONCOMMERCIAL_FYP_USE` is
+`CANDIDATE_ALLOWED_PENDING_EXACT_LICENSE_APPLICATION`; and `COMMERCIAL_REUSE` is
+`NOT_APPROVED`. Raw and query-derived Gaia material therefore remains ignored and
+local until the exact rights application is approved. A future data artifact carries
+its own notice rather than silently inheriting repository code terms. These statements
+do not transfer to I/311, PCRV, XHIP, another CDS catalogue, or a future Gaia release.
 
 ## Manual review gates
 

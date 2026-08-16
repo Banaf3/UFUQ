@@ -98,14 +98,27 @@ Historical report/deviation/authority status remains in `governance/`.
   That spike preserves every source field and solution/multiplicity/quality record,
   fails on missing/duplicate/invalid rows or supplements, maps its source-supported
   `pmRA` directly to the starred-alpha normalized field, and keeps all raw/derived rows
-  local while rights remain unresolved. Milestone 2D must separately select the
-  production catalogue/release, minimal numerical ProfileV1 allowlist, rights, row
-  eligibility, and stable UFUQ `starId`/source-release crosswalk. I/311 is neither
-  automatically retained nor migrated away here. Cultural records reference `starId`,
-  never copied coordinates or a permanently coupled external identifier.
-- **Status:** provisional (local non-redistributing I/311 spike contract approved;
-  production source/release, acquisition, deployment, allowlist, row authority, and
-  crosswalk unresolved under Milestone 2D)
+  local while rights remain unresolved. Milestone 2D.1 now prefers fixed ESA Gaia DR3
+  version 1.1 `gaiadr3.gaia_source` as the single-source-first production candidate.
+  It is not active or row-approved. The bounded official TAP screen preliminarily found
+  8/19 technical HIP matches and five finite-RV candidates but no `HIP 11767` match;
+  without retained query text, response/canonical extraction, acquisition timestamp,
+  hashes and manifest, those counts are not reproducible 2D authority. Named
+  reviewers must still establish physical components, positive-parallax/systematics,
+  applicable five-/six-parameter covariance, separate RV uncertainty, the explicit
+  `UNKNOWN_NOT_PROVIDED` astrometry-RV cross-covariance omission, finite suitable RV,
+  a scale-aware TCB-to-TDB parameter/covariance adapter, source quality, and immutable
+  provenance. Gaia derived-output deployment and public Git tracking remain
+  `RIGHTS_INTERPRETATION_REQUIRED`; local analysis with attribution may continue while
+  raw/query-derived material stays ignored and local. ESA Hipparcos 1997 is only a
+  possible bright-star astrometry fallback and
+  supplies no general RV; Polaris additionally needs one approved primary systemic-RV
+  authority. No blanket Gaia/Hipparcos/PCRV/XHIP merge is approved. Cultural records
+  reference `starId`, never copied coordinates or a permanently coupled external
+  identifier; crossmatch and per-field authorities remain distinct.
+- **Status:** `CATALOGUE_AUTHORITY_BLOCKED` (Gaia DR3 is the preferred candidate;
+  I/311 remains a local non-redistributing spike; production row authority, minimal
+  allowlist, and any supplemental-source decision remain open under Milestone 2D.1)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.
 - **Validation required:** For the source selected by 2D: transport/hash verification,
@@ -113,6 +126,11 @@ Historical report/deviation/authority status remains in `governance/`.
   selection, byte-identical rebuild, provenance/licence manifest, crosswalk integrity,
   and scientific row review. The existing fixed-width/supplement/HIP checks apply only
   if 2D retains I/311. Falak/cultural review remains separate before learner-facing use.
+  For Gaia DR3, retain both official Hipparcos-2 crossmatch tables and all required
+  `gaia_source` scientific, covariance, RV, variability/non-single-star and quality
+  evidence plus applicable linked NSS/variability/RV records; reject an ambiguous or
+  component-mismatched row, preserve 64-bit source IDs as strings, and never replace
+  missing RV or covariance with zero.
 
 ## IMP-009 — Astronomy transformation pipeline
 
