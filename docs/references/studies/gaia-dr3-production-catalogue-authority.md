@@ -17,20 +17,16 @@ the registered local ESA Hipparcos documentation was used read-only.
   expected DR4 contents are not a released dataset that UFUQ can pin.
 - `SOURCE_SUPPORTED_FACT`: the Gaia Archive supports release-scoped queries and the
   DR3 archive publishes Hipparcos-2 best-neighbour and neighbourhood crossmatch tables.
-- `SOURCE_SUPPORTED_FACT`: a bounded read-only TAP screen of the 19 existing technical
-  HIP candidates found eight Hipparcos-2 crossmatch rows. All eight have positive raw
-  parallax, five have finite DR3 RV and RV uncertainty, and the neighbourhood table has
-  one neighbour for each of the same eight HIP identifiers. The screen retained no
-  exact ADQL/query text, release/table-bound response bytes or canonical extracted
-  response, acquisition timestamp, hashes, or query-result manifest. Its counts are
-  preliminary field-presence evidence, not reproducible 2D acquisition or activation
-  authority.
-- `AUTHORITY_OR_EVIDENCE_MISSING`: release documentation and an ephemeral TAP screen
+- `SOURCE_SUPPORTED_FACT`: Milestone 2D.1B retains exact fixed-release ADQL and
+  hash-bound ignored official TAP responses for the 19 existing technical HIP
+  candidates. They verify eight Hipparcos-2 crossmatch rows. All eight have positive
+  raw parallax, five have both DR3 RV/error fields, and the neighbourhood table has one
+  neighbour for each of the same eight HIP identifiers. The acquisition records the
+  service, release/tables, timestamp, response hashes, schema and manifest.
+- `AUTHORITY_OR_EVIDENCE_MISSING`: release documentation and immutable query evidence
   cannot approve physical-component identity, covariance handling, parallax
-  systematics, RV suitability, quality, or a runtime row. A future acquisition must
-  retain the exact ADQL/query text, Gaia release/table identities, response bytes or
-  canonical extracted response, service identity, acquisition timestamp, hashes and
-  query-result manifest.
+  systematics, RV suitability, quality, or a runtime row. Those remain row-review
+  decisions rather than acquisition-evidence gaps.
 
 ## Astrometric semantics
 
@@ -243,8 +239,8 @@ I/311, PCRV, or XHIP derived-row deployment permission.
 the preferred single-source-first candidate. It is insufficient to approve an active
 catalogue or row. The bounded screen demonstrates a possible small Gaia-only technical
 subset but excludes Polaris and leaves every match review-gated. Immutable query/
-response acquisition, per-row component/systematics/quality/RV-proxy approval,
-Polaris astrometry-plus-systemic-RV fallback, and derived-artifact rights remain
-Milestone 2D.1 gates. The scale-aware
+response authority is closed by the dedicated 2D.1B record. Per-row component/
+systematics/quality/RV-proxy approval, Polaris astrometry-plus-systemic-RV fallback,
+and derived-artifact rights remain Milestone 2D.1 gates. The scale-aware
 TCB-to-TDB parameter/covariance adapter is closed by the dedicated authority record;
 that analytic decision approves no source row.

@@ -13,7 +13,8 @@ Decision: `TCB_TDB_ADAPTER_AUTHORITY_CLOSED`.
 The analytic contract below is implementation-ready without a numerical acceptance
 tolerance. Milestone 2E may implement it only from an approved native record; a later
 production/reference comparison must verify the implementation. The overall 2D.1
-catalogue decision remains `CATALOGUE_AUTHORITY_BLOCKED` on gates B-E.
+catalogue decision remains `CATALOGUE_AUTHORITY_BLOCKED`; query gate B is closed and
+row, Polaris, and rights gates C-E remain.
 
 ## Authority and classification boundary
 
@@ -329,13 +330,13 @@ SOFA-lineage agreement to independent scientific validation.
 
 ## Remaining 2D.1 gates
 
-Closing 2D.1A does not activate Gaia DR3. The remaining gates are:
+Closing 2D.1A does not activate Gaia DR3. Gate B is now closed by the exact-query and
+hash-bound ignored official-response record. The remaining gates are:
 
-1. B — immutable Gaia query/response authority;
-2. C — row-by-row scientific eligibility and a minimal technical subset, including
+1. C — row-by-row scientific eligibility and a minimal technical subset, including
    component-specific approval of any spectroscopic-RV proxy;
-3. D — Polaris source/component/RV authority; and
-4. E — derived-artifact rights interpretation.
+2. D — Polaris source/component/RV authority; and
+3. E — derived-artifact rights interpretation.
 
 ## Resource audit
 
@@ -345,8 +346,8 @@ Closing 2D.1A does not activate Gaia DR3. The remaining gates are:
 | Pinned local IAU SOFA `2023-10-11` source and routine preambles | `ALREADY_AVAILABLE_AND_SUFFICIENT` | Sufficient to type the selected propagation interface and statuses; read-only. |
 | *Fundamental Astronomy*, another book/manual, or bulk Gaia rows | `NOT_NEEDED` | The analytic adapter does not require another secondary source or catalogue acquisition. |
 
-`USER_ACTION_REQUIRED`: none. Row, query, Polaris, and rights work remains under gates
-B-E, but no new document or data download is needed to close adapter A.
+`USER_ACTION_REQUIRED`: none. Row, Polaris, and rights work remains under gates C-E,
+but no new document or data download is needed to close adapter A.
 
 ## Sources
 

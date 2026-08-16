@@ -4,6 +4,7 @@ tools/astronomy-reference/uv.lock text eol=lf
 
 *.cjs text eol=lf
 *.css text eol=lf
+*.adql text eol=lf
 *.html text eol=lf
 *.js text eol=lf
 *.json text eol=lf

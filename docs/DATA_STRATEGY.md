@@ -82,11 +82,12 @@ CDS/VizieR I/311, *Hipparcos, the New Reduction*, is the selected source for the
 Phase 1 local technical spike only; it is not thereby UFUQ's permanent production
 catalogue. Milestone 2D.1 identifies ESA Gaia DR3 version 1.1
 `gaiadr3.gaia_source` as the preferred single-source-first candidate, but production
-catalogue authority remains blocked. A bounded official TAP screen preliminarily found
-eight of the 19 technical HIP candidates, including five with finite RV/error, but
-approved no row. It retained no exact ADQL/query text, release/table response or
-canonical extraction, acquisition timestamp, hashes, or query-result manifest and is
-not reproducible 2D authority. Physical-component,
+catalogue authority remains blocked. Immutable bounded official TAP evidence verifies
+eight of the 19 technical HIP candidates, including five with both RV/error fields,
+but approved no row. Milestone 2D.1B now retains the exact fixed-release ADQL, service
+and table identities, acquisition timestamp, ignored raw response bytes, per-file
+SHA-256 values, schema/column metadata, and query-result manifest. This closes immutable
+query authority only; physical-component,
 positive-parallax/systematics, applicable astrometric-covariance, separate-RV-
 uncertainty, quality, and rights evidence remain mandatory. The scale-aware
 TCB-to-TDB analytic mapping is approved as

@@ -20,16 +20,17 @@ while the release credit page separately says Gaia data are open and free to use
 ESA/Gaia/DPAC credit. Both official statements remain attached to the decision.
 
 Gaia DR3 is **not yet approved as the active UFUQ catalogue**. No row may enter a real
-ProfileV1 artifact until a bounded, reproducible official-archive query and row review
-establish all required values, physical-component identity, applicable astrometric
+ProfileV1 artifact until row review of the immutable official-archive evidence
+establishes all required values, physical-component identity, applicable astrometric
 covariance, separate RV uncertainty and reviewed joint-covariance disposition,
 parallax-systematics disposition, quality, and licence provenance. The TCB-parametrized
 source state must be normalized with the approved
 `GAIA_DR3_TCB_TO_TDB_COMPATIBLE_V1` mapping into V1's TDB propagation interface.
-The bounded official TAP screen preliminarily found eight matches among the 19 technical HIP
-candidates; all eight have positive raw parallax and five have finite DR3 RV/error.
-This establishes only a possible small raw-field-complete technical subset. It approves
-no row. `HIP 11767` (the intended Polaris target) has no row in either official DR3
+Milestone 2D.1B's exact fixed-release ADQL and hash-bound ignored TAP responses verify
+eight matches among the 19 technical HIP candidates; all eight have positive raw
+parallax and five have both DR3 RV/error fields. This establishes only a possible small
+raw-field-complete technical subset. It approves no row. `HIP 11767` (the intended
+Polaris target) has no row in either official DR3
 Hipparcos-2 crossmatch table, so a nearby Gaia source may not substitute it and an exact
 component-scoped fallback is required.
 
@@ -47,8 +48,8 @@ production.
 | Gaia DR3 `gaiadr3.gaia_source` is the preferred single-source-first ProfileV1 candidate. | `PROJECT_DECISION` | It minimizes field mixing while exposing the required astrometric fields and subset RV in one release. It is not row approval. |
 | A complete, unambiguous, quality-reviewed row is mandatory; missing or unapproved epoch/time mapping, position, motion, positive parallax/systematics disposition, RV, applicable uncertainty/covariance, identity, or rights makes that star ineligible. | `PROJECT_DECISION` | Normative `ScientificProfileV1` fail-closed contract. |
 | The analytic Gaia DR3 TCB-compatible to UFUQ TDB-compatible parameter/covariance adapter is approved. | `PROJECT_DECISION` based on `SOURCE_SUPPORTED_FACT` | Milestone 2D.1A closes: convert the same epoch event with IAU B3; preserve direction; map proper-motion rates and parallax by `1 / (1 - L_B)`, coordinate distance by `1 - L_B`, and covariance by the recorded Jacobian; do not scale the Gaia spectroscopic-RV measure. This approves no row. |
-| A bounded 2026-08-16 official Gaia TAP screen preliminarily found 8/19 Hipparcos-2 matches, 8/8 positive raw parallaxes and 5/8 finite RV/error fields; `HIP 11767` has no official crossmatch row in that screen. | `SOURCE_SUPPORTED_FACT` | Ephemeral field-presence evidence only. Exact ADQL/query text, response/canonical extraction, acquisition timestamp, hashes and query-result manifest were not retained, so the counts are not reproducible 2D authority and no physical component or row was approved. |
-| General release documentation and field-presence screening cannot establish row eligibility or the intended physical component. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requires immutable acquisition plus astronomy/data review; Polaris also requires one exact field-specific fallback strategy. |
+| Milestone 2D.1B's immutable 2026-08-16 official Gaia TAP evidence verifies 8/19 Hipparcos-2 matches, 8/8 positive raw parallaxes and 5/8 rows with both RV/error fields; `HIP 11767` has no official crossmatch row. | `SOURCE_SUPPORTED_FACT` | Exact fixed-release ADQL, service/table identities, ignored response bytes, acquisition timestamp, hashes, schema metadata and manifest are retained. The evidence is structural and approves no physical component or row. |
+| Official query evidence and field-presence screening cannot establish row eligibility or the intended physical component. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requires astronomy/data row review; Polaris also requires one exact field-specific fallback strategy. |
 | The DR3 credit page says Gaia data are open and free to use with ESA/Gaia/DPAC credit; the version 1.1 DOI record separately declares CC BY-NC 3.0 IGO. | `SOURCE_SUPPORTED_FACT` | Access/credit and dataset-specific distribution metadata remain explicit; neither statement is silently discarded or selected by assumption as the controlling derived-artifact term. Local analysis and attribution are established, while public tracking and derived-output deployment require an exact rights interpretation. |
 | ESA Hipparcos 1997 is a possible bright-star astrometry fallback, but it is not a complete V1 source because the main catalogue supplies no general RV field. | `SOURCE_SUPPORTED_FACT` plus `PROJECT_DECISION` | Official ESA SP-1200 semantics and current ESA catalogue page. |
 | I/311 is not production-eligible on current evidence. | `AUTHORITY_OR_EVIDENCE_MISSING` | Its exact epoch/derivative time scale, RV authority, row approvals, and raw/derived deployment rights remain unresolved. |
@@ -60,7 +61,7 @@ production.
 |---|---|---|---|
 | Direct ESA Hipparcos 1997 release, legacy table `hipparcos1.hip_main` | Bright-star coverage; ICRS; explicit `J1991.25 (TT)` / JD `2448349.0625 TT`; Julian-year `mu_alpha_star`, declination motion, parallax, formal errors and correlations; stable HIP identifiers and multiplicity records | No general finite RV field; positive parallax, component identity, solution quality, and covariance still require row review | ESA states CC BY-NC 3.0 IGO plus `Credit: ESA` for its direct distribution. Conditional noncommercial fallback candidate, not standalone V1 authority; CDS I/239 rights remain separate. |
 | CDS I/311 corrected 2008-09-16 `hip2.dat` | ICRS; Julian `J1991.25` representation; `pmRA = mu_alpha_star`; parallax, errors, inverse-covariance factor, solution/multiplicity fields; improved bright-star reduction | No I/311-applicable epoch or derivative time scale; no RV; row/component/positive-parallax review required; supplementary solution families must remain distinct | Local scientific spike use with citation is supported. Generated-row Git/deployment rights remain `REDISTRIBUTION_UNRESOLVED`; reject as current production authority. |
-| Gaia DR3 version 1.1 `gaiadr3.gaia_source` | Fixed official release; ICRS; TCB-parametrized Julian `J2016.0`; explicit `mu_alpha_star`; declination motion; parallax; five-/six-parameter formal covariance inputs; subset barycentric spectroscopic RV with error/diagnostics; official release DOI and crossmatch tables | The bounded screen found eight matches and five finite-RV candidates but no Polaris match. The compatible-quantity adapter is approved; applicable covariance, parallax systematics, RV proxy/systemic suitability, physical components and quality remain row-review gates. | Official credit documentation says open/free with credit; the DOI record separately declares CC BY-NC 3.0 IGO. Local analysis with attribution is allowed. Derived deployment and public tracking are `RIGHTS_INTERPRETATION_REQUIRED`; noncommercial FYP use is only a candidate pending exact licence application. Active catalogue approval remains blocked. |
+| Gaia DR3 version 1.1 `gaiadr3.gaia_source` | Fixed official release; ICRS; TCB-parametrized Julian `J2016.0`; explicit `mu_alpha_star`; declination motion; parallax; five-/six-parameter formal covariance inputs; subset barycentric spectroscopic RV with error/diagnostics; official release DOI and crossmatch tables | The immutable bounded evidence verifies eight matches and five rows with both RV/error fields but no Polaris crossmatch. The compatible-quantity adapter is approved; applicable covariance, parallax systematics, RV proxy/systemic suitability, physical components and quality remain row-review gates. | Official credit documentation says open/free with credit; the DOI record separately declares CC BY-NC 3.0 IGO. Local analysis with attribution is allowed. Derived deployment and public tracking are `RIGHTS_INTERPRETATION_REQUIRED`; noncommercial FYP use is only a candidate pending exact licence application. Active catalogue approval remains blocked. |
 | Blanket Gaia + Hipparcos/PCRV/XHIP merge | Could fill a bright-star or RV gap on a per-star basis | Adds component/crossmatch ambiguity, distinct uncertainty models, compiled/variable RV questions, release conflict rules, and per-field authority | Rejected as the default. The smallest Polaris candidate is direct ESA Hipparcos 1997 astrometry plus one reviewed primary systemic-RV authority; PCRV/XHIP are evidence bridges, not an approved flattened source. |
 
 ## Gaia DR3 field-authority candidate
@@ -272,12 +273,15 @@ parallax/distance, and RV-type-preservation contract. It returns
 `TCB_TDB_ADAPTER_AUTHORITY_CLOSED`. It neither approves a row nor converts a
 spectroscopic measure into an automatically approved physical velocity.
 
+### Milestone 2D.1B immutable query authority
+
+Gate B is closed by `docs/references/studies/gaia-dr3-immutable-query-authority.md` and
+`data/manifests/gaia-dr3-hip-screen-v1/acquisition-manifest.v1.json`. The exact query,
+fixed release/tables, official service, ignored response bytes, acquisition metadata,
+hashes, schema metadata and structural counts are retained. No row is approved.
+
 ### Milestone 2D.1 remains blocked on
 
-B. **immutable Gaia query/response authority:** retain the exact ADQL/query text,
-   Gaia release and table identities, response bytes or a canonical extracted
-   response, acquisition timestamp, hashes and query-result manifest for both
-   Hipparcos-2 crossmatch tables and the required `gaia_source` fields;
 C. **row-by-row scientific eligibility and minimal subset:** approve physical-component
    identity, astrometric solution, positive-parallax/systematics, applicable covariance,
    explicit `UNKNOWN_NOT_PROVIDED` astrometry-RV cross-covariance disposition,
@@ -312,7 +316,7 @@ Arabic/Najdi claims, segments, and learner routes.
 |---|---|---|
 | Existing ESA Hipparcos 1997 and I/311 dossiers/local documentation | `ALREADY_AVAILABLE_AND_SUFFICIENT` | Sufficient for their release semantics and stop rules; the direct ESA archive/licence route remains distinct from CDS I/239, and no new PDF is needed. |
 | Gaia DR3 release, data model, crossmatch, DOI/rights, and credit pages | `OFFICIAL_WEB_SUFFICIENT` | Sufficient to select Gaia DR3 as the preferred next candidate and define the query/review contract. They do not resolve the exact derived-artifact rights interpretation. |
-| Bounded 19-HIP Gaia DR3 screen | `OFFICIAL_WEB_SUFFICIENT` for preliminary field-presence screening only | The official TAP screen found 8/19 matches and five finite-RV candidates, but no exact ADQL/query text, response/canonical extraction, acquisition timestamp, hashes or query-result manifest was retained. It is not reproducible 2D authority evidence and approves no row. |
+| Bounded 19-HIP Gaia DR3 query evidence | `ALREADY_AVAILABLE_AND_SUFFICIENT` for gate B | Exact fixed-release ADQL and hash-bound ignored official TAP responses verify 8/19 matches and five rows with both RV/error fields. The manifest approves no row. |
 | TCB-to-TDB compatible-quantity mapping | `ALREADY_AVAILABLE_AND_SUFFICIENT` | IAU B3, IAU B2, Gaia, Klioner, IAU C1, Lindegren/Dravins, and pinned SOFA evidence support the approved analytic contract. Row-specific RV proxy suitability remains gate C. |
 | Astronomy/data row approval | `HUMAN_REVIEW_REQUIRED` | Required for component, covariance, parallax, RV, multiplicity/variability, and quality dispositions. |
 | Polaris field-specific fallback | `HUMAN_REVIEW_REQUIRED` | Direct ESA Hipparcos astrometry plus a primary systemic-RV authority is the smallest candidate shape; exact physical scope, value authority, crosswalk and rights remain open. |
@@ -322,9 +326,8 @@ Arabic/Najdi claims, segments, and learner routes.
 ## USER ACTION REQUIRED
 
 None now. No large catalogue download, new PDF or manual is needed. Local scientific
-evaluation may continue with raw/query-derived material kept ignored and local. The
-next 2D evidence task must retain the already-bounded Gaia query deterministically;
-named astronomy/data review must approve rows, RV proxies and the Polaris fallback;
+evaluation may continue with raw/query-derived material kept ignored and local. Gate B
+is closed; named astronomy/data review must approve rows, RV proxies and the Polaris fallback;
 and a rights reviewer must reconcile the exact licence application before any derived
 artifact is tracked or deployed. Commercial reuse remains unapproved.
 

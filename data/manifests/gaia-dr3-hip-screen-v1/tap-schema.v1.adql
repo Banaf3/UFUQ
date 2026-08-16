@@ -1,0 +1,14 @@
+SELECT
+  table_name,
+  column_index,
+  column_name,
+  datatype,
+  unit,
+  description
+FROM TAP_SCHEMA.columns
+WHERE table_name IN (
+  'gaiadr3.gaia_source',
+  'gaiadr3.hipparcos2_best_neighbour',
+  'gaiadr3.hipparcos2_neighbourhood'
+)
+ORDER BY table_name, column_index

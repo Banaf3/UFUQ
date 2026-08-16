@@ -100,10 +100,10 @@ Historical report/deviation/authority status remains in `governance/`.
   `pmRA` directly to the starred-alpha normalized field, and keeps all raw/derived rows
   local while rights remain unresolved. Milestone 2D.1 now prefers fixed ESA Gaia DR3
   version 1.1 `gaiadr3.gaia_source` as the single-source-first production candidate.
-  It is not active or row-approved. The bounded official TAP screen preliminarily found
-  8/19 technical HIP matches and five finite-RV candidates but no `HIP 11767` match;
-  without retained query text, response/canonical extraction, acquisition timestamp,
-  hashes and manifest, those counts are not reproducible 2D authority. Named
+  It is not active or row-approved. Milestone 2D.1B retains exact fixed-release ADQL,
+  service/table identities, ignored response bytes, acquisition metadata, per-file
+  hashes, schema metadata, and a query manifest. Those bytes verify 8/19 technical HIP
+  matches, five rows with both RV/error fields, and no `HIP 11767` match. Named
   reviewers must still establish physical components, positive-parallax/systematics,
   applicable five-/six-parameter covariance, separate RV uncertainty, the explicit
   `UNKNOWN_NOT_PROVIDED` astrometry-RV cross-covariance omission, finite suitable RV,
@@ -122,8 +122,8 @@ Historical report/deviation/authority status remains in `governance/`.
   reference `starId`, never copied coordinates or a permanently coupled external
   identifier; crossmatch and per-field authorities remain distinct.
 - **Status:** `CATALOGUE_AUTHORITY_BLOCKED` (Gaia DR3 is the preferred candidate;
-  adapter A is closed; I/311 remains a local non-redistributing spike; immutable
-  acquisition, production row authority/minimal allowlist, Polaris authority, and
+  adapter A and immutable query gate B are closed; I/311 remains a local
+  non-redistributing spike; production row authority/minimal allowlist, Polaris authority, and
   derived-artifact rights remain open under Milestone 2D.1)
 - **What code it affects:** Catalogue acquisition adapter, transform/schema fields,
   generated artifact, scientific fixtures.

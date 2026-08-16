@@ -1,0 +1,29 @@
+SELECT
+  x.original_ext_source_id AS hip_id,
+  x.source_id AS gaia_source_id,
+  x.angular_distance AS angular_distance_arcsec,
+  x.score,
+  x.xm_flag
+FROM gaiadr3.hipparcos2_neighbourhood AS x
+WHERE x.original_ext_source_id IN (
+  746,
+  3179,
+  4427,
+  6686,
+  8886,
+  11767,
+  53910,
+  54061,
+  58001,
+  59774,
+  62956,
+  65378,
+  67301,
+  72607,
+  75097,
+  77055,
+  79822,
+  82080,
+  85822
+)
+ORDER BY x.original_ext_source_id, x.source_id

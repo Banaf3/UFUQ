@@ -1,0 +1,309 @@
+{
+  "manifestType": "UFUQ_GAIA_TAP_QUERY_EVIDENCE_MANIFEST",
+  "schemaVersion": 1,
+  "manifestId": "gaia-dr3-hip-screen-v1-20260816T020920Z",
+  "authorityStatus": "QUERY_EVIDENCE_VERIFIED",
+  "rowScientificApproval": "NONE",
+  "scope": "Milestone 2D.1B immutable bounded query evidence only",
+  "release": {
+    "publisher": "ESA and Gaia DPAC",
+    "catalogue": "Gaia Data Release 3",
+    "datasetVersion": "1.1",
+    "releaseDoi": "10.5270/esa-qa4lep3",
+    "documentationRelease": "1.3",
+    "schema": "gaiadr3",
+    "tables": [
+      "gaiadr3.gaia_source",
+      "gaiadr3.hipparcos2_best_neighbour",
+      "gaiadr3.hipparcos2_neighbourhood"
+    ],
+    "officialArchiveUrl": "https://gea.esac.esa.int/archive/",
+    "officialDatasetUrl": "https://esdcdoi.esac.esa.int/doi/html/data/astronomy/gaia/DR3.html",
+    "officialDocumentationUrl": "https://gea.esac.esa.int/archive/documentation/GDR3/"
+  },
+  "service": {
+    "identity": "ESA Gaia Archive anonymous TAP service",
+    "baseUrl": "https://gea.esac.esa.int/tap-server/tap",
+    "syncUrl": "https://gea.esac.esa.int/tap-server/tap/sync",
+    "tapStandardId": "ivo://ivoa.net/std/TAP",
+    "tapInterfaceVersion": "1.1",
+    "availabilityAtAcquisition": "AVAILABLE",
+    "availabilityNote": "service is accepting queries"
+  },
+  "queryConstruction": {
+    "querySetId": "GAIA_DR3_HIP_SCREEN_V1",
+    "querySetVersion": 1,
+    "httpMethod": "POST",
+    "requestParameters": [
+      "REQUEST=doQuery",
+      "LANG=ADQL",
+      "FORMAT=csv",
+      "MAXREC=1000",
+      "QUERY@tracked-adql-file"
+    ],
+    "responseFormat": "CSV",
+    "candidateHipIds": [
+      746, 3179, 4427, 6686, 8886, 11767, 53910, 54061, 58001, 59774, 62956, 65378, 67301, 72607,
+      75097, 77055, 79822, 82080, 85822
+    ],
+    "queries": [
+      {
+        "queryId": "GAIA_DR3_HIP_SCREEN_V1_BEST_NEIGHBOUR_SOURCE",
+        "path": "data/manifests/gaia-dr3-hip-screen-v1/best-neighbour-source.v1.adql",
+        "byteLength": 2282,
+        "sha256": "a64512610f17fdb9145b11f49963b395ec72a0abb03f9a9377e38d90f5a19b30"
+      },
+      {
+        "queryId": "GAIA_DR3_HIP_SCREEN_V1_NEIGHBOURHOOD",
+        "path": "data/manifests/gaia-dr3-hip-screen-v1/neighbourhood.v1.adql",
+        "byteLength": 442,
+        "sha256": "642757af0a185d5d228c413e46824a88137edc19952c2be6e9808348a9ba3bc3"
+      },
+      {
+        "queryId": "GAIA_DR3_HIP_SCREEN_V1_TAP_SCHEMA",
+        "path": "data/manifests/gaia-dr3-hip-screen-v1/tap-schema.v1.adql",
+        "byteLength": 269,
+        "sha256": "c4e10daade967ca3f7221c1861131327bef62bc70300489d42714b0600f1f403"
+      }
+    ]
+  },
+  "acquisition": {
+    "startedUtc": "2026-08-16T02:09:20.7638790Z",
+    "completedUtc": "2026-08-16T02:09:31.0409551Z",
+    "tool": "curl",
+    "toolVersion": "8.21.0",
+    "toolPlatform": "Windows Schannel x64",
+    "operatingSystem": "Microsoft Windows NT 10.0.26200.0",
+    "powershellVersion": "5.1.26100.8875",
+    "authentication": "ANONYMOUS",
+    "networkSource": "OFFICIAL_ESA_GAIA_TAP"
+  },
+  "rawEvidence": {
+    "repositoryPolicy": "IGNORED_LOCAL_ONLY_RIGHTS_REVIEW_PENDING",
+    "directory": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z",
+    "files": [
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/tap-availability.xml",
+        "mediaType": "text/xml;charset=UTF-8",
+        "byteLength": 362,
+        "sha256": "b8122f451f17658e127b2220cc3d11c949cf7d72a560e9cb8890d5307d31323d"
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/tap-availability.headers.txt",
+        "mediaType": "text/plain",
+        "byteLength": 470,
+        "sha256": "142bf7f1d6da87e6d15242ff6a3fb2137a09baa71649cdf3bbc2d74d544b2298"
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/tap-capabilities.xml",
+        "mediaType": "text/xml;charset=UTF-8",
+        "byteLength": 32360,
+        "sha256": "5e9c08e69cbb84f474c12fa11dd78d7da5dd146dcc64637d05ba02103a5b4b42"
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/tap-capabilities.headers.txt",
+        "mediaType": "text/plain",
+        "byteLength": 608,
+        "sha256": "cbd14be02463e091fc144838103f8efc5a8b293c95f06ee86d1b3ce59551c0b6"
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/tap-schema.csv",
+        "mediaType": "text/csv",
+        "byteLength": 17420,
+        "sha256": "003d4c5ba91bcf49992d6d99f76de70d83e91ffbc152e186be4d3ae95b2f8e7a",
+        "dataRowCount": 162
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/tap-schema.headers.txt",
+        "mediaType": "text/plain",
+        "byteLength": 550,
+        "sha256": "8bb0598addd49e4e8a0503845ba4aa3c65a0145c6337438bba4c31ad8947cf0d"
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/best-neighbour-source.csv",
+        "mediaType": "text/csv",
+        "byteLength": 6900,
+        "sha256": "251bd3e82ad176dc887934d6d698c8b450c1bcbc6024a567bdfbe8ce85db3f4f",
+        "dataRowCount": 8
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/best-neighbour-source.headers.txt",
+        "mediaType": "text/plain",
+        "byteLength": 550,
+        "sha256": "f7d8e35e96caaa701b86d074ef164cd8dc4739832652d4750edf47c1f6fb93b2"
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/neighbourhood.csv",
+        "mediaType": "text/csv",
+        "byteLength": 526,
+        "sha256": "633b39c30d7f60b6f76b29995ed9b2ef82de34a43e22f9afb3df15cbd63975be",
+        "dataRowCount": 8
+      },
+      {
+        "path": "data/raw/gaia-dr3/2d1b-gaia-dr3-hip-screen-v1-20260816T020920Z/neighbourhood.headers.txt",
+        "mediaType": "text/plain",
+        "byteLength": 550,
+        "sha256": "0f560d0fd64308337e155c989c5f789fdb5d2ffeef72fd2262df6a5a18119091"
+      }
+    ]
+  },
+  "responseColumns": {
+    "bestNeighbourSource": [
+      "hip_id",
+      "gaia_source_id",
+      "best_angular_distance_arcsec",
+      "number_of_neighbours",
+      "best_xm_flag",
+      "solution_id",
+      "designation",
+      "ref_epoch",
+      "ra",
+      "ra_error",
+      "dec",
+      "dec_error",
+      "parallax",
+      "parallax_error",
+      "parallax_over_error",
+      "pmra",
+      "pmra_error",
+      "pmdec",
+      "pmdec_error",
+      "ra_dec_corr",
+      "ra_parallax_corr",
+      "ra_pmra_corr",
+      "ra_pmdec_corr",
+      "dec_parallax_corr",
+      "dec_pmra_corr",
+      "dec_pmdec_corr",
+      "parallax_pmra_corr",
+      "parallax_pmdec_corr",
+      "pmra_pmdec_corr",
+      "nu_eff_used_in_astrometry",
+      "pseudocolour",
+      "pseudocolour_error",
+      "ra_pseudocolour_corr",
+      "dec_pseudocolour_corr",
+      "parallax_pseudocolour_corr",
+      "pmra_pseudocolour_corr",
+      "pmdec_pseudocolour_corr",
+      "astrometric_params_solved",
+      "astrometric_primary_flag",
+      "astrometric_n_obs_al",
+      "astrometric_n_obs_ac",
+      "astrometric_n_good_obs_al",
+      "astrometric_n_bad_obs_al",
+      "astrometric_gof_al",
+      "astrometric_chi2_al",
+      "astrometric_excess_noise",
+      "astrometric_excess_noise_sig",
+      "astrometric_matched_transits",
+      "visibility_periods_used",
+      "astrometric_sigma5d_max",
+      "ipd_gof_harmonic_amplitude",
+      "ipd_gof_harmonic_phase",
+      "ipd_frac_multi_peak",
+      "ipd_frac_odd_win",
+      "ruwe",
+      "duplicated_source",
+      "phot_g_n_obs",
+      "phot_g_mean_mag",
+      "radial_velocity",
+      "radial_velocity_error",
+      "rv_method_used",
+      "rv_nb_transits",
+      "rv_nb_deblended_transits",
+      "rv_visibility_periods_used",
+      "rv_expected_sig_to_noise",
+      "rv_renormalised_gof",
+      "rv_chisq_pvalue",
+      "rv_time_duration",
+      "rv_amplitude_robust",
+      "rv_template_teff",
+      "rv_template_logg",
+      "rv_template_fe_h",
+      "rv_atm_param_origin",
+      "grvs_mag",
+      "grvs_mag_error",
+      "grvs_mag_nb_transits",
+      "rvs_spec_sig_to_noise",
+      "phot_variable_flag",
+      "non_single_star",
+      "has_rvs",
+      "has_epoch_rv",
+      "has_epoch_photometry"
+    ],
+    "neighbourhood": ["hip_id", "gaia_source_id", "angular_distance_arcsec", "score", "xm_flag"],
+    "tapSchema": ["table_name", "column_index", "column_name", "datatype", "unit", "description"]
+  },
+  "structuralResults": {
+    "candidateCount": 19,
+    "bestNeighbourRowCount": 8,
+    "neighbourhoodRowCount": 8,
+    "matchedHipIds": [3179, 6686, 59774, 65378, 77055, 79822, 82080, 85822],
+    "unmatchedHipIds": [746, 4427, 8886, 11767, 53910, 54061, 58001, 62956, 67301, 72607, 75097],
+    "rowsWithRadialVelocityAndErrorPresent": 5,
+    "rowsWithRadialVelocityOrErrorMissing": 3,
+    "rowsWithPositiveRawParallax": 8,
+    "fiveParameterRows": 2,
+    "sixParameterRows": 6,
+    "bestNeighbourDuplicateHipCount": 0,
+    "bestNeighbourDuplicateGaiaSourceIdCount": 0,
+    "neighbourhoodHipIdsWithMultipleReturnedCandidates": 0,
+    "hip11767BestNeighbourRows": 0,
+    "hip11767NeighbourhoodRows": 0,
+    "gaiaSourceIdLexemesNotDecimalStrings": 0,
+    "classificationBoundary": [
+      "MATCH_PRESENT",
+      "MATCH_ABSENT",
+      "FIELD_PRESENT",
+      "FIELD_MISSING",
+      "QUERY_EVIDENCE_VERIFIED"
+    ],
+    "prohibitedConclusions": [
+      "ROW_SCIENTIFICALLY_APPROVED",
+      "RV_SYSTEMIC_APPROVED",
+      "PARALLAX_APPROVED",
+      "COMPONENT_APPROVED",
+      "PROFILE_STAR_APPROVED"
+    ]
+  },
+  "canonicalExtraction": {
+    "status": "NOT_PRODUCED",
+    "reason": "The exact raw TAP CSV bytes are retained as the authority response; 2D.1B performs no scientific-value normalization or canonical row extraction.",
+    "gaiaSourceIdDisposition": "Preserved as the exact decimal lexemes in the raw CSV and treated as strings by future consumers."
+  },
+  "nativeScientificState": {
+    "timeScale": "TCB",
+    "normalizationPerformed": false,
+    "futureNormalizationRuleId": "GAIA_DR3_TCB_TO_TDB_COMPATIBLE_V1",
+    "nativeAndNormalizedValuesMustRemainDistinct": true
+  },
+  "warningsAndFailures": {
+    "httpStatuses": {
+      "availability": 200,
+      "capabilities": 200,
+      "tapSchema": 200,
+      "bestNeighbourSource": 200,
+      "neighbourhood": 200
+    },
+    "serviceWarnings": [],
+    "queryFailures": [],
+    "sourceFlagsPreservedAsData": ["best_xm_flag", "xm_flag"]
+  },
+  "rights": {
+    "localAnalysisAllowed": true,
+    "attributionRequired": true,
+    "publicGitTrackingOfRows": "RIGHTS_INTERPRETATION_REQUIRED",
+    "generatedDerivedOutputDeployment": "RIGHTS_INTERPRETATION_REQUIRED",
+    "rawAndQueryDerivedMaterial": "IGNORED_LOCAL_ONLY",
+    "trackedMaterial": "QUERY_TEXT_HASHES_NON_ROW_METADATA_AND_STRUCTURAL_COUNTS_ONLY"
+  },
+  "reproducibility": {
+    "rawBytesAreAuthority": true,
+    "liveServiceIsNotImmutableAuthority": true,
+    "laterRequeryEquivalentOnlyIfAllRelevantResponseHashesMatch": true,
+    "changedResponseCreatesNewEvidenceVersion": true,
+    "overwriteRecordedEvidence": false,
+    "freshCheckoutCanVerifyOriginalRawBytesWithoutAuthorizedCopy": false
+  }
+}

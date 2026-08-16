@@ -206,14 +206,14 @@ record's CC BY-NC 3.0 IGO distribution metadata without choosing their exact
 derived-artifact application by assumption. Local analysis with attribution is
 allowed; generated-output deployment and public Git tracking are
 `RIGHTS_INTERPRETATION_REQUIRED`, noncommercial FYP use is only a candidate pending
-exact licence application, and commercial reuse is not approved. A bounded official
-TAP screen preliminarily found 8/19 technical matches and five finite-RV candidates but
-no Polaris match; without retained query/response evidence and hashes it is not
-reproducible 2D authority and approved no row. Immutable acquisition,
-component/systematics/quality review, applicable
+exact licence application, and commercial reuse is not approved. Milestone 2D.1B's
+exact fixed-release ADQL and hash-bound ignored official TAP responses verify 8/19
+technical matches, five rows with both RV/error fields, and no Polaris crossmatch, but
+approve no row. Component/systematics/quality review, applicable
 astrometric covariance, separate RV uncertainty, the explicit unknown joint-covariance
 omission, an exact Polaris fallback, and derived-artifact rights interpretation still
-block activation. Milestone 2D.1A closes the analytic TCB-to-TDB adapter: it preserves
+block activation. Milestone 2D.1A closes the analytic TCB-to-TDB adapter and 2D.1B
+closes immutable query/response authority. The adapter preserves
 the native Gaia state and uses IAU-compatible epoch, parameter, parallax/distance,
 covariance, and spectroscopic-RV-type dispositions without approving a row or RV proxy.
 ESA Hipparcos 1997 may

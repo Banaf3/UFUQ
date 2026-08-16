@@ -15,7 +15,7 @@ persistence/authentication behavior, dashboard, or deployment configuration.
 | Gate | Result | Basis |
 |---|---|---|
 | Repository scaffolding | YES | The consolidated eight-workspace TypeScript monorepo, non-npm oracle boundary, strict compiler/build setup, test discovery, dependency enforcement, lockfile, and CI are validated. |
-| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Milestone 2D.1 prefers Gaia DR3; its preliminary bounded screen found a possible small subset but no Polaris match and is not reproducible authority until retained with its exact query/result manifest. The analytic TCB-to-TDB adapter is approved, but catalogue authority remains blocked on immutable acquisition, row/component/RV-proxy review, a Polaris fallback and derived-artifact rights interpretation; exact observer/leap/EOP artifacts, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
+| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Milestone 2D.1 prefers Gaia DR3; exact fixed-release ADQL and hash-bound ignored official TAP responses verify a possible small subset but no Polaris match while approving no row. The analytic TCB-to-TDB adapter and immutable query authority are closed, but catalogue authority remains blocked on row/component/RV-proxy review, a Polaris fallback and derived-artifact rights interpretation; exact observer/leap/EOP artifacts, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
 | Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
 | Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
@@ -291,12 +291,12 @@ candidate pending exact licence application, and commercial reuse is not approve
 Raw/query-derived material remains ignored and local. This evidence selects the next
 candidate audit; it does not approve any source row.
 
-The bounded official TAP screen preliminarily found 8/19 technical HIP matches; all eight had
-positive raw parallax, five had finite RV/error, and `HIP 11767` had no match. It
-retained no exact ADQL/query text, release/table-bound response or canonical extracted
-response, acquisition timestamp, hashes, or query-result manifest; it is therefore not
-reproducible 2D authority and approved no row. Immutable acquisition plus
-astronomy/data review must still resolve physical components, parallax systematics,
+Milestone 2D.1B retains exact fixed-release ADQL, service/table identities, ignored raw
+response bytes, acquisition metadata, per-file hashes, schema metadata, and a query
+manifest. Those bytes verify 8/19 technical HIP matches; all eight have positive raw
+parallax, five have both RV/error fields, and `HIP 11767` has no crossmatch. This is
+`QUERY_EVIDENCE_VERIFIED`, not row approval. Astronomy/data review must still resolve
+physical components, parallax systematics,
 applicable astrometric covariance, separate RV uncertainty, the explicitly unknown
 astrometry-RV cross-covariance omission, finite scientifically suitable RV, and the
 component-specific propagation-proxy role. The analytic scale-aware TCB-to-TDB

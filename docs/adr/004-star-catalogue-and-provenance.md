@@ -80,11 +80,11 @@ application to a UFUQ derived artifact is not inferred: local analysis and attri
 are established, but derived-output deployment and public Git tracking remain
 `RIGHTS_INTERPRETATION_REQUIRED`, noncommercial FYP use is only a candidate pending
 exact licence application, and commercial reuse is not approved. This is not an active
-catalogue approval. A bounded official TAP screen preliminarily found 8/19 technical
-matches and five finite-RV candidates but no `HIP 11767` match; the counts are not
-reproducible 2D authority until the exact query, response/canonical extraction,
-timestamp, hashes and manifest are retained. Immutable acquisition
-and row review must still prove physical-component identity, applicable five-/six-
+catalogue approval. Milestone 2D.1B retains exact fixed-release ADQL, service/table
+identities, ignored raw response bytes, acquisition metadata, per-file hashes, schema
+metadata, and a query manifest. The immutable evidence verifies 8/19 technical matches,
+five rows with both RV/error fields, and no `HIP 11767` match, but approves no row. Row
+review must still prove physical-component identity, applicable five-/six-
 parameter covariance, explicit unknown astrometry-RV cross-covariance disposition,
 positive-parallax systematics, finite scientifically suitable RV/proxy approval, and
 quality. Milestone 2D.1A approves the scale-aware
