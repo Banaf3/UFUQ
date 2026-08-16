@@ -88,8 +88,13 @@ approved no row. It retained no exact ADQL/query text, release/table response or
 canonical extraction, acquisition timestamp, hashes, or query-result manifest and is
 not reproducible 2D authority. Physical-component,
 positive-parallax/systematics, applicable astrometric-covariance, separate-RV-
-uncertainty, scale-aware TCB-to-TDB mapping, quality, and rights evidence remain
-mandatory. Missing astrometry-RV cross-covariance is `UNKNOWN_NOT_PROVIDED`, never
+uncertainty, quality, and rights evidence remain mandatory. The scale-aware
+TCB-to-TDB analytic mapping is approved as
+`GAIA_DR3_TCB_TO_TDB_COMPATIBLE_V1`: 2E must retain the native TCB state, convert the
+same epoch event with IAU B3, transform every affected parameter/uncertainty/covariance
+once, and emit a separately typed TDB-compatible state with complete evidence. A
+component-specific spectroscopic-RV propagation proxy still requires row approval.
+Missing astrometry-RV cross-covariance is `UNKNOWN_NOT_PROVIDED`, never
 zero; after an explicit omission disposition it does not alone block a row, while its
 error-budget effect stays unbounded. `HIP 11767` has no official DR3 Hipparcos-2
 crossmatch row, so no nearby source may silently substitute it. The source-release
@@ -113,7 +118,12 @@ The stable crosswalk is not a two-column alias table. It records an opaque UFUQ
 `starId` and `SYSTEM`/`COMPONENT` scope; each source family/release/table/row/component;
 the acquisition/query manifest and hashes; separately versioned identity/crossmatch
 assertions; per-field native and normalized semantics, uncertainty/covariance,
-quality, provenance, and approval. Multiple candidate records may coexist, but a
+quality, provenance, and approval. For Gaia, the crosswalk additionally retains the
+normalization rule/version, exact IAU constants/expressions, source/target epochs and
+compatible systems, parameter basis/order, Jacobian, input/output covariance
+identities, six-parameter pseudocolour disposition where applicable, RV disposition,
+warnings/statuses, hashes, and one-time-normalization
+marker. Multiple candidate records may coexist, but a
 ProfileV1 data release selects exactly one approved active authority per required
 field. Ambiguous mates, split/merged sources, component mismatch, missing RV, and
 authority conflicts fail closed. The complete 2D.1 decision and query stop rule are in

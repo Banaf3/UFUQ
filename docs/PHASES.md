@@ -212,8 +212,11 @@ no Polaris match; without retained query/response evidence and hashes it is not
 reproducible 2D authority and approved no row. Immutable acquisition,
 component/systematics/quality review, applicable
 astrometric covariance, separate RV uncertainty, the explicit unknown joint-covariance
-omission, scale-aware TCB-to-TDB mapping, an exact Polaris fallback, and
-derived-artifact rights interpretation still block activation. ESA Hipparcos 1997 may
+omission, an exact Polaris fallback, and derived-artifact rights interpretation still
+block activation. Milestone 2D.1A closes the analytic TCB-to-TDB adapter: it preserves
+the native Gaia state and uses IAU-compatible epoch, parameter, parallax/distance,
+covariance, and spectroscopic-RV-type dispositions without approving a row or RV proxy.
+ESA Hipparcos 1997 may
 provide fallback astrometry but has no general RV;
 I/311 is not promoted; PCRV/XHIP are not mixed speculatively. The 19 HIP IDs remain a
 technical query/review set, not cultural or learner-route authority. The detailed gate

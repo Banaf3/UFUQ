@@ -79,6 +79,13 @@ once that implementation exists.
   release, its approved adapter contract replaces the I/311-specific obligations.
   Source-derived outputs remain ignored and may not enter Git or the reference suite
   while their applicable redistribution authority is unresolved.
+- For Gaia DR3, 2E adapter tests must verify exact IAU constants/expressions, same-event
+  TCB-to-TDB epoch conversion, direction invariance, one-time proper-motion/parallax/
+  distance mapping, the declared five-/six-parameter covariance Jacobians and
+  pseudocolour preservation, unchanged typed spectroscopic
+  RV, native/normalized provenance, and rejection of mixed, missing, repeated, or
+  unapproved normalization. These tests establish contract conformance, not a
+  numerical scientific tolerance or row approval.
 - Source-adapter and schema prototypes use synthetic data clearly labelled as
   non-catalogue input until the applicable source-derived gates are met.
 - Generic schema tests cover `SkyPattern`, `GuidanceRelationship`, and `LessonRoute`

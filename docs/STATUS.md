@@ -15,7 +15,7 @@ persistence/authentication behavior, dashboard, or deployment configuration.
 | Gate | Result | Basis |
 |---|---|---|
 | Repository scaffolding | YES | The consolidated eight-workspace TypeScript monorepo, non-npm oracle boundary, strict compiler/build setup, test discovery, dependency enforcement, lockfile, and CI are validated. |
-| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Milestone 2D.1 prefers Gaia DR3; its preliminary bounded screen found a possible small subset but no Polaris match and is not reproducible authority until retained with its exact query/result manifest. Catalogue authority remains blocked on immutable acquisition, scale-aware TCB-to-TDB mapping, row review, a Polaris fallback and derived-artifact rights interpretation; exact observer/leap/EOP artifacts, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
+| Validated celestial-guidance vertical slice | NO | The source-neutral production route and final-only leap/EOP policy are specified but unimplemented. Milestone 2D.1 prefers Gaia DR3; its preliminary bounded screen found a possible small subset but no Polaris match and is not reproducible authority until retained with its exact query/result manifest. The analytic TCB-to-TDB adapter is approved, but catalogue authority remains blocked on immutable acquisition, row/component/RV-proxy review, a Polaris fallback and derived-artifact rights interpretation; exact observer/leap/EOP artifacts, production/reference evidence and numerical acceptance, cultural membership/route approval, scenario, and scoring tolerances remain open at their respective lifecycle gates. |
 | Participant study | NO | Participant protocol, ethics applicability/approval, instruments, recruitment, privacy, consent, data handling, and study-ready software remain unresolved or unimplemented. |
 | Deployment | NO | Hosting/operations target, production account policy, security/privacy release profile, performance/accessibility baselines, monitoring, and backup/restore evidence remain unresolved or unimplemented. |
 
@@ -299,7 +299,9 @@ reproducible 2D authority and approved no row. Immutable acquisition plus
 astronomy/data review must still resolve physical components, parallax systematics,
 applicable astrometric covariance, separate RV uncertainty, the explicitly unknown
 astrometry-RV cross-covariance omission, finite scientifically suitable RV, and the
-scale-aware TCB-to-TDB parameter/covariance adapter. ESA Hipparcos 1997 is the smallest
+component-specific propagation-proxy role. The analytic scale-aware TCB-to-TDB
+parameter/covariance adapter is approved under Milestone 2D.1A; it approves no row.
+ESA Hipparcos 1997 is the smallest
 Polaris astrometry fallback candidate but lacks RV; one primary systemic-RV authority
 and crosswalk remain unapproved. I/311 retains its epoch-scale, RV, row, and
 redistribution blockers; PCRV/XHIP are evidence bridges only. No row, generated
@@ -434,7 +436,8 @@ boundary. Neither is a circular prerequisite to implementation.
   preferred candidate, not active authority. Retain and hash the bounded official
   screen's exact query/response evidence and manifest; approve physical-component identity, positive-parallax systematics,
   applicable astrometric covariance, separate RV uncertainty, the explicit unknown
-  joint-covariance omission, scale-aware TCB-to-TDB mapping, finite suitable RV,
+  joint-covariance omission, the component-specific spectroscopic-RV propagation
+  proxy, finite suitable RV,
   quality, raw/derived handling, exact derived-artifact rights interpretation, stable internal-star/per-field-
   source crosswalks, and the minimal eligible route. Approve an exact direct-Hipparcos-
   plus-primary-systemic-RV Polaris fallback or make that route ineligible. The local

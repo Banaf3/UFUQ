@@ -53,29 +53,25 @@ The official DR3 data model and astrometric reference-system documentation estab
   pseudocolour correlations. It must not be represented as the five-parameter block or
   silently stripped without a reviewed disposition.
 
-These facts do not themselves define UFUQ's TCB-to-TDB-compatible propagation adapter.
-IAU 2006 Resolution B3 defines TDB as a fixed linear transformation of TCB, with the
-defining factor `L_B`. The relativistic-scaling literature distinguishes TCB-compatible
-from TDB-compatible quantities: converting only the epoch label is not a valid
-conversion of a rate-parametrized catalogue state.
+Milestone 2D.1A now defines the complete fail-closed normalization contract in
+[`gaia-tcb-tdb-compatible-quantities.md`](./gaia-tcb-tdb-compatible-quantities.md).
+It retains the native TCB state, converts the same reference event with IAU B3, maps
+proper-motion rates and parallax by `1 / (1 - L_B)`, maps compatible coordinate
+distance by `1 - L_B`, preserves direction and compatible coordinate velocity, and
+transforms the covariance with an explicit Jacobian. Native and normalized values,
+systems, epochs, rule version, constants, covariance evidence, statuses, and approval
+remain distinct.
 
-The required normalization contract is therefore fail-closed:
-
-1. retain the native Gaia state and covariance as TCB-parametrized evidence;
-2. convert the reference instant using the IAU B3 TCB-to-TDB transformation, not by
-   renaming `J2016.0 TCB` to `J2016.0 TDB`;
-3. apply a source-pinned analytic compatible-quantity mapping to every affected rate,
-   uncertainty and covariance term before the TDB SOFA boundary; and
-4. preserve the native and normalized states, transformation/version identity and
-   reviewer disposition.
-
-`SOURCE_SUPPORTED_FACT`: TDB is linearly related to TCB and Gaia's catalogue state is
-TCB-parametrized. `PROJECT_DECISION`: UFUQ requires an explicit scale-aware adapter and
-covariance Jacobian. `AUTHORITY_OR_EVIDENCE_MISSING`: the current evidence set has not
-yet approved the complete stellar-parameter mapping, including the exact proper-motion,
-parallax/distance and spectroscopic-RV dispositions expected by the selected SOFA
-interface. Relabelling or applying an epoch-only conversion is prohibited. Milestone
-2D must approve that mapping; Milestone 2E later implements and tests it.
+`SOURCE_SUPPORTED_FACT`: TDB is linearly related to TCB; TDB-compatible barycentric
+space coordinates use the matching scale; Gaia's catalogue state is TCB-parametrized;
+and a spectroscopic barycentric radial-velocity measure is not unambiguously a
+kinematic coordinate velocity. `PROJECT_DECISION`: UFUQ applies the pinned analytic
+map `GAIA_DR3_TCB_TO_TDB_COMPATIBLE_V1`, preserves the Gaia spectroscopic-RV number
+without `L_B` scaling, and requires a separately approved row/component proxy before
+it can enter propagation. Relabelling, epoch-only conversion, double scaling, and
+covariance copying without the mapping are prohibited. `2E_IMPLEMENTATION_CONFIGURATION`:
+2E later implements and tests that exact rule. The semantic adapter is closed; row RV
+suitability remains gate C.
 
 Gaia's release documentation also records release-dependent parallax systematics and
 known issues. A positive raw parallax plus its formal error is therefore not, by
@@ -104,9 +100,12 @@ independence silently. The missing cross-covariance does not by itself make a ro
 ineligible after that omission is approved; its numerical consequence remains an
 unbounded error-budget and postimplementation-validation term.
 
-The exact source-to-ScientificProfileV1 RV sign mapping remains a source-adapter review
-item. A finite database value is not approval, and missing RV cannot become
-`0 km/s`.
+The compatible-system adapter applies no `L_B` scale to the Gaia spectroscopic value or
+its uncertainty. A finite database value is still not approval: a separate
+component-scoped review must approve its positive-receding sign mapping and the
+explicit `GAIA_SPECTROSCOPIC_RV_PROXY_FOR_STANDARD_SPACE_MOTION_V1` role before the
+number can enter the SOFA-derived propagation slot. Missing or unapproved RV cannot
+become `0 km/s`.
 
 ## Bright sources, components, and crossmatches
 
@@ -229,12 +228,13 @@ I/311, PCRV, or XHIP derived-row deployment permission.
 ## Authoritative sources
 
 - ESA/DPAC, [Gaia DR3 version 1.1 dataset and rights record](https://esdcdoi.esac.esa.int/doi/html/data/astronomy/gaia/DR3.html), DOI `10.5270/esa-qa4lep3`.
-- ESA/DPAC, [Gaia DR3 documentation release 1.3](https://gea.esac.esa.int/archive/documentation/GDR3/), [`gaiadr3.gaia_source`](https://gea.esac.esa.int/archive/documentation/GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_catalogue/ssec_dm_gaia_source.html), and [reference systems/time scales](https://gea.esac.esa.int/archive/documentation/GDR3/Data_processing/chap_cu3ast/sec_cu3ast_intro/ssec_cu3ast_intro_refsystems.html).
+- ESA/DPAC, [Gaia DR3 documentation release 1.3](https://gea.esac.esa.int/archive/documentation/GDR3/), [`gaiadr3.gaia_source`](https://gea.esac.esa.int/archive/documentation/GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_catalogue/ssec_dm_gaia_source.html), [reference systems/time scales](https://gea.esac.esa.int/archive/documentation/GDR3/Data_processing/chap_cu3ast/sec_cu3ast_intro/ssec_cu3ast_intro_refsystems.html), and [transformations/covariance propagation](https://gea.esac.esa.int/archive/documentation/GDR3/Data_processing/chap_cu3ast/sec_cu3ast_intro/ssec_cu3ast_intro_tansforms.html).
 - ESA/DPAC, [Gaia Archive](https://gea.esac.esa.int/archive/), [Hipparcos-2 crossmatch](https://gea.esac.esa.int/archive/documentation/GDR3/Catalogue_consolidation/chap_crossmatch/sec_crossmatch_externalCat/ssec_crossmatch_hipparcos.html), and [credit/citation instructions](https://gea.esac.esa.int/archive/documentation/GDR3/Miscellaneous/sec_credit_and_citation_instructions/).
 - ESA, [Gaia DR4 status](https://www.cosmos.esa.int/web/gaia/data-release-4).
 - ESA, [1997 Hipparcos catalogue/access/licence page](https://www.cosmos.esa.int/web/hipparcos/catalogues) and ESA SP-1200 Volume 1 in the registered local evidence library.
 - CDS, [I/311 catalogue record](https://cdsarc.cds.unistra.fr/viz-bin/cat/I/311), [VizieR rules](https://cds.unistra.fr/vizier-org/licences_vizier.html), [PCRV III/252](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/III/252?format=html&tex=true), and [XHIP V/137D](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/V/137D?format=html&tex=true).
-- IAU, [2006 Resolution B3: Re-definition of TDB](https://www.iau.org/static/resolutions/IAU2006_Resol3.pdf), and Klioner (2008), [relativistic scaling of astronomical quantities](https://doi.org/10.1051/0004-6361:20077786).
+- IAU, [2006 Resolution B3: Re-definition of TDB](https://www.iau.org/static/resolutions/IAU2006_Resol3.pdf), [2012 Resolution B2: re-definition of the astronomical unit](https://www.iau.org/static/resolutions/IAU2012_English.pdf), and [2000 Resolution C1: spectroscopic barycentric radial-velocity measure](https://www.iau.org/static/resolutions/IAU2000_French.pdf).
+- Klioner (2008), [relativistic scaling of astronomical quantities](https://doi.org/10.1051/0004-6361:20077786), and Lindegren and Dravins (2003), [the fundamental definition of radial velocity](https://doi.org/10.1051/0004-6361:20030181).
 - Torres (2023), [*The spectroscopic orbit of Polaris and its pulsation properties*](https://doi.org/10.1093/mnras/stad2735), as a not-yet-approved primary fallback candidate.
 
 ## Study conclusion
@@ -242,7 +242,9 @@ I/311, PCRV, or XHIP derived-row deployment permission.
 `PROJECT_DECISION`: the release evidence is sufficient to make Gaia DR3 version 1.1
 the preferred single-source-first candidate. It is insufficient to approve an active
 catalogue or row. The bounded screen demonstrates a possible small Gaia-only technical
-subset but excludes Polaris and leaves every match review-gated. The saved acquisition,
-scale-aware TCB-to-TDB parameter/covariance mapping, per-row component/systematics/
-quality approval, Polaris astrometry-plus-systemic-RV fallback, and its rights remain
-Milestone 2D.1 gates.
+subset but excludes Polaris and leaves every match review-gated. Immutable query/
+response acquisition, per-row component/systematics/quality/RV-proxy approval,
+Polaris astrometry-plus-systemic-RV fallback, and derived-artifact rights remain
+Milestone 2D.1 gates. The scale-aware
+TCB-to-TDB parameter/covariance adapter is closed by the dedicated authority record;
+that analytic decision approves no source row.

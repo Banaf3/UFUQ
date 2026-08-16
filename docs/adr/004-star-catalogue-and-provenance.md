@@ -86,9 +86,12 @@ reproducible 2D authority until the exact query, response/canonical extraction,
 timestamp, hashes and manifest are retained. Immutable acquisition
 and row review must still prove physical-component identity, applicable five-/six-
 parameter covariance, explicit unknown astrometry-RV cross-covariance disposition,
-positive-parallax systematics, finite scientifically suitable RV, scale-aware
-TCB-to-TDB parameter/covariance mapping, and quality. Gaia's crossmatch is identity
-evidence rather than automatic eligibility. ESA Hipparcos 1997 is the smallest Polaris
+positive-parallax systematics, finite scientifically suitable RV/proxy approval, and
+quality. Milestone 2D.1A approves the scale-aware
+`GAIA_DR3_TCB_TO_TDB_COMPATIBLE_V1` parameter/covariance mapping while preserving the
+native TCB evidence; it does not approve a row or make Gaia's spectroscopic RV an
+automatic kinematic/systemic value. Gaia's crossmatch is identity evidence rather than
+automatic eligibility. ESA Hipparcos 1997 is the smallest Polaris
 astrometry fallback candidate but has no general RV; one primary systemic-RV authority
 and field-specific crosswalk remain open. I/311 remains production-ineligible on its
 unresolved epoch/derivative scale, RV, row, and redistribution evidence. See

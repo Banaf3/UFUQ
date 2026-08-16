@@ -24,7 +24,8 @@ ProfileV1 artifact until a bounded, reproducible official-archive query and row 
 establish all required values, physical-component identity, applicable astrometric
 covariance, separate RV uncertainty and reviewed joint-covariance disposition,
 parallax-systematics disposition, quality, and licence provenance. The TCB-parametrized
-source state must also have a reviewed mapping into V1's TDB propagation interface.
+source state must be normalized with the approved
+`GAIA_DR3_TCB_TO_TDB_COMPATIBLE_V1` mapping into V1's TDB propagation interface.
 The bounded official TAP screen preliminarily found eight matches among the 19 technical HIP
 candidates; all eight have positive raw parallax and five have finite DR3 RV/error.
 This establishes only a possible small raw-field-complete technical subset. It approves
@@ -45,6 +46,7 @@ production.
 | Gaia DR4 is still described by ESA as forthcoming; its expected schema is not a released catalogue authority. | `SOURCE_SUPPORTED_FACT` | Official Gaia DR4 page says the data and final documentation will become available. |
 | Gaia DR3 `gaiadr3.gaia_source` is the preferred single-source-first ProfileV1 candidate. | `PROJECT_DECISION` | It minimizes field mixing while exposing the required astrometric fields and subset RV in one release. It is not row approval. |
 | A complete, unambiguous, quality-reviewed row is mandatory; missing or unapproved epoch/time mapping, position, motion, positive parallax/systematics disposition, RV, applicable uncertainty/covariance, identity, or rights makes that star ineligible. | `PROJECT_DECISION` | Normative `ScientificProfileV1` fail-closed contract. |
+| The analytic Gaia DR3 TCB-compatible to UFUQ TDB-compatible parameter/covariance adapter is approved. | `PROJECT_DECISION` based on `SOURCE_SUPPORTED_FACT` | Milestone 2D.1A closes: convert the same epoch event with IAU B3; preserve direction; map proper-motion rates and parallax by `1 / (1 - L_B)`, coordinate distance by `1 - L_B`, and covariance by the recorded Jacobian; do not scale the Gaia spectroscopic-RV measure. This approves no row. |
 | A bounded 2026-08-16 official Gaia TAP screen preliminarily found 8/19 Hipparcos-2 matches, 8/8 positive raw parallaxes and 5/8 finite RV/error fields; `HIP 11767` has no official crossmatch row in that screen. | `SOURCE_SUPPORTED_FACT` | Ephemeral field-presence evidence only. Exact ADQL/query text, response/canonical extraction, acquisition timestamp, hashes and query-result manifest were not retained, so the counts are not reproducible 2D authority and no physical component or row was approved. |
 | General release documentation and field-presence screening cannot establish row eligibility or the intended physical component. | `AUTHORITY_OR_EVIDENCE_MISSING` | Requires immutable acquisition plus astronomy/data review; Polaris also requires one exact field-specific fallback strategy. |
 | The DR3 credit page says Gaia data are open and free to use with ESA/Gaia/DPAC credit; the version 1.1 DOI record separately declares CC BY-NC 3.0 IGO. | `SOURCE_SUPPORTED_FACT` | Access/credit and dataset-specific distribution metadata remain explicit; neither statement is silently discarded or selected by assumption as the controlling derived-artifact term. Local analysis and attribution are established, while public tracking and derived-output deployment require an exact rights interpretation. |
@@ -58,7 +60,7 @@ production.
 |---|---|---|---|
 | Direct ESA Hipparcos 1997 release, legacy table `hipparcos1.hip_main` | Bright-star coverage; ICRS; explicit `J1991.25 (TT)` / JD `2448349.0625 TT`; Julian-year `mu_alpha_star`, declination motion, parallax, formal errors and correlations; stable HIP identifiers and multiplicity records | No general finite RV field; positive parallax, component identity, solution quality, and covariance still require row review | ESA states CC BY-NC 3.0 IGO plus `Credit: ESA` for its direct distribution. Conditional noncommercial fallback candidate, not standalone V1 authority; CDS I/239 rights remain separate. |
 | CDS I/311 corrected 2008-09-16 `hip2.dat` | ICRS; Julian `J1991.25` representation; `pmRA = mu_alpha_star`; parallax, errors, inverse-covariance factor, solution/multiplicity fields; improved bright-star reduction | No I/311-applicable epoch or derivative time scale; no RV; row/component/positive-parallax review required; supplementary solution families must remain distinct | Local scientific spike use with citation is supported. Generated-row Git/deployment rights remain `REDISTRIBUTION_UNRESOLVED`; reject as current production authority. |
-| Gaia DR3 version 1.1 `gaiadr3.gaia_source` | Fixed official release; ICRS; TCB-parametrized Julian `J2016.0`; explicit `mu_alpha_star`; declination motion; parallax; five-/six-parameter formal covariance inputs; subset barycentric spectroscopic RV with error/diagnostics; official release DOI and crossmatch tables | The bounded screen found eight matches and five finite-RV candidates but no Polaris match. TCB-to-TDB parameter mapping, applicable covariance, parallax systematics, RV systemic suitability, physical components and quality remain review-gated. | Official credit documentation says open/free with credit; the DOI record separately declares CC BY-NC 3.0 IGO. Local analysis with attribution is allowed. Derived deployment and public tracking are `RIGHTS_INTERPRETATION_REQUIRED`; noncommercial FYP use is only a candidate pending exact licence application. Active catalogue approval remains blocked. |
+| Gaia DR3 version 1.1 `gaiadr3.gaia_source` | Fixed official release; ICRS; TCB-parametrized Julian `J2016.0`; explicit `mu_alpha_star`; declination motion; parallax; five-/six-parameter formal covariance inputs; subset barycentric spectroscopic RV with error/diagnostics; official release DOI and crossmatch tables | The bounded screen found eight matches and five finite-RV candidates but no Polaris match. The compatible-quantity adapter is approved; applicable covariance, parallax systematics, RV proxy/systemic suitability, physical components and quality remain row-review gates. | Official credit documentation says open/free with credit; the DOI record separately declares CC BY-NC 3.0 IGO. Local analysis with attribution is allowed. Derived deployment and public tracking are `RIGHTS_INTERPRETATION_REQUIRED`; noncommercial FYP use is only a candidate pending exact licence application. Active catalogue approval remains blocked. |
 | Blanket Gaia + Hipparcos/PCRV/XHIP merge | Could fill a bright-star or RV gap on a per-star basis | Adds component/crossmatch ambiguity, distinct uncertainty models, compiled/variable RV questions, release conflict rules, and per-field authority | Rejected as the default. The smallest Polaris candidate is direct ESA Hipparcos 1997 astrometry plus one reviewed primary systemic-RV authority; PCRV/XHIP are evidence bridges, not an approved flattened source. |
 
 ## Gaia DR3 field-authority candidate
@@ -70,12 +72,12 @@ adapter must preserve; they do not approve any row or quality threshold.
 |---|---|---|
 | Release | ESA Gaia DR3 version 1.1, DOI `10.5270/esa-qa4lep3`; documentation release 1.3 | Pin exact table/query, archive endpoint, response bytes, query text, retrieval identity, and hashes during acquisition. |
 | Frame and position | `ra`,`dec`: barycentric ICRS coordinates at `ref_epoch` | Require finite values and retain native units/metadata before normalization. |
-| Epoch/time coordinate | `ref_epoch`: Julian year in TCB; DR3 reference epoch `J2016.0`; Gaia catalogue astrometry is TCB-parametrized; IAU 2006 B3 defines the TCB-to-TDB time transformation | Preserve the complete native state as TCB. Never relabel it TDB or convert the epoch alone. Before the V1 `pmsafe`-derived boundary, 2D must approve a scale-aware compatible-quantity mapping for the epoch, affected rates/uncertainties/covariance, parallax/distance and spectroscopic RV; 2E then implements its pinned analytic transform. |
-| RA proper motion | `pmra = mu_alpha_star = mu_alpha cos(delta)` in mas/yr; `ra_error` and `pmra_error` use the starred tangent-plane basis | Store as the starred-alpha field; never relabel it as `dRA/dt` or treat `ra_error` as an unstarred coordinate-angle error. |
-| Dec proper motion | `pmdec` in the direction of increasing declination, in mas/yr | Require finite value and explicit derivative/time-unit semantics. |
-| Parallax | `parallax` and `parallax_error`, with release-specific systematic/known-issue evidence | Require finite, positive, separately approved raw parallax and an explicit release-pinned zero-point/systematics correction or reviewed omission disposition. Zero, negative, null, or unapproved values are ineligible, not distant-source defaults. |
-| Astrometric uncertainty/covariance | Five-parameter solutions publish five errors and ten correlations; six-parameter solutions additionally publish pseudocolour/error and five pseudocolour correlations | Reconstruct and retain the complete applicable source covariance. Never flatten a six-parameter solution into five parameters silently. Restrict it or approve a reviewed projection/omission disposition. A full astrometry-plus-RV covariance is not required when the missing cross-covariance is explicitly `UNKNOWN_NOT_PROVIDED`, never zero, and its omission is reviewed. |
-| Radial velocity | `radial_velocity`: multi-transit Solar-system-barycentric spectroscopic RV in km/s; `radial_velocity_error` and RV diagnostics; no published astrometry-RV cross-covariance in the main astrometric block | Require finite value, error, source-pinned sign convention, and component/variability/multiplicity review. Preserve unavailable joint covariance as an explicit reviewed omission; never encode zero or assume independence. A catalogue mean is not automatically an approved systemic velocity. |
+| Epoch/time coordinate | `ref_epoch`: Julian year in TCB; DR3 reference epoch `J2016.0`; Gaia catalogue astrometry is TCB-parametrized; IAU 2006 B3 defines the TCB-to-TDB time transformation | Preserve exact native `J2016.0 TCB`/`JD(TCB) 2457389.0`. Convert the same event to two-part `JD(TDB)` with B3; never relabel the epoch or treat the conversion as propagation. |
+| RA proper motion | `pmra = mu_alpha_star = mu_alpha cos(delta)` in mas per TCB Julian year; `ra_error` and `pmra_error` use the starred tangent-plane basis | Preserve the native starred-alpha field, then map it once by `1 / (1 - L_B)` to per-TDB-Julian-year `mu_alpha_star`. Convert to coordinate `dRA/dt` only at the SOFA boundary; never apply or remove `cos(delta)` twice. |
+| Dec proper motion | `pmdec` toward increasing declination in mas per TCB Julian year | Map once by `1 / (1 - L_B)` to the TDB-compatible rate; require finite value and complete normalization evidence. |
+| Parallax | `parallax` and `parallax_error`, with release-specific systematic/known-issue evidence | Map the compatible catalogue parameter once by `1 / (1 - L_B)`; a derived coordinate distance maps by `1 - L_B`. Separately require finite positive source parallax and an approved release-pinned systematics correction or omission disposition. |
+| Astrometric uncertainty/covariance | Five-parameter solutions publish five errors and ten correlations; six-parameter solutions additionally publish pseudocolour/error and five pseudocolour correlations | Reconstruct and retain the complete applicable native covariance. Apply `D C D^T`: `D_5=diag(1,1,K_B,K_B,K_B)` for `[delta_alpha_star,delta_delta,parallax,mu_alpha_star,mu_delta]`; extend to `D_6=diag(1,1,K_B,K_B,K_B,1)` for pseudocolour solutions. Preserve the full 6D evidence even when V1 consumes its 5D astrometric principal submatrix. Missing astrometry-RV covariance remains `UNKNOWN_NOT_PROVIDED`, never zero. |
+| Radial velocity | `radial_velocity`: multi-transit Solar-system-barycentric spectroscopic RV in km/s; `radial_velocity_error` and RV diagnostics; no published astrometry-RV cross-covariance in the main astrometric block | Preserve value/error unchanged as an observational measure; do not scale or relabel it as coordinate velocity. A component review must approve its positive-receding mapping and explicit propagation-proxy role. A catalogue mean is not automatically an approved systemic velocity. |
 | Quality | Astrometric solution, goodness-of-fit/RUWE, excess-noise, IPD, observation/visibility-period, duplicate, RV transit/method/deblend, variability, non-single-star, and release-known-issue evidence as applicable | Preserve source fields and the exact release-known-issue review, then produce an explicit reviewer disposition. This audit selects no numeric quality cut. |
 | Identity | DR3 `source_id`, `solution_id`, designation, and official Hipparcos-2 crossmatch evidence | Treat 64-bit identifiers as release-scoped opaque decimal strings in JSON. Crossmatch proximity is evidence, not physical-identity or row-eligibility approval. |
 
@@ -261,12 +263,17 @@ cultural authority.
 
 ## Lifecycle ownership
 
+### Milestone 2D.1A closed
+
+The dedicated
+[`gaia-tcb-tdb-compatible-quantities.md`](../references/studies/gaia-tcb-tdb-compatible-quantities.md)
+record approves the source-pinned analytic epoch, parameter, uncertainty/covariance,
+parallax/distance, and RV-type-preservation contract. It returns
+`TCB_TDB_ADAPTER_AUTHORITY_CLOSED`. It neither approves a row nor converts a
+spectroscopic measure into an automatically approved physical velocity.
+
 ### Milestone 2D.1 remains blocked on
 
-A. **TCB-to-TDB compatible-quantity adapter approval:** approve a source-pinned,
-   scale-aware mapping for the epoch, proper-motion rates, uncertainties/covariance,
-   parallax/distance treatment and any applicable Gaia RV treatment, without
-   relabelling or epoch-only conversion;
 B. **immutable Gaia query/response authority:** retain the exact ADQL/query text,
    Gaia release and table identities, response bytes or a canonical extracted
    response, acquisition timestamp, hashes and query-result manifest for both
@@ -274,8 +281,8 @@ B. **immutable Gaia query/response authority:** retain the exact ADQL/query text
 C. **row-by-row scientific eligibility and minimal subset:** approve physical-component
    identity, astrometric solution, positive-parallax/systematics, applicable covariance,
    explicit `UNKNOWN_NOT_PROVIDED` astrometry-RV cross-covariance disposition,
-   RV/systemic suitability, variability/multiplicity, quality and the minimal intended
-   ProfileV1 technical route;
+   component-specific spectroscopic-RV propagation-proxy/systemic suitability,
+   variability/multiplicity, quality and the minimal intended ProfileV1 technical route;
 D. **Polaris source/component/RV authority:** approve an exact component-scoped
    fallback, provisionally direct ESA Hipparcos 1997 astrometry plus one separately
    approved primary systemic-RV authority, without flattening the authorities; and
@@ -306,7 +313,7 @@ Arabic/Najdi claims, segments, and learner routes.
 | Existing ESA Hipparcos 1997 and I/311 dossiers/local documentation | `ALREADY_AVAILABLE_AND_SUFFICIENT` | Sufficient for their release semantics and stop rules; the direct ESA archive/licence route remains distinct from CDS I/239, and no new PDF is needed. |
 | Gaia DR3 release, data model, crossmatch, DOI/rights, and credit pages | `OFFICIAL_WEB_SUFFICIENT` | Sufficient to select Gaia DR3 as the preferred next candidate and define the query/review contract. They do not resolve the exact derived-artifact rights interpretation. |
 | Bounded 19-HIP Gaia DR3 screen | `OFFICIAL_WEB_SUFFICIENT` for preliminary field-presence screening only | The official TAP screen found 8/19 matches and five finite-RV candidates, but no exact ADQL/query text, response/canonical extraction, acquisition timestamp, hashes or query-result manifest was retained. It is not reproducible 2D authority evidence and approves no row. |
-| TCB-to-TDB compatible-quantity mapping | `HUMAN_REVIEW_REQUIRED` | IAU B3 and Gaia/Klioner evidence prohibit relabelling and establish scale-aware treatment; an astronomy reviewer must approve the exact stellar-parameter and covariance map before normalization. |
+| TCB-to-TDB compatible-quantity mapping | `ALREADY_AVAILABLE_AND_SUFFICIENT` | IAU B3, IAU B2, Gaia, Klioner, IAU C1, Lindegren/Dravins, and pinned SOFA evidence support the approved analytic contract. Row-specific RV proxy suitability remains gate C. |
 | Astronomy/data row approval | `HUMAN_REVIEW_REQUIRED` | Required for component, covariance, parallax, RV, multiplicity/variability, and quality dispositions. |
 | Polaris field-specific fallback | `HUMAN_REVIEW_REQUIRED` | Direct ESA Hipparcos astrometry plus a primary systemic-RV authority is the smallest candidate shape; exact physical scope, value authority, crosswalk and rights remain open. |
 | PCRV/XHIP | `REQUIRED_LATER` as supporting evidence only | Do not adopt either compilation wholesale or flatten it into Gaia/Hipparcos authority. |
@@ -317,7 +324,7 @@ Arabic/Najdi claims, segments, and learner routes.
 None now. No large catalogue download, new PDF or manual is needed. Local scientific
 evaluation may continue with raw/query-derived material kept ignored and local. The
 next 2D evidence task must retain the already-bounded Gaia query deterministically;
-named astronomy/data review must approve the scale adapter, rows and Polaris fallback;
+named astronomy/data review must approve rows, RV proxies and the Polaris fallback;
 and a rights reviewer must reconcile the exact licence application before any derived
 artifact is tracked or deployed. Commercial reuse remains unapproved.
 
@@ -331,5 +338,6 @@ artifact is tracked or deployed. Commercial reuse remains unapproved.
 - ESA, [1997 Hipparcos catalogue and current access/licence page](https://www.cosmos.esa.int/web/hipparcos/catalogues) and ESA SP-1200 Volume 1 in the registered local evidence library.
 - CDS, [original Hipparcos I/239 record](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/I/239?format=html&tex=true), [I/311 official catalogue record](https://cdsarc.cds.unistra.fr/viz-bin/cat/I/311), and [VizieR rules of use](https://cds.unistra.fr/vizier-org/licences_vizier.html).
 - CDS, official ReadMes for [PCRV III/252](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/III/252?format=html&tex=true) and [XHIP V/137D](https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/V/137D?format=html&tex=true).
-- IAU, [2006 Resolution B3: Re-definition of TDB](https://www.iau.org/static/resolutions/IAU2006_Resol3.pdf), and Klioner (2008), [relativistic scaling of astronomical quantities](https://doi.org/10.1051/0004-6361:20077786).
+- IAU, [2006 Resolution B3: Re-definition of TDB](https://www.iau.org/static/resolutions/IAU2006_Resol3.pdf), [2012 Resolution B2: re-definition of the astronomical unit](https://www.iau.org/static/resolutions/IAU2012_English.pdf), and [2000 Resolution C1: spectroscopic barycentric radial-velocity measure](https://www.iau.org/static/resolutions/IAU2000_French.pdf).
+- Klioner (2008), [relativistic scaling of astronomical quantities](https://doi.org/10.1051/0004-6361:20077786), Klioner et al. (2010), [compatible-quantity nomenclature](https://doi.org/10.1051/0004-6361/200913090), and Lindegren and Dravins (2003), [the fundamental definition of radial velocity](https://doi.org/10.1051/0004-6361:20030181).
 - Torres (2023), [*The spectroscopic orbit of Polaris and its pulsation properties*](https://doi.org/10.1093/mnras/stad2735), as a not-yet-approved primary systemic-RV candidate.
